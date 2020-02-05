@@ -1,4 +1,4 @@
-# INF112 Maven template 
+# INF112 Maven template [![Build Status](https://travis-ci.com/inf112-v20/factoryRobots.svg?branch=master)](https://travis-ci.com/inf112-v20/factoryRobots)
 Simple skeleton with libgdx. 
 
 

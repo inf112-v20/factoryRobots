@@ -1,6 +1,6 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6f45b1103d2845708238cd5ca2cad53f)](https://app.codacy.com/gh/inf112-v20/factoryRobots?utm_source=github.com&utm_medium=referral&utm_content=inf112-v20/factoryRobots&utm_campaign=Badge_Grade_Settings)
-# INF112 Maven template [![Build Status](https://travis-ci.com/inf112-v20/factoryRobots.svg?branch=master)](https://travis-ci.com/inf112-v20/factoryRobots)
-Simple skeleton with libgdx. 
+[![Build Status](https://travis-ci.com/inf112-v20/factoryRobots.svg?branch=master)](https://travis-ci.com/inf112-v20/factoryRobots)
+# INF112 Robo Rally
 
 
 ## Known bugs

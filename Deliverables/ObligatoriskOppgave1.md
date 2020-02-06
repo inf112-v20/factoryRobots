@@ -11,7 +11,7 @@ Java: ok Git erfaring: ok
 Java: Bra
 
 #### Steffen
-Java, python: ok Lærer om lan relevant materiale(INF142) Github erfaring: ok
+Går studieretning IKT(Informasjon og KommunikasjonsTeknologi). Har grei peiling på java og python, men må jobbe litt med hvordan Github systemet fungerer. I Tillegg tar Steffen opp relevant fag(INF142) angående lan funksjonen som skal tas i bruk i løpet av prosjektet.
 
 #### Håvard
 Går poststudier etter bachelor i Kognitiv Vitenskap. Har mye erfaring med java, python og haskell, samt litt med prolog, c#, R og html/css/javascript. Har jobbet med animasjoner og lydintegrering i java tidligere. Tar INF142 dette semesteret, som kan være relevant for flerspillerfunksjonaliteten.

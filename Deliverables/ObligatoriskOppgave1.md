@@ -5,7 +5,7 @@ Mye erfaring med java. God peiling på data og diverse programmeringsverktøy
 Har også en del erfaring med git.
 
 ### Stian
-Er på 2. året av Informasjons og kommunikasjonsteknologi. Har erfaring fra tidligere obligatoriske emner, men ikke så mye fra Git. Lærer fort
+Java: ok Git erfaring: ok
 
 #### Ragnild
 Går bachelor i anvendt matematikk 2. året. Har erfaring i Java og Python fra inf100 og inf102.
@@ -44,9 +44,9 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 
 ## Krav til systemet:
 * Vise spillebrettet.
-- Vise spillere.
-- Vinne spillet.
-- Avslutte spillet.
+* Vise spillere.
+* Vinne spillet.
+* Avslutte spillet.
 * Vise og bruke kortstokk.
 * Robot må kunne dø.
 * Spiller må kunne dø.
@@ -117,3 +117,9 @@ Lære reglene til Roborally Vi skal ha en plan for hva vi skal ha til neste møt
 * Fylle inn kompetanse
 * Skrive oppsummering
 * Arbeid med brukerhistoriene
+
+##Oppsummering
+Vi synes at vi startet veldig sterkt med å sette opp teamet og arbeidsoppgaver. I tillegg gikk det veldig bra å få oversikt over det forventede produktet, delt grunnet med at vi har fått mye bra info fra forelseningene når systemkrav var tema. Git tok tid å lære seg. Det var mange funksjoner som vi ikke var kjent til og det tok litt trial and error for å lære seg proper push and pull, merge, etc.
+Vi hadde et veldig bra system og sammarbeid til første obeligatoriske oppgave og må derfor vurdere den nye oppgaven før vi ønsker store forandringer.
+
+

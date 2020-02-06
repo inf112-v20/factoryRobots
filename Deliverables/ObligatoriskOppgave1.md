@@ -111,7 +111,7 @@ Som nevnt tidligere bruker vi en form for kanban, hvor vi legger vekt på å ha 
 Vi vurderer behovet for ekstra møter fortløpende, men i utgangspunktet planlegger vi å ha et ekstra møte i uken (i tillegg til gruppetimen), eventuelt flere etter behov. Det kommuniseres i tillegg fortløpende over slack og messenger. Referater og notater deles på wikien.
 
 
-##Oppsummering
+### Oppsummering
 Vi synes at vi startet veldig sterkt med å sette opp teamet og arbeidsoppgaver. I tillegg gikk det veldig bra å få oversikt over det forventede produktet, delt grunnet med at vi har fått mye bra info fra forelseningene når systemkrav var tema. Git tok tid å lære seg. Det var mange funksjoner som vi ikke var kjent til og det tok litt trial and error for å lære seg proper push and pull, merge, etc.
 Vi hadde et veldig bra system og sammarbeid til første obeligatoriske oppgave og må derfor vurdere den nye oppgaven før vi ønsker store forandringer.
 

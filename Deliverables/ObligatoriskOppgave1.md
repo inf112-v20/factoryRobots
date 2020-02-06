@@ -111,15 +111,17 @@ Som nevnt tidligere bruker vi en form for kanban, hvor vi legger vekt på å ha 
 
 Vi vurderer behovet for ekstra møter fortløpende, men i utgangspunktet planlegger vi å ha et ekstra møte i uken (i tillegg til gruppetimen), eventuelt flere etter behov. Det kommuniseres i tillegg fortløpende over slack og messenger. Referater og notater deles på wikien.
 
-## commits
+## Referanser til commits
 ### Avslutte spillet
 Avslutte spillet blir gjort av å klikke X i hjørnet av vinduet
 ### Bevege robot
 commit: a523471f04b52b35ed9e3474323fbeaaf020933b
-### Vise spiller
+### Vise robot
 commit: 5a23df85cf3d131a546d81a039defdc9413ab2af
 ### Vise spillbrett
 commit: a44eec3a8e9eb170dc93f5623a0cd6f49afe2bb5
+### Test for bevegelse av robot
+commit: 266fd5826e0c1d22452474d98dbb493010cde654
 
 
 

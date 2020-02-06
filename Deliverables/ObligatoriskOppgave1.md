@@ -14,7 +14,7 @@ Java: Bra
 Java, python: ok Lærer om lan relevant materiale(INF142) Github erfaring: ok
 
 #### Håvard
-Java, python: Bra Animasjoner og lyd integrasjon Lærer om lan relevant materiale(INF142) Git erfaring: ok
+Går poststudier etter bachelor i Kognitiv Vitenskap. Har mye erfaring med java, python og haskell, samt litt med prolog, c#, R og html/css/javascript. Har jobbet med animasjoner og lydintegrering i java tidligere. Tar INF142 dette semesteret, som kan være relevant for flerspillerfunksjonaliteten.
 
 ## Organisering av laget
 Vi besluttet at laget navn blir Factory Robots, og delte laget inn i fem roller:

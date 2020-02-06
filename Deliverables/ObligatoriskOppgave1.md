@@ -46,34 +46,34 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 * Vise spillebrettet.
 * Vise spillere.
 * Vinne spillet.
-*  Avslutte spillet.
-*  Vise og bruke kortstokk.
-*  Robot må kunne dø.
-*  Spiller må kunne dø.
-*  Utføre lovlige trekk.
-*  Besøke flagg.
-*  Ta skade.
-*  Forhindre ulovlige trekk.
-*  Reparere skade.
-*  Ta backup.
-*  Velge brett.
-*  Fyre av laser.
-*  Timer ved programmering.
-*  Programmere robot.
-*  Godkjenne programmering.
-*  Robot dør hvis den havner i et hull/utenfor brettet/ tar nok skade.
-*  Antall tildelte kort justeres ut ifra skade.
-*  Spille en runde.
-*  Vegger stopper roboter og lasere.
-*  Robot stopper laser.
-*  Dytte andre roboter.
-*  Annonsere powerdown.
-*  Iverksette powerdown.
+* Avslutte spillet.
+* Vise og bruke kortstokk.
+* Robot må kunne dø.
+* Spiller må kunne dø.
+* Utføre lovlige trekk.
+* Besøke flagg.
+* Ta skade.
+* Forhindre ulovlige trekk.
+* Reparere skade.
+* Ta backup.
+* Velge brett.
+* Fyre av laser.
+* Timer ved programmering.
+* Programmere robot.
+* Godkjenne programmering.
+* Robot dør hvis den havner i et hull/utenfor brettet/ tar nok skade.
+* Antall tildelte kort justeres ut ifra skade.
+* Spille en runde.
+* Vegger stopper roboter og lasere.
+* Robot stopper laser.
+* Dytte andre roboter.
+* Annonsere powerdown.
+* Iverksette powerdown.
 * Reaktiveres fra powerdown.
-*  Samlebånd beveger robotene.
-*  Gjennomføre en fase.
-*  Tannhjul roterer robot.
-*  Få og bruke option kort.
+* Samlebånd beveger robotene.
+* Gjennomføre en fase.
+* Tannhjul roterer robot.
+* Få og bruke option kort.
 
 #### Til første iterasjon:
 ##### Vise spillbrett:

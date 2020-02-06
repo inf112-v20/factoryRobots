@@ -1,11 +1,10 @@
 # Obligatorisk oppgave 1
 ## Lagets kompetanse
 ### Halvor
-Mye erfaring med java. God peiling på data og diverse programmeringsverktøy
-Har også en del erfaring med git.
+Går Datateknologi og har generell erfaring med Java, Python, og Javascript. Har brukt Git tidligere, men er ikke veldig erfaren med verktøyet. 
 
 ### Stian
-2. året på informasjon- og kommunikasjonsteknologi. Har ikke erfaring fra programmering utover de obligatoriske fagene, samt litt HTML. 
+Går 2. året på informasjon- og kommunikasjonsteknologi. Har ikke erfaring fra programmering utover de obligatoriske fagene, samt litt HTML. 
 
 ### Ragnild
 Går bachelor i anvendt matematikk 2. året. Har erfaring i Java og Python fra inf100 og inf102.
@@ -100,7 +99,7 @@ Vi vurderer behovet for ekstra møter fortløpende, men i utgangspunktet planleg
 ## Referanser til commits
 ### Avslutte spillet
 Avslutte spillet blir gjort av å klikke X i hjørnet av vinduet
-### Bevege robot
+### Bevege robot 
 commit: a523471f04b52b35ed9e3474323fbeaaf020933b
 ### Vise robot
 commit: 5a23df85cf3d131a546d81a039defdc9413ab2af
@@ -119,7 +118,7 @@ Selv om vi ikke kjente hverandre på forhånd, har kommunikasjon og rollene vi h
 Vi har automatisert projektboard til å automatisk legge nye issues i kolonnen "Backlog". Når issues blir lukket vil de automatisk bli flyttet til project board.
 Vi har implementert Codacy og Travis-CI inn i Github for å gjøre prosessen og samarbeid lettere.
 
-### Til neste obligatoriske innlevering ønsker vi å...
+### Forbedringsområder til neste obligatoriske innlevering
 *   Legge til labels i project board.
 *   Lage ny branch og derretter lage pull request på github hvor vi refererer til relatert issue. Deretter skal gitansvarlig forsikre om at koden er bra nok og derretter merge inn i master. Noe vi har testet til denne innleveringen.
 *   Vi ønsker å fokusere i større grad på å lage issues til forskjellige krav til spillet.

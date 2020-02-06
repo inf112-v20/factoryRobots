@@ -109,6 +109,7 @@ public class Application extends InputAdapter implements ApplicationListener {
             playerLayer.setCell(playerX, playerY, winningPlayer);
         }
         renderer.render();
+        playerLayer.setCell(playerX, playerY, null);
     }
 
     @Override
@@ -132,25 +133,25 @@ public class Application extends InputAdapter implements ApplicationListener {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.LEFT:
-                playerLayer.setCell((int) playerPos.x, (int) playerPos.y, null);
                 playerPos.add(-1,0);
                 break;
             case Input.Keys.RIGHT:
-                playerLayer.setCell((int) playerPos.x, (int) playerPos.y, null);
                 playerPos.add(1,0);
                 break;
             case Input.Keys.UP:
-                playerLayer.setCell((int) playerPos.x, (int) playerPos.y, null);
                 playerPos.add(0,1);
                 break;
             case Input.Keys.DOWN:
-                playerLayer.setCell((int) playerPos.x, (int) playerPos.y, null);
                 playerPos.add(0,-1);
                 break;
             default:
                 System.out.println("Unassigned input");
         }
         return false;
+    }
+
+    public Vector2 getPlayerPos(){
+        return new Vector2(playerPos.x,playerPos.y);
     }
 
 }

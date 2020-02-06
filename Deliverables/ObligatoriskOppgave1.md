@@ -1,19 +1,19 @@
 # Obligatorisk oppgave 1
 ## Lagets kompetanse
-#### Halvor
+### Halvor
 Mye erfaring med java. God peiling på data og diverse programmeringsverktøy
 Har også en del erfaring med git.
 
-#### Stian
+### Stian
 Java: ok Git erfaring: ok
 
-#### Ragnild
+### Ragnild
 Java: Bra
 
-#### Steffen
+### Steffen
 Går studieretning IKT(Informasjon og KommunikasjonsTeknologi). Har grei peiling på java og python, men må jobbe litt med hvordan Github systemet fungerer. I Tillegg tar Steffen opp relevant fag(INF142) angående lan funksjonen som skal tas i bruk i løpet av prosjektet.
 
-#### Håvard
+### Håvard
 Går poststudier etter bachelor i Kognitiv Vitenskap. Har mye erfaring med java, python og haskell, samt litt med prolog, c#, R og html/css/javascript. Har jobbet med animasjoner og lydintegrering i java tidligere. Tar INF142 dette semesteret, som kan være relevant for flerspillerfunksjonaliteten.
 
 ## Organisering av laget
@@ -21,19 +21,19 @@ Vi besluttet at laget navn blir Factory Robots, og delte laget inn i fem roller:
 De fleste rollene ble bestemt ut fra hvilke områder av prosjektet vi ser det er viktig med en overordnet ansvarlig som sørger for at ting blir gjort skikkelig.
 Dokumentasjon, git og testing er slike områder. Sekretær er også viktig da loggføring er en stor del av oppgaven. Det er også naturlig å ha en person med ansvar for prosjektet som helhet. Vi har derfor kommet frem til følgende viktige roller...
 
-#### Leder: Håvard
+### Leder: Håvard
 Ansvarlig for å planlegge møter, ha overordnet kontroll, og sjekke at alt er klart til innlevering.
 
-#### Sekretær: Steffen
+### Sekretær: Steffen
 Skriver referat fra møter og gruppetimer, fører notater fra diskusjoner og har ansvar for besvarelsen av obligatoriske oppgaver.
 
-#### Dokumentasjonsansvarlig: Ragnild
+### Dokumentasjonsansvarlig: Ragnild
 Ansvar for javadoc og at bestemt kodestil blir fulgt.
 
-#### Gitansvarlig: Stian
+### Gitansvarlig: Stian
 Overordnet ansvar for merging av forskjellige brancher. Sørger for presise commits og oppfølging av issues.
 
-#### Kundekontakt og testansvarlig: Halvor
+### Kundekontakt og testansvarlig: Halvor
 Møte foreleser og TA for møter. Ansvarlig for at de nødvendige testene er implementert, og kvalitetssikring av disse.
 
 I tillegg har vi bestemt oss for å bruke github project board, med kanban(ish) metodikk.

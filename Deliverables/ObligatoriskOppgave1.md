@@ -43,11 +43,11 @@ Altså kanban med kolonnene backlog, to do, in progress, code review og done.
 Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene til en robot på et brett vha. valg av programkort i et grafisk grensesnitt. Roboten må navigere rundt hull i bakken, lasere og andre roboter uten å dø, slik at den får besøkt alle flaggene i stigende rekkefølge. Roboten som besøker alle flaggene først i riktig rekkefølge har vunnet.
 
 ## Krav til systemet:
-  * Vise spillebrettet.
-  * Vise en spillere.
-  * Vinne spillet.
- * Avslutte spillet.
- * Vise og bruke kortstokk.
+* Vise spillebrettet.
+* Vise en spillere.
+* Vinne spillet.
+* Avslutte spillet.
+* Vise og bruke kortstokk.
 * Robot må kunne dø.
 * Spiller må kunne dø.
 * Utføre lovlige trekk.

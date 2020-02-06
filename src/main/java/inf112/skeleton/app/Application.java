@@ -35,7 +35,8 @@ public class Application extends InputAdapter implements ApplicationListener {
     public OrthographicCamera camera;
 
     //Map dimensions
-    private final int MAP_SIZE_X = 5, MAP_SIZE_Y = 5;
+    private final int MAP_SIZE_X = 5;
+    private final int MAP_SIZE_Y = 5;
 
     //Player cells
     private Cell normalPlayer;
@@ -109,19 +110,23 @@ public class Application extends InputAdapter implements ApplicationListener {
             playerLayer.setCell(playerX, playerY, winningPlayer);
         }
         renderer.render();
+        //Remove last player position
         playerLayer.setCell(playerX, playerY, null);
     }
 
     @Override
     public void resize(int width, int height) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void pause() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void resume() {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -146,6 +151,7 @@ public class Application extends InputAdapter implements ApplicationListener {
                 break;
             default:
                 System.out.println("Unassigned input");
+                break;
         }
         return false;
     }

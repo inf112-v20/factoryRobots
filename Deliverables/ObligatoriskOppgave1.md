@@ -78,29 +78,29 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 ## Til første iterasjon:
 Viser både hvilke funksjoner vi ønsker å ha med til første iterasjon samt brukerhistorier og akseptansekrav. 
 ### Vise spillbrett:
-### Brukerhistorie: 
+* Brukerhistorie: 
 Spilleren har behovet for å vise spillbrettet for å se status til spillet
-### Akseptanstkrav: 
+* Akseptanstkrav: 
 Må være et brett med forventet størrelse i x og y akse
 Må vise forventede element på brettet 
 Ha forventet antall og størrelse ruter
 ### Vise en robot: 
-### Brukerhistorie: 
+* Brukerhistorie: 
 Har behov for å vise spiller for å kunne planlegge neste fase og trekk i spillet. 
-### Akseptansekrav: 
+* Akseptansekrav: 
 Vise roboten på forventet posisjon i brettet. 
 Vise retning roboten står mot.  
 ### Bevege robot: 
-### Brukerhistorie: 
+* Brukerhistorie: 
 Spiller har behov for å bevege robot for å kunne gjennomføre trekk. Ved dette også gjennomføre et spill. 
-### Akseptansekrav: 
+* Akseptansekrav: 
 Robot beveger seg i rett retning på rett impuls (beveger seg opp på brettet når pil opp blir trykka på) 
 Ender på forventet posisjon i brettet etter bevegelse. 
 
 ### Avslutte spillet: 
-### Brukerhistorie: 
+* Brukerhistorie: 
 Spilleren må kunne avslutte spillet for å gå ut av spillet når spilleren ikke ønsker å spille mer, eller når spillet er ferdig. 
-###### Akseptansekrav: 
+* Akseptansekrav: 
 Programmet kan lukkes uten feilmelding.
 
 
@@ -110,6 +110,17 @@ Vi ønsker å drive testdrevet utvikling og parprogrammering etter behov. Altså
 Som nevnt tidligere bruker vi en form for kanban, hvor vi legger vekt på å ha klare og tydelige krav. Vi tenker at laget fritt forsyner seg med oppgaver etter hva de selv føler seg kvalifiserte til, men at alle bidrar med et likt antall. Vi ønsker å opprettholde god kommunikasjon om hvem som jobber med hva, hvordan det går og eventuelle ting vi må ta tak i. Dette for å unngå konflikter om hvem som jobber med hva. I tillegg kommer de ulike rollene til å følge opp hver sine ansvarsområder.
 
 Vi vurderer behovet for ekstra møter fortløpende, men i utgangspunktet planlegger vi å ha et ekstra møte i uken (i tillegg til gruppetimen), eventuelt flere etter behov. Det kommuniseres i tillegg fortløpende over slack og messenger. Referater og notater deles på wikien.
+
+## commits
+### Avslutte spillet
+Avslutte spillet blir gjort av å klikke X i hjørnet av vinduet
+### Bevege robot
+commit: a523471f04b52b35ed9e3474323fbeaaf020933b
+### Vise spiller
+commit: 5a23df85cf3d131a546d81a039defdc9413ab2af
+### Vise spillbrett
+commit: a44eec3a8e9eb170dc93f5623a0cd6f49afe2bb5
+
 
 
 ## Oppsummering

@@ -76,7 +76,7 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 * Få og bruke option kort.
 
 ## Til første iterasjon:
-Her 
+Viser både hvilke funksjoner vi ønsker å ha med til første iterasjon samt brukerhistorier og akseptansekrav. 
 ### Vise spillbrett:
 ### Brukerhistorie: 
 Spilleren har behovet for å vise spillbrettet for å se status til spillet

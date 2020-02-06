@@ -5,7 +5,7 @@ Mye erfaring med java. God peiling på data og diverse programmeringsverktøy
 Har også en del erfaring med git.
 
 ### Stian
-Java: ok Git erfaring: ok
+Er på 2. året av Informasjons og kommunikasjonsteknologi. Har erfaring fra tidligere obligatoriske emner, men ikke så mye fra Git. Lærer fort
 
 #### Ragnild
 Går bachelor i anvendt matematikk 2. året. Har erfaring i Java og Python fra inf100 og inf102.

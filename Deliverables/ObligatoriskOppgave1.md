@@ -45,7 +45,7 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 ## Krav til systemet:
 *  Vise spillebrettet.
 *  Vise en spillere.
-* Vinne spillet.
+  * Vinne spillet.
 *  Avslutte spillet.
 *  Vise og bruke kortstokk.
 *  Robot må kunne dø.

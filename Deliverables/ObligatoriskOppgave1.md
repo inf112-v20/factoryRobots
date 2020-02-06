@@ -7,7 +7,7 @@ Har også en del erfaring med git.
 ### Stian
 Java: ok Git erfaring: ok
 
-#### Ragnild
+### Ragnild
 Går bachelor i anvendt matematikk 2. året. Har erfaring i Java og Python fra inf100 og inf102.
 
 ### Steffen
@@ -44,9 +44,9 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 
 ## Krav til systemet:
 * Vise spillebrettet.
-- Vise spillere.
-- Vinne spillet.
-- Avslutte spillet.
+* Vise spillere.
+* Vinne spillet.
+* Avslutte spillet.
 * Vise og bruke kortstokk.
 * Robot må kunne dø.
 * Spiller må kunne dø.
@@ -75,29 +75,29 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 * Tannhjul roterer robot.
 * Få og bruke option kort.
 
-#### Til første iterasjon:
-##### Vise spillbrett:
-###### Brukerhistorie: 
+### Til første iterasjon:
+### Vise spillbrett:
+### Brukerhistorie: 
 Spilleren har behovet for å vise spillbrettet for å se status til spillet
-###### Akseptanstkrav: 
+### Akseptanstkrav: 
 Må være et brett med forventet størrelse i x og y akse
 Må vise forventede element på brettet 
 Ha forventet antall og størrelse ruter
-##### Vise en robot: 
-###### Brukerhistorie: 
+### Vise en robot: 
+### Brukerhistorie: 
 Har behov for å vise spiller for å kunne planlegge neste fase og trekk i spillet. 
-###### Akseptansekrav: 
+### Akseptansekrav: 
 Vise roboten på forventet posisjon i brettet. 
 Vise retning roboten står mot.  
-##### Bevege robot: 
-###### Brukerhistorie: 
+### Bevege robot: 
+### Brukerhistorie: 
 Spiller har behov for å bevege robot for å kunne gjennomføre trekk. Ved dette også gjennomføre et spill. 
-###### Akseptansekrav: 
+### Akseptansekrav: 
 Robot beveger seg i rett retning på rett impuls (beveger seg opp på brettet når pil opp blir trykka på) 
 Ender på forventet posisjon i brettet etter bevegelse. 
 
-##### Avslutte spillet: 
-###### Brukerhistorie: 
+### Avslutte spillet: 
+### Brukerhistorie: 
 Spilleren må kunne avslutte spillet for å gå ut av spillet når spilleren ikke ønsker å spille mer, eller når spillet er ferdig. 
 ###### Akseptansekrav: 
 Programmet kan lukkes uten feilmelding.
@@ -110,10 +110,9 @@ Som nevnt tidligere bruker vi en form for kanban, hvor vi legger vekt på å ha 
 
 Vi vurderer behovet for ekstra møter fortløpende, men i utgangspunktet planlegger vi å ha et ekstra møte i uken (i tillegg til gruppetimen), eventuelt flere etter behov. Det kommuniseres i tillegg fortløpende over slack og messenger. Referater og notater deles på wikien.
 
-## Til neste møte
-Lære reglene til Roborally Vi skal ha en plan for hva vi skal ha til neste møte vi skal ha referat til neste møte Vi skal ha en plan for hva vi skal gjøre til neste møte
-## Gjenstående
-* Filtrere kravlisten
-* Fylle inn kompetanse
-* Skrive oppsummering
-* Arbeid med brukerhistoriene
+
+### Oppsummering
+Vi synes at vi startet veldig sterkt med å sette opp teamet og arbeidsoppgaver. I tillegg gikk det veldig bra å få oversikt over det forventede produktet, delt grunnet med at vi har fått mye bra info fra forelseningene når systemkrav var tema. Git tok tid å lære seg. Det var mange funksjoner som vi ikke var kjent til og det tok litt trial and error for å lære seg proper push and pull, merge, etc.
+Vi hadde et veldig bra system og sammarbeid til første obeligatoriske oppgave og må derfor vurdere den nye oppgaven før vi ønsker store forandringer.
+
+

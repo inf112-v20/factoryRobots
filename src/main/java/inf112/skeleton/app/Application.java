@@ -147,6 +147,8 @@ public class Application extends InputAdapter implements ApplicationListener {
                 playerLayer.setCell((int) playerPos.x, (int) playerPos.y, null);
                 playerPos.add(0,-1);
                 break;
+            default:
+                System.out.println("Unassigned input");
         }
         return false;
     }

@@ -8,7 +8,7 @@ Har også en del erfaring med git.
 Java: ok Git erfaring: ok
 
 #### Ragnild
-Java: Bra
+Går bachelor i anvendt matematikk 2. året. Har erfaring i Java og Python fra inf100 og inf102.
 
 #### Steffen
 Java, python: ok Lærer om lan relevant materiale(INF142) Github erfaring: ok
@@ -44,7 +44,7 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 
 ## Krav til systemet:
 * Vise spillebrettet.
-* Vise en spillere.
+* Vise spillere.
 * Vinne spillet.
 * Avslutte spillet.
 * Vise og bruke kortstokk.
@@ -75,7 +75,34 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 * Tannhjul roterer robot.
 * Få og bruke option kort.
 
-Til første iterasjon: Gjennomgå guiden, dvs: Opprette et spillebrett og få en spiller til å bevege seg rundt på brettet
+#### Til første iterasjon:
+##### Vise spillbrett:
+###### Brukerhistorie: 
+Spilleren har behovet for å vise spillbrettet for å se status til spillet
+###### Akseptanstkrav: 
+Må være et brett med forventet størrelse i x og y akse
+Må vise forventede element på brettet 
+Ha forventet antall og størrelse ruter
+##### Vise en robot: 
+###### Brukerhistorie: 
+Har behov for å vise spiller for å kunne planlegge neste fase og trekk i spillet. 
+###### Akseptansekrav: 
+Vise roboten på forventet posisjon i brettet. 
+Vise retning roboten står mot.  
+##### Bevege robot: 
+###### Brukerhistorie: 
+Spiller har behov for å bevege robot for å kunne gjennomføre trekk. Ved dette også gjennomføre et spill. 
+###### Akseptansekrav: 
+Robot beveger seg i rett retning på rett impuls (beveger seg opp på brettet når pil opp blir trykka på) 
+Ender på forventet posisjon i brettet etter bevegelse. 
+
+##### Avslutte spillet: 
+###### Brukerhistorie: 
+Spilleren må kunne avslutte spillet for å gå ut av spillet når spilleren ikke ønsker å spille mer, eller når spillet er ferdig. 
+###### Akseptansekrav: 
+Programmet kan lukkes uten feilmelding.
+
+
 
 ## Metodikk
 Vi ønsker å drive testdrevet utvikling og parprogrammering etter behov. Altså om vi sitter fast på noe.

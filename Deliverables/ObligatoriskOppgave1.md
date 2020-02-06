@@ -19,7 +19,7 @@ Går poststudier etter bachelor i Kognitiv Vitenskap. Har mye erfaring med java,
 ## Organisering av laget
 Vi besluttet at laget navn blir Factory Robots, og delte laget inn i fem roller:
 De fleste rollene ble bestemt ut fra hvilke områder av prosjektet vi ser det er viktig med en overordnet ansvarlig som sørger for at ting blir gjort skikkelig.
-Dokumentasjon, git og testing er slike områder. Sekretær er også viktig da loggføring er en stor del av oppgaven. Det er også naturlig å ha en person med ansvar for prosjektet som helhet.
+Dokumentasjon, git og testing er slike områder. Sekretær er også viktig da loggføring er en stor del av oppgaven. Det er også naturlig å ha en person med ansvar for prosjektet som helhet. Vi har derfor kommet frem til følgende viktige roller...
 
 #### Leder: Håvard
 Ansvarlig for å planlegge møter, ha overordnet kontroll, og sjekke at alt er klart til innlevering.

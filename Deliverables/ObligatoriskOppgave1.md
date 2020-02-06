@@ -39,71 +39,57 @@ Møte foreleser og TA for møter. Ansvarlig for at de nødvendige testene er imp
 I tillegg har vi bestemt oss for å bruke github project board, med kanban(ish) metodikk.
 Altså kanban med kolonnene backlog, to do, in progress, code review og done.
 
-## Overordnet mål applikasjonen:
+## Overordnet mål applikasjonen
 Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene til en robot på et brett vha. valg av programkort i et grafisk grensesnitt. Roboten må navigere rundt hull i bakken, lasere og andre roboter uten å dø, slik at den får besøkt alle flaggene i stigende rekkefølge. Roboten som besøker alle flaggene først i riktig rekkefølge har vunnet.
 
-## Krav til systemet:
-* Vise spillebrettet.
-* Vise spillere.
+## Krav til systemet
+*   Vise spillebrettet.
+*   Vise spillere.
 *   Vinne spillet.
-* Avslutte spillet.
-* Vise og bruke kortstokk.
-* Robot må kunne dø.
-* Spiller må kunne dø.
-* Utføre lovlige trekk.
-* Besøke flagg.
-* Ta skade.
-* Forhindre ulovlige trekk.
-* Reparere skade.
-* Ta backup.
-* Velge brett.
-* Fyre av laser.
-* Timer ved programmering.
-* Programmere robot.
-* Godkjenne programmering.
-* Robot dør hvis den havner i et hull/utenfor brettet/ tar nok skade.
-* Antall tildelte kort justeres ut ifra skade.
-* Spille en runde.
-* Vegger stopper roboter og lasere.
-* Robot stopper laser.
-* Dytte andre roboter.
-* Annonsere powerdown.
-* Iverksette powerdown.
-* Reaktiveres fra powerdown.
-* Samlebånd beveger robotene.
-* Gjennomføre en fase.
-* Tannhjul roterer robot.
-* Få og bruke option kort.
+*   Avslutte spillet.
+*   Vise og bruke kortstokk.
+*   Robot må kunne dø.
+*   Spiller må kunne dø.
+*   Utføre lovlige trekk.
+*   Besøke flagg.
+*   Ta skade.
+*   Forhindre ulovlige trekk.
+*   Reparere skade.
+*   Ta backup.
+*   Velge brett.
+*   Fyre av laser.
+*   Timer ved programmering.
+*   Programmere robot.
+*   Godkjenne programmering.
+*   Robot dør hvis den havner i et hull/utenfor brettet/ tar nok skade.
+*   Antall tildelte kort justeres ut ifra skade.
+*   Spille en runde.
+*   Vegger stopper roboter og lasere.
+*   Robot stopper laser.
+*   Dytte andre roboter.
+*   Annonsere powerdown.
+*   Iverksette powerdown.
+*   Reaktiveres fra powerdown.
+*   Samlebånd beveger robotene.
+*   Gjennomføre en fase.
+*   Tannhjul roterer robot.
+*   Få og bruke option kort.
 
-## Til første iterasjon:
+## Til første iterasjon
 Viser både hvilke funksjoner vi ønsker å ha med til første iterasjon samt brukerhistorier og akseptansekrav. 
-### Vise spillbrett:
-* Brukerhistorie: 
-Spilleren har behovet for å vise spillbrettet for å se status til spillet
-* Akseptanstkrav: 
-Må være et brett med forventet størrelse i x og y akse
-Må vise forventede element på brettet 
-Ha forventet antall og størrelse ruter
-### Vise en robot: 
-* Brukerhistorie: 
-Har behov for å vise spiller for å kunne planlegge neste fase og trekk i spillet. 
-* Akseptansekrav: 
-Vise roboten på forventet posisjon i brettet. 
-Vise retning roboten står mot.  
-### Bevege robot: 
-* Brukerhistorie: 
-Spiller har behov for å bevege robot for å kunne gjennomføre trekk. Ved dette også gjennomføre et spill. 
-* Akseptansekrav: 
-Robot beveger seg i rett retning på rett impuls (beveger seg opp på brettet når pil opp blir trykka på) 
-Ender på forventet posisjon i brettet etter bevegelse. 
+### Vise spillbrett
+*   Brukerhistorie: Spilleren har behovet for å vise spillbrettet for å se status til spillet.
+*   Akseptanstkrav: Må være et brett med forventet størrelse i x og y akse. Må vise forventede element på brettet. Ha forventet antall og størrelse ruter.
+### Vise en robot
+*   Brukerhistorie: Har behov for å vise spiller for å kunne planlegge neste fase og trekk i spillet. 
+*   Akseptansekrav: Vise roboten på forventet posisjon i brettet. Vise retning roboten står mot.  
+### Bevege robot
+*   Brukerhistorie: Spiller har behov for å bevege robot for å kunne gjennomføre trekk. Ved dette også gjennomføre et spill. 
+*   Akseptansekrav: Robot beveger seg i rett retning på rett impuls (beveger seg opp på brettet når pil opp blir trykka på) Ender på forventet posisjon i brettet etter bevegelse. 
 
-### Avslutte spillet: 
-* Brukerhistorie: 
-Spilleren må kunne avslutte spillet for å gå ut av spillet når spilleren ikke ønsker å spille mer, eller når spillet er ferdig. 
-* Akseptansekrav: 
-Programmet kan lukkes uten feilmelding.
-
-
+### Avslutte spillet
+*   Brukerhistorie: Spilleren må kunne avslutte spillet for å gå ut av spillet når spilleren ikke ønsker å spille mer, eller når spillet er ferdig. 
+*   Akseptansekrav: Programmet kan lukkes uten feilmelding.
 
 ## Metodikk
 Vi ønsker å drive testdrevet utvikling og parprogrammering etter behov. Altså om vi sitter fast på noe.
@@ -123,8 +109,6 @@ commit: a44eec3a8e9eb170dc93f5623a0cd6f49afe2bb5
 ### Test for bevegelse av robot
 commit: 266fd5826e0c1d22452474d98dbb493010cde654
 
-
-
 ## Oppsummering
 Vi synes at vi startet veldig sterkt med å sette opp teamet og arbeidsoppgaver. I tillegg gikk det veldig bra å få oversikt over det forventede produktet. Dette er grunnet at vi har fått mye bra info fra forelseningene når systemkrav var tema. Git tok tid å lære seg. Det var mange funksjoner som vi ikke var kjent til og det tok litt trial and error for å lære seg proper push and pull, merge, etc.
 Vi hadde et veldig bra system og samarbeid til første obligatoriske oppgave og må derfor vurdere den nye oppgaven før vi ønsker store forandringer.
@@ -136,7 +120,7 @@ Vi har automatisert projektboard til å automatisk legge nye issues i kolonnen "
 Vi har implementert Codacy og Travis-CI inn i Github for å gjøre prosessen og samarbeid lettere.
 
 ### Til neste obligatoriske innlevering ønsker vi å...
-* Legge til labels i project board.
-* Lage ny branch og derretter lage pull request på github hvor vi refererer til relatert issue. Deretter skal gitansvarlig forsikre om at koden er bra nok og derretter merge inn i master. Noe vi har testet til denne innleveringen.
-* Vi ønsker å fokusere i større grad på å lage issues til forskjellige krav til spillet.
-* Bli flinkere til å kommentere hver eneste commit selv om det store eller små changes.
+*   Legge til labels i project board.
+*   Lage ny branch og derretter lage pull request på github hvor vi refererer til relatert issue. Deretter skal gitansvarlig forsikre om at koden er bra nok og derretter merge inn i master. Noe vi har testet til denne innleveringen.
+*   Vi ønsker å fokusere i større grad på å lage issues til forskjellige krav til spillet.
+*   Bli flinkere til å kommentere hver eneste commit selv om det store eller små changes.

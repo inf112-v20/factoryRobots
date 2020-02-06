@@ -5,7 +5,7 @@ Mye erfaring med java. God peiling på data og diverse programmeringsverktøy
 Har også en del erfaring med git.
 
 ### Stian
-Java: ok Git erfaring: ok
+2. året på informasjon- og kommunikasjonsteknologi. Har ikke erfaring fra programmering utover de obligatoriske fagene, samt litt HTML. 
 
 ### Ragnild
 Går bachelor i anvendt matematikk 2. året. Har erfaring i Java og Python fra inf100 og inf102.
@@ -45,7 +45,7 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 ## Krav til systemet:
 * Vise spillebrettet.
 * Vise spillere.
-* Vinne spillet.
+*   Vinne spillet.
 * Avslutte spillet.
 * Vise og bruke kortstokk.
 * Robot må kunne dø.
@@ -75,7 +75,8 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 * Tannhjul roterer robot.
 * Få og bruke option kort.
 
-### Til første iterasjon:
+## Til første iterasjon:
+Viser både hvilke funksjoner vi ønsker å ha med til første iterasjon samt brukerhistorier og akseptansekrav. 
 ### Vise spillbrett:
 ### Brukerhistorie: 
 Spilleren har behovet for å vise spillbrettet for å se status til spillet
@@ -111,8 +112,18 @@ Som nevnt tidligere bruker vi en form for kanban, hvor vi legger vekt på å ha 
 Vi vurderer behovet for ekstra møter fortløpende, men i utgangspunktet planlegger vi å ha et ekstra møte i uken (i tillegg til gruppetimen), eventuelt flere etter behov. Det kommuniseres i tillegg fortløpende over slack og messenger. Referater og notater deles på wikien.
 
 
-### Oppsummering
-Vi synes at vi startet veldig sterkt med å sette opp teamet og arbeidsoppgaver. I tillegg gikk det veldig bra å få oversikt over det forventede produktet, delt grunnet med at vi har fått mye bra info fra forelseningene når systemkrav var tema. Git tok tid å lære seg. Det var mange funksjoner som vi ikke var kjent til og det tok litt trial and error for å lære seg proper push and pull, merge, etc.
-Vi hadde et veldig bra system og sammarbeid til første obeligatoriske oppgave og må derfor vurdere den nye oppgaven før vi ønsker store forandringer.
+## Oppsummering
+Vi synes at vi startet veldig sterkt med å sette opp teamet og arbeidsoppgaver. I tillegg gikk det veldig bra å få oversikt over det forventede produktet. Dette er grunnet at vi har fått mye bra info fra forelseningene når systemkrav var tema. Git tok tid å lære seg. Det var mange funksjoner som vi ikke var kjent til og det tok litt trial and error for å lære seg proper push and pull, merge, etc.
+Vi hadde et veldig bra system og samarbeid til første obligatoriske oppgave og må derfor vurdere den nye oppgaven før vi ønsker store forandringer.
 
+Selv om vi ikke kjente hverandre på forhånd, har kommunikasjon og rollene vi har blitt tildelt i teamet fungert bra. Vi har vært flink til å lære av av hverandre hvor våre områder av kompetanse har blitt delt med teamet slik at vi har fått godt struktur og forståelse for hvordan vi går frem med å utvikle programmet. Kommunikasjonen har foregått hovedsaklig på møtene, men også via slack.
 
+### Github oppsett
+Vi har automatisert projektboard til å automatisk legge nye issues i kolonnen "Backlog". Når issues blir lukket vil de automatisk bli flyttet til project board.
+Vi har implementert Codacy og Travis-CI inn i Github for å gjøre prosessen og samarbeid lettere.
+
+### Til neste obligatoriske innlevering ønsker vi å...
+* Legge til labels i project board.
+* Lage ny branch og derretter lage pull request på github hvor vi refererer til relatert issue. Deretter skal gitansvarlig forsikre om at koden er bra nok og derretter merge inn i master. Noe vi har testet til denne innleveringen.
+* Vi ønsker å fokusere i større grad på å lage issues til forskjellige krav til spillet.
+* Bli flinkere til å kommentere hver eneste commit selv om det store eller små changes.

@@ -1,39 +1,39 @@
 # Obligatorisk oppgave 1
 ## Lagets kompetanse
-#### Halvor
+### Halvor
 Mye erfaring med java. God peiling på data og diverse programmeringsverktøy
 Har også en del erfaring med git.
 
-#### Stian
+### Stian
 Java: ok Git erfaring: ok
 
 #### Ragnild
-Java: Bra
+Går bachelor i anvendt matematikk 2. året. Har erfaring i Java og Python fra inf100 og inf102.
 
-#### Steffen
-Java, python: ok Lærer om lan relevant materiale(INF142) Github erfaring: ok
+### Steffen
+Går studieretning IKT(Informasjon og KommunikasjonsTeknologi). Har grei peiling på java og python, men må jobbe litt med hvordan Github systemet fungerer. I Tillegg tar Steffen opp relevant fag(INF142) angående lan funksjonen som skal tas i bruk i løpet av prosjektet.
 
-#### Håvard
+### Håvard
 Går poststudier etter bachelor i Kognitiv Vitenskap. Har mye erfaring med java, python og haskell, samt litt med prolog, c#, R og html/css/javascript. Har jobbet med animasjoner og lydintegrering i java tidligere. Tar INF142 dette semesteret, som kan være relevant for flerspillerfunksjonaliteten.
 
 ## Organisering av laget
 Vi besluttet at laget navn blir Factory Robots, og delte laget inn i fem roller:
 De fleste rollene ble bestemt ut fra hvilke områder av prosjektet vi ser det er viktig med en overordnet ansvarlig som sørger for at ting blir gjort skikkelig.
-Dokumentasjon, git og testing er slike områder. Sekretær er også viktig da loggføring er en stor del av oppgaven. Det er også naturlig å ha en person med ansvar for prosjektet som helhet.
+Dokumentasjon, git og testing er slike områder. Sekretær er også viktig da loggføring er en stor del av oppgaven. Det er også naturlig å ha en person med ansvar for prosjektet som helhet. Vi har derfor kommet frem til følgende viktige roller...
 
-#### Leder: Håvard
+### Leder: Håvard
 Ansvarlig for å planlegge møter, ha overordnet kontroll, og sjekke at alt er klart til innlevering.
 
-#### Sekretær: Steffen
+### Sekretær: Steffen
 Skriver referat fra møter og gruppetimer, fører notater fra diskusjoner og har ansvar for besvarelsen av obligatoriske oppgaver.
 
-#### Dokumentasjonsansvarlig: Ragnild
+### Dokumentasjonsansvarlig: Ragnild
 Ansvar for javadoc og at bestemt kodestil blir fulgt.
 
-#### Gitansvarlig: Stian
+### Gitansvarlig: Stian
 Overordnet ansvar for merging av forskjellige brancher. Sørger for presise commits og oppfølging av issues.
 
-#### Kundekontakt og testansvarlig: Halvor
+### Kundekontakt og testansvarlig: Halvor
 Møte foreleser og TA for møter. Ansvarlig for at de nødvendige testene er implementert, og kvalitetssikring av disse.
 
 I tillegg har vi bestemt oss for å bruke github project board, med kanban(ish) metodikk.
@@ -44,7 +44,7 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 
 ## Krav til systemet:
 * Vise spillebrettet.
-* Vise en spillere.
+* Vise spillere.
 * Vinne spillet.
 * Avslutte spillet.
 * Vise og bruke kortstokk.
@@ -75,7 +75,34 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 * Tannhjul roterer robot.
 * Få og bruke option kort.
 
-Til første iterasjon: Gjennomgå guiden, dvs: Opprette et spillebrett og få en spiller til å bevege seg rundt på brettet
+#### Til første iterasjon:
+##### Vise spillbrett:
+###### Brukerhistorie: 
+Spilleren har behovet for å vise spillbrettet for å se status til spillet
+###### Akseptanstkrav: 
+Må være et brett med forventet størrelse i x og y akse
+Må vise forventede element på brettet 
+Ha forventet antall og størrelse ruter
+##### Vise en robot: 
+###### Brukerhistorie: 
+Har behov for å vise spiller for å kunne planlegge neste fase og trekk i spillet. 
+###### Akseptansekrav: 
+Vise roboten på forventet posisjon i brettet. 
+Vise retning roboten står mot.  
+##### Bevege robot: 
+###### Brukerhistorie: 
+Spiller har behov for å bevege robot for å kunne gjennomføre trekk. Ved dette også gjennomføre et spill. 
+###### Akseptansekrav: 
+Robot beveger seg i rett retning på rett impuls (beveger seg opp på brettet når pil opp blir trykka på) 
+Ender på forventet posisjon i brettet etter bevegelse. 
+
+##### Avslutte spillet: 
+###### Brukerhistorie: 
+Spilleren må kunne avslutte spillet for å gå ut av spillet når spilleren ikke ønsker å spille mer, eller når spillet er ferdig. 
+###### Akseptansekrav: 
+Programmet kan lukkes uten feilmelding.
+
+
 
 ## Metodikk
 Vi ønsker å drive testdrevet utvikling og parprogrammering etter behov. Altså om vi sitter fast på noe.

@@ -5,7 +5,7 @@ Mye erfaring med java. God peiling på data og diverse programmeringsverktøy
 Har også en del erfaring med git.
 
 ### Stian
-Java: ok Git erfaring: ok
+2. året på informasjon- og kommunikasjonsteknologi. Har ikke erfaring fra programmering utover de obligatoriske fagene, samt litt HTML. 
 
 ### Ragnild
 Går bachelor i anvendt matematikk 2. året. Har erfaring i Java og Python fra inf100 og inf102.
@@ -45,7 +45,7 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 ## Krav til systemet:
 * Vise spillebrettet.
 * Vise spillere.
-* Vinne spillet.
+*   Vinne spillet.
 * Avslutte spillet.
 * Vise og bruke kortstokk.
 * Robot må kunne dø.

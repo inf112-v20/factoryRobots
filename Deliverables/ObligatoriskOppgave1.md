@@ -76,6 +76,7 @@ Programmet skal la deg spille Roborally, dvs. du skal kunne styre bevegelsene ti
 * Få og bruke option kort.
 
 ## Til første iterasjon:
+Her 
 ### Vise spillbrett:
 ### Brukerhistorie: 
 Spilleren har behovet for å vise spillbrettet for å se status til spillet
@@ -115,6 +116,8 @@ Vi vurderer behovet for ekstra møter fortløpende, men i utgangspunktet planleg
 Vi synes at vi startet veldig sterkt med å sette opp teamet og arbeidsoppgaver. I tillegg gikk det veldig bra å få oversikt over det forventede produktet. Dette er grunnet at vi har fått mye bra info fra forelseningene når systemkrav var tema. Git tok tid å lære seg. Det var mange funksjoner som vi ikke var kjent til og det tok litt trial and error for å lære seg proper push and pull, merge, etc.
 Vi hadde et veldig bra system og samarbeid til første obligatoriske oppgave og må derfor vurdere den nye oppgaven før vi ønsker store forandringer.
 
+Selv om vi ikke kjente hverandre på forhånd, har kommunikasjon og rollene vi har blitt tildelt i teamet fungert bra. Vi har vært flink til å lære av av hverandre hvor våre områder av kompetanse har blitt delt med teamet slik at vi har fått godt struktur og forståelse for hvordan vi går frem med å utvikle programmet. Kommunikasjonen har foregått hovedsaklig på møtene, men også via slack.
+
 ### Github oppsett
 Vi har automatisert projektboard til å automatisk legge nye issues i kolonnen "Backlog". Når issues blir lukket vil de automatisk bli flyttet til project board.
 Vi har implementert Codacy og Travis-CI inn i Github for å gjøre prosessen og samarbeid lettere.
@@ -123,3 +126,4 @@ Vi har implementert Codacy og Travis-CI inn i Github for å gjøre prosessen og 
 * Legge til labels i project board.
 * Lage ny branch og derretter lage pull request på github hvor vi refererer til relatert issue. Deretter skal gitansvarlig forsikre om at koden er bra nok og derretter merge inn i master. Noe vi har testet til denne innleveringen.
 * Vi ønsker å fokusere i større grad på å lage issues til forskjellige krav til spillet.
+* Bli flinkere til å kommentere hver eneste commit selv om det store eller små changes.

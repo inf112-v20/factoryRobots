@@ -116,17 +116,14 @@ public class Application extends InputAdapter implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
     public void pause() {
-        throw new UnsupportedOperationException();
     }
 
     @Override
     public void resume() {
-        throw new UnsupportedOperationException();
     }
 
     /**

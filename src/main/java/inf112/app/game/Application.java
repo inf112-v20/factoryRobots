@@ -18,25 +18,17 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import inf112.app.map.Map;
 
 public class Application extends InputAdapter implements ApplicationListener {
     private SpriteBatch batch;
     private BitmapFont font;
 
-    //Map and layers
-    public TiledMap map;
-    public TiledMapTileLayer boardLayer;
-    public TiledMapTileLayer holeLayer;
-    public TiledMapTileLayer flagLayer;
-    public TiledMapTileLayer playerLayer;
-
     //Camera and renderer
     public OrthogonalTiledMapRenderer renderer;
     public OrthographicCamera camera;
 
-    //Map dimensions
-    private final int MAP_SIZE_X = 5;
-    private final int MAP_SIZE_Y = 5;
+    public Map cellMap;
 
     //Player cells
     private Cell normalPlayer;
@@ -44,7 +36,7 @@ public class Application extends InputAdapter implements ApplicationListener {
     private Cell loosingPlayer;
 
     //Initial player position
-    private Vector2 playerPos = new Vector2(0,0);
+    private Vector2 playerPos = new Vector2(2,2);
 
     @Override
     public void create() {
@@ -52,24 +44,17 @@ public class Application extends InputAdapter implements ApplicationListener {
         font = new BitmapFont();
         font.setColor(Color.RED);
 
-        //Loading map
-        TmxMapLoader loader = new TmxMapLoader();
-        map = loader.load("assets/map1.tmx");
-
-        //Loading layers
-        boardLayer = (TiledMapTileLayer) map.getLayers().get("Board");
-        holeLayer = (TiledMapTileLayer) map.getLayers().get("Hole");
-        flagLayer = (TiledMapTileLayer) map.getLayers().get("Flag");
-        playerLayer = (TiledMapTileLayer) map.getLayers().get("Player");
+        //Creating map
+        cellMap = new Map("testMap");
 
         //Initializing camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, MAP_SIZE_X, MAP_SIZE_Y);
-        camera.position.x = 2.5f;
+        camera.setToOrtho(false, cellMap.getMapSizeX(), cellMap.getMapSizeY());
+        camera.position.x = cellMap.getMapSizeX()/2f;
         camera.update();
 
         //Initializing renderer
-        renderer = new OrthogonalTiledMapRenderer(map, (1/300f));
+        renderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/300f));
         renderer.setView(camera);
 
         //Loading and splitting player sprites
@@ -97,6 +82,7 @@ public class Application extends InputAdapter implements ApplicationListener {
         //Extracted player coordinates
         int playerX = (int) playerPos.x;
         int playerY = (int) playerPos.y;
+        TiledMapTileLayer playerLayer = cellMap.getLayer("player");
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
@@ -104,9 +90,9 @@ public class Application extends InputAdapter implements ApplicationListener {
         playerLayer.setCell(playerX, playerY, normalPlayer);
 
         //Checking if player is touching hole or flag
-        if(holeLayer.getCell(playerX, playerY) != null){
+        if(cellMap.getLayer("hole").getCell(playerX, playerY) != null){
             playerLayer.setCell(playerX, playerY, loosingPlayer);
-        } else if(flagLayer.getCell(playerX, playerY) != null) {
+        } else if(cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
             playerLayer.setCell(playerX, playerY, winningPlayer);
         }
         renderer.render();

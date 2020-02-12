@@ -1,25 +1,19 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-{
+public class ApplicationTest {
     private Application testApp;
 
     @Before
     public void setUp() throws Exception {
         testApp = new Application();
     }
-
 
     @Test
     public void playerPositionUpdatesOnKeyUpTest() {

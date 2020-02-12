@@ -142,5 +142,4 @@ public class Application extends InputAdapter implements ApplicationListener {
     public Vector2 getPlayerPos(){
         return new Vector2(playerPos.x,playerPos.y);
     }
-
 }

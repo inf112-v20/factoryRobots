@@ -1,8 +1,8 @@
-package inf112.skeleton.app;
+package inf112.app;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import inf112.skeleton.app.game.Application;
+import inf112.app.game.Application;
 
 
 public class Main {

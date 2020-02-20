@@ -35,6 +35,7 @@ public class MapCellList {
         }
         return elements;
     }
+
     public MapCell getCell(Position p){
         for (MapCell celle: celleListe){
             if (celle.getPosition().equals(p)){

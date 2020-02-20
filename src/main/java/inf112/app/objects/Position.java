@@ -5,10 +5,10 @@ public class Position {
     private int yCoordinate;
     private Direction direction;
 
-    public Position(int xCoordinate, int yCoordinate, Direction direction) {
+    public Position(int xCoordinate, int yCoordinate) {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
-        this.direction = direction;
+        this.direction = new Direction(DirEnum.NORTH);
     }
 
     public int getXCoordinate() {

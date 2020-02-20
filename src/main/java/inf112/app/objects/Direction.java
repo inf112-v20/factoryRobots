@@ -14,6 +14,11 @@ public class Direction {
         angleDeg = translateEnumToAngle(dir);
     }
 
+    public Direction(int angle){
+        angleDeg = angle;
+        direction = translateAngleToEnum(angle);
+    }
+
     /**
      * Translates enum representation for direction to angle in degrees
      * @param dir Enum corresponding to the direction
@@ -73,5 +78,13 @@ public class Direction {
         Direction direction1 = (Direction) o;
         return Double.compare(direction1.angleDeg, angleDeg) == 0 &&
                 direction == direction1.direction;
+    }
+
+    public enum Rotation {
+        LEFT, RIGHT
+    }
+
+    public enum DirEnum {
+        NORTH, EAST, SOUTH, WEST
     }
 }

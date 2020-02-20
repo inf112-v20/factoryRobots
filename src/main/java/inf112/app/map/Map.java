@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import inf112.app.objects.Wall;
 
 public class Map {
 
@@ -21,6 +22,7 @@ public class Map {
 
     private final int mapSizeX;
     private final int mapSizeY;
+    private MapCellList celleListe;
 
     public Map(String mapName){
         String pathToMap = "assets/" + mapName + ".tmx";
@@ -43,7 +45,11 @@ public class Map {
         MapProperties props = map.getProperties();
         mapSizeX = props.get("width",Integer.class);
         mapSizeY = props.get("height",Integer.class);
-
+        celleListe = new MapCellList(mapSizeX, mapSizeY, map.getLayers());
+        /* Add new object to celleListe
+        MapCell celle = celleListe.getCell(5,5);
+        celle.appendToInventory(new Wall());
+         */
     }
 
     public int getMapSizeX(){

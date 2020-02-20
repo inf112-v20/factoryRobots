@@ -1,5 +1,6 @@
 package inf112.app.map;
 
+import inf112.app.objects.IBoardElement;
 import inf112.app.objects.Position;
 
 public class MapCell {
@@ -25,5 +26,9 @@ public class MapCell {
 
     public void setInventory(CellInventory inventory) {
         this.inventory = inventory;
+    }
+
+    public void appendToInventory(IBoardElement element){
+        this.inventory.addElement(element);
     }
 }

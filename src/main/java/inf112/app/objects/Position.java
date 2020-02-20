@@ -1,6 +1,7 @@
 package inf112.app.objects;
 
 import java.util.Objects;
+import inf112.app.objects.Direction.DirEnum;
 
 public class Position {
     private int xCoordinate;

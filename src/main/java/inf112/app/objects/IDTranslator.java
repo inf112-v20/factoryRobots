@@ -12,7 +12,7 @@ public class IDTranslator{
     public ElemEnum findNameFromId(int id){
         if (id == 5) {
             return ElemEnum.BOARD;
-        } else if (id == 6) {
+        } else if (id == 6 || id == 91 || id == 92 || (id >= 105 && id <= 110) || (id >= 113 && id <= 118)) {
             return ElemEnum.HOLE;
         } else if (id == 7 || id == 15) {
             return ElemEnum.REPAIRSTATION;
@@ -35,8 +35,6 @@ public class IDTranslator{
             return ElemEnum.FLAG;
         } else if (id == 89 || id == 90) {
             return ElemEnum.FIREPIT;
-        } else if (id == 91 || id == 92 || (id >= 105 && id <= 110) || (id >= 113 && id <= 118)) {
-            return ElemEnum.BORDERWALL;
         } else if ((id >= 97 && id <= 100)) {
             return ElemEnum.FLAGPLATFORM;
         } else if ((id >= 121 && id <= 124) || (id >= 126 && id <= 130)) {
@@ -60,7 +58,6 @@ public class IDTranslator{
         COG,
         FLAG,
         FIREPIT,
-        BORDERWALL,
         FLAGPLATFORM,
         STARTINGPLATFORM;
     }

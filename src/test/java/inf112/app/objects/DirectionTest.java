@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import inf112.app.objects.Direction.*;
 
 public class DirectionTest {
     private Direction dir;

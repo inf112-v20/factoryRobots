@@ -15,25 +15,26 @@ import java.util.Iterator;
 public class MapCellList {
     private ArrayList<MapCell> cellList;
     private ArrayList<String> exclusionList;
+    private ObjectFactory factory;
 
     MapCellList(int sizeX, int sizeY, MapLayers layers){
         cellList = new ArrayList<>();
         exclusionList = new ArrayList<>(Arrays.asList("Board","Hole"));
+        factory = new ObjectFactory();
 
         for (int x = 0; x < sizeX; x++) {
             for (int y = 0; y < sizeY; y++) {
                 CellInventory inventory = new CellInventory();
                 inventory.setElements(findObjectsInLayers(x, y, layers));
-                cellList.add(new MapCell(new Position(x, y), new CellInventory()));
+                cellList.add(new MapCell(new Position(x, y), inventory));
             }
         }
     }
 
     private ArrayList<IBoardElement> findObjectsInLayers(int x, int y, MapLayers layers){
-        ObjectFactory factory = new ObjectFactory();
         ArrayList<IBoardElement> elements = new ArrayList<>();
         Iterator<MapLayer> it = layers.iterator();
-        if (it.hasNext()){
+        while(it.hasNext()){
             TiledMapTileLayer layer = (TiledMapTileLayer) it.next();
             if (layer.getCell(x, y) != null && !exclusionList.contains(layer.getName())){
                 TiledMapTile element = layer.getCell(x, y).getTile();

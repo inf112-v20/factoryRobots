@@ -18,10 +18,10 @@ public class IDTranslator{
             return ElemEnum.REPAIRSTATION;
         }  else if ((id >= 9 && id <= 12)) {
             return ElemEnum.PUSHPANEL;
-        }  else if (id == 8 || id == 16 || id == 23 || id == 24 || (id >= 29 && id >= 32) ||
+        }  else if (id == 8 || id == 16 || id == 23 || id == 24 || (id >= 29 && id <= 32) ||
                 id == 37 || id == 38 || id == 45 || id == 46 || id == 87 || (id >= 93 && id <= 95)) {
             return ElemEnum.WALL;
-        } else if (id == 13 || id == 14 || id >= 17 || id <= 22 || (id >= 25 && id <= 28) || (id >= 73 && id <= 78) ||
+        } else if (id == 13 || id == 14 || (id >= 17 && id <= 22) || (id >= 25 && id <= 28) || (id >= 73 && id <= 78) ||
                 (id >= 81 && id <= 86)) {
             return ElemEnum.BELTX2;
         } else if ((id >= 33 && id <= 36) || (id >= 41 && id <= 44) || (id >= 49 && id <= 52) ||

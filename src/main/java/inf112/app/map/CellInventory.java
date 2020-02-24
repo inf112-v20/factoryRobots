@@ -1,6 +1,7 @@
 package inf112.app.map;
 
 import inf112.app.objects.IBoardElement;
+import inf112.app.objects.IDTranslator.ElemEnum;
 
 import java.util.ArrayList;
 

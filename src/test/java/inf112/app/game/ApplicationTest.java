@@ -14,6 +14,8 @@ public class ApplicationTest {
     public void setUp() throws Exception {
         testApp = new Application();
     }
+    // # TODO Functionality moved into player class, redefine tests in PlayerTest
+    /*
 
     @Test
     public void playerPositionUpdatesOnKeyUpTest() {
@@ -57,5 +59,5 @@ public class ApplicationTest {
         testApp.keyUp(Input.Keys.DOWN);
         Vector2 newPos = testApp.getPlayerPos();
         assertEquals(oldPos,newPos);
-    }
+    } */
 }

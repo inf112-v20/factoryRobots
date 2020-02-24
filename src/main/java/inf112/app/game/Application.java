@@ -19,8 +19,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
+import inf112.app.objects.Player;
 
-public class Application extends InputAdapter implements ApplicationListener {
+public class Application implements ApplicationListener {
     private SpriteBatch batch;
     private BitmapFont font;
 
@@ -30,13 +31,15 @@ public class Application extends InputAdapter implements ApplicationListener {
 
     public Map cellMap;
 
-    //Player cells
+    private Player player;
+
+   /* //Player cells
     private Cell normalPlayer;
     private Cell winningPlayer;
     private Cell loosingPlayer;
 
     //Initial player position
-    private Vector2 playerPos = new Vector2(2,2);
+    private Vector2 playerPos = new Vector2(2,2); */
 
     @Override
     public void create() {
@@ -58,16 +61,18 @@ public class Application extends InputAdapter implements ApplicationListener {
         renderer.setView(camera);
 
         //Loading and splitting player sprites
-        Texture spriteMap = new Texture("assets/player.png");
-        TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
+      //  Texture spriteMap = new Texture("assets/player.png");
+      //  TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
 
-        //Assigning individual sprites
+        player = new Player(2, 2, cellMap);
+
+      /*  //Assigning individual sprites
         normalPlayer = new Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
         loosingPlayer = new Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
         winningPlayer = new Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
 
         //Initializing input processor
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(this); */
 
     }
 
@@ -80,20 +85,20 @@ public class Application extends InputAdapter implements ApplicationListener {
     @Override
     public void render() {
         //Extracted player coordinates
-        int playerX = (int) playerPos.x;
-        int playerY = (int) playerPos.y;
+        int playerX = player.getCharacter().getPos().getXCoordinate();
+        int playerY = player.getCharacter().getPos().getYCoordinate();
         TiledMapTileLayer playerLayer = cellMap.getLayer("player");
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         //Setting player sprite to current position
-        playerLayer.setCell(playerX, playerY, normalPlayer);
+        playerLayer.setCell(playerX, playerY, player.getNormal());
 
         //Checking if player is touching hole or flag
         if(cellMap.getLayer("hole").getCell(playerX, playerY) != null){
-            playerLayer.setCell(playerX, playerY, loosingPlayer);
+            playerLayer.setCell(playerX, playerY, player.getLoosing());
         } else if(cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
-            playerLayer.setCell(playerX, playerY, winningPlayer);
+            playerLayer.setCell(playerX, playerY, player.getWinning());
         }
         renderer.render();
         //Remove last player position
@@ -117,7 +122,7 @@ public class Application extends InputAdapter implements ApplicationListener {
      * @param keycode Code for key that is being released
      * @return true if key is being released, false if not
      */
-    @Override
+  /*  @Override
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.LEFT:
@@ -141,5 +146,5 @@ public class Application extends InputAdapter implements ApplicationListener {
 
     public Vector2 getPlayerPos(){
         return new Vector2(playerPos.x,playerPos.y);
-    }
+    } */
 }

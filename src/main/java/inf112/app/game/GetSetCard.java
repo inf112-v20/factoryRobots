@@ -1,7 +1,6 @@
 package inf112.app.game;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 
 /**
@@ -17,7 +16,6 @@ public abstract class GetSetCard {
     String cardMessage;
     BufferedImage mainImage;
     BufferedImage pickImage;
-    BufferedImage pickImageRollover;
 
     /**
      * abstract constructor used by sub-classes
@@ -39,16 +37,14 @@ public abstract class GetSetCard {
      * return cards message
      * @return the cardMessage
      */
-    public String getCardMessage() {
-        return cardMessage;
+    public String getCardMessage() { return cardMessage;
     }
 
     /**
      *
      * @return priority point
      */
-    public int getPoint(){
-        return point;
+    public int getPoint() { return point;
     }
 
     /**
@@ -96,5 +92,13 @@ public abstract class GetSetCard {
      */
     public void setLocked(boolean b) {
         islocked = b;
+    }
+
+    /**
+     * sets card in hidden state
+     * @param b True to set card as hidden, false to show it
+     */
+    public void setHidden(boolean b) {
+        isHidden = b;
     }
 }

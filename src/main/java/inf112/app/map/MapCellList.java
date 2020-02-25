@@ -13,12 +13,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class MapCellList {
-    private ArrayList<MapCell> cellList;
+    private MapCell[][] cellList;
+    // Layer we don't want to create objects from
     private ArrayList<String> exclusionList;
     private ObjectFactory factory;
 
     MapCellList(int sizeX, int sizeY, MapLayers layers){
-        cellList = new ArrayList<>();
+        cellList = new MapCell[sizeX][sizeY];
         exclusionList = new ArrayList<>(Arrays.asList("Board","Hole"));
         factory = new ObjectFactory();
 
@@ -26,7 +27,8 @@ public class MapCellList {
             for (int y = 0; y < sizeY; y++) {
                 CellInventory inventory = new CellInventory();
                 inventory.setElements(findObjectsInLayers(x, y, layers));
-                cellList.add(new MapCell(new Position(x, y), inventory));
+                //cellList.add(new MapCell(new Position(x, y), inventory));
+                cellList[x][y] = new MapCell(new Position(x, y), inventory);
             }
         }
     }
@@ -46,20 +48,16 @@ public class MapCellList {
     }
 
     public MapCell getCell(Position p){
-        for (MapCell celle: cellList){
-            if (celle.getPosition().equals(p)){
-                return celle;
-            }
-        }
-        return null;
+        return cellList[p.getXCoordinate()][p.getYCoordinate()];
     }
+
     public MapCell getCell(int x, int y){
         Position p = new Position(x,y);
         return getCell(p);
     }
 
     private void setCell(Position p, CellInventory inventory){
-        cellList.add(new MapCell(p, inventory));
+        cellList[p.getXCoordinate()][p.getYCoordinate()] = new MapCell(p, inventory);
     }
     private void setCell(int x, int y, CellInventory inventory){
         Position p = new Position(x,y);

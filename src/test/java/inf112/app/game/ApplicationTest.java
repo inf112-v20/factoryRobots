@@ -1,18 +1,14 @@
 package inf112.app.game;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
 import org.junit.Before;
-import org.junit.Test;
 
-import static org.junit.Assert.*;
 
 public class ApplicationTest {
-    private Application testApp;
+   // private Application testApp;
 
     @Before
     public void setUp() throws Exception {
-        testApp = new Application();
+       // testApp = new Application();
     }
     // # TODO Functionality moved into player class, redefine tests in PlayerTest
     /*

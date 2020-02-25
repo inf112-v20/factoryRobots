@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import inf112.app.objects.Direction;
 import inf112.app.objects.IBoardElement;
 import inf112.app.objects.Position;
 import inf112.app.objects.Wall;

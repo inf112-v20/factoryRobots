@@ -2,11 +2,11 @@ package inf112.app.objects;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import inf112.app.objects.Direction.*;
 
 public class PositionTest {
-    Position pos;
+    private Position pos;
 
     @Before
     public void setUp() throws Exception {

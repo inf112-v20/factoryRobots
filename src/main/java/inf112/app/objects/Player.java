@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
-import inf112.app.objects.Direction.*;
+import inf112.app.objects.Direction.Rotation;
 
 public class Player extends InputAdapter {
     private Robot character;
@@ -26,9 +26,9 @@ public class Player extends InputAdapter {
         //Initializing input processor
         Gdx.input.setInputProcessor(this);
 
-        vectorPos = new Vector2(2,2);
+        vectorPos = new Vector2(x,y);
         this.map = map;
-        character = new Robot(new Position(2,2), this.map);
+        character = new Robot(new Position(x,y), this.map);
     }
 
     public void loadPlayerSprites(String charName){
@@ -72,23 +72,19 @@ public class Player extends InputAdapter {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.LEFT:
-                //vectorPos.add(-1,0);
                 character.turn(Rotation.LEFT);
                 character.move(1);
                 character.turn(Rotation.RIGHT);
                 break;
             case Input.Keys.RIGHT:
-                //vectorPos.add(1,0);
                 character.turn(Rotation.RIGHT);
                 character.move(1);
                 character.turn(Rotation.LEFT);
                 break;
             case Input.Keys.UP:
-                //vectorPos.add(0,1);
                 character.move(1);
                 break;
             case Input.Keys.DOWN: //temporary
-               // vectorPos.add(0,-1);
                 character.turn(Rotation.LEFT);
                 character.turn(Rotation.LEFT);
                 character.move(1);

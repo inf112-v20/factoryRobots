@@ -3,7 +3,8 @@ package inf112.app.objects;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import inf112.app.objects.Direction.*;
+import inf112.app.objects.Direction.DirEnum;
+import inf112.app.objects.Direction.Rotation;
 
 public class PositionTest {
     private Position pos;

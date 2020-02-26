@@ -20,4 +20,5 @@ public class DirectionTest {
         dir.turn(Rotation.RIGHT);
         assertEquals(expectedDir,dir);
     }
+
 }

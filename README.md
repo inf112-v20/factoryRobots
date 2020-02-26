@@ -3,7 +3,6 @@
 # INF112 Robo Rally
 This project uses:
 *   Java 8
-*   Java 8
 *   JUnit 4
 *   Maven
  

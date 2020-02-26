@@ -33,5 +33,10 @@ public class Laser{
                 }
 
        }
+givedamage som kaller på player og takedamage
+       takeDamage obje
+
+               metode i player GIVEDAMAGE
+               lage stripe, også si at hvis treffer spiller eller vegg så stopper den
    }
 }

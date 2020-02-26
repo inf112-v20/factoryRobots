@@ -12,16 +12,16 @@ public class IDTranslator{
     public ElemEnum findNameFromId(int id){
         if (id == 5) {
             return ElemEnum.BOARD;
-        } else if (id == 6) {
+        } else if (id == 6 || id == 91 || id == 92 || (id >= 105 && id <= 110) || (id >= 113 && id <= 118)) {
             return ElemEnum.HOLE;
         } else if (id == 7 || id == 15) {
             return ElemEnum.REPAIRSTATION;
         }  else if ((id >= 9 && id <= 12)) {
             return ElemEnum.PUSHPANEL;
-        }  else if (id == 8 || id == 16 || id == 23 || id == 24 || (id >= 29 && id >= 32) ||
+        }  else if (id == 8 || id == 16 || id == 23 || id == 24 || (id >= 29 && id <= 32) ||
                 id == 37 || id == 38 || id == 45 || id == 46 || id == 87 || (id >= 93 && id <= 95)) {
             return ElemEnum.WALL;
-        } else if (id == 13 || id == 14 || id >= 17 || id <= 22 || (id >= 25 && id <= 28) || (id >= 73 && id <= 78) ||
+        } else if (id == 13 || id == 14 || (id >= 17 && id <= 22) || (id >= 25 && id <= 28) || (id >= 73 && id <= 78) ||
                 (id >= 81 && id <= 86)) {
             return ElemEnum.BELTX2;
         } else if ((id >= 33 && id <= 36) || (id >= 41 && id <= 44) || (id >= 49 && id <= 52) ||
@@ -35,8 +35,6 @@ public class IDTranslator{
             return ElemEnum.FLAG;
         } else if (id == 89 || id == 90) {
             return ElemEnum.FIREPIT;
-        } else if (id == 91 || id == 92 || (id >= 105 && id <= 110) || (id >= 113 && id <= 118)) {
-            return ElemEnum.BORDERWALL;
         } else if ((id >= 97 && id <= 100)) {
             return ElemEnum.FLAGPLATFORM;
         } else if ((id >= 121 && id <= 124) || (id >= 126 && id <= 130)) {
@@ -60,7 +58,6 @@ public class IDTranslator{
         COG,
         FLAG,
         FIREPIT,
-        BORDERWALL,
         FLAGPLATFORM,
         STARTINGPLATFORM;
     }

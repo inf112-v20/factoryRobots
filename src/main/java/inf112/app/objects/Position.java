@@ -1,6 +1,7 @@
 package inf112.app.objects;
 
 import java.util.Objects;
+import inf112.app.objects.Direction.DirEnum;
 
 public class Position {
     private int xCoordinate;
@@ -19,6 +20,43 @@ public class Position {
         this.direction = direction;
     }
 
+    public void moveInDirection(){
+        switch(direction.getDirEnum()){
+            case NORTH:
+                moveNorth();
+                break;
+            case EAST:
+                moveEast();
+                break;
+            case SOUTH:
+                moveSouth();
+                break;
+            case WEST:
+                moveWest();
+                break;
+            default: throw new IllegalArgumentException("Unrecognized direction enum");
+        }
+    }
+
+    private void moveSouth() {
+        int currentY = getYCoordinate();
+        setYCoordinate(currentY - 1);
+    }
+
+    private void moveWest() {
+        int currentX = getXCoordinate();
+        setXCoordinate(currentX - 1);
+    }
+
+    private void moveEast() {
+        int currentX = getXCoordinate();
+        setXCoordinate(currentX + 1);
+    }
+
+    private void moveNorth(){
+        int currentY = getYCoordinate();
+        setYCoordinate(currentY + 1);
+    }
 
     public int getXCoordinate() {
         return xCoordinate;
@@ -57,5 +95,18 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(xCoordinate, yCoordinate, getDirection());
+    }
+
+    public Position copyOf(){
+        return new Position(xCoordinate,yCoordinate,direction);
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "xCoordinate=" + xCoordinate +
+                ", yCoordinate=" + yCoordinate +
+                ", direction=" + direction +
+                '}';
     }
 }

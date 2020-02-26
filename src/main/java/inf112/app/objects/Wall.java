@@ -1,7 +1,6 @@
 package inf112.app.objects;
 import inf112.app.objects.Direction.Rotation;
 
-import inf112.app.objects.Direction.Rotation;
 
 public class Wall implements IBoardElement{
     private Direction[] facing;

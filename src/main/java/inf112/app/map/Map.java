@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.objects.IBoardElement;
+import inf112.app.objects.Player;
 import inf112.app.objects.Position;
 import inf112.app.objects.Wall;
 
@@ -27,10 +28,11 @@ public class Map {
     private final int mapSizeX;
     private final int mapSizeY;
     private MapCellList cellList;
+    private Player player; //to be replaced by PlayerList later
 
     public Map(String mapName){
         String pathToMap = "assets/" + mapName + ".tmx";
-
+        System.out.println(pathToMap);
         //Loading map
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load(pathToMap);
@@ -54,6 +56,10 @@ public class Map {
         MapCell celle = celleListe.getCell(5,5);
         celle.appendToInventory(new Wall());
          */
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public int getMapSizeX(){

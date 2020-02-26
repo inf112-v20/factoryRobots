@@ -28,7 +28,7 @@ public class MapCellTest {
      */
     @Test
     public void getPosition() {
-        assertEquals(this.cell.getPosition(), pos);
+        assertEquals("Failure - Position is not the same",this.cell.getPosition(), pos);
     }
 
     /**
@@ -39,7 +39,7 @@ public class MapCellTest {
         Direction dirNew = new Direction(Direction.DirEnum.SOUTH);
         Position posNew = new Position(1,2, dirNew);
         this.cell.setPosition(posNew);
-        assertNotEquals(this.pos, posNew);
+        assertNotEquals("Failure - Position is not the same",this.pos, posNew);
     }
 
     /**
@@ -47,7 +47,7 @@ public class MapCellTest {
      */
     @Test
     public void getInventory() {
-        assertEquals(this.cell.getInventory(), this.inventory);
+        assertEquals("Failure - Inventory is not the same",this.cell.getInventory(), this.inventory);
     }
 
     /**
@@ -58,7 +58,7 @@ public class MapCellTest {
         CellInventory inventoryNew = new CellInventory();
         inventoryNew.addElement(new Flag(1));
         this.cell.setInventory(inventoryNew);
-        assertNotEquals(this.inventory, inventoryNew);
+        assertNotEquals("Failure - Inventory is not the same",this.inventory, inventoryNew);
     }
 
     /**
@@ -68,6 +68,6 @@ public class MapCellTest {
     public void appendToInventory() {
         Flag flag = new Flag(1);
         this.cell.appendToInventory(flag);
-        assertEquals(this.cell.getInventory().getElement(flag), flag);
+        assertEquals("Failure - Inventory is not the same", this.cell.getInventory().getElement(flag), flag);
     }
 }

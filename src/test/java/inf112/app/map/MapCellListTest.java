@@ -23,7 +23,7 @@ public class MapCellListTest {
     }
 
     /**
-     *
+     * Tests if getCell from position return the correct item
      */
     @Test
     public void getCellFromPosition() {
@@ -37,7 +37,7 @@ public class MapCellListTest {
     }
 
     /**
-     *
+     * Tests if getCell from x,y coordinate return the correct item
      */
     @Test
     public void GetCellFromXY() {

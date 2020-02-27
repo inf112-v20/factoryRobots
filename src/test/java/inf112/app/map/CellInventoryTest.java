@@ -32,23 +32,27 @@ public class CellInventoryTest {
         inventory.addElement(flag);
     }
 
+    /**
+     * Tests if function inventory returns the correct element in the array (By element)
+     */
     @Test
     public void getElementByElement() {
         assertEquals("Failure - could not get element in array by element"
                 , this.inventory.getElement(new Flag(1)), flag);
     }
 
+    /**
+     * Tests if function inventory returns the correct element in the array (By index)
+     */
     @Test
     public void getElementByIndex() {
         assertEquals("Failure - could not get element in array by index"
                 , this.inventory.getElement(0), flag);
     }
 
-    @Test
-    public void getElements() {
-        assertEquals("Failure - could not get elements from array ", this.inventory.getElement(0), flag);
-    }
-
+    /**
+     * Tests if function inventory can correctly set element. Also test index out of bounds
+     */
     @Test
     public void setElement() {
         this.inventory.setElement(0, new Flag(2));
@@ -58,6 +62,9 @@ public class CellInventoryTest {
         inventory.setElement(2,new Flag(2));
     }
 
+    /**
+     * Tests if one can set multiple elements in the inventory
+     */
     @Test
     public void setElements() {
         ArrayList<IBoardElement> list = new ArrayList<>();
@@ -70,6 +77,9 @@ public class CellInventoryTest {
                 , list, listExpect);
     }
 
+    /**
+     * Test if on can add an element to the inventory
+     */
     @Test
     public void addElement() {
         this.inventory.addElement(new Flag(2));

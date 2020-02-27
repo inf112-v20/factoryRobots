@@ -52,10 +52,6 @@ public class Map {
         mapSizeX = props.get("width",Integer.class);
         mapSizeY = props.get("height",Integer.class);
         cellList = new MapCellList(mapSizeX, mapSizeY, map.getLayers());
-        /* Add new object to celleListe
-        MapCell celle = celleListe.getCell(5,5);
-        celle.appendToInventory(new Wall());
-         */
     }
 
     public Player getPlayer() {

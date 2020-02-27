@@ -17,9 +17,6 @@ public class MapTest {
     Map objectMap;
     TiledMap map;
 
-    /**
-     *
-     */
     @Before
     public void setUp() throws Exception {
         TmxMapLoader loader = new TmxMapLoader();
@@ -28,7 +25,7 @@ public class MapTest {
     }
 
     /**
-     *
+     * Test if map row size is correct
      */
     @Test
     public void getMapSizeX() {
@@ -36,7 +33,7 @@ public class MapTest {
     }
 
     /**
-     *
+     * Test if map column size is correct
      */
     @Test
     public void getMapSizeY() {
@@ -44,7 +41,7 @@ public class MapTest {
     }
 
     /**
-     *
+     * Test if the map is the same as the original gdx function
      */
     @Test
     public void getMap() {
@@ -52,7 +49,7 @@ public class MapTest {
     }
 
     /**
-     *
+     * Get all layers and compare them by name
      */
     @Test
     public void getLayer() {
@@ -85,7 +82,7 @@ public class MapTest {
     }
 
     /**
-     *
+     * Check for valid move. Test map is 15 by 15 in size.
      */
     @Test
     public void validMove() {

@@ -1,19 +1,6 @@
 ## Manual tests
 
 ### Player tests
-#### Testing movement triggered by keypress
-How: Run the application, player spawns at position (2,2). <br>
-1. Expect: Player moves to position (2,3) after key press UP 
-<br>  Actual: Key press UP triggers player to move to position (2,3) <br> 
-2. Expect: Player moves to position (3,3) after key press RIGHT 
-<br>  Actual: Key press RIGHT triggers player to move to position (3,3) <br>
-3. Expect: Player moves to position (2,2) after key press LEFT 
-<br>  Actual: Key press LEFT triggers player to move to position (2,2) <br>
-4. Expect: Player moves to position (2,2) after key press DOWN 
-<br>  Actual: Key press DOWN triggers player to move to position (2,2) <br>
-
-* All tests passed
-
 #### Testing that walls block player movement
 How: Run the application using testMap (standard), player spawns at position (2,2). <br>
 Move player next to a wall section (position (3,6)) with a wall above it.

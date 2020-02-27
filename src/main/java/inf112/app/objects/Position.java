@@ -3,23 +3,43 @@ package inf112.app.objects;
 import java.util.Objects;
 import inf112.app.objects.Direction.DirEnum;
 
+/**
+ * Class for representing the objects position on the grid
+ * as well as its direction
+ */
 public class Position {
     private int xCoordinate;
     private int yCoordinate;
     private Direction direction;
 
+    /**
+     * Constructor where you only pass coordinates,
+     * sets the facing direction to the standard: NORTH/UP
+     * @param xCoordinate Horizontal coordinate from the left
+     * @param yCoordinate Vertical coordinate from the bottom
+     */
     public Position(int xCoordinate, int yCoordinate) {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.direction = new Direction(DirEnum.NORTH);
     }
 
+    /**
+     * Constructor where you can set the direction as well as coordinates
+     * @param xCoordinate Horizontal coordinate from the left
+     * @param yCoordinate Vertical coordinate from the bottom
+     * @param direction Which direction the object should be facing
+     */
     public Position(int xCoordinate, int yCoordinate, Direction direction) {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.direction = direction;
     }
 
+    /**
+     * Moves the object in the direction it is currently facing
+     * @throws IllegalArgumentException if the enum is unrecognized
+     */
     public void moveInDirection(){
         switch(direction.getDirEnum()){
             case NORTH:
@@ -38,21 +58,31 @@ public class Position {
         }
     }
 
+    /**
+     * Moves the object down/south
+     */
     private void moveSouth() {
         int currentY = getYCoordinate();
         setYCoordinate(currentY - 1);
     }
 
+    /**
+     * Moves the object left/west
+     */
     private void moveWest() {
         int currentX = getXCoordinate();
         setXCoordinate(currentX - 1);
     }
-
+    /**
+     * Moves the object right/east
+     */
     private void moveEast() {
         int currentX = getXCoordinate();
         setXCoordinate(currentX + 1);
     }
-
+    /**
+     * Moves the object up/north
+     */
     private void moveNorth(){
         int currentY = getYCoordinate();
         setYCoordinate(currentY + 1);

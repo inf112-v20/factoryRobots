@@ -27,7 +27,6 @@ public class MapCellList {
             for (int y = 0; y < sizeY; y++) {
                 CellInventory inventory = new CellInventory();
                 inventory.setElements(findObjectsInLayers(x, y, layers));
-                //cellList.add(new MapCell(new Position(x, y), inventory));
                 cellList[x][y] = new MapCell(new Position(x, y), inventory);
             }
         }

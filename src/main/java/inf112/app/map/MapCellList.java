@@ -62,4 +62,17 @@ public class MapCellList {
         Position p = new Position(x,y);
         setCell(p, inventory);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MapCellList)) return false;
+        MapCellList that = (MapCellList) o;
+        return Arrays.equals(cellList, that.cellList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(cellList);
+    }
 }

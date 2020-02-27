@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
+/**
+ * Class for generating and holding all the cells in the map
+ * Uses the {@link ObjectFactory} to extract the objects from the TiledMap
+ * and fill the cells with them.
+ */
 public class MapCellList {
     private MapCell[][] cellList;
     // Layer we don't want to create objects from
@@ -32,6 +37,14 @@ public class MapCellList {
         }
     }
 
+    /**
+     * Goes through all the layers (not in exclusionList) at a certain
+     * coordinate to extract the objects found and return them
+     * @param x coordinate
+     * @param y coordinate
+     * @param layers of the map
+     * @return ArrayList of the objects found at the coordinates
+     */
     private ArrayList<IBoardElement> findObjectsInLayers(int x, int y, MapLayers layers){
         ArrayList<IBoardElement> elements = new ArrayList<>();
         Iterator<MapLayer> it = layers.iterator();

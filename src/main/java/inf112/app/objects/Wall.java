@@ -1,7 +1,9 @@
 package inf112.app.objects;
 import inf112.app.objects.Direction.Rotation;
 
-
+/**
+ * Class representing a Wall block on the map
+ */
 public class Wall implements IBoardElement{
     private Direction[] facing;
     private boolean hasLaser;

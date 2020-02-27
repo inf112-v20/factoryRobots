@@ -5,6 +5,9 @@ import inf112.app.objects.IBoardElement;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class which cells use to keep track of it's contents
+ */
 public class CellInventory {
     private ArrayList<IBoardElement> elements;
     public CellInventory() {

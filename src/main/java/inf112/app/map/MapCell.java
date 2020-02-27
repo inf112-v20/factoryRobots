@@ -5,6 +5,10 @@ import inf112.app.objects.Position;
 
 import java.util.Objects;
 
+/**
+ * Class that represents a cell on the map grid
+ * holding relevant information such as coordinates and contents
+ */
 public class MapCell {
     private Position position;
     private CellInventory inventory;

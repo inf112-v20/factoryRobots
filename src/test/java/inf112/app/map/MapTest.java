@@ -14,8 +14,8 @@ import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class MapTest {
-    Map objectMap;
-    TiledMap map;
+    private Map objectMap;
+    private TiledMap map;
 
     @Before
     public void setUp() throws Exception {
@@ -55,6 +55,8 @@ public class MapTest {
         TiledMapTileLayer laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser");
         TiledMapTileLayer utilityLayer = (TiledMapTileLayer) map.getLayers().get("Utility");
 
+        assertEquals("Failure - board layer is not the same",
+                this.objectMap.getLayer("board").getName(), boardLayer.getName());
         assertEquals("Failure - hole layer is not the same",
                 this.objectMap.getLayer("hole").getName(), holeLayer.getName());
         assertEquals("Failure - flag layer is not the same",

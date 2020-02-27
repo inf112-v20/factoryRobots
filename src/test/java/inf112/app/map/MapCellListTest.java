@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class MapCellListTest {
-    MapCellList cellList;
+    private MapCellList cellList;
     @Before
     public void setUp() throws Exception {
         TmxMapLoader loader = new TmxMapLoader();
@@ -40,11 +40,10 @@ public class MapCellListTest {
      * Tests if getCell from x,y coordinate return the correct item
      */
     @Test
-    public void GetCellFromXY() {
+    public void getCellFromXY() {
         CellInventory inventory = new CellInventory();
         inventory.addElement(new Flag(1));
         CellInventory inventoryCell = cellList.getCell(11,11).getInventory();
-        Boolean test = inventory.equals(inventoryCell);
         assertEquals("Failure - Inventories are not equal", inventory, inventoryCell);
         assertEquals("Failure - Cell is not equal", cellList.getCell(11,11),
                 new MapCell(new Position(11,11), inventory));

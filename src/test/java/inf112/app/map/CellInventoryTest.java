@@ -17,16 +17,14 @@ import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class CellInventoryTest {
-    CellInventory inventory;
-    Flag flag;
+    private CellInventory inventory;
+    private Flag flag;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
-        TmxMapLoader loader = new TmxMapLoader();
-        TiledMap map = loader.load("assets/testMap.tmx");
         inventory = new CellInventory();
         flag = new Flag(1);
         inventory.addElement(flag);

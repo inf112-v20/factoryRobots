@@ -10,10 +10,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class MapCellTest {
-    MapCell cell;
-    Direction dir;
-    Position pos;
-    CellInventory inventory;
+    private MapCell cell;
+    private Direction dir;
+    private Position pos;
+    private CellInventory inventory;
 
     @Before
     public void setUp() throws Exception {

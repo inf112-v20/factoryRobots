@@ -7,45 +7,31 @@ import java.awt.image.BufferedImage;
  *
  * Class for all the cards in the game
  */
-public abstract class GetSetCard {
+public abstract class CardStatus implements Comparable {
 
     private final int point;
     private boolean isHidden;
     private boolean islocked;
-    private final String name;
-    String cardMessage;
     BufferedImage mainImage;
     BufferedImage pickImage;
 
     /**
      * abstract constructor used by sub-classes
      * @param point The amount of priority points the card should have
-     * @param name The name of the card.
      */
-    GetSetCard(int point, String name) {
+    public CardStatus(int point) {
         this.point = point;
         this.isHidden = false;
         this.islocked = false;
-        this.name = name;
 
     }
-    /**
-     * functions to get card information
-     */
 
-    /**
-     * return cards message
-     * @return the cardMessage
-     */
-    public String getCardMessage() { return cardMessage;
-    }
 
     /**
      *
      * @return priority point
      */
-    public int getPoint() { return point;
-    }
+    public int getPoint() { return point; }
 
     /**
      * Returns the main icon for the card
@@ -100,5 +86,10 @@ public abstract class GetSetCard {
      */
     public void setHidden(boolean b) {
         isHidden = b;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.point - ((CardStatus) o).point;
     }
 }

@@ -18,7 +18,7 @@ public class PositionTest {
     public void moveInDirectionNorthTest() {
         Position target = new Position(3,4,new Direction(DirEnum.NORTH));
         pos.moveInDirection();
-        assertEquals(target,pos);
+        assertEquals("Failure, positions should be the same", target, pos);
     }
 
     @Test
@@ -26,7 +26,7 @@ public class PositionTest {
         pos.getDirection().turn(Rotation.RIGHT);
         Position target = new Position(4,3,new Direction(DirEnum.EAST));
         pos.moveInDirection();
-        assertEquals(target,pos);
+        assertEquals("Failure, positions should be the same", target, pos);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class PositionTest {
         pos.getDirection().turn(Rotation.RIGHT);
         Position target = new Position(3,2,new Direction(DirEnum.SOUTH));
         pos.moveInDirection();
-        assertEquals(target,pos);
+        assertEquals("Failure, positions should be the same", target, pos);
     }
 
     @Test
@@ -43,6 +43,6 @@ public class PositionTest {
         pos.getDirection().turn(Rotation.LEFT);
         Position target = new Position(2,3,new Direction(DirEnum.WEST));
         pos.moveInDirection();
-        assertEquals(target,pos);
+        assertEquals("Failure, positions should be the same", target, pos);
     }
 }

@@ -30,28 +30,28 @@ public class ObjectFactoryTest {
     public void generateWallTest() {
         TiledMapTile tile = map.getLayer("wall").getCell(3,7).getTile();
         IBoardElement actual = factory.generateObject(tile);
-        assert actual instanceof Wall;
+        assertTrue("Failure, object should be instance of Wall", actual instanceof Wall);
     }
 
     @Test
     public void generateFlagTest() {
         TiledMapTile tile = map.getLayer("flag").getCell(11,11).getTile();
         IBoardElement actual = factory.generateObject(tile);
-        assert actual instanceof Flag;
+        assertTrue("Failure, object should be instance of Flag",actual instanceof Flag);
     }
 
     @Test
     public void generateConveyorTest() {
         TiledMapTile tile = map.getLayer("conveyor").getCell(7,4).getTile();
         IBoardElement actual = factory.generateObject(tile);
-        assert actual instanceof Conveyor;
+        assertTrue("Failure, object should be instance of Conveyor",actual instanceof Conveyor);
     }
 
     @Test
     public void generateRepairStationTest() {
         TiledMapTile tile = map.getLayer("utility").getCell(4,10).getTile();
         IBoardElement actual = factory.generateObject(tile);
-        assert actual instanceof RepairStation;
+        assertTrue("Failure, object should be instance of RepairStation",actual instanceof RepairStation);
     }
 
 

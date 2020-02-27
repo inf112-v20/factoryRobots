@@ -16,42 +16,42 @@ public class IDTranslatorTest {
 
     @Test
     public void findWallFromWallIdTest() {
-        assertEquals(ElemEnum.WALL,translator.findNameFromId(29));
+        assertEquals("Failure, enum should be WALL",ElemEnum.WALL,translator.findNameFromId(29));
     }
 
     @Test
     public void findConveyorFromConveyorIdTest() {
-        assertEquals(ElemEnum.BELTX2,translator.findNameFromId(18));
+        assertEquals("Failure, enum should be BELTX2",ElemEnum.BELTX2,translator.findNameFromId(18));
     }
 
     @Test
     public void findFlagFromFlagIdTest() {
-        assertEquals(ElemEnum.FLAG,translator.findNameFromId(55));
+        assertEquals("Failure, enum should be FLAG", ElemEnum.FLAG,translator.findNameFromId(55));
     }
 
     @Test
     public void findHoleFromHoleIdTest() {
-        assertEquals(ElemEnum.HOLE,translator.findNameFromId(6));
+        assertEquals("Failure, enum should be HOLE", ElemEnum.HOLE,translator.findNameFromId(6));
     }
 
     @Test
     public void findCogFromCogIdTest() {
-        assertEquals(ElemEnum.COG,translator.findNameFromId(53));
+        assertEquals("Failure, enum should be COG",ElemEnum.COG,translator.findNameFromId(53));
     }
 
     @Test
     public void findLaserFromLaserIdTest() {
-        assertEquals(ElemEnum.LASER,translator.findNameFromId(39));
+        assertEquals("Failure, enum should be LASER",ElemEnum.LASER,translator.findNameFromId(39));
     }
 
     @Test
     public void findBoardFromBoardIdTest() {
-        assertEquals(ElemEnum.BOARD,translator.findNameFromId(5));
+        assertEquals("Failure, enum should be BOARD",ElemEnum.BOARD,translator.findNameFromId(5));
     }
 
     @Test
     public void findRepairStationFromRepairStationIDTest() {
-        assertEquals(ElemEnum.REPAIRSTATION,translator.findNameFromId(7));
+        assertEquals("Failure, enum should be REPAIRSTATION",ElemEnum.REPAIRSTATION,translator.findNameFromId(7));
     }
 
 }

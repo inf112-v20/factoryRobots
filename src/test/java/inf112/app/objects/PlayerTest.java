@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 
 @RunWith(GdxTestRunner.class)
@@ -23,14 +24,12 @@ public class PlayerTest {
 
     @Test
     public void playerPositionUpdatesOnKeyUpTest() {
-        Position oldPos = player.getCharacter().getPos();
+        Position oldPos = player.getCharacter().getPos().copyOf();
         player.keyUp(Input.Keys.LEFT);
         Position newPos = player.getCharacter().getPos();
-        assertNotEquals(oldPos,newPos);
+        assertNotEquals("Failure, positions different", oldPos, newPos);
     }
 
-    private void assertNotEquals(Position oldPos, Position newPos) {
-    }
 
     @Test
     public void playerPositionUpdatesUp() {
@@ -38,7 +37,7 @@ public class PlayerTest {
         oldPos.moveInDirection();
         player.keyUp(Input.Keys.UP);
         Position newPos = player.getCharacter().getPos();
-        assertEquals("Positions are not the same",oldPos,newPos);
+        assertEquals("Failure, positions should be the same", oldPos, newPos);
     }
 
     @Test
@@ -49,7 +48,7 @@ public class PlayerTest {
         oldPos.getDirection().turn(Rotation.LEFT);
         player.keyUp(Input.Keys.RIGHT);
         Position newPos = player.getCharacter().getPos();
-        assertEquals("Positions are not the same", oldPos,newPos);
+        assertEquals("Failure, positions should be the same", oldPos,newPos);
     }
 
     @Test
@@ -60,7 +59,7 @@ public class PlayerTest {
         oldPos.getDirection().turn(Rotation.RIGHT);
         player.keyUp(Input.Keys.LEFT);
         Position newPos = player.getCharacter().getPos();
-        assertEquals("Positions are not the same", oldPos,newPos);
+        assertEquals("Failure, positions should be the same", oldPos,newPos);
     }
 
     @Test
@@ -73,6 +72,6 @@ public class PlayerTest {
         oldPos.getDirection().turn(Rotation.LEFT);
         player.keyUp(Input.Keys.DOWN);
         Position newPos = player.getCharacter().getPos();
-        assertEquals("Positions are not the same", oldPos,newPos);
+        assertEquals("Failure, positions should be the same", oldPos,newPos);
     }
 }

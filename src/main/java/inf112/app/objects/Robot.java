@@ -1,6 +1,5 @@
 package inf112.app.objects;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
@@ -9,7 +8,7 @@ import inf112.app.objects.Direction.Rotation;
  * This class is a representation of the robots
  * on the board
  */
-public class Robot extends Game {
+public class Robot implements IBoardElement {
     private Map map;
     private Position pos;
     private Vector2 vectorPos;
@@ -18,11 +17,6 @@ public class Robot extends Game {
         this.pos = pos;
         this.map = map;
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
-    }
-
-    @Override
-    public void create() {
-
     }
 
     /**

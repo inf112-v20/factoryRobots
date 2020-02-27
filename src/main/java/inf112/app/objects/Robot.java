@@ -1,25 +1,23 @@
 package inf112.app.objects;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
 
 /**
- * this class is a representation of the robots
+ * This class is a representation of the robots
  * on the board
  */
 public class Robot extends Game {
     private Map map;
     private Position pos;
+    private Vector2 vectorPos;
 
-    /**
-     * constructor for the robot
-     * @param pos
-     * @param map
-     */
     public Robot(Position pos, Map map){
         this.pos = pos;
         this.map = map;
+        vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
     }
 
     @Override
@@ -28,8 +26,8 @@ public class Robot extends Game {
     }
 
     /**
-     * method to change the possition of the robot
-     * @param steps
+     * Method to move the robot forward in the direction it is facing
+     * @param steps Number of steps the robot should take
      */
     public void move(int steps){
         while(steps!=0){
@@ -38,19 +36,17 @@ public class Robot extends Game {
                 pos.moveInDirection();
             }
         }
+        vectorPos.set(pos.getXCoordinate(), pos.getYCoordinate());
     }
 
     /**
-     * method to change the direction of the robot
-     * @param r
+     * Method to change the direction of the robot
+     * @param r Enum for which direction the robot should turn, either LEFT or RIGHT
      */
     public void turn(Rotation r){
         pos.getDirection().turn(r);
     }
 
-    /**
-     * @return the position of the robot
-     */
     public Position getPos() {
         return pos;
     }

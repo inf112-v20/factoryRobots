@@ -98,4 +98,14 @@ public class Player extends InputAdapter {
         vectorPos.set(character.getPos().getXCoordinate(), character.getPos().getYCoordinate());
         return false;
     }
+
+    public void move(int steps){
+        character.move(steps);
+        vectorPos.set(character.getPos().getXCoordinate(), character.getPos().getYCoordinate());
+    }
+
+    public void turn(Rotation rot){
+        character.turn(rot);
+        vectorPos.set(character.getPos().getXCoordinate(), character.getPos().getYCoordinate());
+    }
 }

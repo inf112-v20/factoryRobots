@@ -1,5 +1,6 @@
 package inf112.app.objects;
 
-public interface Iplayer {
+
+public class ConveyorTest {
 
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.objects.IBoardElement;
+import inf112.app.objects.Player;
 import inf112.app.objects.Position;
 import inf112.app.objects.Wall;
 
@@ -55,6 +56,7 @@ public class Map {
         celle.appendToInventory(new Wall());
          */
     }
+
 
     public int getMapSizeX(){
         return mapSizeX;

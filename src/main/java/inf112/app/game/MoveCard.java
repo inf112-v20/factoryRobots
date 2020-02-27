@@ -50,5 +50,11 @@ public class MoveCard extends CardStatus implements ICard  {
         }
     }
 
+    public int getSteps() {
+        return steps;
+    }
 
+    public boolean isBackUp() {
+        return backUp;
+    }
 }

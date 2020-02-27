@@ -46,4 +46,12 @@ public class RotateCard extends CardStatus implements ICard {
             player.turn(rotation);
         }
     }
+
+    public Rotation getRotation() {
+        return rotation;
+    }
+
+    public boolean isUTurn() {
+        return uTurn;
+    }
 }

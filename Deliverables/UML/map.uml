@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>inf112.app.map</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">inf112.app.map.Map</node>
+    <node x="398.0" y="0.0">inf112.app.map.CellInventory</node>
+    <node x="515.0" y="603.0">inf112.app.map.MapTest</node>
+    <node x="0.0" y="825.0">inf112.app.map.MapCellListTest</node>
+    <node x="264.0" y="603.0">inf112.app.map.MapCellTest</node>
+    <node x="0.0" y="603.0">inf112.app.map.CellInventoryTest</node>
+    <node x="490.0" y="312.0">inf112.app.map.MapCell</node>
+    <node x="0.0" y="312.0">inf112.app.map.MapCellList</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="178.5" y="666.5" />
+  <SelectedNodes>
+    <node>inf112.app.map.Map</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

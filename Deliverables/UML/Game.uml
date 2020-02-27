@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>inf112.app.game</OriginalElement>
+  <nodes>
+    <node x="234.0" y="93.0">inf112.app.game.ICard</node>
+    <node x="222.0" y="293.0">inf112.app.game.MoveCard</node>
+    <node x="0.0" y="293.0">inf112.app.game.RotateCard</node>
+    <node x="0.0" y="533.0">inf112.app.game.MoveCardTest</node>
+    <node x="734.0" y="0.0">inf112.app.game.Application</node>
+    <node x="560.0" y="533.0">inf112.app.game.CardDeckTest</node>
+    <node x="460.0" y="0.0">inf112.app.game.CardDeck</node>
+    <node x="278.0" y="533.0">inf112.app.game.RotateCardTest</node>
+    <node x="0.0" y="731.0">inf112.app.game.CardStatusTest</node>
+    <node x="4.75" y="0.0">inf112.app.game.CardStatus</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="inf112.app.game.RotateCard" target="inf112.app.game.CardStatus">
+      <point x="-50.5" y="-97.5" />
+      <point x="-45.75" y="121.5" />
+    </edge>
+    <edge source="inf112.app.game.MoveCard" target="inf112.app.game.ICard">
+      <point x="48.25" y="-97.5" />
+      <point x="44.25" y="28.5" />
+    </edge>
+    <edge source="inf112.app.game.MoveCard" target="inf112.app.game.CardStatus">
+      <point x="-48.25" y="-97.5" />
+      <point x="270.25" y="263.0" />
+      <point x="142.0" y="263.0" />
+      <point x="45.75" y="121.5" />
+    </edge>
+    <edge source="inf112.app.game.RotateCard" target="inf112.app.game.ICard">
+      <point x="50.5" y="-97.5" />
+      <point x="151.5" y="273.0" />
+      <point x="278.25" y="273.0" />
+      <point x="-44.25" y="28.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="196.5" y="524.5" />
+  <SelectedNodes>
+    <node>inf112.app.game.CardStatus</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>inf112.app.objects</OriginalElement>
+  <nodes>
+    <node x="934.0" y="1065.0">inf112.app.objects.IDTranslator</node>
+    <node x="405.25" y="341.0">inf112.app.objects.Direction.Rotation</node>
+    <node x="995.5" y="1172.0">inf112.app.objects.IDTranslator.ElemEnum</node>
+    <node x="643.0" y="1065.0">inf112.app.objects.ObjectFactoryTest</node>
+    <node x="0.0" y="0.0">inf112.app.objects.Position</node>
+    <node x="0.0" y="606.0">inf112.app.objects.RepairStation</node>
+    <node x="987.0" y="1287.0">inf112.app.objects.CogTest</node>
+    <node x="0.0" y="1065.0">inf112.app.objects.PlayerTest</node>
+    <node x="437.49999999999994" y="456.0">inf112.app.objects.IBoardElement</node>
+    <node x="587.0" y="1287.0">inf112.app.objects.PlayerListTest</node>
+    <node x="274.25" y="341.0">inf112.app.objects.Direction.DirEnum</node>
+    <node x="0.0" y="777.0">inf112.app.objects.Player</node>
+    <node x="1159.0" y="1287.0">inf112.app.objects.RepairStationTest</node>
+    <node x="0.0" y="1458.0">inf112.app.objects.ConveyorTest</node>
+    <node x="1222.0" y="1065.0">inf112.app.objects.WallTest</node>
+    <node x="996.0" y="777.0">inf112.app.objects.Robot</node>
+    <node x="252.0" y="0.0">inf112.app.objects.Direction</node>
+    <node x="806.0" y="1287.0">inf112.app.objects.FlagTest</node>
+    <node x="888.0" y="583.5">inf112.app.objects.Cog</node>
+    <node x="351.0" y="1065.0">inf112.app.objects.PositionTest</node>
+    <node x="184.99999999999994" y="549.0">inf112.app.objects.Flag</node>
+    <node x="668.0" y="606.0">inf112.app.objects.Conveyor</node>
+    <node x="664.0" y="777.0">inf112.app.objects.DirectionTest</node>
+    <node x="391.99999999999994" y="537.0">inf112.app.objects.Wall</node>
+    <node x="271.0" y="777.0">inf112.app.objects.ObjectFactory</node>
+    <node x="0.0" y="1287.0">inf112.app.objects.PlayerList</node>
+    <node x="251.0" y="1287.0">inf112.app.objects.RobotTest</node>
+    <node x="1069.0" y="456.0">inf112.app.objects.IDTranslatorTest</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="inf112.app.objects.Flag" target="inf112.app.objects.IBoardElement">
+      <point x="0.0" y="-85.5" />
+      <point x="278.49999999999994" y="517.0" />
+      <point x="486.99999999999994" y="517.0" />
+      <point x="-33.0" y="15.5" />
+    </edge>
+    <edge source="inf112.app.objects.IDTranslator.ElemEnum" target="inf112.app.objects.IDTranslator">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="28.5" />
+    </edge>
+    <edge source="inf112.app.objects.RepairStation" target="inf112.app.objects.IBoardElement">
+      <point x="0.0" y="-28.5" />
+      <point x="82.5" y="507.0" />
+      <point x="453.99999999999994" y="507.0" />
+      <point x="-66.0" y="15.5" />
+    </edge>
+    <edge source="inf112.app.objects.Cog" target="inf112.app.objects.IBoardElement">
+      <point x="0.0" y="-51.0" />
+      <point x="956.0" y="507.0" />
+      <point x="586.0" y="507.0" />
+      <point x="66.0" y="15.5" />
+    </edge>
+    <edge source="inf112.app.objects.Wall" target="inf112.app.objects.IBoardElement">
+      <point x="0.0" y="-97.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="inf112.app.objects.Direction.DirEnum" target="inf112.app.objects.Direction">
+      <point x="0.0" y="-15.5" />
+      <point x="329.75" y="316.0" />
+      <point x="324.75" y="316.0" />
+      <point x="-72.75" y="145.5" />
+    </edge>
+    <edge source="inf112.app.objects.Conveyor" target="inf112.app.objects.IBoardElement">
+      <point x="0.0" y="-28.5" />
+      <point x="768.0" y="517.0" />
+      <point x="553.0" y="517.0" />
+      <point x="33.0" y="15.5" />
+    </edge>
+    <edge source="inf112.app.objects.Direction.Rotation" target="inf112.app.objects.Direction">
+      <point x="0.0" y="-15.5" />
+      <point x="465.25" y="316.0" />
+      <point x="470.25" y="316.0" />
+      <point x="72.75" y="145.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8539156626506024" x="584.9118165784832" y="312.0" />
+  <SelectedNodes>
+    <node>inf112.app.objects.IDTranslator</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

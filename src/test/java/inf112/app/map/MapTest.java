@@ -41,14 +41,6 @@ public class MapTest {
     }
 
     /**
-     * Test if the map is the same as the original gdx function
-     */
-    @Test
-    public void getMap() {
-        assertEquals(this.objectMap.getMap(), this.map);
-    }
-
-    /**
      * Get all layers and compare them by name
      */
     @Test

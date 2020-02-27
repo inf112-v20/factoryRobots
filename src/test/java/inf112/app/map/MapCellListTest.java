@@ -19,7 +19,7 @@ public class MapCellListTest {
     public void setUp() throws Exception {
         TmxMapLoader loader = new TmxMapLoader();
         TiledMap map = loader.load("assets/testMap.tmx");
-        cellList = new MapCellList(15,15,map.getLayers());
+        cellList = new MapCellList(15,15, map.getLayers());
     }
 
     /**

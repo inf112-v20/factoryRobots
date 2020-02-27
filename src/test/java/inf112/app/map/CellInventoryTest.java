@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 public class CellInventoryTest {
     CellInventory inventory;
     Flag flag;
+
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 

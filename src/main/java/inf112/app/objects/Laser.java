@@ -1,16 +1,19 @@
 package inf112.app.objects;
 
-import java.util.ArrayList;
+import inf112.app.map.Map;
+import inf112.app.map.MapCell;
 
+import java.util.ArrayList;
+/*
 public class Laser{
 
     private Position position;
-
-    Laser (int x, int y, Direction) {
-
+    private Map map;
+    public Laser (Position p, Map map) {
+        position = p;
+        this.map = map;
     }
 
-    // All players to fire laser in their direction
    private void activateLasers() {
 
        for (Player p : players) {
@@ -18,25 +21,17 @@ public class Laser{
            Fire(p, p.Position.getYCoordinate, );
        }
    }
-   // Which direction the robot should shoot
-   private void Fire (Player player, int playerDirection, int iterationStart) {
+   public ArrayList<MapCell> findLaserPath(){
+        Position laserBeam = position.copyOf();
 
-        switch (player.getDireciton()) {
+        while(position.getXCoordinate() < map.getMapSizeX() && position.getYCoordinate() < map.getMapSizeY()){
+            laserBeam.moveInDirection();
 
-                for (int y = playerDirection; y >= iterationStart; y--) {
-                    Position firePosition = new Position(player.getPosition().getXCoordinate, y);
-                    for (Player nearestRobot : players) {
-                        if (player.equals(nearestRobot) && nearestRobot.getPosition().equals(firePosition)) {
-                           //hvordan vise at nearestRobot skal ta skade fra laser
-                        }
-                    }
-                }
 
-       }
-givedamage som kaller på player og takedamage
-       takeDamage obje
+            map.getCellList().getCell(laserBeam);
+        }
 
-               metode i player GIVEDAMAGE
-               lage stripe, også si at hvis treffer spiller eller vegg så stopper den
    }
-}
+}*/
+
+

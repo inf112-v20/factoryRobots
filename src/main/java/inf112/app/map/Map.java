@@ -68,6 +68,10 @@ public class Map {
         return map;
     }
 
+    public MapCellList getCellList() {
+        return cellList;
+    }
+
     public TiledMapTileLayer getLayer(String layerName){
         switch(layerName) {
             case "player":

@@ -46,4 +46,9 @@ public class Wall implements IBoardElement{
         direction.turn(Rotation.LEFT);
         return direction.equals(facing[0]) || direction.equals(facing[1]);
     }
+
+    @Override
+    public void doAction(Player player) {
+
+    }
 }

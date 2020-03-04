@@ -6,4 +6,9 @@ public class RepairStation implements IBoardElement {
     public RepairStation(int repairSpeed){
         this.repairSpeed = repairSpeed;
     }
+
+    @Override
+    public void doAction(Player player) {
+
+    }
 }

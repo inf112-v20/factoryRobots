@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>inf112.app.game</OriginalElement>
+  <nodes>
+    <node x="245.75" y="118.0">inf112.app.game.ICard</node>
+    <node x="1.25" y="339.0">inf112.app.game.RotateCard</node>
+    <node x="232.25" y="339.0">inf112.app.game.MoveCard</node>
+    <node x="479.25" y="0.0">inf112.app.game.Application</node>
+    <node x="819.25" y="0.0">inf112.app.game.MoveCardTest</node>
+    <node x="0.0" y="565.0">inf112.app.game.CardDeckTest</node>
+    <node x="356.0" y="565.0">inf112.app.game.CardDeck</node>
+    <node x="645.0" y="565.0">inf112.app.game.RotateCardTest</node>
+    <node x="0.0" y="0.0">inf112.app.game.CardStatus</node>
+    <node x="0.0" y="881.0">inf112.app.game.CardStatusTest</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="inf112.app.game.RotateCard" target="inf112.app.game.ICard">
+      <point x="52.75" y="-90.5" />
+      <point x="159.5" y="319.0" />
+      <point x="291.75" y="319.0" />
+      <point x="-46.0" y="26.5" />
+    </edge>
+    <edge source="inf112.app.game.MoveCard" target="inf112.app.game.ICard">
+      <point x="50.5" y="-90.5" />
+      <point x="46.0" y="26.5" />
+    </edge>
+    <edge source="inf112.app.game.MoveCard" target="inf112.app.game.CardStatus">
+      <point x="-50.5" y="-90.5" />
+      <point x="282.75" y="309.0" />
+      <point x="162.0" y="309.0" />
+      <point x="54.0" y="144.5" />
+    </edge>
+    <edge source="inf112.app.game.RotateCard" target="inf112.app.game.CardStatus">
+      <point x="-52.75" y="-90.5" />
+      <point x="-54.0" y="144.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5534825870646766" x="450.0" y="382.00000000000006" />
+  <SelectedNodes>
+    <node>inf112.app.game.CardStatus</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

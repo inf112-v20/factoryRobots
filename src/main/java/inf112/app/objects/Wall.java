@@ -4,18 +4,30 @@ import inf112.app.objects.Direction.Rotation;
 /**
  * Class representing a Wall block on the map
  */
-public class Wall implements IBoardElement{
+public class Wall implements IBoardElement, ILaserInteractor {
     private Direction[] facing;
     private boolean hasLaser;
     private boolean hasDoubleLaser;
+    private Position position;
+    private Laser laser;
 
-    public Wall(int face1, int face2, boolean laser, boolean doubleLaser){
+    public Wall(int face1, int face2, boolean hasLaser, boolean doubleLaser, int x, int y){
         facing = new Direction[2];
         facing[0] = new Direction(face1);
         facing[1] = new Direction(face2);
 
-        hasLaser = laser;
+        Direction laserDir = facing[0].copyOf();
+        laserDir.turn(Rotation.LEFT);
+        laserDir.turn(Rotation.LEFT);
+
+        hasLaser = hasLaser;
         hasDoubleLaser = doubleLaser;
+        this.position = new Position(x,y,laserDir);
+        if(hasLaser){
+            this.laser = new Laser(this,hasDoubleLaser);
+        } else {
+            this.laser = null;
+        }
     }
 
     public Direction[] getFacing() {
@@ -50,5 +62,9 @@ public class Wall implements IBoardElement{
     @Override
     public void doAction(Player player) {
 
+    }
+
+    public Position getPos(){
+        return position;
     }
 }

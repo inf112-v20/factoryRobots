@@ -8,7 +8,7 @@ import inf112.app.objects.Direction.Rotation;
  * This class is a representation of the robots
  * on the board
  */
-public class Robot implements IBoardElement {
+public class Robot implements ILaserInteractor {
     private Map map;
     private Position pos;
     private Vector2 vectorPos;
@@ -43,10 +43,5 @@ public class Robot implements IBoardElement {
 
     public Position getPos() {
         return pos;
-    }
-
-    @Override
-    public void doAction(Player player) {
-
     }
 }

@@ -14,12 +14,11 @@ import static org.junit.Assert.assertNotEquals;
 @RunWith(GdxTestRunner.class)
 public class PlayerTest {
     private Player player;
-    private Map map;
 
     @Before
     public void setUp() throws Exception {
-        this.map = new Map("testMap");
-        this.player = new Player(2,2, map);
+        Map.setInstance("testMap");
+        this.player = new Player(2,2);
     }
 
     @Test

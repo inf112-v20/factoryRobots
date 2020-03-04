@@ -13,9 +13,9 @@ public class Robot implements ILaserInteractor {
     private Position pos;
     private Vector2 vectorPos;
 
-    public Robot(Position pos, Map map){
+    public Robot(Position pos){
         this.pos = pos;
-        this.map = map;
+        this.map = Map.getInstance();
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
     }
 

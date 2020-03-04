@@ -17,15 +17,14 @@ public class RotateCardTest {
     RotateCard rightRotate;
     RotateCard uTurn;
     Player player;
-    Map map;
 
     @Before
     public void setUp() throws Exception {
         leftRotate = new RotateCard(150, Rotation.LEFT);
         rightRotate = new RotateCard(150, Rotation.RIGHT);
         uTurn = new RotateCard(150,true);
-        map = new Map("testMap");
-        player = new Player(2,2,map);
+        Map.setInstance("testMap");
+        player = new Player(2,2);
     }
 
     @Test

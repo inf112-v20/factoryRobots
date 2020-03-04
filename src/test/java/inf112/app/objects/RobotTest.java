@@ -12,14 +12,13 @@ import static org.junit.Assert.assertEquals;
 @RunWith(GdxTestRunner.class)
 public class RobotTest {
     private Robot robot;
-    private Map map;
     private Position pos;
 
     @Before
     public void setUp() throws Exception {
-        map = new Map("testMap");
+        Map.setInstance("testMap");
         pos = new Position(2,2);
-        robot = new Robot(pos, map);
+        robot = new Robot(pos);
     }
 
     @Test

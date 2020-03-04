@@ -1,5 +1,8 @@
 package inf112.app.objects;
+import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
+
+import java.util.NoSuchElementException;
 
 /**
  * Class representing a Wall block on the map
@@ -61,7 +64,6 @@ public class Wall implements IBoardElement, ILaserInteractor {
 
     @Override
     public void doAction(Player player) {
-
     }
 
     public Position getPos(){

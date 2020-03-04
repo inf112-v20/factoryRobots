@@ -3,7 +3,11 @@ package inf112.app.map;
 import inf112.app.objects.IBoardElement;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+/**
+ * Class which cells use to keep track of it's contents
+ */
 public class CellInventory {
     private ArrayList<IBoardElement> elements;
     public CellInventory() {
@@ -33,5 +37,16 @@ public class CellInventory {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CellInventory)) return false;
+        CellInventory inventory = (CellInventory) o;
+        return Objects.equals(getElements(), inventory.getElements());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getElements());
+    }
 }

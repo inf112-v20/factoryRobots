@@ -44,4 +44,9 @@ public class Robot implements IBoardElement {
     public Position getPos() {
         return pos;
     }
+
+    @Override
+    public void doAction(Player player) {
+
+    }
 }

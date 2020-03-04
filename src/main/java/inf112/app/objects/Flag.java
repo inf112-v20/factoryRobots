@@ -26,4 +26,8 @@ public class Flag implements IBoardElement {
         return Objects.hash(getNum());
     }
 
+    @Override
+    public void doAction(Player player) {
+
+    }
 }

@@ -24,4 +24,9 @@ public class Conveyor implements IBoardElement {
         this.speed = speed;
 
     }
+
+    @Override
+    public void doAction(Player player) {
+
+    }
 }

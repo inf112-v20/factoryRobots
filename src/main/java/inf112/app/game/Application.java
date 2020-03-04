@@ -31,7 +31,8 @@ public class Application implements ApplicationListener {
         font.setColor(Color.RED);
 
         //Creating map
-        cellMap = new Map("testMap");
+        Map.setInstance("testMap");
+        cellMap = Map.getInstance();
 
         //Initializing camera
         camera = new OrthographicCamera();

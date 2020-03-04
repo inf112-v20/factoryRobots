@@ -9,6 +9,7 @@ import inf112.app.objects.Position;
 import inf112.app.objects.Wall;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /**
  * Class that keeps track of the map and it's layers
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class Map {
 
     //Map and layers
+    private static Map cellMap;
     private TiledMap map;
     private TiledMapTileLayer boardLayer;
     private TiledMapTileLayer holeLayer;
@@ -145,5 +147,28 @@ public class Map {
             }
         }
         return null;
+    }
+
+    /**
+     *
+     * @param mapName name of the map to parse
+     * @return true if cellMap was created and false if not.
+     */
+    public static synchronized boolean setInstance(String mapName){
+        if (cellMap == null) {
+            cellMap = new Map(mapName);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @return returns the static created cellMap. Throws exception if it doesn't exist
+     */
+    public static synchronized Map getInstance(){
+        if (cellMap == null)
+            throw new NoSuchElementException("Could not find the cellMap");
+        return cellMap;
     }
 }

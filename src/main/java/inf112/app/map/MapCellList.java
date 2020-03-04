@@ -40,7 +40,7 @@ public class MapCellList {
             TiledMapTileLayer layer = (TiledMapTileLayer) it.next();
             if (layer.getCell(x, y) != null && !exclusionList.contains(layer.getName())){
                 TiledMapTile element = layer.getCell(x, y).getTile();
-                elements.add(factory.generateObject(element));
+                elements.add(factory.generateObject(element,x,y));
 
             }
         }

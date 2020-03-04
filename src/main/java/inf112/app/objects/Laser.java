@@ -4,34 +4,43 @@ import inf112.app.map.Map;
 import inf112.app.map.MapCell;
 
 import java.util.ArrayList;
-/*
-public class Laser{
 
-    private Position position;
+public class Laser {
+
+    private ILaserInteractor owner;
     private Map map;
-    public Laser (Position p, Map map) {
-        position = p;
-        this.map = map;
+    private boolean isDouble;
+
+    public Laser (ILaserInteractor owner, boolean isDouble) {
+        this.owner = owner;
+        //this.map = map;
+        this.isDouble = isDouble;
     }
 
-   private void activateLasers() {
+   public ArrayList<MapCell> findLaserPath() {
+       Position laserBeam = owner.getPos().copyOf();
+       ArrayList<MapCell> path = new ArrayList<>();
 
-       for (Player p : players) {
+       //Check that beam doesn´t go out of bounds
+       while (laserBeam.getXCoordinate() < map.getMapSizeX() && laserBeam.getYCoordinate() < map.getMapSizeY() &&
+               laserBeam.getXCoordinate() >= 0 && laserBeam.getYCoordinate() >= 0) {
 
-           Fire(p, p.Position.getYCoordinate, );
+           MapCell current = map.getCellList().getCell(laserBeam);
+           path.add(current);
+           laserBeam.moveInDirection();
+           ArrayList<IBoardElement> elements = current.getInventory().getElements();
+
+           if (elements.isEmpty()) {
+               continue;
+           }
+           for (IBoardElement e : elements) {
+               if (e instanceof ILaserInteractor) {
+                   return path;
+               }
+           }
        }
+       return path;
    }
-   public ArrayList<MapCell> findLaserPath(){
-        Position laserBeam = position.copyOf();
-
-        while(position.getXCoordinate() < map.getMapSizeX() && position.getYCoordinate() < map.getMapSizeY()){
-            laserBeam.moveInDirection();
-
-
-            map.getCellList().getCell(laserBeam);
-        }
-
-   }
-}*/
+}
 
 

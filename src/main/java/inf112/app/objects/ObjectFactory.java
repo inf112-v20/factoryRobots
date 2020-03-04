@@ -23,7 +23,7 @@ public class ObjectFactory {
      * @return An object of the correct class with parameters based
      * on the tiles custom properties
      */
-    public IBoardElement generateObject(TiledMapTile tile){
+    public IBoardElement generateObject(TiledMapTile tile, int x, int y){
         int id = tile.getId();
         ElemEnum name = translator.findNameFromId(id);
         MapProperties properties = tile.getProperties();
@@ -35,7 +35,7 @@ public class ObjectFactory {
             case COG:
                 return createCog(properties);
             case WALL:
-                return createWall(properties);
+                return createWall(properties, x, y);
             case LASER: return null;
             case REPAIRSTATION:
                 return createRepairStation(properties);
@@ -68,7 +68,7 @@ public class ObjectFactory {
         return new Cog(rot);
     }
 
-    private Wall createWall(MapProperties props){
+    private Wall createWall(MapProperties props, int x, int y){
         int face0 = (int) props.get("block0");
         int face1 = (int) props.get("block1");
         boolean laser = (boolean) props.get("laser");
@@ -76,7 +76,7 @@ public class ObjectFactory {
         if(laser){
             doubleLaser = (boolean) props.get("doubleLaser");
         }
-        return new Wall(face0,face1,laser,doubleLaser);
+        return new Wall(face0,face1,laser,doubleLaser,x ,y);
     }
 
     private Conveyor createConveyor(MapProperties props, int speed){

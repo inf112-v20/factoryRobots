@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
 
-public class Robot extends Game {
+public class Robot extends Game implements ILaserInteractor {
     private Map map;
     private Position pos;
 

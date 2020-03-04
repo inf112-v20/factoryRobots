@@ -27,15 +27,14 @@ public class Player extends InputAdapter {
      * The single constructor for Player
      * @param x X-coordinate of the player character
      * @param y Y-coordinate of the player character
-     * @param map The map which the players character is on
      */
-    public Player(int x, int y, Map map){
+    public Player(int x, int y){
         loadPlayerSprites("player");
         //Initializing input processor
         Gdx.input.setInputProcessor(this);
 
-        this.map = map;
-        character = new Robot(new Position(x,y), this.map);
+        this.map = Map.getInstance();
+        character = new Robot(new Position(x,y));
     }
 
     /**

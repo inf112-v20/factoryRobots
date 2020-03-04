@@ -26,9 +26,9 @@ public class MoveCardTest {
         moveTwo = new MoveCard(150, 2);
         moveThree = new MoveCard(150,3);
         backUp = new MoveCard(150,true);
-
-        map = new Map("testMap");
-        player = new Player(2,2,map);
+        Map.setInstance("testMap");
+        map = Map.getInstance();
+        player = new Player(2,2);
     }
 
     @Test

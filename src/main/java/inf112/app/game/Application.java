@@ -44,7 +44,7 @@ public class Application implements ApplicationListener {
         renderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/300f));
         renderer.setView(camera);
 
-        player = new Player(2, 2, cellMap);
+        player = new Player(2, 2);
 
     }
 

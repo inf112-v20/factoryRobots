@@ -22,8 +22,8 @@ public class ObjectFactoryTest {
     @Before
     public void setUp() throws Exception {
         factory = new ObjectFactory();
-        map = new Map("testMap");
-
+        Map.setInstance("testMap");
+        map = Map.getInstance();
     }
 
     @Test

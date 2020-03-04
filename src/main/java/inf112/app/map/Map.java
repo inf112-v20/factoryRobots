@@ -34,7 +34,7 @@ public class Map {
     private final int mapSizeY;
     private MapCellList cellList;
 
-    public Map(String mapName){
+    private Map(String mapName){
         String pathToMap = "assets/" + mapName + ".tmx";
 
         //Loading map

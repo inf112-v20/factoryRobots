@@ -67,9 +67,9 @@ public class Application implements ApplicationListener {
 
         //Checking if player is touching hole or flag
         if(cellMap.getLayer("hole").getCell(playerX, playerY) != null){
-            playerLayer.setCell(playerX, playerY, player.getLoosing());
+            playerLayer.setCell(playerX, playerY, player.getLooser());
         } else if(cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
-            playerLayer.setCell(playerX, playerY, player.getWinning());
+            playerLayer.setCell(playerX, playerY, player.getWinner());
         }
         renderer.render();
         //Remove last player position

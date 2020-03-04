@@ -1,14 +1,24 @@
 package inf112.app.objects;
 import inf112.app.objects.Direction.Rotation;
+import inf112.app.objects.Player;
 
+
+/**
+ * this class makes the object cog turn robots direction on it
+ */
 public class Cog implements IBoardElement {
-    private Rotation rot;
+    private Rotation rotation;
 
-    public Cog(Rotation rot){
-        this.rot = rot;
+    /**
+     * constructor to rotate direction of robot
+     * @param r
+     */
+    public Cog(Rotation r){
+        this.rotation = r;
     }
 
-    public Rotation getRot() {
-        return rot;
+    @Override
+    public void doAction(Player player) {
+        player.getCharacter().turn(rotation);
     }
 }

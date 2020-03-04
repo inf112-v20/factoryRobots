@@ -1,6 +1,9 @@
 package inf112.app.objects;
 import inf112.app.objects.Direction.Rotation;
 
+/**
+ * Class representing a Wall block on the map
+ */
 public class Wall implements IBoardElement, ILaserInteractor {
     private Direction[] facing;
     private boolean hasLaser;
@@ -54,6 +57,11 @@ public class Wall implements IBoardElement, ILaserInteractor {
         direction.turn(Rotation.LEFT);
         direction.turn(Rotation.LEFT);
         return direction.equals(facing[0]) || direction.equals(facing[1]);
+    }
+
+    @Override
+    public void doAction(Player player) {
+
     }
 
     public Position getPos(){

@@ -10,6 +10,10 @@ import inf112.app.objects.Wall;
 
 import java.util.ArrayList;
 
+/**
+ * Class that keeps track of the map and it's layers
+ * as well as all the objects on it
+ */
 public class Map {
 
     //Map and layers
@@ -50,11 +54,8 @@ public class Map {
         mapSizeX = props.get("width",Integer.class);
         mapSizeY = props.get("height",Integer.class);
         cellList = new MapCellList(mapSizeX, mapSizeY, map.getLayers());
-        /* Add new object to celleListe
-        MapCell celle = celleListe.getCell(5,5);
-        celle.appendToInventory(new Wall());
-         */
     }
+
 
     public int getMapSizeX(){
         return mapSizeX;
@@ -126,7 +127,11 @@ public class Map {
         return valid;
     }
 
-
+    /**
+     * Checks if a {@link MapCell} contains a wall
+     * @param cell to be checked
+     * @return true if there is a Wall object in the cell, else false
+     */
     private boolean containsWall(MapCell cell){
         ArrayList<IBoardElement> inventory = cell.getInventory().getElements();
         return findWall(inventory) != null;

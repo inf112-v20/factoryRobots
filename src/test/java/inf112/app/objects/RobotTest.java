@@ -18,7 +18,7 @@ public class RobotTest {
     public void setUp() throws Exception {
         Map.setInstance("testMap");
         pos = new Position(2,2);
-        robot = new Robot(pos);
+        robot = new Robot(pos,"player");
     }
 
     @Test

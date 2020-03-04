@@ -64,13 +64,12 @@ public class Application implements ApplicationListener {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         //Setting player sprite to current position
-        playerLayer.setCell(playerX, playerY, player.getNormal());
-
+        playerLayer.setCell(playerX, playerY, player.getCharacter().getNormal());
         //Checking if player is touching hole or flag
         if(cellMap.getLayer("hole").getCell(playerX, playerY) != null){
-            playerLayer.setCell(playerX, playerY, player.getLooser());
+            playerLayer.setCell(playerX, playerY, player.getCharacter().getLooser());
         } else if(cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
-            playerLayer.setCell(playerX, playerY, player.getWinner());
+            playerLayer.setCell(playerX, playerY, player.getCharacter().getWinner());
         }
         renderer.render();
         //Remove last player position

@@ -21,7 +21,8 @@ public class MapTest {
     public void setUp() throws Exception {
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load("assets/testMap.tmx");
-        objectMap = new Map("testMap");
+        Map.setInstance("testMap");
+        objectMap = Map.getInstance();
     }
 
     /**

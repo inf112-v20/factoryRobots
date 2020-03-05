@@ -1,5 +1,9 @@
 package inf112.app.objects;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
@@ -13,10 +17,16 @@ public class Robot implements ILaserInteractor {
     private Position pos;
     private Vector2 vectorPos;
 
-    public Robot(Position pos, Map map){
+    //Player sprites
+    private TiledMapTileLayer.Cell normalPlayer;
+    private TiledMapTileLayer.Cell winningPlayer;
+    private TiledMapTileLayer.Cell loosingPlayer;
+
+    public Robot(Position pos, String charName){
         this.pos = pos;
-        this.map = map;
+        this.map = Map.getInstance();
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
+        loadPlayerSprites(charName);
     }
 
     /**
@@ -39,9 +49,58 @@ public class Robot implements ILaserInteractor {
      */
     public void turn(Rotation r){
         pos.getDirection().turn(r);
+        rotateSprites(r);
     }
 
     public Position getPos() {
         return pos;
+    }
+
+    private void rotateSprites(Rotation rot) {
+        int orientation = normalPlayer.getRotation();
+        switch(rot){
+            case LEFT:
+                orientation = (orientation + 1) % 4;
+                break;
+            case RIGHT:
+                orientation -= 1;
+                if(orientation<0){
+                    orientation = 3;
+                }
+            break;
+            default: throw new IllegalArgumentException("Invalid rotation enum in rotateSprites");
+        }
+        normalPlayer.setRotation(orientation);
+        loosingPlayer.setRotation(orientation);
+        winningPlayer.setRotation(orientation);
+    }
+
+    public TiledMapTileLayer.Cell getNormal() {
+        return normalPlayer;
+    }
+
+    public TiledMapTileLayer.Cell getWinner() {
+        return winningPlayer;
+    }
+
+    public TiledMapTileLayer.Cell getLooser() {
+        return loosingPlayer;
+    }
+
+
+    /**
+     * Loads the different character sprites so that LibGDX can use them
+     * @param charName Name of the character, will be used in the filepath to the spritesheet
+     */
+    public void loadPlayerSprites(String charName){
+        String path = "assets/" + charName + ".png";
+        //Loading and splitting player sprites
+        Texture spriteMap = new Texture(path);
+        TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
+
+        //Assigning individual sprites
+        normalPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
+        loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
+        winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
     }
 }

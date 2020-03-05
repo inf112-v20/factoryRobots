@@ -8,18 +8,17 @@ import java.util.ArrayList;
 public class Laser {
 
     private ILaserInteractor owner;
-    private Map map;
     private boolean isDouble;
 
     public Laser (ILaserInteractor owner, boolean isDouble) {
         this.owner = owner;
-        //get instance. Map fra Map this.map = map;
         this.isDouble = isDouble;
     }
 
    public ArrayList<MapCell> findLaserPath() {
        Position laserBeam = owner.getPos().copyOf();
        ArrayList<MapCell> path = new ArrayList<>();
+       Map map = Map.getInstance();
 
        //Check that beam doesn´t go out of bounds
        while (laserBeam.getXCoordinate() < map.getMapSizeX() && laserBeam.getYCoordinate() < map.getMapSizeY() &&

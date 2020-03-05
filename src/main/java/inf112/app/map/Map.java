@@ -5,15 +5,20 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.objects.IBoardElement;
-import inf112.app.objects.Player;
 import inf112.app.objects.Position;
 import inf112.app.objects.Wall;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
+/**
+ * Class that keeps track of the map and it's layers
+ * as well as all the objects on it
+ */
 public class Map {
 
     //Map and layers
+    private static Map cellMap;
     private TiledMap map;
     private TiledMapTileLayer boardLayer;
     private TiledMapTileLayer holeLayer;
@@ -29,7 +34,7 @@ public class Map {
     private final int mapSizeY;
     private MapCellList cellList;
 
-    public Map(String mapName){
+    private Map(String mapName){
         String pathToMap = "assets/" + mapName + ".tmx";
 
         //Loading map
@@ -51,10 +56,6 @@ public class Map {
         mapSizeX = props.get("width",Integer.class);
         mapSizeY = props.get("height",Integer.class);
         cellList = new MapCellList(mapSizeX, mapSizeY, map.getLayers());
-        /* Add new object to celleListe
-        MapCell celle = celleListe.getCell(5,5);
-        celle.appendToInventory(new Wall());
-         */
     }
 
 
@@ -68,6 +69,10 @@ public class Map {
 
     public TiledMap getMap() {
         return map;
+    }
+
+    public MapCellList getCellList() {
+        return cellList;
     }
 
     public TiledMapTileLayer getLayer(String layerName){
@@ -124,7 +129,11 @@ public class Map {
         return valid;
     }
 
-
+    /**
+     * Checks if a {@link MapCell} contains a wall
+     * @param cell to be checked
+     * @return true if there is a Wall object in the cell, else false
+     */
     private boolean containsWall(MapCell cell){
         ArrayList<IBoardElement> inventory = cell.getInventory().getElements();
         return findWall(inventory) != null;
@@ -142,5 +151,28 @@ public class Map {
             }
         }
         return null;
+    }
+
+    /**
+     *
+     * @param mapName name of the map to parse
+     * @return true if cellMap was created and false if not.
+     */
+    public static synchronized boolean setInstance(String mapName){
+        if (cellMap == null) {
+            cellMap = new Map(mapName);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @return returns the static created cellMap. Throws exception if it doesn't exist
+     */
+    public static synchronized Map getInstance(){
+        if (cellMap == null)
+            throw new NoSuchElementException("Could not find the cellMap");
+        return cellMap;
     }
 }

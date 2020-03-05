@@ -40,15 +40,21 @@ public class MoveCard extends CardStatus implements ICard  {
      */
     public void doAction(Player player){
         if (backUp){
-            player.turn(Direction.Rotation.LEFT);
-            player.turn(Direction.Rotation.LEFT);
-            player.move(steps);
-            player.turn(Direction.Rotation.LEFT);
-            player.turn(Direction.Rotation.LEFT);
+            player.getCharacter().turn(Direction.Rotation.LEFT);
+            player.getCharacter().turn(Direction.Rotation.LEFT);
+            player.getCharacter().move(steps);
+            player.getCharacter().turn(Direction.Rotation.LEFT);
+            player.getCharacter().turn(Direction.Rotation.LEFT);
         } else {
-            player.move(steps);
+            player.getCharacter().move(steps);
         }
     }
 
+    public int getSteps() {
+        return steps;
+    }
 
+    public boolean isBackUp() {
+        return backUp;
+    }
 }

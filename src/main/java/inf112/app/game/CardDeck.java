@@ -10,6 +10,7 @@ import java.util.Collections;
  * This class creates and holds an entire deck of cards.
  */
 public class CardDeck {
+    private ArrayList<ICard> deck;
 
     public CardDeck(){
         reset();
@@ -21,7 +22,7 @@ public class CardDeck {
      * Resets the deck and 'unshuffles' them
      */
 
-    private ArrayList<CardStatus> deck;
+
     public void reset() {
         deck = new ArrayList<>();
 
@@ -93,7 +94,7 @@ public class CardDeck {
      * Adds card back to the deck
      * @param card A single card that is to be added back to the deck
      */
-    public void addCard(CardStatus card){
+    public void addCard(ICard card){
         deck.add(card);
     }
 
@@ -107,13 +108,26 @@ public class CardDeck {
      * @param amount The desired amount of cards
      * @return The amount of cards
      */
-    public ArrayList<CardStatus> getCards(int amount) {
-        ArrayList<CardStatus> playerDeck = new ArrayList<>();
+    public ArrayList<ICard> getCards(int amount) {
+        ArrayList<ICard> playerDeck = new ArrayList<>();
         for (int i = 0; i < amount; i ++) {
             playerDeck.add(deck.get(i));
             deck.remove(i);
         }
         return playerDeck;
+    }
 
+    public ICard getCard(){
+        if(deck.isEmpty()){
+            System.out.println("Deck is empty");
+            return null;
+        }
+        ICard card = deck.get(0);
+        deck.remove(0);
+        return card;
+    }
+
+    public boolean isEmpty(){
+        return deck.isEmpty();
     }
 }

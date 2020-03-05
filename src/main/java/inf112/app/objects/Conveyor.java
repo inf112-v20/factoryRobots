@@ -1,6 +1,10 @@
 package inf112.app.objects;
 
+import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
+
+import java.util.ArrayList;
+
 /**
  * This class is a representation of the
  * Conveyor belts on the board
@@ -44,18 +48,42 @@ public class Conveyor implements IBoardElement {
      */
     @Override
     public void doAction(Player player) {
-        for (int i = 1; i <= speed; i++) {
-            player.getCharacter().move(exit);
-            if (rotate) {
-                player.getCharacter().turn(rotation);
-                if (speed == 2) {
-                    player.getCharacter().move(exit);
-                }
-            } else if (speed == 2) {
-                player.getCharacter().move(exit);
+        player.getCharacter().move(exit);
+
+        Conveyor next = extractConveyorFromCell(player.getCharacter().getPos());
+        if (next == null) {
+            return;
+        }
+        if (next.rotate) {
+            player.getCharacter().turn(next.rotation);
+        }
+        if (speed == 2) {
+            player.getCharacter().move(next.exit);
+            Conveyor afterNext = extractConveyorFromCell(player.getCharacter().getPos());
+            if(next == null){
+                return;
+            }
+            if(afterNext.rotate){
+                player.getCharacter().turn(afterNext.rotation);
             }
         }
+    }
 
+    /**
+     *
+     * @param pos
+     * @return
+     */
+    private Conveyor extractConveyorFromCell(Position pos){
+        Map map = Map.getInstance();
+        ArrayList<IBoardElement> objectList = map.getCellList().getCell(pos).getInventory().getElements();
+        Conveyor next = null;
+        for (IBoardElement e : objectList) {
+            if (e instanceof Conveyor) {
+                next = (Conveyor) e;
+            }
+        }
+        return next;
     }
 
 }

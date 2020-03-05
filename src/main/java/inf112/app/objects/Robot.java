@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
+import inf112.app.map.MapCellList;
 import inf112.app.objects.Direction.Rotation;
 
 /**
@@ -102,5 +103,28 @@ public class Robot implements ILaserInteractor {
         normalPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
         loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
         winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
+    }
+
+    public void pushRobot () {
+        //hvis robot har en robot foran seg i retningen den skal flytte, skal denne dyttes i samme retning slik at
+
+        map.getCellList();
+        if (map.getCellList().getCell())
+
+        if(map.validMove(pos)) {
+            pos.copyOf().getDirection();
+            if(map.validMove(pos) normalPlayer){
+
+            }
+            pos.copyOf().moveInDirection();
+            pos.moveInDirection() == map.
+        }
+        map.validMove(pos);
+        move(1);
+
+        pos.copyOf().moveInDirection();
+
+        pos.getDirection().getDirEnum()
+        return;
     }
 }

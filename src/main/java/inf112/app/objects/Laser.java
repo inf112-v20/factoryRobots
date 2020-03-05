@@ -13,7 +13,7 @@ public class Laser {
 
     public Laser (ILaserInteractor owner, boolean isDouble) {
         this.owner = owner;
-        //this.map = map;
+        //get instance. Map fra Map this.map = map;
         this.isDouble = isDouble;
     }
 

@@ -19,6 +19,15 @@ public class Conveyor implements IBoardElement {
      * @param exit
      * @param speed
      */
+    public Conveyor(int entry1, int entry2, int exit, int speed){
+        entries = new Direction[2];
+        entries[0] = new Direction(entry1);
+        entries[1] = new Direction(entry2);
+        this.exit = new Direction(exit);
+        this.speed = speed;
+        this.rotate = false;
+
+    }
     public Conveyor(int entry1, int entry2, int exit, int speed, boolean rotate, Rotation r){
         entries = new Direction[2];
         entries[0] = new Direction(entry1);
@@ -27,7 +36,6 @@ public class Conveyor implements IBoardElement {
         this.speed = speed;
         this.rotate = rotate;
         this.rotation = r;
-
     }
 
     /**
@@ -35,13 +43,19 @@ public class Conveyor implements IBoardElement {
      * @param player
      */
     @Override
-    public void doAction(Player player){
-        if (rotate){
-            player.getCharacter().turn(rotation);
-            player.getCharacter().move(speed);
-        }else {
-            player.getCharacter().move(speed);
+    public void doAction(Player player) {
+        for (int i = 1; i <= speed; i++) {
+            player.getCharacter().move(exit);
+            if (rotate) {
+                player.getCharacter().turn(rotation);
+                if (speed == 2) {
+                    player.getCharacter().move(exit);
+                }
+            } else if (speed == 2) {
+                player.getCharacter().move(exit);
+            }
         }
+
     }
 
 }

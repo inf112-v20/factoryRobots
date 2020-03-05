@@ -44,6 +44,21 @@ public class Robot implements ILaserInteractor {
     }
 
     /**
+     * Move the robot in a certain direction without turning
+     * Only moves one step
+     * @param dir Direction to move in
+     */
+    public void move(Direction dir){
+        Direction saved = pos.getDirection().copyOf();
+        pos.setDirection(dir);
+        if(map.validMove(pos)) {
+            pos.moveInDirection();
+        }
+        pos.setDirection(saved);
+        vectorPos.set(pos.getXCoordinate(), pos.getYCoordinate());
+    }
+
+    /**
      * Method to change the direction of the robot
      * @param r Enum for which direction the robot should turn, either LEFT or RIGHT
      */

@@ -4,10 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 
@@ -35,16 +33,13 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         camera.setToOrtho(false, viewportWidth, viewPortHeight);
-        uiCam.setToOrtho(false, 7, 7);
+        uiCam.setToOrtho(false, 8, 9);
 
         initialCameraY = viewPortHeight - cellMap.getMapSizeY();
         camera.position.y = initialCameraY;
         camera.update();
 
-        CardUI ui = stage.getBottomUI();
-        CardUI sideUI = stage.getSideUI();
-        stage.getViewport().getRightGutterWidth();
-
+        CardUI ui = CardUI.getInstance();
 
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/tileSize));

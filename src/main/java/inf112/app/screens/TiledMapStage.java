@@ -7,45 +7,30 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class TiledMapStage extends Stage {
-    private CardUI bottomUI;
-    private TiledMap bottomBar;
+    private TiledMap tiledMap;
 
-    private CardUI sideUI;
-    private TiledMap sideBar;
 
     public TiledMapStage(){
-        bottomUI = new CardUI("bottom");
-        sideUI = new CardUI("side");
-        bottomBar = bottomUI.getTiles();
-        sideBar = sideUI.getTiles();
+        CardUI cardUI = CardUI.getInstance();
+        tiledMap = cardUI.getTiles();
 
-        for(MapLayer layer : bottomBar.getLayers()) {
+        for(MapLayer layer : tiledMap.getLayers()) {
             TiledMapTileLayer tileLayer = (TiledMapTileLayer) layer;
             createActor(tileLayer);
         }
 
-        for(MapLayer layer : sideBar.getLayers()) {
-            TiledMapTileLayer tileLayer = (TiledMapTileLayer) layer;
-            createActor(tileLayer);
-        }
     }
 
     private void createActor(TiledMapTileLayer layer){
-        for(int x = 0; x < layer.getWidth(); x++){
-            TiledMapTileLayer.Cell cell = layer.getCell(x,0);
-            TiledMapActor actor = new TiledMapActor(bottomBar, layer, cell);
-            actor.setBounds(x, 0, 1, 1.5f);  //1.5 since that is the ratio (400x600)
-            addActor(actor);
-            EventListener eventListener = new TiledMapClickListener(actor);
-            actor.addListener(eventListener);
+        for(int x = 0; x < layer.getWidth(); x++) {
+            for(int y = 0; y < layer.getHeight(); y++){
+                TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+                TiledMapActor actor = new TiledMapActor(tiledMap, layer, cell);
+                actor.setBounds(x, y, 1, 1.5f);  //1.5 since that is the cards ratio (400x600)
+                addActor(actor);
+                EventListener eventListener = new TiledMapClickListener(actor);
+                actor.addListener(eventListener);
+            }
         }
-    }
-
-    public CardUI getBottomUI() {
-        return bottomUI;
-    }
-
-    public CardUI getSideUI() {
-        return sideUI;
     }
 }

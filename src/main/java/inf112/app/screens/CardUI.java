@@ -9,26 +9,23 @@ import java.util.ArrayList;
 
 public class CardUI {
     private TiledMap cardUI;
-  /*  private TiledMapTileLayer cardLayer;
-    private TiledMapTileLayer backgroundLayer;*/
+    private static CardUI instance;
 
-    public CardUI(String spec){
+
+    private CardUI(){
         TmxMapLoader loader = new TmxMapLoader();
-        if(spec == "bottom"){
-            cardUI = loader.load("assets/CardUI.tmx");
-        } else if (spec == "side"){
-            cardUI = loader.load("assets/SideBar1.tmx");
-        } else {
-            throw new IllegalArgumentException("CardUI spec is invalid");
-        }
-        //Loading layers
-       /* cardLayer = (TiledMapTileLayer) cardUI.getLayers().get("Cards");
-        backgroundLayer = (TiledMapTileLayer) cardUI.getLayers().get("Background");*/
-
+        cardUI = loader.load("assets/CardUI2.tmx");
     }
 
 
     public TiledMap getTiles() {
         return cardUI;
+    }
+
+    public static CardUI getInstance(){
+        if(instance == null){
+            instance = new CardUI();
+        }
+        return instance;
     }
 }

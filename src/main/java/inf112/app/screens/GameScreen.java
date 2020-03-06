@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 
@@ -15,6 +17,7 @@ public class GameScreen implements Screen {
     OrthographicCamera uiCam;
     OrthogonalTiledMapRenderer mapRenderer;
     OrthogonalTiledMapRenderer uiRenderer;
+    private TiledMapStage stage;
 
     private float tileSize = 300f;
     private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
@@ -26,20 +29,30 @@ public class GameScreen implements Screen {
         uiCam = new OrthographicCamera();
 
         Map cellMap = Map.getInstance();
-        CardGUI ui = CardGUI.getInstance();
+
+        //Initialize clicklistener
+        stage = new TiledMapStage();
+        Gdx.input.setInputProcessor(stage);
 
         camera.setToOrtho(false, viewportWidth, viewPortHeight);
-        uiCam.setToOrtho(false, 8, 8);
+        uiCam.setToOrtho(false, 7, 7);
 
         initialCameraY = viewPortHeight - cellMap.getMapSizeY();
         camera.position.y = initialCameraY;
         camera.update();
 
+        CardUI ui = stage.getBottomUI();
+        CardUI sideUI = stage.getSideUI();
+        stage.getViewport().getRightGutterWidth();
+
+
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/tileSize));
         mapRenderer.setView(camera);
-        uiRenderer = new OrthogonalTiledMapRenderer(ui.getTiles(), (1/400f));
+        uiRenderer = new OrthogonalTiledMapRenderer(ui.getTiles(), (1/400f)); //400f = card width
         uiRenderer.setView(uiCam);
+        //Setting the clicklistener to have the same frame as the renderers
+        stage.getViewport().setCamera(uiCam);
 
     }
     @Override
@@ -63,7 +76,7 @@ public class GameScreen implements Screen {
         game.batch.begin();
 
         updatePlayer();
-
+        stage.act();
         mapRenderer.render();
         uiRenderer.render();
 

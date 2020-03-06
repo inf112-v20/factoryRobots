@@ -70,7 +70,7 @@ public class Conveyor implements IBoardElement {
     }
 
     /**
-     *
+     * Methode to find out if robot is positioned on a conveyor belt
      * @param pos
      * @return
      */

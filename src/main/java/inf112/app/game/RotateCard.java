@@ -47,6 +47,15 @@ public class RotateCard extends CardStatus implements ICard {
         }
     }
 
+    @Override
+    public ICard copyOf() {
+        if(!uTurn){
+            return new RotateCard(this.getPoint(), this.rotation);
+        } else {
+            return new RotateCard(this.getPoint(), this.uTurn);
+        }
+    }
+
     public Rotation getRotation() {
         return rotation;
     }

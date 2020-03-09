@@ -7,5 +7,5 @@ public interface ICard {
     void doAction(Player player);
 
 
-
+    ICard copyOf();
 }

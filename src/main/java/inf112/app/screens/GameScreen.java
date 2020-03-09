@@ -31,9 +31,9 @@ public class GameScreen implements Screen {
         //Initialize clicklistener
         stage = new TiledMapStage();
         Gdx.input.setInputProcessor(stage);
-
         camera.setToOrtho(false, viewportWidth, viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
+
 
         initialCameraY = viewPortHeight - cellMap.getMapSizeY();
         camera.position.y = initialCameraY;
@@ -62,6 +62,7 @@ public class GameScreen implements Screen {
 
         // tell the camera to update its matrices.
         camera.update();
+        uiCam.update();
 
         // tell the SpriteBatch to render in the
         // coordinate system specified by the camera.
@@ -99,8 +100,8 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void resize(int i, int i1) {
-
+    public void resize(int width, int height) {
+        stage.getViewport().setCamera(uiCam);
     }
 
     @Override
@@ -120,6 +121,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
 
     }
 }

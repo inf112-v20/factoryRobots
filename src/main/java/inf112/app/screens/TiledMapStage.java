@@ -26,8 +26,8 @@ public class TiledMapStage extends Stage {
             for(int y = 0; y < layer.getHeight(); y++){
                 TiledMapTileLayer.Cell cell = layer.getCell(x, y);
                 TiledMapActor actor = new TiledMapActor(tiledMap, layer, cell);
-                actor.setBounds(x, y, 1, 1.5f);  //1.5 since that is the cards ratio (400x600)
-                addActor(actor);
+                actor.setBounds(x, y*(1.5f), 1, 1.5f);  //height 1.5 since that is the cards ratio (400x600)
+                addActor(actor);                                        //*1.5f to compensate the stretch downwards
                 EventListener eventListener = new TiledMapClickListener(actor);
                 actor.addListener(eventListener);
             }

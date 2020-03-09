@@ -73,8 +73,8 @@ public class GameScreen implements Screen {
 
         updatePlayer();
         stage.act();
-        mapRenderer.render();
         uiRenderer.render();
+        mapRenderer.render();
 
         //Remove last player position
         game.cellMap.getLayer("player").setCell(game.player.getCharacter().getPos().getXCoordinate(),

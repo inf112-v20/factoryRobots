@@ -3,8 +3,11 @@ package inf112.app.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import inf112.app.game.CardSlot;
 import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
+
+import javax.smartcardio.Card;
 
 /**
  * Class for the player which the clients user controls,
@@ -13,6 +16,7 @@ import inf112.app.objects.Direction.Rotation;
 public class Player extends InputAdapter {
     private Robot character;
     private Map map;
+    private CardSlot[] cardSlots;
 
 
     /**
@@ -26,6 +30,8 @@ public class Player extends InputAdapter {
 
         this.map = Map.getInstance();
         character = new Robot(new Position(x,y),"player");
+
+        initializeCardSlots();
     }
 
 
@@ -62,5 +68,12 @@ public class Player extends InputAdapter {
                 break;
         }
         return false;
+    }
+
+    private void initializeCardSlots(){
+        cardSlots = new CardSlot[5];
+        for(int i = 0; i<5; i++){
+            cardSlots[i] = new CardSlot();
+        }
     }
 }

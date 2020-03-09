@@ -50,6 +50,15 @@ public class MoveCard extends CardStatus implements ICard  {
         }
     }
 
+    @Override
+    public ICard copyOf() {
+        if(!this.backUp) {
+            return new MoveCard(this.getPoint(), this.steps);
+        } else {
+            return new MoveCard(this.getPoint(), this.backUp);
+        }
+    }
+
     public int getSteps() {
         return steps;
     }

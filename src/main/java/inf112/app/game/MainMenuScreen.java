@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MainMenuScreen implements Screen {
@@ -44,13 +45,14 @@ public class MainMenuScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        atlas = new TextureAtlas(Gdx.files.internal("assets/skins/quantum-horizon-ui.atlas"));
-        skin = new Skin(Gdx.files.internal("assets/skins/quantum-horizon-ui.json"), atlas);
+        atlas = new TextureAtlas(Gdx.files.internal("assets/robo-rally-ui/Robo-Rally.atlas"));
+        skin = new Skin(Gdx.files.internal("assets/robo-rally-ui/Robo-Rally.json"), atlas);
         img = new Texture(Gdx.files.internal("assets/game-menu.png"));
 
         // Create buttons
         Table table = new Table();
         TextButton playButton = new TextButton("Play", skin);
+        TextButton multiPlayer = new TextButton("Multiplayer", skin);
         TextButton optionsButton = new TextButton("Options", skin);
         TextButton exitButton = new TextButton("Exit", skin);
 
@@ -76,11 +78,14 @@ public class MainMenuScreen implements Screen {
 
         //Add buttons to the table
 
-        table.add(playButton);
+        table.add(playButton).pad(10).width(300).height(50);
         table.row();
-        table.add(optionsButton);
+        table.add(multiPlayer).pad(10).width(300).height(50);
         table.row();
-        table.add(exitButton);
+        table.add(optionsButton).pad(10).width(300).height(50);
+        table.row();
+        table.add(exitButton).pad(10).width(300).height(50);
+        //table.debug();
         table.setFillParent(true);
 
         stage.addActor(table);

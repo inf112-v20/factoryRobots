@@ -1,10 +1,7 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -18,16 +15,12 @@ public class TiledMapActor extends Actor {
 
     private TiledMapTileLayer.Cell cell;
 
-    //private BitmapFont font = new BitmapFont();
-
     TextureRegion region;
 
-    public TiledMapActor(TiledMap tiledMap, TiledMapTileLayer tiledLayer, TiledMapTileLayer.Cell cell, AssetManager manager) {
+    public TiledMapActor(TiledMap tiledMap, TiledMapTileLayer tiledLayer, TiledMapTileLayer.Cell cell) {
         this.tiledMap = tiledMap;
         this.tiledLayer = tiledLayer;
         this.cell = cell;
-        region = new TextureRegion();
-        //Texture texture = manager.load();
     }
 
     public TiledMapTileLayer.Cell getCell() {

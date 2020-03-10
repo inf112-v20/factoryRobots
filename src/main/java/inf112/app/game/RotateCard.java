@@ -1,5 +1,7 @@
 package inf112.app.game;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import inf112.app.objects.Direction.Rotation;
 import inf112.app.objects.Player;
 
@@ -15,8 +17,8 @@ public class RotateCard extends CardStatus implements ICard {
      * @param points
      * @param r
      */
-    public RotateCard(int points, Rotation r){
-        super(points);
+    public RotateCard(int points, Rotation r, Texture texture){
+        super(points, texture);
         this.rotation = r;
         this.uTurn = false;
     }
@@ -26,8 +28,8 @@ public class RotateCard extends CardStatus implements ICard {
      * @param points
      * @param uTurn
      */
-    public RotateCard(int points, boolean uTurn){
-        super(points);
+    public RotateCard(int points, boolean uTurn, Texture texture){
+        super(points, texture);
         this.uTurn = uTurn;
         rotation = Rotation.RIGHT;
     }
@@ -50,9 +52,9 @@ public class RotateCard extends CardStatus implements ICard {
     @Override
     public ICard copyOf() {
         if(!uTurn){
-            return new RotateCard(this.getPoint(), this.rotation);
+            return new RotateCard(this.getPoint(), this.rotation, this.texture);
         } else {
-            return new RotateCard(this.getPoint(), this.uTurn);
+            return new RotateCard(this.getPoint(), this.uTurn, this.texture);
         }
     }
 

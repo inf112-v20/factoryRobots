@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
 
         updatePlayer();
         stage.act();
-        stage.draw();
+        //stage.draw();
 
 
 
@@ -85,8 +85,6 @@ public class GameScreen implements Screen {
                 game.player.getCharacter().getPos().getYCoordinate(), null);
 
         game.batch.end();
-
-
     }
 
     private void updatePlayer(){

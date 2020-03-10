@@ -1,5 +1,8 @@
 package inf112.app.game;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import inf112.app.objects.Direction;
 
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.Collections;
  */
 public class CardDeck {
     private ArrayList<ICard> deck;
+    private Texture[] textures;
 
     public CardDeck(){
         reset();
@@ -29,7 +33,7 @@ public class CardDeck {
         //MOVE_ONE Cards:
         int point = 490;
         for (int i = 1; i <= 18; i++) {
-            deck.add(new MoveCard(point,1));
+            deck.add(new MoveCard(point,1, textures[0]));
             point = point + 10;
 
         }
@@ -37,7 +41,7 @@ public class CardDeck {
         //MOVE_TWO Cards:
         point = 670;
         for (int i = 1; i <= 12; i++) {
-            deck.add(new MoveCard(point,2));
+            deck.add(new MoveCard(point,2, textures[1]));
             point = point + 10;
 
         }
@@ -45,7 +49,7 @@ public class CardDeck {
         //MOVE_THREE Cards
         point = 790;
         for (int i = 1; i <= 6; i++) {
-            deck.add(new MoveCard(point, 3));
+            deck.add(new MoveCard(point, 3, textures[2]));
             point = point + 10;
 
         }
@@ -53,7 +57,7 @@ public class CardDeck {
         //BACKUP Cards
         point = 430;
         for (int i = 1; i <= 6; i++) {
-            deck.add(new MoveCard(point, true));
+            deck.add(new MoveCard(point, true, textures[6]));
             point = point + 10;
 
         }
@@ -61,7 +65,7 @@ public class CardDeck {
         //ROTATE_LEFT Cards
         point = 70;
         for (int i = 1; i <= 18; i++) {
-            deck.add(new RotateCard(point, Direction.Rotation.LEFT));
+            deck.add(new RotateCard(point, Direction.Rotation.LEFT, textures[3]));
             point = point + 20;
 
         }
@@ -69,14 +73,14 @@ public class CardDeck {
         //ROTATE_RIGHT Cards
         point = 70;
         for (int i = 1; i <= 18; i++) {
-            deck.add(new RotateCard(point, Direction.Rotation.RIGHT));
+            deck.add(new RotateCard(point, Direction.Rotation.RIGHT, textures[4]));
             point = point + 20;
         }
 
         //U_TURN Cards
         point = 10;
         for (int i = 1; i <= 6; i++) {
-            deck.add(new RotateCard(point, true));
+            deck.add(new RotateCard(point, true, textures[5]));
             point = point + 10;
         }
     }
@@ -129,5 +133,14 @@ public class CardDeck {
 
     public boolean isEmpty(){
         return deck.isEmpty();
+    }
+
+    private void loadCardTextures(){
+        textures = new Texture[7];
+        String[] cardNames = new String[]{"move_1","move_2","move_3","rotate_left","rotate_right","u-turn","back_up"};
+        for(int i = 0; i<7; i++){
+            String path = "assets/Card" + cardNames[i] + ".png";
+            textures[i] = new Texture(path);
+        }
     }
 }

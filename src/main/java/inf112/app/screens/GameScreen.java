@@ -50,6 +50,10 @@ public class GameScreen implements Screen {
         deck = new CardDeck();
         //add single card for testing purposes
         ui.addCardToSlot(deck.getCard(),"bottom",0);
+        for(int i = 0; i<9; i++){
+            ui.addCardToSlot(deck.getCard(),"side",i);
+        }
+
 
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/tileSize));

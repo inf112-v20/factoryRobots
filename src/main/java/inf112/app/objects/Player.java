@@ -23,7 +23,7 @@ public class Player extends InputAdapter {
      */
     public Player(int x, int y){
         //Initializing input processor
-        Gdx.input.setInputProcessor(this);
+        //Gdx.input.setInputProcessor(this);
 
         this.map = Map.getInstance();
         character = new Robot(new Position(x,y),"player");

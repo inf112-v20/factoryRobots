@@ -37,8 +37,8 @@ public class CardUI {
         for(int i = 0; i<5; i++){
             bottomCardSlots[i] = new CardSlot(i,0);
         }
-        for(int i = 0; i<9; i++){
-            sideCardSlots[i] = new CardSlot(6+(i%2),(i/2)+3); // ?? # TODO
+        for(int i = 9; i>0; i--){
+            sideCardSlots[i-1] = new CardSlot(6+(i%2),(i/2)+1);
         }
     }
 

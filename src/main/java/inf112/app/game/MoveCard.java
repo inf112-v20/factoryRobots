@@ -1,5 +1,7 @@
 package inf112.app.game;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import inf112.app.objects.Direction;
 import inf112.app.objects.Player;
 
@@ -16,10 +18,11 @@ public class MoveCard extends CardStatus implements ICard  {
      * @param points
      * @param steps
      */
-    public MoveCard(int points, int steps){
-        super(points);
+    public MoveCard(int points, int steps, Texture texture){
+        super(points,texture);
         this.steps = steps;
         this.backUp = false;
+
     }
 
     /**
@@ -27,8 +30,8 @@ public class MoveCard extends CardStatus implements ICard  {
      * @param points
      * @param backUp
      */
-    public MoveCard(int points, boolean backUp) {
-        super(points);
+    public MoveCard(int points, boolean backUp, Texture texture) {
+        super(points, texture);
         this.backUp = backUp;
         this.steps = 1;
     }
@@ -47,6 +50,15 @@ public class MoveCard extends CardStatus implements ICard  {
             player.getCharacter().turn(Direction.Rotation.LEFT);
         } else {
             player.getCharacter().move(steps);
+        }
+    }
+
+    @Override
+    public ICard copyOf() {
+        if(!this.backUp) {
+            return new MoveCard(this.getPoint(), this.steps, this.getTexture());
+        } else {
+            return new MoveCard(this.getPoint(), this.backUp, this.getTexture());
         }
     }
 

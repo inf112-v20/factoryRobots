@@ -35,8 +35,13 @@ public abstract class CardStatus implements Comparable<ICard> {
         this.isLocked = false;
         this.texture = texture;
 
-        makeCardTile(texture);
+        //Automated tests will pass texture as null
+        if(texture != null){
+            makeCardTile(texture);
+        }
+
     }
+
 
     /**
      * Method for CardStatus constructor to generate the final card texture

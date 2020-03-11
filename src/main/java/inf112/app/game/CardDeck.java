@@ -23,11 +23,24 @@ public class CardDeck {
     }
 
     /**
+     * Constructor used by automated tests
+     * should never be used by actual game
+     * @param testing extra parameter for distinguishing the constructors
+     *                can be true or false
+     */
+    public CardDeck(boolean testing){
+        textures = new Texture[7];
+        for(int i = 0; i<7; i++){
+            textures[i] = null;
+        }
+        reset();
+
+    }
+
+    /**
      *
      * Resets the deck and 'unshuffles' them
      */
-
-
     public void reset() {
         deck = new ArrayList<>();
 

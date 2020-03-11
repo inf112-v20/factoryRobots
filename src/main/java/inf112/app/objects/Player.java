@@ -3,6 +3,7 @@ package inf112.app.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import inf112.app.game.CardSlot;
 import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
 
@@ -22,7 +23,7 @@ public class Player extends InputAdapter {
      */
     public Player(int x, int y){
         //Initializing input processor
-        Gdx.input.setInputProcessor(this);
+        //Gdx.input.setInputProcessor(this);
 
         this.map = Map.getInstance();
         character = new Robot(new Position(x,y),"player");

@@ -3,6 +3,7 @@ package inf112.app.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
@@ -96,8 +97,8 @@ public class Robot implements ILaserInteractor {
         String path = "assets/" + charName + ".png";
         //Loading and splitting player sprites
         Texture spriteMap = new Texture(path);
-        TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
 
+        TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
         //Assigning individual sprites
         normalPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
         loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));

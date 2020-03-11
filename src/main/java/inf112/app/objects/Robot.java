@@ -17,6 +17,7 @@ public class Robot implements ILaserInteractor {
     private Map map;
     private Position pos;
     private Vector2 vectorPos;
+    private Flag lastVisited;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -28,6 +29,7 @@ public class Robot implements ILaserInteractor {
         this.map = Map.getInstance();
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
         loadPlayerSprites(charName);
+        lastVisited = null;
     }
 
     /**
@@ -104,4 +106,17 @@ public class Robot implements ILaserInteractor {
         loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
         winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
     }
+
+    /**
+     * returns a list used to determine if robots have visited flags
+     * @return
+     */
+    public Flag getVisitedFlag() {
+        return lastVisited;
+    }
+
+    public void setVisitedFlag(Flag flag) {
+        this.lastVisited = flag;
+    }
+
 }

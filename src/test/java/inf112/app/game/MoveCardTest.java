@@ -22,10 +22,10 @@ public class MoveCardTest {
 
     @Before
     public void setUp() throws Exception {
-        moveOne = new MoveCard(150,1);
-        moveTwo = new MoveCard(150, 2);
-        moveThree = new MoveCard(150,3);
-        backUp = new MoveCard(150,true);
+        moveOne = new MoveCard(150,1,null);
+        moveTwo = new MoveCard(150, 2,null);
+        moveThree = new MoveCard(150,3,null);
+        backUp = new MoveCard(150,true,null);
         Map.setInstance("testMap");
         map = Map.getInstance();
         player = new Player(2,2);

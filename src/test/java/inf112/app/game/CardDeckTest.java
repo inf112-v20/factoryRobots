@@ -1,11 +1,13 @@
 package inf112.app.game;
 
+import inf112.app.GdxTestRunner;
 import inf112.app.objects.Direction.Rotation;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
-
+@RunWith(GdxTestRunner.class)
 public class CardDeckTest {
     int[] correctNumbers;
     int moveOneCount = 18;
@@ -25,7 +27,7 @@ public class CardDeckTest {
 
     @Test
     public void verifyNumberOfDifferentCardsTest() {
-        CardDeck deck = new CardDeck();
+        CardDeck deck = new CardDeck(true);
         while(!deck.isEmpty()){
             ICard card = deck.getCard();
             if(card instanceof MoveCard){

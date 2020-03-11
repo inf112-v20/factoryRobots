@@ -23,6 +23,7 @@ public class Player extends InputAdapter {
      */
     public Player(int x, int y){
         //Initializing input processor
+        // TODO Fix: .this
         //Gdx.input.setInputProcessor(this);
 
         this.map = Map.getInstance();

@@ -52,9 +52,9 @@ public class RotateCard extends CardStatus implements ICard {
     @Override
     public ICard copyOf() {
         if(!uTurn){
-            return new RotateCard(this.getPoint(), this.rotation, this.texture);
+            return new RotateCard(this.getPoint(), this.rotation, this.getTexture());
         } else {
-            return new RotateCard(this.getPoint(), this.uTurn, this.texture);
+            return new RotateCard(this.getPoint(), this.uTurn, this.getTexture());
         }
     }
 

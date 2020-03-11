@@ -17,6 +17,7 @@ public class CardDeck {
     private Texture[] textures;
 
     public CardDeck(){
+        loadCardTextures();
         reset();
         shuffle();
     }
@@ -139,7 +140,7 @@ public class CardDeck {
         textures = new Texture[7];
         String[] cardNames = new String[]{"move_1","move_2","move_3","rotate_left","rotate_right","u-turn","back_up"};
         for(int i = 0; i<7; i++){
-            String path = "assets/Card" + cardNames[i] + ".png";
+            String path = "assets/Card/" + cardNames[i] + ".png";
             textures[i] = new Texture(path);
         }
     }

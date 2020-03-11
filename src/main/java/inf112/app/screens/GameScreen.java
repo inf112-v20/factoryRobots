@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import inf112.app.game.CardDeck;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 
@@ -16,6 +17,8 @@ public class GameScreen implements Screen {
     OrthogonalTiledMapRenderer mapRenderer;
     OrthogonalTiledMapRenderer uiRenderer;
     private TiledMapStage stage;
+
+    private CardDeck deck;
 
     private float tileSize = 300f;
     private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
@@ -34,12 +37,19 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, viewportWidth, viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
 
-
+        //Set up cameras
         initialCameraY = viewPortHeight - cellMap.getMapSizeY();
         camera.position.y = initialCameraY;
         camera.update();
 
+        //Initialize frame around board
         CardUI ui = CardUI.getInstance();
+        ui.initializeCardSlots();
+
+        //Create and shuffle deck
+        deck = new CardDeck();
+        //add single card for testing purposes
+        ui.addCardToSlot(deck.getCard(),"bottom",0);
 
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/tileSize));
@@ -73,9 +83,6 @@ public class GameScreen implements Screen {
 
         updatePlayer();
         stage.act();
-        //stage.draw();
-
-
 
         uiRenderer.render();
         mapRenderer.render();
@@ -126,6 +133,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        game.batch.dispose();
 
     }
 }

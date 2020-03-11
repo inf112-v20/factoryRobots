@@ -1,5 +1,6 @@
 package inf112.app.game;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.app.objects.Player;
 
 public interface ICard {
@@ -8,4 +9,6 @@ public interface ICard {
 
 
     ICard copyOf();
+
+    TiledMapTileLayer.Cell getCardTile();
 }

@@ -16,14 +16,14 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
  *
  * Class for all the cards in the game
  */
-public abstract class CardStatus implements Comparable {
+public abstract class CardStatus implements Comparable<ICard> {
 
     private final int point;
     private boolean isHidden;
     private boolean isLocked;
 
-    protected Texture texture;
-    protected TiledMapTileLayer.Cell cardTile;
+    private Texture texture;
+    private TiledMapTileLayer.Cell cardTile;
 
     /**
      * abstract constructor used by sub-classes
@@ -38,25 +38,30 @@ public abstract class CardStatus implements Comparable {
         makeCardTile(texture);
     }
 
+    /**
+     * Method for CardStatus constructor to generate the final card texture
+     * with the correct amount of priority points printed on the cards
+     * @param texture card to be drawn on
+     */
     private void makeCardTile(Texture texture){
-        SpriteBatch spriteBatch=new SpriteBatch();
-        BitmapFont font=new BitmapFont();
+        SpriteBatch spriteBatch = new SpriteBatch();
+        BitmapFont font = new BitmapFont();
 
-        int width = texture.getWidth();
-        int height = texture.getHeight();
+        FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),false) ;
 
-        //FrameBuffer frameBuffer=new FrameBuffer(Pixmap.Format.RGBA8888,Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),false) ;
-
-        FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,width, height,false);
         frameBuffer.begin();
 
         Gdx.gl.glClearColor(0f,0f,0f,0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         spriteBatch.begin();
+        //draw card texture
         spriteBatch.draw(texture,0,0);
         font.setColor(Color.GREEN);
-        font.draw(spriteBatch, String.valueOf(getPoint()),100,100);
+        //change font size
+        font.getData().setScale(3.3f);
+        //draw priority points on texture
+        font.draw(spriteBatch, String.valueOf(getPoint()),252.5f,545);
         spriteBatch.end();
 
         TextureRegion textureRegion = new TextureRegion(frameBuffer.getColorBufferTexture(),0,0,frameBuffer.getWidth(),frameBuffer.getHeight());
@@ -65,6 +70,9 @@ public abstract class CardStatus implements Comparable {
         cardTile = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(textureRegion));
 
         frameBuffer.end();
+
+        font.dispose();
+        spriteBatch.dispose();
     }
 
 
@@ -92,9 +100,10 @@ public abstract class CardStatus implements Comparable {
         return isHidden;
     }
 
-    /**
-     * functions to set card information
-     */
+    public Texture getTexture() {
+        return texture;
+    }
+
 
     /**
      * sets card in locked state
@@ -113,7 +122,7 @@ public abstract class CardStatus implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(ICard o) {
         return this.point - ((CardStatus) o).point;
     }
 

@@ -3,6 +3,7 @@ package inf112.app.screens;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.game.CardSlot;
+import inf112.app.game.ICard;
 
 
 public class CardUI {
@@ -16,8 +17,6 @@ public class CardUI {
     private CardUI(){
         TmxMapLoader loader = new TmxMapLoader();
         cardUI = loader.load("assets/CardUI2.tmx");
-
-        initializeCardSlots();
     }
 
 
@@ -32,14 +31,24 @@ public class CardUI {
         return instance;
     }
 
-    private void initializeCardSlots(){
+    public void initializeCardSlots(){
         bottomCardSlots = new CardSlot[5];
         sideCardSlots = new CardSlot[9];
         for(int i = 0; i<5; i++){
-            bottomCardSlots[i] = new CardSlot();
+            bottomCardSlots[i] = new CardSlot(i,0);
         }
         for(int i = 0; i<9; i++){
-            sideCardSlots[i] = new CardSlot();
+            sideCardSlots[i] = new CardSlot(6+(i%2),(i/2)+3); // ?? # TODO
         }
+    }
+
+    public boolean addCardToSlot(ICard card, String where, int num){
+        if("bottom".equals(where)){
+            return bottomCardSlots[num].addCard(card);
+        } else if("side".equals(where)){
+            return sideCardSlots[num].addCard(card);
+        }
+        System.out.println("where parameter invalid");
+        return false;
     }
 }

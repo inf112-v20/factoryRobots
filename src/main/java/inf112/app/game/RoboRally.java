@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.app.map.Map;
 import inf112.app.objects.Player;
+import inf112.app.screens.MainMenuScreen;
 
 public class RoboRally extends Game {
     public SpriteBatch batch;

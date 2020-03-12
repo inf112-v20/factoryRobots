@@ -6,9 +6,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import inf112.app.game.CardDeck;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
+import inf112.app.objects.Player;
 
 public class GameScreen implements Screen {
     final RoboRally game;
@@ -24,23 +27,37 @@ public class GameScreen implements Screen {
     private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
     private float initialCameraY;
 
+    private Map cellMap;
+    private Player player;
+
     public GameScreen(final RoboRally game){
         this.game = game;
+        game.setMap("testMap");
+        game.setPlayer(2,2);
+
+        this.cellMap = Map.getInstance();
+        this.player = game.getPlayer();
+
+        //Set up cameras
         camera = new OrthographicCamera();
         uiCam = new OrthographicCamera();
 
-        Map cellMap = Map.getInstance();
-
-        //Initialize clicklistener
-        stage = new TiledMapStage();
-        Gdx.input.setInputProcessor(stage);
         camera.setToOrtho(false, viewportWidth, viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
 
-        //Set up cameras
         initialCameraY = viewPortHeight - cellMap.getMapSizeY();
         camera.position.y = initialCameraY;
         camera.update();
+
+        //Initialize clicklistener
+        stage = new TiledMapStage();
+
+        stage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                return player.keyUp(keycode);
+            }
+        });
 
         //Initialize frame around board
         CardUI ui = CardUI.getInstance();
@@ -54,16 +71,17 @@ public class GameScreen implements Screen {
             ui.addCardToSlot(deck.getCard(),"side",i);
         }
 
-
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/tileSize));
         mapRenderer.setView(camera);
         uiRenderer = new OrthogonalTiledMapRenderer(ui.getTiles(), (1/400f)); //400f = card width
         uiRenderer.setView(uiCam);
         //Setting the clicklistener to have the same frame as the renderers
-        stage.getViewport().setCamera(uiCam);
 
+        stage.getViewport().setCamera(uiCam);
+        Gdx.input.setInputProcessor(stage);
     }
+
     @Override
     public void show() {
 
@@ -92,24 +110,24 @@ public class GameScreen implements Screen {
         mapRenderer.render();
 
         //Remove last player position
-        game.cellMap.getLayer("player").setCell(game.player.getCharacter().getPos().getXCoordinate(),
-                game.player.getCharacter().getPos().getYCoordinate(), null);
+        cellMap.getLayer("player").setCell(player.getCharacter().getPos().getXCoordinate(),
+                player.getCharacter().getPos().getYCoordinate(), null);
 
         game.batch.end();
     }
 
     private void updatePlayer(){
-        int playerX = game.player.getCharacter().getPos().getXCoordinate();
-        int playerY = game.player.getCharacter().getPos().getYCoordinate();
-        TiledMapTileLayer playerLayer = game.cellMap.getLayer("player");
+        int playerX = player.getCharacter().getPos().getXCoordinate();
+        int playerY = player.getCharacter().getPos().getYCoordinate();
+        TiledMapTileLayer playerLayer = cellMap.getLayer("player");
 
         //Setting player sprite to current position
-        playerLayer.setCell(playerX, playerY, game.player.getCharacter().getNormal());
+        playerLayer.setCell(playerX, playerY, player.getCharacter().getNormal());
         //Checking if player is touching hole or flag
-        if(game.cellMap.getLayer("hole").getCell(playerX, playerY) != null){
-            playerLayer.setCell(playerX, playerY, game.player.getCharacter().getLooser());
-        } else if(game.cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
-            playerLayer.setCell(playerX, playerY, game.player.getCharacter().getWinner());
+        if(cellMap.getLayer("hole").getCell(playerX, playerY) != null){
+            playerLayer.setCell(playerX, playerY, player.getCharacter().getLooser());
+        } else if(cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
+            playerLayer.setCell(playerX, playerY, player.getCharacter().getWinner());
         }
 
     }
@@ -138,6 +156,5 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         game.batch.dispose();
-
     }
 }

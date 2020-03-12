@@ -13,7 +13,6 @@ import inf112.app.objects.Direction.Rotation;
  */
 public class Player extends InputAdapter {
     private Robot character;
-    private Map map;
 
 
     /**
@@ -22,14 +21,8 @@ public class Player extends InputAdapter {
      * @param y Y-coordinate of the player character
      */
     public Player(int x, int y){
-        //Initializing input processor
-        // TODO Fix: .this
-        //Gdx.input.setInputProcessor(this);
-
-        this.map = Map.getInstance();
         character = new Robot(new Position(x,y),"player");
     }
-
 
     public Robot getCharacter(){
         return character;
@@ -52,13 +45,6 @@ public class Player extends InputAdapter {
             case Input.Keys.UP:
                 character.move(1);
                 break;
-            /*case Input.Keys.DOWN: //temporary
-                character.turn(Rotation.LEFT);
-                character.turn(Rotation.LEFT);
-                character.move(1);
-                character.turn(Rotation.RIGHT);
-                character.turn(Rotation.RIGHT);
-                break; */
             default:
                 System.out.println("Unassigned input");
                 break;

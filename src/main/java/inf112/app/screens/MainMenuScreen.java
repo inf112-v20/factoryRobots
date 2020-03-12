@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.app.game.RoboRally;
 
+import javax.xml.soap.Text;
+
 public class MainMenuScreen implements Screen {
 
     final RoboRally game;
@@ -65,6 +67,7 @@ public class MainMenuScreen implements Screen {
         optionsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                showOptionsScreen();
             }
         });
         exitButton.addListener(new ClickListener(){
@@ -76,18 +79,28 @@ public class MainMenuScreen implements Screen {
 
         //Add buttons to the table
 
-        table.add(playButton).pad(10).width(300).height(50);
-        table.row();
-        table.add(multiPlayer).pad(10).width(300).height(50);
-        table.row();
-        table.add(optionsButton).pad(10).width(300).height(50);
-        table.row();
-        table.add(exitButton).pad(10).width(300).height(50);
-        //table.debug();
+        stage.addActor(createTable(playButton, multiPlayer, optionsButton, exitButton));
+    }
+
+    public void showOptionsScreen(){
+        stage.clear();
+
+        Table table = new Table();
+        TextButton soundButton = new TextButton("Sound", skin);
+        TextButton returnButton = new TextButton("Return", skin);
+        TextButton exitButton = new TextButton("Exit", skin);
+
+        stage.addActor(createTable(soundButton,returnButton, exitButton));
+    }
+
+    public Table createTable(TextButton... buttons){
+        Table table = new Table();
+        for (TextButton button : buttons){
+            table.add(button).pad(10).width(300).height(50);
+            table.row();
+        }
         table.setFillParent(true);
-
-        stage.addActor(table);
-
+        return table;
 
     }
 

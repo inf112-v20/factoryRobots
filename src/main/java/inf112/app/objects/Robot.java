@@ -3,6 +3,7 @@ package inf112.app.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
@@ -16,6 +17,7 @@ public class Robot implements ILaserInteractor {
     private Map map;
     private Position pos;
     private Vector2 vectorPos;
+    private Flag lastVisited;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -27,6 +29,7 @@ public class Robot implements ILaserInteractor {
         this.map = Map.getInstance();
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
         loadPlayerSprites(charName);
+        lastVisited = null;
     }
 
     /**
@@ -111,11 +114,24 @@ public class Robot implements ILaserInteractor {
         String path = "assets/" + charName + ".png";
         //Loading and splitting player sprites
         Texture spriteMap = new Texture(path);
-        TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
 
+        TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
         //Assigning individual sprites
         normalPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
         loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
         winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
     }
+
+    /**
+     * returns a list used to determine if robots have visited flags
+     * @return
+     */
+    public Flag getVisitedFlag() {
+        return lastVisited;
+    }
+
+    public void setVisitedFlag(Flag flag) {
+        this.lastVisited = flag;
+    }
+
 }

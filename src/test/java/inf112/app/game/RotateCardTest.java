@@ -20,9 +20,9 @@ public class RotateCardTest {
 
     @Before
     public void setUp() throws Exception {
-        leftRotate = new RotateCard(150, Rotation.LEFT);
-        rightRotate = new RotateCard(150, Rotation.RIGHT);
-        uTurn = new RotateCard(150,true);
+        leftRotate = new RotateCard(150, Rotation.LEFT,null);
+        rightRotate = new RotateCard(150, Rotation.RIGHT,null);
+        uTurn = new RotateCard(150,true,null);
         Map.setInstance("testMap");
         player = new Player(2,2);
     }

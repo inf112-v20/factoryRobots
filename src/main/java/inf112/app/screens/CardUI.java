@@ -12,6 +12,8 @@ public class CardUI {
 
     private CardSlot[] bottomCardSlots;
     private CardSlot[] sideCardSlots;
+    //Used as a lookup table for the stage
+    private CardSlot[][] lookupSlots;
 
 
     private CardUI(){
@@ -34,12 +36,24 @@ public class CardUI {
     public void initializeCardSlots(){
         bottomCardSlots = new CardSlot[5];
         sideCardSlots = new CardSlot[9];
+        lookupSlots = new CardSlot[8][6];
+
         for(int i = 0; i<5; i++){
-            bottomCardSlots[i] = new CardSlot(i,0);
+            CardSlot newSlot = new CardSlot(i,0,"bottom");
+            bottomCardSlots[i] = newSlot;
+            lookupSlots[i][0] = newSlot;
         }
         for(int i = 9; i>0; i--){
-            sideCardSlots[i-1] = new CardSlot(6+(i%2),(i/2)+1);
+            int x = 6+(i%2);
+            int y = (i/2)+1;
+            CardSlot newSlot = new CardSlot(x,y,"side");
+            sideCardSlots[i-1] = newSlot;
+            lookupSlots[x][y] = newSlot;
         }
+    }
+
+    public CardSlot getSlotFromCoordinates(int x, int y){
+        return lookupSlots[x][y];
     }
 
     public boolean addCardToSlot(ICard card, String where, int num){
@@ -58,5 +72,22 @@ public class CardUI {
 
     public CardSlot[] getSideCardSlots() {
         return sideCardSlots;
+    }
+
+    public CardSlot findAvailableSlot(String where) {
+        if("bottom".equals(where)){
+            for(int i = 0; i<bottomCardSlots.length; i++){
+                if(!bottomCardSlots[i].hasCard()){
+                    return bottomCardSlots[i];
+                }
+            }
+        } else if("side".equals(where)){
+            for(int i = 0; i<sideCardSlots.length; i++){
+                if(!sideCardSlots[i].hasCard()){
+                    return sideCardSlots[i];
+                }
+            }
+        }
+        return null;
     }
 }

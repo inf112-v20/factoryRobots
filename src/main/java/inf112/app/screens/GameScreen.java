@@ -31,6 +31,17 @@ public class GameScreen implements Screen {
 
         Map cellMap = Map.getInstance();
 
+        //Initialize frame around board
+        CardUI ui = CardUI.getInstance();
+        ui.initializeCardSlots();
+        //Create and shuffle deck
+        deck = new CardDeck();
+        //add single card for testing purposes
+        //ui.addCardToSlot(deck.getCard(),"bottom",0);
+        for(int i = 0; i<9; i++){
+            ui.addCardToSlot(deck.getCard(),"side",i);
+        }
+
         //Initialize clicklistener
         stage = new TiledMapStage();
         Gdx.input.setInputProcessor(stage);
@@ -42,16 +53,7 @@ public class GameScreen implements Screen {
         camera.position.y = initialCameraY;
         camera.update();
 
-        //Initialize frame around board
-        CardUI ui = CardUI.getInstance();
-        ui.initializeCardSlots();
-        //Create and shuffle deck
-        deck = new CardDeck();
-        //add single card for testing purposes
-        ui.addCardToSlot(deck.getCard(),"bottom",0);
-        for(int i = 0; i<9; i++){
-            ui.addCardToSlot(deck.getCard(),"side",i);
-        }
+
 
 
         //Initializing renderers
@@ -65,7 +67,6 @@ public class GameScreen implements Screen {
     }
     @Override
     public void show() {
-
     }
 
     @Override
@@ -110,7 +111,6 @@ public class GameScreen implements Screen {
         } else if(game.cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
             playerLayer.setCell(playerX, playerY, game.player.getCharacter().getWinner());
         }
-
     }
 
     @Override
@@ -137,6 +137,7 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         game.batch.dispose();
-
+        uiRenderer.dispose();
+        mapRenderer.dispose();
     }
 }

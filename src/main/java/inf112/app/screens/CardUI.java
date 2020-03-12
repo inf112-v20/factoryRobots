@@ -51,4 +51,12 @@ public class CardUI {
         System.out.println("where parameter invalid");
         return false;
     }
+
+    public CardSlot[] getBottomCardSlots() {
+        return bottomCardSlots;
+    }
+
+    public CardSlot[] getSideCardSlots() {
+        return sideCardSlots;
+    }
 }

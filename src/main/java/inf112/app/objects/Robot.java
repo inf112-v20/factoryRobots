@@ -118,5 +118,4 @@ public class Robot implements ILaserInteractor {
     public void setVisitedFlag(Flag flag) {
         this.lastVisited = flag;
     }
-
 }

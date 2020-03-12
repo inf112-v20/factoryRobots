@@ -4,15 +4,19 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import inf112.app.game.CardSlot;
 
 public class TiledMapStage extends Stage {
     private TiledMap tiledMap;
     private TiledMapTileLayer cardLayer;
+    private CardSlot[] sideSlots, bottomSlots;
 
 
     public TiledMapStage(){
         CardUI cardUI = CardUI.getInstance();
         tiledMap = cardUI.getTiles();
+        sideSlots = cardUI.getSideCardSlots();
+        bottomSlots = cardUI.getBottomCardSlots();
 
         cardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Cards");
         createActor(cardLayer);

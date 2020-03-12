@@ -29,7 +29,7 @@ public class Conveyor implements IBoardElement {
         entries[1] = new Direction(entry2);
         this.exit = new Direction(exit);
         this.speed = speed;
-        this.rotate = false;
+
 
     }
     public Conveyor(int entry1, int entry2, int exit, int speed, boolean rotate, Rotation r){
@@ -40,6 +40,10 @@ public class Conveyor implements IBoardElement {
         this.speed = speed;
         this.rotate = rotate;
         this.rotation = r;
+    }
+
+    public boolean willRotate(Direction dir){
+
     }
 
     /**
@@ -60,7 +64,7 @@ public class Conveyor implements IBoardElement {
         if (speed == 2) {
             player.getCharacter().move(next.exit);
             Conveyor afterNext = extractConveyorFromCell(player.getCharacter().getPos());
-            if(next == null){
+            if(afterNext == null){
                 return;
             }
             if(afterNext.rotate){
@@ -86,4 +90,7 @@ public class Conveyor implements IBoardElement {
         return next;
     }
 
+    public Direction getExit() {
+        return new Direction(exit.getDirEnum());
+    }
 }

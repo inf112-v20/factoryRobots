@@ -42,9 +42,26 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         uiCam = new OrthographicCamera();
 
+        Map cellMap = Map.getInstance();
+
+        //Initialize frame around board
+        CardUI ui = CardUI.getInstance();
+        ui.initializeCardSlots();
+        //Create and shuffle deck
+        deck = new CardDeck();
+        //add single card for testing purposes
+        //ui.addCardToSlot(deck.getCard(),"bottom",0);
+        for(int i = 0; i<9; i++){
+            ui.addCardToSlot(deck.getCard(),"side",i);
+        }
+
+        //Initialize clicklistener
+        stage = new TiledMapStage();
+        Gdx.input.setInputProcessor(stage);
         camera.setToOrtho(false, viewportWidth, viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
 
+        //Set up cameras
         initialCameraY = viewPortHeight - cellMap.getMapSizeY();
         camera.position.y = initialCameraY;
         camera.update();
@@ -59,17 +76,7 @@ public class GameScreen implements Screen {
             }
         });
 
-        //Initialize frame around board
-        CardUI ui = CardUI.getInstance();
-        ui.initializeCardSlots();
 
-        //Create and shuffle deck
-        deck = new CardDeck();
-        //add single card for testing purposes
-        ui.addCardToSlot(deck.getCard(),"bottom",0);
-        for(int i = 0; i<9; i++){
-            ui.addCardToSlot(deck.getCard(),"side",i);
-        }
 
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/tileSize));
@@ -84,7 +91,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
     }
 
     @Override
@@ -129,7 +135,6 @@ public class GameScreen implements Screen {
         } else if(cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
             playerLayer.setCell(playerX, playerY, player.getCharacter().getWinner());
         }
-
     }
 
     @Override
@@ -156,5 +161,7 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         game.batch.dispose();
+        uiRenderer.dispose();
+        mapRenderer.dispose();
     }
 }

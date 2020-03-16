@@ -9,15 +9,12 @@ import inf112.app.game.CardSlot;
 public class TiledMapStage extends Stage {
     private TiledMap tiledMap;
     private TiledMapTileLayer cardLayer;
-    private CardSlot[] sideSlots, bottomSlots;
     private CardUI cardUI;
 
 
     public TiledMapStage(){
         cardUI = CardUI.getInstance();
         tiledMap = cardUI.getTiles();
-        sideSlots = cardUI.getSideCardSlots();
-        bottomSlots = cardUI.getBottomCardSlots();
 
         cardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Cards");
         createActor(cardLayer);

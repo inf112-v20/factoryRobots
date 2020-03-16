@@ -63,7 +63,7 @@ public class Wall implements IBoardElement, ILaserInteractor {
     }
 
     @Override
-    public void doAction(Player player) {
+    public void doAction(Robot robot) {
     }
 
     public Position getPos(){

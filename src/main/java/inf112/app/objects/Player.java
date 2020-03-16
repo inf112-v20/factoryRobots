@@ -1,10 +1,7 @@
 package inf112.app.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import inf112.app.game.CardSlot;
-import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
 
 /**
@@ -44,6 +41,9 @@ public class Player extends InputAdapter {
                 break;
             case Input.Keys.UP:
                 character.move(1);
+                break;
+            case Input.Keys.SPACE:
+                character.initiateRobotProgramme();
                 break;
             default:
                 System.out.println("Unassigned input");

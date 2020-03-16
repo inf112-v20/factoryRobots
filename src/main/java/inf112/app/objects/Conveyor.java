@@ -32,18 +32,35 @@ public class Conveyor implements IBoardElement {
 
 
     }
-    public Conveyor(int entry1, int entry2, int exit, int speed, boolean rotate, Rotation r){
-        entries = new Direction[2];
-        entries[0] = new Direction(entry1);
-        entries[1] = new Direction(entry2);
-        this.exit = new Direction(exit);
-        this.speed = speed;
-        this.rotate = rotate;
-        this.rotation = r;
-    }
 
     public boolean willRotate(Direction dir){
+        if (dir.equals(exit)){
+            return false;
+        }
+        Direction direc = exit.copyOf();
+        direc.turn(Rotation.LEFT);
+        direc.turn(Rotation.LEFT);
 
+        if (dir.equals(direc)){
+            return false;
+        } else{
+            return true;
+        }
+
+    }
+
+    public Rotation rotationDirection(Direction dir){
+        int leftRotationAngle = dir.getAngleDeg() - 90;
+        if (leftRotationAngle < 0){
+            leftRotationAngle = 270;
+        }
+        if ((dir.getAngleDeg() + 90)%360 == exit.getAngleDeg()){
+            return Rotation.RIGHT;
+        }else if(leftRotationAngle == exit.getAngleDeg()){
+            return Rotation.LEFT;
+        }else{
+            throw new RuntimeException("Could not determine rotation of conveyor");
+        }
     }
 
     /**
@@ -52,23 +69,24 @@ public class Conveyor implements IBoardElement {
      */
     @Override
     public void doAction(Player player) {
-        player.getCharacter().move(exit);
+
+        player.getCharacter().move(getExit());
 
         Conveyor next = extractConveyorFromCell(player.getCharacter().getPos());
         if (next == null) {
             return;
         }
-        if (next.rotate) {
-            player.getCharacter().turn(next.rotation);
+        if (next.willRotate(exit)) {
+            player.getCharacter().turn(next.rotationDirection(exit));
         }
         if (speed == 2) {
-            player.getCharacter().move(next.exit);
+            player.getCharacter().move(next.getExit());
             Conveyor afterNext = extractConveyorFromCell(player.getCharacter().getPos());
             if(afterNext == null){
                 return;
             }
-            if(afterNext.rotate){
-                player.getCharacter().turn(afterNext.rotation);
+            if(afterNext.willRotate(exit)){
+                player.getCharacter().turn(afterNext.rotationDirection(exit));
             }
         }
     }

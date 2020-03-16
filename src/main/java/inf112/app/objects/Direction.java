@@ -14,6 +14,8 @@ public class Direction {
         angleDeg = translateEnumToAngle(dir);
     }
 
+
+
     public Direction(int angle){
         angleDeg = angle;
         direction = translateAngleToEnum(angle);
@@ -72,6 +74,10 @@ public class Direction {
         } else {
             throw new IllegalArgumentException("Rotation is not valid rotation enum");
         }
+    }
+
+    public int getAngleDeg() {
+        return angleDeg;
     }
 
 

@@ -3,7 +3,6 @@ package inf112.app.objects;
 import inf112.app.GdxTestRunner;
 import inf112.app.map.Map;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +23,9 @@ public class ConveyorTest {
 
     }
 
+    /**
+     * testing for double speed conveyor
+     */
     @Test
     public void doActionDoubleSpeed() {
         player = new Player(8, 4);
@@ -44,12 +46,23 @@ public class ConveyorTest {
 
     }
 
+    /**
+     * testing for single speed conveyor
+     */
     @Test
     public void doActionSingleSpeed() {
+        player = new Player(11, 4);
+        Conveyor conveyor = null;
+        ArrayList<IBoardElement> elements = Map.getInstance().getCellList().getCell(player.getCharacter().getPos()).getInventory().getElements();
+        for(IBoardElement e : elements){
+            if(e instanceof Conveyor){
+                conveyor = (Conveyor) e;
+            }
+        }
+
         Position oldPos = player.getCharacter().getPos().copyOf();
-        oldPos.setDirection(exit);
+        oldPos.setDirection(conveyor.getExit());
         oldPos.moveInDirection();
-        oldPos.getDirection().turn(Direction.Rotation.LEFT);
         assertEquals("Positions should be the same ",oldPos,player.getCharacter().getPos());
 
     }

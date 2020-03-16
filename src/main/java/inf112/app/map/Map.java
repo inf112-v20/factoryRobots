@@ -4,9 +4,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import inf112.app.objects.IBoardElement;
-import inf112.app.objects.Position;
-import inf112.app.objects.Wall;
+import inf112.app.objects.*;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -35,6 +33,9 @@ public class Map {
     private MapCellList cellList;
 
     private TiledMap laserSprites;
+    private ArrayList<ILaserInteractor> laserObjects;
+    private int laserTimer = 0;
+    private boolean lasersActive = false;
 
     private Map(String mapName){
         String pathToMap = "assets/" + mapName + ".tmx";
@@ -59,6 +60,24 @@ public class Map {
         mapSizeX = props.get("width",Integer.class);
         mapSizeY = props.get("height",Integer.class);
         cellList = new MapCellList(mapSizeX, mapSizeY, map.getLayers());
+
+        laserObjects = obtainLaserObjects();
+    }
+
+    private ArrayList<ILaserInteractor> obtainLaserObjects() {
+        ArrayList<ILaserInteractor> objects = new ArrayList<>();
+        for(int x = 0; x < mapSizeX; x++){
+            for(int y = 0; y < mapSizeY; y++){
+                MapCell cell = cellList.getCell(x,y);
+                ArrayList<IBoardElement> inventory = cell.getInventory().getElements();
+                for(IBoardElement elem : inventory){
+                    if(elem instanceof ILaserInteractor){
+                        objects.add((ILaserInteractor) elem);
+                    }
+                }
+            }
+        }
+        return objects;
     }
 
 
@@ -189,5 +208,55 @@ public class Map {
                 layer.setCell(x,y,null);
             }
         }
+    }
+
+    public void fireLasers(){
+        for(ILaserInteractor object : laserObjects){
+            object.fireLaser();
+        }
+        lasersActive = true;
+    }
+
+    public int getLaserTimer() {
+        return laserTimer;
+    }
+
+    public boolean lasersActive() {
+        return lasersActive;
+    }
+
+    public void incrementLaserTimer(){
+        laserTimer++;
+    }
+
+    public void deactivateLasers(){
+        lasersActive = false;
+        laserTimer = 0;
+        clearLayer(laserLayer);
+    }
+
+    public void registerRobot(Robot robot){
+        cellList.getCell(robot.getPos()).appendToInventory(robot);
+        laserObjects.add(robot);
+    }
+
+    public boolean robotInTile(Position pos){
+        ArrayList<IBoardElement> elems = cellList.getCell(pos).getInventory().getElements();
+        for(IBoardElement e : elems){
+            if(e instanceof Robot){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public IBoardElement findTypeInTile(IBoardElement type, Position pos){
+        ArrayList<IBoardElement> elems = cellList.getCell(pos).getInventory().getElements();
+        for(IBoardElement e : elems){
+            if(e.getClass().equals(type.getClass())){
+                return e;
+            }
+        }
+        return null;
     }
 }

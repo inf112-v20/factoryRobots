@@ -15,14 +15,16 @@ import inf112.app.objects.Player;
 
 public class GameScreen implements Screen {
     final RoboRally game;
-    OrthographicCamera camera;
-    OrthographicCamera uiCam;
-    OrthogonalTiledMapRenderer mapRenderer;
-    OrthogonalTiledMapRenderer uiRenderer;
+
+    private OrthographicCamera camera;
+    private OrthographicCamera uiCam;
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private OrthogonalTiledMapRenderer uiRenderer;
     private TiledMapStage stage;
 
     private CardDeck deck;
 
+    private final int laserTime = 30;
     private float tileSize = 300f;
     private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
     private float initialCameraY;
@@ -43,13 +45,14 @@ public class GameScreen implements Screen {
         uiCam = new OrthographicCamera();
 
         Map cellMap = Map.getInstance();
-
+        cellMap.registerRobot(player.getCharacter());
         //Initialize frame around board
         CardUI ui = CardUI.getInstance();
         ui.initializeCardSlots();
+
         //Create and shuffle deck
         deck = new CardDeck();
-        //ui.addCardToSlot(deck.getCard(),"bottom",0);
+
         for(int i = 0; i<9; i++){
             ui.addCardToSlot(deck.getCard(),"side",i);
         }
@@ -117,8 +120,12 @@ public class GameScreen implements Screen {
         //Remove last player position
         cellMap.getLayer("player").setCell(player.getCharacter().getPos().getXCoordinate(),
                 player.getCharacter().getPos().getYCoordinate(), null);
-
-        cellMap.clearLayer(cellMap.getLayer("laser"));
+        if(cellMap.getLaserTimer() == laserTime) {
+            cellMap.deactivateLasers();
+        }
+        if(cellMap.lasersActive()){
+            cellMap.incrementLaserTimer();
+        }
         game.batch.end();
     }
 

@@ -29,28 +29,19 @@ public class Laser {
        while (laserBeam.getXCoordinate() < map.getMapSizeX() && laserBeam.getYCoordinate() < map.getMapSizeY() &&
                laserBeam.getXCoordinate() >= 0 && laserBeam.getYCoordinate() >= 0) {
 
+
            MapCell current = map.getCellList().getCell(laserBeam);
            path.add(current);
-           laserBeam.moveInDirection();
-           ArrayList<IBoardElement> elements = current.getInventory().getElements();
-
-           if (elements.isEmpty()) {
-               continue;
+           if(map.robotInTile(laserBeam)){
+                Robot inTheWay = (Robot) map.findTypeInTile(new Robot(new Position(1000,1000),"placeholder"), laserBeam);
+                inTheWay.addDamageTokens(isDouble ? 2 : 1);
            }
+
            if(!map.validMove(laserBeam)){
                return path;
            }
-          /* for (IBoardElement e : elements) {
-               if (e instanceof ILaserInteractor) {
-                   if(e instanceof Wall){
-                       Wall wall = (Wall) e;
-                       if(wall.blocks(false,laserBeam.getDirection())) {
-                           path.remove(path.size() - 1);
-                       }
-                       return path;
-                   }
-               }
-           }*/
+
+           laserBeam.moveInDirection();
        }
        return path;
    }

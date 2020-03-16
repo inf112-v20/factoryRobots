@@ -23,8 +23,8 @@ public class Wall implements IBoardElement, ILaserInteractor {
         laserDir.turn(Rotation.LEFT);
         laserDir.turn(Rotation.LEFT);
 
-        hasLaser = hasLaser;
-        hasDoubleLaser = doubleLaser;
+        this.hasLaser = hasLaser;
+        this.hasDoubleLaser = doubleLaser;
         this.position = new Position(x,y,laserDir);
         if(hasLaser){
             this.laser = new Laser(this,hasDoubleLaser);
@@ -72,6 +72,8 @@ public class Wall implements IBoardElement, ILaserInteractor {
 
     @Override
     public void fireLaser() {
-        laser.fire();
+        if(hasLaser){
+            laser.fire();
+        }
     }
 }

@@ -65,7 +65,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void move(Direction dir){
         Direction saved = pos.getDirection().copyOf();
         pos.setDirection(dir);
-        if(map.validMove(pos)) {
+        Position copy = pos.copyOf();
+        copy.moveInDirection();
+        if(map.validMove(pos) && !map.robotInTile(copy)) {
             pos.moveInDirection();
         }
         pos.setDirection(saved);
@@ -140,12 +142,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @return true if Robot can move, false if not
      */
      public boolean moveAndPush(Robot r, Direction dir) {
-
          Position newPos = r.getPos().copyOf();
          newPos.setDirection(dir);
          if(map.validMove(newPos)) {
              newPos.moveInDirection();
-
              IBoardElement nextCell = checkContentOfCell(newPos);
              if (nextCell == null || nextCell instanceof Wall) {
                  updatePosition(r,dir);

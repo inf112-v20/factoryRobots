@@ -2,6 +2,7 @@ package inf112.app.objects;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
 
 /**
@@ -46,7 +47,7 @@ public class Player extends InputAdapter {
                 character.initiateRobotProgramme();
                 break;
             case Input.Keys.L:
-                character.fireLaser();
+                Map.getInstance().fireLasers();
                 break;
             default:
                 System.out.println("Unassigned input");

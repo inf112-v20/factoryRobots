@@ -24,7 +24,6 @@ public class MainMenuScreen implements Screen {
     protected Stage stage;
     private TextureAtlas atlas;
     protected Skin skin;
-    private FitViewport viewport;
     public SpriteBatch batch;
 
     public MainMenuScreen(final RoboRally game) {
@@ -37,7 +36,7 @@ public class MainMenuScreen implements Screen {
         camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         batch = new SpriteBatch();
-        viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport.apply();
 
         stage = new Stage();
@@ -46,11 +45,12 @@ public class MainMenuScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("assets/robo-rally-ui/Robo-Rally.atlas"));
         skin = new Skin(Gdx.files.internal("assets/robo-rally-ui/Robo-Rally.json"), atlas);
         img = new Texture(Gdx.files.internal("assets/game-menu.png"));
+        showMenuScreen();
+    }
 
-        // Create buttons
-        Table table = new Table();
+    public void showMenuScreen(){
+        stage.clear();
         TextButton playButton = new TextButton("Play", skin);
-        TextButton multiPlayer = new TextButton("Multiplayer", skin);
         TextButton optionsButton = new TextButton("Options", skin);
         TextButton exitButton = new TextButton("Exit", skin);
 
@@ -58,13 +58,13 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
-                dispose();
+                showPlayScreen();
             }
         });
         optionsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                showOptionsScreen();
             }
         });
         exitButton.addListener(new ClickListener(){
@@ -75,21 +75,100 @@ public class MainMenuScreen implements Screen {
         });
 
         //Add buttons to the table
-
-        table.add(playButton).pad(10).width(300).height(50);
-        table.row();
-        table.add(multiPlayer).pad(10).width(300).height(50);
-        table.row();
-        table.add(optionsButton).pad(10).width(300).height(50);
-        table.row();
-        table.add(exitButton).pad(10).width(300).height(50);
-        //table.debug();
-        table.setFillParent(true);
-
-        stage.addActor(table);
-
-
+        stage.addActor(createTable(playButton, optionsButton, exitButton));
     }
+    public void showOptionsScreen(){
+        stage.clear();
+
+        TextButton soundButton = new TextButton("Sound", skin);
+        TextButton returnButton = new TextButton("Return", skin);
+        TextButton exitButton = new TextButton("Exit", skin);
+
+        soundButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // We need to implement sound first
+            }
+        });
+        returnButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showMenuScreen();
+            }
+        });
+        exitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+
+        stage.addActor(createTable(soundButton,returnButton, exitButton));
+    }
+
+    public void showPlayScreen(){
+        stage.clear();
+        TextButton singlePlayer = new TextButton("Singleplayer", skin);
+        TextButton multiPlayer = new TextButton("Multiplayer", skin);
+        TextButton returnButton = new TextButton("Return", skin);
+        TextButton exitButton = new TextButton("Exit", skin);
+
+        singlePlayer.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showCourseSelector(false);
+            }
+        });
+        multiPlayer.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showCourseSelector(true);
+            }
+        });
+        returnButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showMenuScreen();
+            }
+        });
+        exitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+        stage.addActor(createTable(singlePlayer, multiPlayer, returnButton, exitButton));
+    }
+    public void showCourseSelector(boolean multiplayer){
+        stage.clear();
+        TextButton standardCourseButton = new TextButton("Test Course", skin);
+        TextButton returnButton = new TextButton("Return", skin);
+        TextButton exitButton = new TextButton("Exit", skin);
+
+        standardCourseButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                dispose();
+                // We need to implement multiplayer first
+                game.setScreen(new GameScreen(game));
+            }
+        });
+
+        returnButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showPlayScreen();
+            }
+        });
+        exitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+        stage.addActor(createTable(standardCourseButton, returnButton, exitButton));
+    }
+
 
     @Override
     public void render(float v) {
@@ -129,6 +208,19 @@ public class MainMenuScreen implements Screen {
         img.dispose();
         skin.dispose();
         atlas.dispose();
+        batch.dispose();
+        stage.dispose();
+    }
+
+    public Table createTable(TextButton... buttons){
+        Table table = new Table();
+        for (TextButton button : buttons){
+            table.add(button).pad(10).width(330).height(60);
+            table.row();
+        }
+        table.setFillParent(true);
+        return table;
+
     }
 
 }

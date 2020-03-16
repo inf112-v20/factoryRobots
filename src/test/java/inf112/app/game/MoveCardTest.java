@@ -66,7 +66,7 @@ public class MoveCardTest {
         oldPos.getDirection().turn(Rotation.LEFT);
         oldPos.getDirection().turn(Rotation.LEFT);
         backUp.doAction(player);
-        assertEquals("Failure, positions should be the same",oldPos,player.getCharacter().getPos());
+        assertEquals("Failure, positions should be the same", oldPos, player.getCharacter().getPos());
     }
 
 }

@@ -12,9 +12,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(GdxTestRunner.class)
 public class ConveyorTest {
-    ArrayList<Conveyor> doubleSpeed;
-    ArrayList<Conveyor> singleSpeed;
-    Direction exit;
     Player player;
     Robot robot;
 

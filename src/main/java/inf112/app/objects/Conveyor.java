@@ -13,8 +13,8 @@ public class Conveyor implements IBoardElement {
     private Direction[] entries;
     private Direction exit;
     private int speed;
-    private boolean rotate;
-    private Rotation rotation;
+    //private boolean rotate;
+    //private Rotation rotation;
 
     /**
      * constructor for the conveyor belts

@@ -45,6 +45,9 @@ public class Player extends InputAdapter {
             case Input.Keys.SPACE:
                 character.initiateRobotProgramme();
                 break;
+            case Input.Keys.L:
+                character.fireLaser();
+                break;
             default:
                 System.out.println("Unassigned input");
                 break;

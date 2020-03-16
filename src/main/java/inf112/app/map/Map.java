@@ -34,12 +34,15 @@ public class Map {
     private final int mapSizeY;
     private MapCellList cellList;
 
+    private TiledMap laserSprites;
+
     private Map(String mapName){
         String pathToMap = "assets/" + mapName + ".tmx";
 
         //Loading map
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load(pathToMap);
+        laserSprites = loader.load("assets/Lasers.tmx");
 
         //Loading layers
         boardLayer = (TiledMapTileLayer) map.getLayers().get("Board");
@@ -174,5 +177,17 @@ public class Map {
         if (cellMap == null)
             throw new NoSuchElementException("Could not find the cellMap");
         return cellMap;
+    }
+
+    public TiledMap getLaserSprites() {
+        return laserSprites;
+    }
+
+    public void clearLayer(TiledMapTileLayer layer){
+        for(int x = 0; x < layer.getWidth(); x++){
+            for(int y = 0; y < layer.getHeight(); y++){
+                layer.setCell(x,y,null);
+            }
+        }
     }
 }

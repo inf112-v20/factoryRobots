@@ -22,6 +22,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private Position pos;
     private Vector2 vectorPos;
     private Flag lastVisited;
+    private Laser laser;
     private int damageTokens;
     private int lives;
     private boolean powerDown;
@@ -41,6 +42,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         damageTokens = 0;
         lives = 3;
         powerDown = false;
+        laser = new Laser(this,false);
     }
 
     /**
@@ -201,7 +203,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     @Override
     public void doAction(Robot robot) {
-
+        fireLaser();
     }
 
     /**
@@ -264,5 +266,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
                 card.doAction(this);
             }
         }
+    }
+
+    @Override
+    public void fireLaser() {
+        laser.fire();
     }
 }

@@ -69,4 +69,9 @@ public class Wall implements IBoardElement, ILaserInteractor {
     public Position getPos(){
         return position;
     }
+
+    @Override
+    public void fireLaser() {
+        laser.fire();
+    }
 }

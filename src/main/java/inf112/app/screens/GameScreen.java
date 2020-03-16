@@ -118,6 +118,7 @@ public class GameScreen implements Screen {
         cellMap.getLayer("player").setCell(player.getCharacter().getPos().getXCoordinate(),
                 player.getCharacter().getPos().getYCoordinate(), null);
 
+        cellMap.clearLayer(cellMap.getLayer("laser"));
         game.batch.end();
     }
 

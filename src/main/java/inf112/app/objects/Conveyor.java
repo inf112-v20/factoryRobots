@@ -68,7 +68,7 @@ public class Conveyor implements IBoardElement {
      * @param player
      */
     @Override
-    public void doAction(Player player) {
+    public void doAction(Robot robot) {
 
         player.getCharacter().move(getExit());
 

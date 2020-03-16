@@ -128,7 +128,7 @@ public class Position {
     }
 
     public Position copyOf(){
-        return new Position(xCoordinate,yCoordinate,direction);
+        return new Position(xCoordinate,yCoordinate,direction.copyOf());
     }
 
     @Override

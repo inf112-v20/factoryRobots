@@ -1,12 +1,10 @@
 package inf112.app.objects;
 
-import org.lwjgl.Sys;
 
 import java.util.Objects;
 
 public class Flag implements IBoardElement {
     private int num;
-    private Robot robot;
 
     public Flag(int num){
         this.num = num;
@@ -30,16 +28,16 @@ public class Flag implements IBoardElement {
     }
 
     @Override
-    public void doAction(Player player) {
-        Flag lastVisitedFlag = player.getCharacter().getVisitedFlag();
+    public void doAction(Robot robot) {
+        Flag lastVisitedFlag = robot.getVisitedFlag();
         if(lastVisitedFlag == null){
             if(num == 1){
-                player.getCharacter().setVisitedFlag(this);
+                robot.setVisitedFlag(this);
             }
         } else {
-            int lastVisitedFlagNum = player.getCharacter().getVisitedFlag().getNum();
+            int lastVisitedFlagNum = robot.getVisitedFlag().getNum();
             if(lastVisitedFlagNum == num-1){
-                player.getCharacter().setVisitedFlag(this);
+                robot.setVisitedFlag(this);
             }
         }
     }

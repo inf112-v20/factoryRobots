@@ -13,13 +13,8 @@ public class RoboRally extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
 
-    //Camera and renderer
-    //public OrthogonalTiledMapRenderer renderer;
-    //public OrthographicCamera camera;
-
-    public Map cellMap;
-
-    public Player player;
+    private Map cellMap;
+    private Player player;
 
     @Override
     public void create() {
@@ -27,13 +22,7 @@ public class RoboRally extends Game {
         font = new BitmapFont();
         font.setColor(Color.RED);
 
-        //Creating map
-        Map.setInstance("testMap");
-        cellMap = Map.getInstance();
-
         this.setScreen(new MainMenuScreen(this));
-        player = new Player(2, 2);
-
     }
 
     @Override
@@ -59,4 +48,13 @@ public class RoboRally extends Game {
     public void resume() {
     }
 
+    public void setMap(String name){
+        Map.setInstance(name);
+    }
+    public void setPlayer(int x, int y){
+        player = new Player(x, y);
+    }
+    public Player getPlayer(){
+        return this.player;
+    }
 }

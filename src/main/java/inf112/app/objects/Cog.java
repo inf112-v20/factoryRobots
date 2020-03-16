@@ -21,7 +21,7 @@ public class Cog implements IBoardElement {
     }
 
     @Override
-    public void doAction(Player player) {
-        player.getCharacter().turn(rotation);
+    public void doAction(Robot robot) {
+        robot.turn(rotation);
     }
 }

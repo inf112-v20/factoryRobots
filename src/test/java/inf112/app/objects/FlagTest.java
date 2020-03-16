@@ -37,15 +37,15 @@ public class FlagTest {
 
         player = new Player(2, 2);
 
-        flag2.doAction(player);
+        flag2.doAction(player.getCharacter());
         assertEquals("Checking for no flag", player.getCharacter().getVisitedFlag(), null);
-        flag1.doAction(player);
+        flag1.doAction(player.getCharacter());
         assertEquals("Checking if player registers new visited flag 1", player.getCharacter().getVisitedFlag(), flag1);
-        flag2.doAction(player);
+        flag2.doAction(player.getCharacter());
         assertEquals("Checking if player registers new visited flag 2", player.getCharacter().getVisitedFlag(), flag2);
-        flag3.doAction(player);
+        flag3.doAction(player.getCharacter());
         assertEquals("Checking if player registers new visited flag 3", player.getCharacter().getVisitedFlag(), flag3);
-        flag4.doAction(player);
+        flag4.doAction(player.getCharacter());
         assertEquals("Checking if player registers new visited flag 4", player.getCharacter().getVisitedFlag(), flag4);
     }
 }

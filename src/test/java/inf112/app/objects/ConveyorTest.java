@@ -16,6 +16,7 @@ public class ConveyorTest {
     ArrayList<Conveyor> singleSpeed;
     Direction exit;
     Player player;
+    Robot robot;
 
     @Before
     public void setUp() throws Exception {
@@ -29,6 +30,7 @@ public class ConveyorTest {
     @Test
     public void doActionDoubleSpeed() {
         player = new Player(8, 4);
+        robot = player.getCharacter();
         Conveyor conveyor = null;
         ArrayList<IBoardElement> elements = Map.getInstance().getCellList().getCell(player.getCharacter().getPos()).getInventory().getElements();
         for(IBoardElement e : elements){
@@ -41,7 +43,7 @@ public class ConveyorTest {
         oldPos.moveInDirection();
         oldPos.moveInDirection();
         oldPos.getDirection().turn(Direction.Rotation.LEFT);
-        conveyor.doAction(player);
+        conveyor.doAction(robot);
         assertEquals("Positions should be the same ",oldPos,player.getCharacter().getPos());
 
     }
@@ -52,6 +54,7 @@ public class ConveyorTest {
     @Test
     public void doActionSingleSpeed() {
         player = new Player(11, 4);
+        robot = player.getCharacter();
         Conveyor conveyor = null;
         ArrayList<IBoardElement> elements = Map.getInstance().getCellList().getCell(player.getCharacter().getPos()).getInventory().getElements();
         for(IBoardElement e : elements){
@@ -63,6 +66,7 @@ public class ConveyorTest {
         Position oldPos = player.getCharacter().getPos().copyOf();
         oldPos.setDirection(conveyor.getExit());
         oldPos.moveInDirection();
+        conveyor.doAction(robot);
         assertEquals("Positions should be the same ",oldPos,player.getCharacter().getPos());
 
     }

@@ -65,28 +65,28 @@ public class Conveyor implements IBoardElement {
 
     /**
      * implementation of action to be done when robot is on a conveyor belt
-     * @param player
+     * @param robot
      */
     @Override
     public void doAction(Robot robot) {
 
-        player.getCharacter().move(getExit());
+        robot.move(getExit());
 
-        Conveyor next = extractConveyorFromCell(player.getCharacter().getPos());
+        Conveyor next = extractConveyorFromCell(robot.getPos());
         if (next == null) {
             return;
         }
         if (next.willRotate(exit)) {
-            player.getCharacter().turn(next.rotationDirection(exit));
+            robot.turn(next.rotationDirection(exit));
         }
         if (speed == 2) {
-            player.getCharacter().move(next.getExit());
-            Conveyor afterNext = extractConveyorFromCell(player.getCharacter().getPos());
+            robot.move(next.getExit());
+            Conveyor afterNext = extractConveyorFromCell(robot.getPos());
             if(afterNext == null){
                 return;
             }
             if(afterNext.willRotate(exit)){
-                player.getCharacter().turn(afterNext.rotationDirection(exit));
+                robot.turn(afterNext.rotationDirection(exit));
             }
         }
     }

@@ -6,14 +6,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
-import inf112.app.map.MapCellList;
 import inf112.app.objects.Direction.Rotation;
+
+import java.util.ArrayList;
 
 /**
  * This class is a representation of the robots
  * on the board
  */
-public class Robot implements ILaserInteractor {
+public class Robot implements ILaserInteractor, IBoardElement {
     private Map map;
     private Position pos;
     private Vector2 vectorPos;
@@ -28,6 +29,7 @@ public class Robot implements ILaserInteractor {
         this.map = Map.getInstance();
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
         loadPlayerSprites(charName);
+        map.getCellList().getCell(pos).getInventory().addElement(this);
     }
 
     /**
@@ -37,9 +39,7 @@ public class Robot implements ILaserInteractor {
     public void move(int steps){
         while(steps!=0){
             steps -= 1;
-            if(map.validMove(pos)){
-                pos.moveInDirection();
-            }
+            moveAndPush(this,getPos().getDirection());
         }
         vectorPos.set(pos.getXCoordinate(), pos.getYCoordinate());
     }
@@ -105,26 +105,77 @@ public class Robot implements ILaserInteractor {
         winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
     }
 
-    public void pushRobot () {
-        //hvis robot har en robot foran seg i retningen den skal flytte, skal denne dyttes i samme retning slik at
+    /**
+     *
+     * @param r by recursion, the position is updated after a move
+     * @param dir maintain the orientation of the original robot
+     * @return true if Robot can move, false if not
+     */
+     public boolean moveAndPush(Robot r, Direction dir) {
 
-        map.getCellList();
-        if (map.getCellList().getCell())
+         Position newPos = r.getPos().copyOf();
+         newPos.setDirection(dir);
+         if(map.validMove(newPos)) {
+             newPos.moveInDirection();
 
-        if(map.validMove(pos)) {
-            pos.copyOf().getDirection();
-            if(map.validMove(pos) normalPlayer){
+             IBoardElement nextCell = checkContentOfCell(newPos);
+             if (nextCell == null || nextCell instanceof Wall) {
+                 updatePosition(r,dir);
+                 return true;
+             } else if (nextCell instanceof Robot) {
+                 Robot next = (Robot) nextCell;
+                 boolean canMove = moveAndPush(next,dir);
+                 if (canMove) {
+                     updatePosition(r,dir);
+                 }
+                 return canMove;
+             }
+             return false;
+         }
+         return false;
+     }
+
+    /**
+     *
+     * @param r
+     * @param dir position of
+     */
+     private void updatePosition(Robot r, Direction dir){
+
+         Position oldPos = r.getPos().copyOf();
+         Direction old = oldPos.getDirection().copyOf();
+         r.getPos().setDirection(dir);
+         r.getPos().moveInDirection();
+         r.getPos().setDirection(old);
+         int index = map.getCellList().getCell(oldPos).getInventory().getElements().indexOf(r);
+         map.getCellList().getCell(oldPos).getInventory().getElements().remove(index);
+         map.getCellList().getCell(r.getPos()).getInventory().addElement(r);
+     }
+
+    /**
+     *
+     * @param position what position the robot is in
+     * @return if Robot can go to the next cell
+     */
+    public IBoardElement checkContentOfCell(Position position) {
+        //checks
+        ArrayList<IBoardElement> newCell = map.getCellList().getCell(position).getInventory().getElements();
+        IBoardElement elem = null;
+        for (IBoardElement e : newCell) {
+            if(e instanceof Robot){
+                elem = e;
+            } else if(e instanceof Wall){
+                if(elem == null){
+                    elem = e;
+                }
 
             }
-            pos.copyOf().moveInDirection();
-            pos.moveInDirection() == map.
         }
-        map.validMove(pos);
-        move(1);
+        return elem;
+    }
 
-        pos.copyOf().moveInDirection();
+    @Override
+    public void doAction(Player player) {
 
-        pos.getDirection().getDirEnum()
-        return;
     }
 }

@@ -11,6 +11,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import inf112.app.map.Map;
 import inf112.app.objects.Player;
+import inf112.app.objects.Position;
+import inf112.app.objects.Robot;
 
 public class Application implements ApplicationListener {
     private SpriteBatch batch;
@@ -23,6 +25,7 @@ public class Application implements ApplicationListener {
     public Map cellMap;
 
     private Player player;
+    private Robot robot;
 
     @Override
     public void create() {
@@ -45,6 +48,7 @@ public class Application implements ApplicationListener {
         renderer.setView(camera);
 
         player = new Player(2, 2);
+        robot = new Robot(new Position(3,3),"player");
 
     }
 
@@ -65,6 +69,7 @@ public class Application implements ApplicationListener {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         //Setting player sprite to current position
         playerLayer.setCell(playerX, playerY, player.getCharacter().getNormal());
+        playerLayer.setCell(robot.getPos().getXCoordinate(),robot.getPos().getYCoordinate(), robot.getNormal());
         //Checking if player is touching hole or flag
         if(cellMap.getLayer("hole").getCell(playerX, playerY) != null){
             playerLayer.setCell(playerX, playerY, player.getCharacter().getLooser());
@@ -74,6 +79,7 @@ public class Application implements ApplicationListener {
         renderer.render();
         //Remove last player position
         playerLayer.setCell(playerX, playerY, null);
+        playerLayer.setCell(robot.getPos().getXCoordinate(),robot.getPos().getYCoordinate(), null);
     }
 
     @Override

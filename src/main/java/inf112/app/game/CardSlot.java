@@ -32,7 +32,8 @@ public class CardSlot {
 
     public ICard removeCard(){
         if(card == null){
-            throw new NoSuchElementException("No card to remove in the slot");
+            System.out.println("No card to remove in the slot");
+            return null;
         } else {
             ICard value = card.copyOf();
             card = null;

@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import inf112.app.game.CardSlot;
+import inf112.app.game.ICard;
 import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
+import inf112.app.screens.CardUI;
 
 import java.util.ArrayList;
 
@@ -166,7 +169,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @return if Robot can go to the next cell
      */
     public IBoardElement checkContentOfCell(Position position) {
-        //checks
         ArrayList<IBoardElement> newCell = map.getCellList().getCell(position).getInventory().getElements();
         IBoardElement elem = null;
         for (IBoardElement e : newCell) {
@@ -183,7 +185,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     @Override
-    public void doAction(Player player) {
+    public void doAction(Robot robot) {
 
     }
 
@@ -238,4 +240,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     public boolean getPowerDown() {return powerDown; }
+
+    public void initiateRobotProgramme() {
+        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
+        for(CardSlot slot : slots){
+            ICard card  = slot.removeCard();
+            if(card != null){
+                card.doAction(this);
+            }
+        }
+    }
 }

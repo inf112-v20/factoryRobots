@@ -3,6 +3,7 @@ package inf112.app.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
@@ -18,6 +19,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private Map map;
     private Position pos;
     private Vector2 vectorPos;
+    private Flag lastVisited;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -30,6 +32,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
         loadPlayerSprites(charName);
         map.getCellList().getCell(pos).getInventory().addElement(this);
+        lastVisited = null;
     }
 
     /**
@@ -177,5 +180,17 @@ public class Robot implements ILaserInteractor, IBoardElement {
     @Override
     public void doAction(Player player) {
 
+    }
+
+    /**
+     * returns a list used to determine if robots have visited flags
+     * @return
+     */
+    public Flag getVisitedFlag() {
+        return lastVisited;
+    }
+
+    public void setVisitedFlag(Flag flag) {
+        this.lastVisited = flag;
     }
 }

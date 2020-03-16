@@ -3,7 +3,6 @@ package inf112.app.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.map.Map;
@@ -20,6 +19,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private Position pos;
     private Vector2 vectorPos;
     private Flag lastVisited;
+    private int damageTokens;
+    private int lives;
+    private boolean powerDown;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -33,6 +35,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
         loadPlayerSprites(charName);
         map.getCellList().getCell(pos).getInventory().addElement(this);
         lastVisited = null;
+        damageTokens = 0;
+        lives = 3;
+        powerDown = false;
     }
 
     /**
@@ -193,4 +198,44 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void setVisitedFlag(Flag flag) {
         this.lastVisited = flag;
     }
+
+    /**
+     * returns an int value determining the robots damage tokens
+     * @return
+     */
+    public int getDamageTokens() {return damageTokens; }
+
+    public void addDamageTokens(int dealDamage) {
+        this.damageTokens += dealDamage;
+        if (damageTokens >= 10) {
+            lives--;
+            damageTokens = 0;
+        }
+    }
+
+    /**
+     * Used by repairStation to remove damageTokens
+     * @param amount
+     */
+    public void removeDamageTokens(int amount) {
+        damageTokens -= amount;
+        if (damageTokens < 0) damageTokens = 0;
+    }
+
+    /**
+     * returns amount of lives the robot have
+     * @return
+     */
+    public int getLives() { return lives; }
+
+    /**
+     * Used to set the powerStatus of the robot(powerDown)
+     * @param power
+     */
+    public void setPowerDown(boolean power) {
+        powerDown = power;
+        if (power) damageTokens = 0;
+    }
+
+    public boolean getPowerDown() {return powerDown; }
 }

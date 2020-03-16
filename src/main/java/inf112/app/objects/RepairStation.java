@@ -9,6 +9,6 @@ public class RepairStation implements IBoardElement {
 
     @Override
     public void doAction(Player player) {
-
+        player.getCharacter().removeDamageTokens(repairSpeed);
     }
 }

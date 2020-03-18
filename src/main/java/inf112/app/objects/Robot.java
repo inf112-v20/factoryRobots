@@ -10,7 +10,6 @@ import inf112.app.game.ICard;
 import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
 import inf112.app.screens.CardUI;
-
 import java.util.ArrayList;
 
 /**
@@ -22,6 +21,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private Position pos;
     private Vector2 vectorPos;
     private Flag lastVisited;
+    private Laser laser;
     private int damageTokens;
     private int lives;
     private boolean powerDown;
@@ -32,15 +32,20 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private TiledMapTileLayer.Cell loosingPlayer;
 
     public Robot(Position pos, String charName){
-        this.pos = pos;
         this.map = Map.getInstance();
+
+        this.pos = pos;
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
+
         loadPlayerSprites(charName);
-        map.getCellList().getCell(pos).getInventory().addElement(this);
+
+        map.registerRobot(this);
+
         lastVisited = null;
         damageTokens = 0;
         lives = 3;
         powerDown = false;
+        laser = new Laser(this,false);
     }
 
     /**
@@ -52,7 +57,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
             steps -= 1;
             moveAndPush(this,getPos().getDirection());
         }
-        vectorPos.set(pos.getXCoordinate(), pos.getYCoordinate());
     }
 
     /**
@@ -61,13 +65,13 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @param dir Direction to move in
      */
     public void move(Direction dir){
-        Direction saved = pos.getDirection().copyOf();
-        pos.setDirection(dir);
-        if(map.validMove(pos)) {
-            pos.moveInDirection();
+        Position copy = pos.copyOf();
+        copy.setDirection(dir);
+        boolean valid = map.validMove(copy);
+        copy.moveInDirection();
+        if(valid && map.robotInTile(copy) == null) {
+            updatePosition(this,dir);
         }
-        pos.setDirection(saved);
-        vectorPos.set(pos.getXCoordinate(), pos.getYCoordinate());
     }
 
     /**
@@ -83,6 +87,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         return pos;
     }
 
+    /**
+     * Rotates the visual representation of the robot
+     * @param rot The direction the robot should rotate
+     */
     private void rotateSprites(Rotation rot) {
         int orientation = normalPlayer.getRotation();
         switch(rot){
@@ -91,10 +99,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
                 break;
             case RIGHT:
                 orientation -= 1;
-                if(orientation<0){
-                    orientation = 3;
-                }
-            break;
+                orientation = (orientation < 0) ? 3 : orientation;
+                break;
             default: throw new IllegalArgumentException("Invalid rotation enum in rotateSprites");
         }
         normalPlayer.setRotation(orientation);
@@ -132,18 +138,15 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     /**
-     *
-     * @param r by recursion, the position is updated after a move
-     * @param dir maintain the orientation of the original robot
-     * @return true if Robot can move, false if not
+     * @param r Needed since the method is recursive
+     * @param dir Used to maintain the orientation of the original robot
+     * @return true if Robot has moved, false if not
      */
      public boolean moveAndPush(Robot r, Direction dir) {
-
          Position newPos = r.getPos().copyOf();
          newPos.setDirection(dir);
          if(map.validMove(newPos)) {
              newPos.moveInDirection();
-
              IBoardElement nextCell = checkContentOfCell(newPos);
              if (nextCell == null || nextCell instanceof Wall) {
                  updatePosition(r,dir);
@@ -162,26 +165,27 @@ public class Robot implements ILaserInteractor, IBoardElement {
      }
 
     /**
-     *
-     * @param r
-     * @param dir position of
+     * The method that all other move methods should call to change the robots position. <br>
+     * Does not check if the move is valid, but makes sure that map inventory and vector position
+     * is updated in addition to the players position.
+     * @param dir The direction the robot should move
      */
-     private void updatePosition(Robot r, Direction dir){
-
-         Position oldPos = r.getPos().copyOf();
+     private void updatePosition(Robot robot, Direction dir){
+         Position oldPos = robot.getPos().copyOf();
          Direction old = oldPos.getDirection().copyOf();
-         r.getPos().setDirection(dir);
-         r.getPos().moveInDirection();
-         r.getPos().setDirection(old);
-         int index = map.getCellList().getCell(oldPos).getInventory().getElements().indexOf(r);
-         map.getCellList().getCell(oldPos).getInventory().getElements().remove(index);
-         map.getCellList().getCell(r.getPos()).getInventory().addElement(r);
+         robot.getPos().setDirection(dir);
+         robot.getPos().moveInDirection();
+         robot.getPos().setDirection(old);
+         map.getCellList().getCell(oldPos).getInventory().getElements().remove(robot);
+         map.getCellList().getCell(robot.getPos()).getInventory().addElement(robot);
+         vectorPos.set(robot.getPos().getXCoordinate(), robot.getPos().getYCoordinate());
      }
 
     /**
-     *
-     * @param position what position the robot is in
-     * @return if Robot can go to the next cell
+     * Method used to check if there is either a wall or a Robot in a cell
+     * If there is both, then we prefer the robot
+     * @param position The position of the cell we want to check
+     * @return The element found in the cell, either a robot or a wall
      */
     public IBoardElement checkContentOfCell(Position position) {
         ArrayList<IBoardElement> newCell = map.getCellList().getCell(position).getInventory().getElements();
@@ -201,13 +205,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     @Override
     public void doAction(Robot robot) {
-
+        fireLaser();
     }
 
-    /**
-     * returns a list used to determine if robots have visited flags
-     * @return
-     */
     public Flag getVisitedFlag() {
         return lastVisited;
     }
@@ -216,46 +216,43 @@ public class Robot implements ILaserInteractor, IBoardElement {
         this.lastVisited = flag;
     }
 
-    /**
-     * returns an int value determining the robots damage tokens
-     * @return
-     */
     public int getDamageTokens() {return damageTokens; }
 
     public void addDamageTokens(int dealDamage) {
-        this.damageTokens += dealDamage;
+        damageTokens += dealDamage;
         if (damageTokens >= 10) {
             lives--;
             damageTokens = 0;
         }
+        System.out.println("Damage tokens:" + damageTokens);
     }
 
     /**
-     * Used by repairStation to remove damageTokens
-     * @param amount
+     * Method used by repairStation to remove damageTokens from robot.
+     * @param amount How many damageTokens should be removed
      */
     public void removeDamageTokens(int amount) {
         damageTokens -= amount;
         if (damageTokens < 0) damageTokens = 0;
     }
 
-    /**
-     * returns amount of lives the robot have
-     * @return
-     */
     public int getLives() { return lives; }
 
     /**
      * Used to set the powerStatus of the robot(powerDown)
-     * @param power
+     * @param powerDown
      */
-    public void setPowerDown(boolean power) {
-        powerDown = power;
-        if (power) damageTokens = 0;
+    public void setPowerDown(boolean powerDown) {
+        this.powerDown = powerDown;
+        damageTokens = 0;
     }
 
-    public boolean getPowerDown() {return powerDown; }
+    public boolean getPowerDown() { return powerDown; }
 
+    /**
+     * Method for initialising the moves depicted on the cards
+     * in the programming slots
+     */
     public void initiateRobotProgramme() {
         CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
         for(CardSlot slot : slots){
@@ -264,5 +261,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
                 card.doAction(this);
             }
         }
+    }
+
+    @Override
+    public void fireLaser() {
+        laser.fire();
     }
 }

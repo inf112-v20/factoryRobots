@@ -6,25 +6,38 @@ import inf112.app.map.MapCell;
 
 import java.util.ArrayList;
 
+/**
+ * Class for representing the lasers
+ */
 public class Laser {
-
     private ILaserInteractor owner;
     private boolean isDouble;
 
+    /**
+     * Constructor for creating a laser
+     * @param owner The object that holds the laser
+     * @param isDouble true if the laser is a double beam
+     */
     public Laser (ILaserInteractor owner, boolean isDouble) {
         this.owner = owner;
         this.isDouble = isDouble;
     }
 
+    /**
+     * Method for determining which cells the laser will traverse.
+     * Goes until it is blocked by the edge of the map, robot or wall.
+     * Used by the {@link #fire()} method
+     * @return The lasers path
+     */
    private ArrayList<MapCell> findLaserPath() {
        Position laserBeam = owner.getPos().copyOf();
        ArrayList<MapCell> path = new ArrayList<>();
        Map map = Map.getInstance();
 
+       //Laser should start on the same cell as the owner
        path.add(map.getCellList().getCell(laserBeam));
        laserBeam.moveInDirection();
 
-       //Check that beam doesn´t go out of bounds
        while (map.validMove(laserBeam)) {
            MapCell current = map.getCellList().getCell(laserBeam);
            path.add(current);
@@ -36,6 +49,11 @@ public class Laser {
        return path;
    }
 
+    /**
+     * Triggers the laser to fire. Deals damage if there is a robot at the end of the beam. <br>
+     * Applies the laser graphics until deactivated.
+     * The {@link Map} class handles the duration and deactivation.
+     */
    public void fire(){
        ArrayList<MapCell> path = findLaserPath();
        Map map = Map.getInstance();
@@ -48,10 +66,10 @@ public class Laser {
        } else {
            index = (!isDouble) ? 1 : 3;
        }
-       TiledMapTileLayer applicationLayer = (TiledMapTileLayer) map.getLaserSprites().getLayers().get(0);
+       TiledMapTileLayer sourceLayer = (TiledMapTileLayer) map.getLaserSprites().getLayers().get(0);
        for(MapCell cell : path){
            Position pos = cell.getPosition();
-           TiledMapTileLayer.Cell laser = applicationLayer.getCell(index,0);
+           TiledMapTileLayer.Cell laser = sourceLayer.getCell(index,0);
            if(map.getLayer("laser").getCell(pos.getXCoordinate(),pos.getYCoordinate()) == null){
                map.getLayer("laser").setCell(pos.getXCoordinate(),pos.getYCoordinate(),laser);
            } else {

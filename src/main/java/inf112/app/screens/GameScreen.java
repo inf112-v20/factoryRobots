@@ -51,8 +51,6 @@ public class GameScreen implements Screen {
         uiCam = new OrthographicCamera();
 
         Map cellMap = Map.getInstance();
-        cellMap.registerRobot(player.getCharacter());
-        cellMap.registerRobot(testRobot);
 
         //Initialize frame around board
         CardUI ui = CardUI.getInstance();

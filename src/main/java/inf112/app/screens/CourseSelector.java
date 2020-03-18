@@ -7,9 +7,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -17,6 +21,7 @@ import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.building.OneRowTableBuilder;
 import com.kotcrab.vis.ui.building.utilities.Alignment;
 import com.kotcrab.vis.ui.building.utilities.CellWidget;
+import com.kotcrab.vis.ui.widget.VisImageButton;
 import com.kotcrab.vis.ui.widget.VisImageTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import inf112.app.game.RoboRally;
@@ -39,8 +44,7 @@ public class CourseSelector implements Screen {
         this.game = game;
         this.skin = game.skin;
 
-        VisUI.load();
-        //VisUI.load(this.skin);
+        VisUI.load(this.skin);
         VisUI.setDefaultTitleAlign(Align.center);
 
         menuCamera = new OrthographicCamera();
@@ -58,7 +62,6 @@ public class CourseSelector implements Screen {
         mapViewport.apply();
 
         this.stage = new Stage(menuViewport);
-        //stage.setDebugAll(true);
         Gdx.input.setInputProcessor(this.stage);
 
         TmxMapLoader loader = new TmxMapLoader();
@@ -78,12 +81,31 @@ public class CourseSelector implements Screen {
         centerWindowTable();
 
         OneRowTableBuilder builder = new OneRowTableBuilder();
-        builder.append(CellWidget.of(new VisImageTextButton("Backward","default"))
-                .align(Alignment.LEFT).expandX().wrap());
-        builder.append(CellWidget.of(new VisImageTextButton("Select","default"))
-                .align(Alignment.BOTTOM).expandY().wrap());
-        builder.append(CellWidget.of(new VisImageTextButton("Forward","default"))
-                .align(Alignment.RIGHT).expandX().wrap());
+        VisImageButton leftArrow = new VisImageButton("arrow-left");
+        leftArrow.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                return false;
+            }
+        });
+        VisImageButton rightArrow = new VisImageButton("arrow-right");
+        rightArrow.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                return false;
+            }
+        });
+        VisImageTextButton selectButton = new VisImageTextButton("Select","default");
+        selectButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(new GameScreen(game));
+            }
+        });
+
+        builder.append(CellWidget.of(leftArrow).align(Alignment.LEFT).expandX().wrap());
+        builder.append(CellWidget.of(selectButton).align(Alignment.BOTTOM).expandY().wrap());
+        builder.append(CellWidget.of(rightArrow).align(Alignment.RIGHT).expandX().wrap());
 
         Table table = builder.build();
         window.add(table).expand().fill();
@@ -93,8 +115,6 @@ public class CourseSelector implements Screen {
 
     @Override
     public void render(float v) {
-
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         menuCamera.update();

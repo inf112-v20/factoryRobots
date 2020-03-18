@@ -3,9 +3,6 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	PressStart2P-Regular: {
 		file: PressStart2P-Regular.fnt
 	}
-	PressStart2P-Regular-2: {
-		file: PressStart2P-Regular-2.fnt
-	}
 }
 com.badlogic.gdx.graphics.Color: {
 	Black: {
@@ -15,9 +12,15 @@ com.badlogic.gdx.graphics.Color: {
 		a: 1
 	}
 	Gray-Black: {
-		r: 0.33333337
-		g: 0.33333337
-		b: 0.33333337
+		r: 0.29
+		g: 0.29
+		b: 0.29
+		a: 1
+	}
+	Gray-White: {
+		r: 0.85333335
+		g: 0.85333335
+		b: 0.85333335
 		a: 1
 	}
 	White: {
@@ -27,26 +30,113 @@ com.badlogic.gdx.graphics.Color: {
 		a: 1
 	}
 }
+com.kotcrab.vis.ui.Sizes: {
+	default: {
+		scaleFactor: 1
+		spacingBottom: 8
+		spacingRight: 6
+		buttonBarSpacing: 10
+		menuItemIconSize: 22
+		borderSize: 1
+		spinnerButtonHeight: 12
+		spinnerFieldSize: 50
+		fileChooserViewModeBigIconsSize: 200
+		fileChooserViewModeMediumIconsSize: 128
+		fileChooserViewModeSmallIconsSize: 64
+		fileChooserViewModeListWidthSize: 150
+	}
+}
+com.kotcrab.vis.ui.widget.VisTextButton$VisTextButtonStyle: {
+	default: {
+		down: button-standard-2
+		up: button-bigger
+		over: button-standard-2
+		font: PressStart2P-Regular
+		downFontColor: Gray-White
+	}
+	menu: {
+		focusBorder: button-bigger
+	}
+	toggle: {
+		focusBorder: button-bigger
+	}
+	tab: {
+		focusBorder: button-bigger
+	}
+}
+com.kotcrab.vis.ui.widget.VisImageButton$VisImageButtonStyle: {
+	arrow-1: {
+		down: arrow-left
+		up: arrow-left
+	}
+	arrow-left: {
+		down: arrow-left
+		up: arrow-left
+		over: arrow-left
+	}
+	arrow-right: {
+		down: arrow-right
+		up: arrow-right
+		over: arrow-right
+	}
+}
+com.kotcrab.vis.ui.widget.VisImageTextButton$VisImageTextButtonStyle: {
+	default: {
+		down: button-standard-2
+		up: button-bigger
+		over: button-standard-2
+		font: PressStart2P-Regular
+		fontColor: White
+		downFontColor: Gray-White
+	}
+}
+com.kotcrab.vis.ui.widget.Separator$SeparatorStyle: {
+	default: {
+		thickness: 4
+	}
+	menu: {
+		thickness: 1
+	}
+}
+com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane$TabbedPaneStyle: {
+	default: {
+		vertical: false
+		draggable: false
+	}
+}
+com.kotcrab.vis.ui.widget.BusyBar$BusyBarStyle: {
+	default: {
+		height: 5
+		segmentWidth: 150
+		segmentOverflow: 10
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
 		up: button-bigger
-		down: button-standard
-		over: button-standard
+		down: button-standard-2
+		over: button-standard-2
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: PressStart2P-Regular
-		fontColor: White
-		background: button-bigger
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
 		font: PressStart2P-Regular
+		fontColor: White
+		downFontColor: Gray-White
 		up: button-bigger
-		down: button-standard
-		focused: button-standard
+		down: button-standard-2
+		pressedOffsetX: 2
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: PressStart2P-Regular
+		fontColor: White
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {

@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import inf112.app.map.Map;
 import inf112.app.objects.Player;
 
-import inf112.app.screens.CourseSelector;
 import inf112.app.screens.MainMenuScreen;
 
 public class RoboRally extends Game {
@@ -37,7 +36,7 @@ public class RoboRally extends Game {
         atlas = new TextureAtlas(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.atlas"));
         skin = new Skin(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.json"), atlas);
 
-        this.setScreen(new CourseSelector(this));
+        this.setScreen(new MainMenuScreen(this));
     }
 
     @Override
@@ -67,9 +66,6 @@ public class RoboRally extends Game {
     }
     public Player getPlayer(){
         return this.player;
-    }
-    public AssetManager getManager() {
-        return manager;
     }
 
 }

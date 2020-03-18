@@ -11,19 +11,30 @@ PressStart2P-Regular
   orig: 506, 208
   offset: 0, 0
   index: -1
-PressStart2P-Regular-2
-  rotate: false
-  xy: 1, 517
-  size: 506, 80
-  orig: 506, 80
-  offset: 0, 0
-  index: -1
 Window
   rotate: false
-  xy: 1, 115
+  xy: 1, 197
   size: 400, 400
   split: 34, 26, 60, 0
   orig: 400, 400
+  offset: 0, 0
+  index: -1
+arrow-left
+  rotate: false
+  xy: 1, 145
+  size: 50, 50
+  split: 24, 19, 24, 22
+  pad: 25, 24, 25, 24
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+arrow-right
+  rotate: false
+  xy: 403, 547
+  size: 50, 50
+  split: 23, 18, 22, 22
+  pad: 25, 24, 25, 24
+  orig: 50, 50
   offset: 0, 0
   index: -1
 button-bigger
@@ -35,11 +46,12 @@ button-bigger
   orig: 300, 50
   offset: 0, 0
   index: -1
-button-standard
+button-standard-2
   rotate: false
-  xy: 1, 97
+  xy: 509, 739
   size: 32, 16
-  split: 2, 2, 2, 2
+  split: 1, 1, 1, 1
+  pad: 0, 0, 0, 0
   orig: 32, 16
   offset: 0, 0
   index: -1

@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.game.CardSlot;
 import inf112.app.game.ICard;
+import inf112.app.objects.Robot;
 
 
 public class CardUI {
@@ -20,15 +21,6 @@ public class CardUI {
         TmxMapLoader loader = new TmxMapLoader();
         cardUI = loader.load("assets/CardUI2.tmx");
     }
-
-    public void dealNewCards() {
-        for(int i = 0; i < sideCardSlots.length; i++){
-            if(!sideCardSlots[i].hasCard()){
-
-            }
-        }
-    }
-
 
     public TiledMap getTiles() {
         return cardUI;

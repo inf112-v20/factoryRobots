@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
@@ -43,9 +42,6 @@ public class CourseSelector implements Screen {
     public CourseSelector(final RoboRally game) {
         this.game = game;
         this.skin = game.skin;
-
-        VisUI.load(this.skin);
-        VisUI.setDefaultTitleAlign(Align.center);
 
         menuCamera = new OrthographicCamera();
         menuViewport = new ScreenViewport(menuCamera);
@@ -99,12 +95,21 @@ public class CourseSelector implements Screen {
         selectButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                dispose();
                 game.setScreen(new GameScreen(game));
+            }
+        });
+        VisImageTextButton returnButton = new VisImageTextButton("Return","default");
+        returnButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(new MainMenuScreen(game));
             }
         });
 
         builder.append(CellWidget.of(leftArrow).align(Alignment.LEFT).expandX().wrap());
         builder.append(CellWidget.of(selectButton).align(Alignment.BOTTOM).expandY().wrap());
+        builder.append(CellWidget.of(returnButton).align(Alignment.BOTTOM).expandY().wrap());
         builder.append(CellWidget.of(rightArrow).align(Alignment.RIGHT).expandX().wrap());
 
         Table table = builder.build();
@@ -154,9 +159,11 @@ public class CourseSelector implements Screen {
 
     @Override
     public void dispose() {
-        game.batch.dispose();
         stage.dispose();
+
         VisUI.dispose();
+        game.backgroundImg.dispose();
+        game.atlas.dispose();
     }
 
     private void centerWindowTable(){

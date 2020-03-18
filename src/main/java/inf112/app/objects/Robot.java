@@ -54,7 +54,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
             steps -= 1;
             moveAndPush(this,getPos().getDirection());
         }
-        vectorPos.set(pos.getXCoordinate(), pos.getYCoordinate());
     }
 
     /**
@@ -63,15 +62,13 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @param dir Direction to move in
      */
     public void move(Direction dir){
-        Direction saved = pos.getDirection().copyOf();
-        pos.setDirection(dir);
         Position copy = pos.copyOf();
+        copy.setDirection(dir);
+        boolean valid = map.validMove(copy);
         copy.moveInDirection();
-        if(map.validMove(pos) && !map.robotInTile(copy)) {
-            pos.moveInDirection();
+        if(valid && map.robotInTile(copy) == null) {
+            updatePosition(this,dir);
         }
-        pos.setDirection(saved);
-        vectorPos.set(pos.getXCoordinate(), pos.getYCoordinate());
     }
 
     /**
@@ -165,19 +162,17 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     /**
      *
-     * @param r
      * @param dir position of
      */
-     private void updatePosition(Robot r, Direction dir){
-
-         Position oldPos = r.getPos().copyOf();
+     private void updatePosition(Robot robot, Direction dir){
+         Position oldPos = robot.getPos().copyOf();
          Direction old = oldPos.getDirection().copyOf();
-         r.getPos().setDirection(dir);
-         r.getPos().moveInDirection();
-         r.getPos().setDirection(old);
-         int index = map.getCellList().getCell(oldPos).getInventory().getElements().indexOf(r);
-         map.getCellList().getCell(oldPos).getInventory().getElements().remove(index);
-         map.getCellList().getCell(r.getPos()).getInventory().addElement(r);
+         robot.getPos().setDirection(dir);
+         robot.getPos().moveInDirection();
+         robot.getPos().setDirection(old);
+         map.getCellList().getCell(oldPos).getInventory().getElements().remove(robot);
+         map.getCellList().getCell(robot.getPos()).getInventory().addElement(robot);
+         vectorPos.set(robot.getPos().getXCoordinate(), robot.getPos().getYCoordinate());
      }
 
     /**
@@ -225,11 +220,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public int getDamageTokens() {return damageTokens; }
 
     public void addDamageTokens(int dealDamage) {
-        this.damageTokens += dealDamage;
+        damageTokens += dealDamage;
         if (damageTokens >= 10) {
             lives--;
             damageTokens = 0;
         }
+        System.out.println("Damage tokens:" + damageTokens);
     }
 
     /**

@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.objects.*;
 
+
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -246,21 +247,11 @@ public class Map {
         laserObjects.add(robot);
     }
 
-    public boolean robotInTile(Position pos){
+    public Robot robotInTile(Position pos){
         ArrayList<IBoardElement> elems = cellList.getCell(pos).getInventory().getElements();
         for(IBoardElement e : elems){
             if(e instanceof Robot){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public IBoardElement findTypeInTile(IBoardElement type, Position pos){
-        ArrayList<IBoardElement> elems = cellList.getCell(pos).getInventory().getElements();
-        for(IBoardElement e : elems){
-            if(e.getClass().equals(type.getClass())){
-                return e;
+                return (Robot) e;
             }
         }
         return null;

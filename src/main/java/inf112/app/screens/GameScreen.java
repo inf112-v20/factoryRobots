@@ -12,6 +12,8 @@ import inf112.app.game.CardDeck;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 import inf112.app.objects.Player;
+import inf112.app.objects.Position;
+import inf112.app.objects.Robot;
 
 public class GameScreen implements Screen {
     final RoboRally game;
@@ -31,6 +33,7 @@ public class GameScreen implements Screen {
 
     private Map cellMap;
     private Player player;
+    private Robot testRobot;
 
     public GameScreen(final RoboRally game){
         this.game = game;
@@ -39,6 +42,7 @@ public class GameScreen implements Screen {
 
         this.cellMap = Map.getInstance();
         this.player = game.getPlayer();
+        this.testRobot = new Robot(new Position(4,4),"player");
 
         //Set up cameras
         camera = new OrthographicCamera();
@@ -46,6 +50,8 @@ public class GameScreen implements Screen {
 
         Map cellMap = Map.getInstance();
         cellMap.registerRobot(player.getCharacter());
+        cellMap.registerRobot(testRobot);
+
         //Initialize frame around board
         CardUI ui = CardUI.getInstance();
         ui.initializeCardSlots();
@@ -111,15 +117,16 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
 
-        updatePlayer();
+        updateRobot(player.getCharacter());
+        updateRobot(testRobot);
         stage.act();
 
         uiRenderer.render();
         mapRenderer.render();
 
-        //Remove last player position
-        cellMap.getLayer("player").setCell(player.getCharacter().getPos().getXCoordinate(),
-                player.getCharacter().getPos().getYCoordinate(), null);
+        //Remove previous robot positions
+        cellMap.clearLayer(cellMap.getLayer("player"));
+
         if(cellMap.getLaserTimer() == laserTime) {
             cellMap.deactivateLasers();
         }
@@ -129,18 +136,18 @@ public class GameScreen implements Screen {
         game.batch.end();
     }
 
-    private void updatePlayer(){
-        int playerX = player.getCharacter().getPos().getXCoordinate();
-        int playerY = player.getCharacter().getPos().getYCoordinate();
-        TiledMapTileLayer playerLayer = cellMap.getLayer("player");
+    private void updateRobot(Robot robot){
+        int robotX = robot.getPos().getXCoordinate();
+        int robotY = robot.getPos().getYCoordinate();
+        TiledMapTileLayer robotLayer = cellMap.getLayer("player");
 
         //Setting player sprite to current position
-        playerLayer.setCell(playerX, playerY, player.getCharacter().getNormal());
+        robotLayer.setCell(robotX, robotY, robot.getNormal());
         //Checking if player is touching hole or flag
-        if(cellMap.getLayer("hole").getCell(playerX, playerY) != null){
-            playerLayer.setCell(playerX, playerY, player.getCharacter().getLooser());
-        } else if(cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
-            playerLayer.setCell(playerX, playerY, player.getCharacter().getWinner());
+        if(cellMap.getLayer("hole").getCell(robotX, robotY) != null){
+            robotLayer.setCell(robotX, robotY, robot.getLooser());
+        } else if(cellMap.getLayer("flag").getCell(robotX, robotY) != null) {
+            robotLayer.setCell(robotX, robotY, robot.getWinner());
         }
     }
 

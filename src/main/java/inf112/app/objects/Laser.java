@@ -10,7 +10,6 @@ public class Laser {
 
     private ILaserInteractor owner;
     private boolean isDouble;
-    private TiledMapTileLayer.Cell beam;
 
     public Laser (ILaserInteractor owner, boolean isDouble) {
         this.owner = owner;
@@ -26,21 +25,12 @@ public class Laser {
        laserBeam.moveInDirection();
 
        //Check that beam doesn´t go out of bounds
-       while (laserBeam.getXCoordinate() < map.getMapSizeX() && laserBeam.getYCoordinate() < map.getMapSizeY() &&
-               laserBeam.getXCoordinate() >= 0 && laserBeam.getYCoordinate() >= 0) {
-
-
+       while (map.validMove(laserBeam)) {
            MapCell current = map.getCellList().getCell(laserBeam);
            path.add(current);
-           if(map.robotInTile(laserBeam)){
-                Robot inTheWay = (Robot) map.findTypeInTile(new Robot(new Position(1000,1000),"placeholder"), laserBeam);
-                inTheWay.addDamageTokens(isDouble ? 2 : 1);
+           if(map.robotInTile(current.getPosition()) != null){
+               break;
            }
-
-           if(!map.validMove(laserBeam)){
-               return path;
-           }
-
            laserBeam.moveInDirection();
        }
        return path;
@@ -68,6 +58,10 @@ public class Laser {
                map.getLayer("laser2").setCell(pos.getXCoordinate(),pos.getYCoordinate(),laser);
            }
 
+       }
+       Robot potential = map.robotInTile(path.get(path.size()-1).getPosition());
+       if(potential != null){
+           potential.addDamageTokens(isDouble ? 2 : 1);
        }
    }
 }

@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -17,12 +15,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.building.OneRowTableBuilder;
+import com.kotcrab.vis.ui.building.utilities.Alignment;
 import com.kotcrab.vis.ui.building.utilities.CellWidget;
 import com.kotcrab.vis.ui.widget.VisImageTextButton;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import inf112.app.game.RoboRally;
-import org.mockito.internal.invocation.finder.AllInvocationsFinder;
 
 public class CourseSelector implements Screen {
     RoboRally game;
@@ -53,7 +50,7 @@ public class CourseSelector implements Screen {
 
         mapCamera = new OrthographicCamera();
         mapCamera.setToOrtho(false, Gdx.graphics.getWidth()/2f
-                ,Gdx.graphics.getHeight()/1.7f);
+                ,Gdx.graphics.getHeight()/1.6f);
 
 
         mapViewport = new ScreenViewport(mapCamera);
@@ -61,7 +58,7 @@ public class CourseSelector implements Screen {
         mapViewport.apply();
 
         this.stage = new Stage(menuViewport);
-        stage.setDebugAll(true);
+        //stage.setDebugAll(true);
         Gdx.input.setInputProcessor(this.stage);
 
         TmxMapLoader loader = new TmxMapLoader();
@@ -81,15 +78,15 @@ public class CourseSelector implements Screen {
         centerWindowTable();
 
         OneRowTableBuilder builder = new OneRowTableBuilder();
-        //builder.append(CellWidget.of(new VisImageTextButton("Test","default"))
-        //        .expandX().fillX().wrap());
-        builder.append(new VisImageTextButton("test","default"));
-        builder.row();
-        Table table = builder.build();
+        builder.append(CellWidget.of(new VisImageTextButton("Backward","default"))
+                .align(Alignment.LEFT).expandX().wrap());
+        builder.append(CellWidget.of(new VisImageTextButton("Select","default"))
+                .align(Alignment.BOTTOM).expandY().wrap());
+        builder.append(CellWidget.of(new VisImageTextButton("Forward","default"))
+                .align(Alignment.RIGHT).expandX().wrap());
 
-        window.add(table);
-        window.getParent();
-        table.setFillParent(true);
+        Table table = builder.build();
+        window.add(table).expand().fill();
         stage.addActor(window);
 
     }
@@ -110,7 +107,7 @@ public class CourseSelector implements Screen {
 
         stage.act();
         stage.draw();
-        //mapRenderer.render();
+        mapRenderer.render();
     }
 
     @Override

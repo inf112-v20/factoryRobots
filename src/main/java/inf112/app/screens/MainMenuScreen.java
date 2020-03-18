@@ -47,11 +47,10 @@ public class MainMenuScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        atlas = new TextureAtlas(Gdx.files.internal("assets/robo-rally-ui/Robo-Rally.atlas"));
-        skin = new Skin(Gdx.files.internal("assets/robo-rally-ui/Robo-Rally.json"), atlas);
+        atlas = new TextureAtlas(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.atlas"));
+        skin = new Skin(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.json"), atlas);
         img = new Texture(Gdx.files.internal("assets/game-menu.png"));
-        game.setScreen(new TestScreen(this.game));
-        //showMenuScreen();
+        showMenuScreen();
     }
 
     public void showMenuScreen(){

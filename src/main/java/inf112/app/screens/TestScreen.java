@@ -17,6 +17,7 @@ import com.kotcrab.vis.ui.building.StandardTableBuilder;
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.*;
 import inf112.app.game.RoboRally;
+import inf112.app.map.Map;
 
 public class TestScreen implements Screen {
     RoboRally game;
@@ -24,6 +25,7 @@ public class TestScreen implements Screen {
     Viewport viewport;
     Stage stage;
     Skin skin;
+    VisWindow window;
 
     public TestScreen(final RoboRally game) {
         this.game = game;
@@ -34,6 +36,7 @@ public class TestScreen implements Screen {
         viewport.apply();
 
         this.stage = new Stage(viewport);
+
         Gdx.input.setInputProcessor(this.stage);
         VisUI.load(this.skin);
         VisUI.setDefaultTitleAlign(Align.center);
@@ -42,8 +45,8 @@ public class TestScreen implements Screen {
 
     @Override
     public void show() {
-        VisWindow window = new VisWindow("Select Course");
-        window.setMovable(false);
+        window = new VisWindow("Select Course");
+        //window.setMovable(false);
         window.setModal(true);
         window.setWidth(550);
         window.setHeight(550);
@@ -53,6 +56,7 @@ public class TestScreen implements Screen {
         builder.append(new VisLabel("Test"));
         builder.row();
         Table table = builder.build();
+
 
         window.add(table);
         stage.addActor(window);
@@ -79,6 +83,7 @@ public class TestScreen implements Screen {
     public void resize(int x, int y) {
         camera.position.set((float) x / 2, y / 2.0f, 0.0f);
         stage.getViewport().update(x, y, true);
+        window.centerWindow();
     }
 
     @Override

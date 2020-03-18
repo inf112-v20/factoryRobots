@@ -11,93 +11,103 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.VisWindow;
 import inf112.app.game.RoboRally;
 
 public class CourseSelector implements Screen {
+    RoboRally game;
+    protected Stage stage;
+    Skin skin;
+
     OrthographicCamera menuCamera;
     OrthographicCamera mapCamera;
     OrthogonalTiledMapRenderer mapRenderer;
-    RoboRally game;
-    protected Stage stage;
-    public SpriteBatch batch;
-    Texture img;
-    Skin skin;
-    TextureAtlas atlas;
+
+    Viewport menuViewport;
+    Viewport mapViewport;
+
+    VisWindow window;
 
     public CourseSelector(final RoboRally game) {
         this.game = game;
+        this.skin = game.skin;
+
+        VisUI.load(this.skin);
+        VisUI.setDefaultTitleAlign(Align.center);
+
         menuCamera = new OrthographicCamera();
-        menuCamera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-
-        FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        viewport.apply();
-        stage = new Stage();
-        stage.setViewport(viewport);
-
+        menuViewport = new ScreenViewport(menuCamera);
+        menuViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        menuViewport.apply();
 
         mapCamera = new OrthographicCamera();
-        mapCamera.setToOrtho(false, 30,30);
+        mapCamera.setToOrtho(false, Gdx.graphics.getWidth()/2f
+                ,Gdx.graphics.getHeight()/1.7f);
 
-        //batch = new SpriteBatch();
+
+        mapViewport = new ScreenViewport(mapCamera);
+        mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        mapViewport.apply();
+
+        this.stage = new Stage(menuViewport);
+        stage.setDebugAll(true);
+        Gdx.input.setInputProcessor(this.stage);
 
         TmxMapLoader loader = new TmxMapLoader();
         TiledMap map = loader.load("assets/testMap.tmx");
 
-        mapRenderer = new OrthogonalTiledMapRenderer(map, (1/300f));
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1/9f);
         mapRenderer.setView(mapCamera);
-        img = new Texture(Gdx.files.internal("assets/game-menu.png"));
-        atlas = new TextureAtlas(Gdx.files.internal("assets/robo-rally-ui-2/robo-rally.atlas"));
-        skin = new Skin(Gdx.files.internal("assets/robo-rally-ui-2/robo-rally.json"), atlas);
-        //skin = new Skin(Gdx.files.internal("default_skin/uiskin.json"), atlas);
-
 
     }
 
     @Override
     public void show() {
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
-        /*Dialog dialog = new Dialog("Warning", skin, "default") {
-            public void result(Object obj) {
-                System.out.println("result "+obj);
-            }
-        };
-        /*dialog.text("blabla");
-        dialog.getContentTable().row();
-        dialog.getContentTable().add("aowemcw");
-        dialog.button("Test");
-        dialog.button("test2");
-        dialog.show(stage);
-        dialog.debug();
-        dialog.setSize(300.0f, 200.0f);*/
-        //dialog.setPosition(Gdx.graphics.getWidth() / 2.0f, Gdx.graphics.getHeight() / 2.0f, Align.center);
-        //stage.addActor(dialog);
+        window = new VisWindow("Select Course");
+        window.setMovable(false);
+        window.setModal(true);
+        centerWindowTable();
+
+        /*StandardTableBuilder builder = new StandardTableBuilder();
+        builder.append(new VisLabel("Test"));
+        builder.row();
+        Table table = builder.build();
+
+        window.add(table);*/
+        stage.addActor(window);
 
     }
 
     @Override
     public void render(float v) {
+
+        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         menuCamera.update();
         mapCamera.update();
+        game.batch.setProjectionMatrix(menuCamera.combined);
 
-        /*batch.begin();
+        game.batch.begin();
+        game.batch.draw(game.backgroundImg,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        game.batch.end();
 
-
-        //batch.draw(img,0,0);
-
-
-        batch.end();*/
         stage.act();
         stage.draw();
-        //mapRenderer.render();
+        mapRenderer.render();
     }
 
     @Override
-    public void resize(int i, int i1) {
-
+    public void resize(int x, int y) {
+        menuCamera.position.set((float) x / 2, y / 2.0f, 0.0f);
+        menuViewport.update(x, y, true);
+        centerWindowTable();
     }
 
     @Override
@@ -117,9 +127,14 @@ public class CourseSelector implements Screen {
 
     @Override
     public void dispose() {
-        img.dispose();
-        batch.dispose();
+        game.batch.dispose();
         stage.dispose();
-
+        VisUI.dispose();
+    }
+    private void centerWindowTable(){
+        window.setHeight(Gdx.graphics.getHeight()*(2.1f/3f));
+        window.setWidth(Gdx.graphics.getWidth()*(3/4f));
+        window.setPosition((stage.getWidth() - window.getWidth()) / 2F
+               , (stage.getHeight() - window.getHeight()) / 3.2F);
     }
 }

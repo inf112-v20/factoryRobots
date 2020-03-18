@@ -41,6 +41,14 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		background: button-bigger
 	}
 }
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: PressStart2P-Regular
+		up: button-bigger
+		down: button-standard
+		focused: button-standard
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 	default: {
 		label: default

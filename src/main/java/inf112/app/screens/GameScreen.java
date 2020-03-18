@@ -15,6 +15,8 @@ import inf112.app.objects.Player;
 import inf112.app.objects.Position;
 import inf112.app.objects.Robot;
 
+import java.util.ArrayList;
+
 public class GameScreen implements Screen {
     final RoboRally game;
 
@@ -117,8 +119,7 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
 
-        updateRobot(player.getCharacter());
-        updateRobot(testRobot);
+        updateRobots();
         stage.act();
 
         uiRenderer.render();
@@ -177,5 +178,12 @@ public class GameScreen implements Screen {
         game.batch.dispose();
         uiRenderer.dispose();
         mapRenderer.dispose();
+    }
+
+    public void updateRobots(){
+        ArrayList<Robot> list = cellMap.getRobotList();
+        for(Robot r : list){
+            updateRobot(r);
+        }
     }
 }

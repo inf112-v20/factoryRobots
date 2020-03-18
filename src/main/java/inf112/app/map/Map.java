@@ -33,6 +33,7 @@ public class Map {
     private final int mapSizeX;
     private final int mapSizeY;
     private MapCellList cellList;
+    private ArrayList<Robot> robotList;
 
     private TiledMap laserSprites;
     private ArrayList<ILaserInteractor> laserObjects;
@@ -66,6 +67,7 @@ public class Map {
         cellList = new MapCellList(mapSizeX, mapSizeY, map.getLayers());
 
         laserObjects = obtainLaserObjects();
+        robotList = new ArrayList<>();
     }
 
     private ArrayList<ILaserInteractor> obtainLaserObjects() {
@@ -245,6 +247,7 @@ public class Map {
     public void registerRobot(Robot robot){
         cellList.getCell(robot.getPos()).appendToInventory(robot);
         laserObjects.add(robot);
+        robotList.add(robot);
     }
 
     public Robot robotInTile(Position pos){
@@ -255,5 +258,9 @@ public class Map {
             }
         }
         return null;
+    }
+
+    public ArrayList<Robot> getRobotList() {
+        return robotList;
     }
 }

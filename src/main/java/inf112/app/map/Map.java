@@ -26,6 +26,7 @@ public class Map {
     private TiledMapTileLayer wallLayer;
     private TiledMapTileLayer conveyorLayer;
     private TiledMapTileLayer laserLayer;
+    private TiledMapTileLayer laser2Layer;
     private TiledMapTileLayer utilityLayer;
 
     private final int mapSizeX;
@@ -54,6 +55,8 @@ public class Map {
         wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall");
         conveyorLayer = (TiledMapTileLayer) map.getLayers().get("Conveyor");
         laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser");
+        //Extra layer so lasers can cross each other
+        laser2Layer = (TiledMapTileLayer) map.getLayers().get("Laser2");
         utilityLayer = (TiledMapTileLayer) map.getLayers().get("Utility");
 
         MapProperties props = map.getProperties();
@@ -115,6 +118,8 @@ public class Map {
                 return conveyorLayer;
             case "laser":
                 return laserLayer;
+            case "laser2":
+                return laser2Layer;
             case "utility":
                 return utilityLayer;
             default:
@@ -233,6 +238,7 @@ public class Map {
         lasersActive = false;
         laserTimer = 0;
         clearLayer(laserLayer);
+        clearLayer(laser2Layer);
     }
 
     public void registerRobot(Robot robot){

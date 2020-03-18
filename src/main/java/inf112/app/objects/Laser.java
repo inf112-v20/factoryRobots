@@ -62,7 +62,12 @@ public class Laser {
        for(MapCell cell : path){
            Position pos = cell.getPosition();
            TiledMapTileLayer.Cell laser = applicationLayer.getCell(index,0);
-            map.getLayer("laser").setCell(pos.getXCoordinate(),pos.getYCoordinate(),laser);
+           if(map.getLayer("laser").getCell(pos.getXCoordinate(),pos.getYCoordinate()) == null){
+               map.getLayer("laser").setCell(pos.getXCoordinate(),pos.getYCoordinate(),laser);
+           } else {
+               map.getLayer("laser2").setCell(pos.getXCoordinate(),pos.getYCoordinate(),laser);
+           }
+
        }
    }
 }

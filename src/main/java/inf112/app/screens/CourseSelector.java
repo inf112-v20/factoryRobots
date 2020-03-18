@@ -4,20 +4,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.building.OneRowTableBuilder;
+import com.kotcrab.vis.ui.building.utilities.CellWidget;
+import com.kotcrab.vis.ui.widget.VisImageTextButton;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import inf112.app.game.RoboRally;
+import org.mockito.internal.invocation.finder.AllInvocationsFinder;
 
 public class CourseSelector implements Screen {
     RoboRally game;
@@ -37,7 +42,8 @@ public class CourseSelector implements Screen {
         this.game = game;
         this.skin = game.skin;
 
-        VisUI.load(this.skin);
+        VisUI.load();
+        //VisUI.load(this.skin);
         VisUI.setDefaultTitleAlign(Align.center);
 
         menuCamera = new OrthographicCamera();
@@ -74,12 +80,16 @@ public class CourseSelector implements Screen {
         window.setModal(true);
         centerWindowTable();
 
-        /*StandardTableBuilder builder = new StandardTableBuilder();
-        builder.append(new VisLabel("Test"));
+        OneRowTableBuilder builder = new OneRowTableBuilder();
+        //builder.append(CellWidget.of(new VisImageTextButton("Test","default"))
+        //        .expandX().fillX().wrap());
+        builder.append(new VisImageTextButton("test","default"));
         builder.row();
         Table table = builder.build();
 
-        window.add(table);*/
+        window.add(table);
+        window.getParent();
+        table.setFillParent(true);
         stage.addActor(window);
 
     }
@@ -100,7 +110,7 @@ public class CourseSelector implements Screen {
 
         stage.act();
         stage.draw();
-        mapRenderer.render();
+        //mapRenderer.render();
     }
 
     @Override
@@ -131,10 +141,19 @@ public class CourseSelector implements Screen {
         stage.dispose();
         VisUI.dispose();
     }
+
     private void centerWindowTable(){
-        window.setHeight(Gdx.graphics.getHeight()*(2.1f/3f));
-        window.setWidth(Gdx.graphics.getWidth()*(3/4f));
+        window.setHeight(getWindowHeight());
+        window.setWidth(getWindowWidth());
         window.setPosition((stage.getWidth() - window.getWidth()) / 2F
                , (stage.getHeight() - window.getHeight()) / 3.2F);
+    }
+
+    private float getWindowHeight(){
+        return Gdx.graphics.getHeight()*(2.1f/3f);
+    }
+    private float getWindowWidth(){
+        return Gdx.graphics.getWidth()*(3/4f);
+
     }
 }

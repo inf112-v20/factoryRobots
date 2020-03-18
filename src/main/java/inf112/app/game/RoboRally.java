@@ -37,7 +37,7 @@ public class RoboRally extends Game {
         atlas = new TextureAtlas(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.atlas"));
         skin = new Skin(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.json"), atlas);
 
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new CourseSelector(this));
     }
 
     @Override

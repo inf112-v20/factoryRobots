@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -14,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.app.game.RoboRally;
+import inf112.app.map.Map;
+import sun.font.CoreMetrics;
 
 public class MainMenuScreen implements Screen {
 
@@ -45,7 +50,8 @@ public class MainMenuScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("assets/robo-rally-ui/Robo-Rally.atlas"));
         skin = new Skin(Gdx.files.internal("assets/robo-rally-ui/Robo-Rally.json"), atlas);
         img = new Texture(Gdx.files.internal("assets/game-menu.png"));
-        showMenuScreen();
+        game.setScreen(new TestScreen(this.game));
+        //showMenuScreen();
     }
 
     public void showMenuScreen(){
@@ -141,7 +147,10 @@ public class MainMenuScreen implements Screen {
     }
     public void showCourseSelector(boolean multiplayer){
         stage.clear();
-        TextButton standardCourseButton = new TextButton("Test Course", skin);
+        dispose();
+        game.setScreen(new CourseSelector(game));
+
+        /*TextButton standardCourseButton = new TextButton("Test Course", skin);
         TextButton returnButton = new TextButton("Return", skin);
         TextButton exitButton = new TextButton("Exit", skin);
 
@@ -153,8 +162,13 @@ public class MainMenuScreen implements Screen {
                 game.setScreen(new GameScreen(game));
             }
         });
+        TmxMapLoader loader = new TmxMapLoader();
+        TiledMap map = loader.load("assets/testMap.tmx");
+        OrthogonalTiledMapRenderer mapRenderer = new OrthogonalTiledMapRenderer(map, (1/300f));
+        mapRenderer.setView(camera);
+        mapRenderer.render();
 
-        returnButton.addListener(new ClickListener(){
+        /*returnButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showPlayScreen();
@@ -166,7 +180,7 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        stage.addActor(createTable(standardCourseButton, returnButton, exitButton));
+        stage.addActor(createTable(standardCourseButton, returnButton, exitButton));*/
     }
 
 

@@ -33,8 +33,8 @@ public class RoboRally extends Game {
         font.setColor(Color.RED);
 
         backgroundImg = new Texture(Gdx.files.internal("assets/game-menu.png"));
-        atlas = new TextureAtlas(Gdx.files.internal("assets/robo-rally-ui-2/robo-rally.atlas"));
-        skin = new Skin(Gdx.files.internal("assets/robo-rally-ui-2/robo-rally.json"), atlas);
+        atlas = new TextureAtlas(Gdx.files.internal("assets/robo-rally-ui-5/Robo-Rally.atlas"));
+        skin = new Skin(Gdx.files.internal("assets/robo-rally-ui-5/Robo-Rally.json"), atlas);
 
         this.setScreen(new MainMenuScreen(this));
     }

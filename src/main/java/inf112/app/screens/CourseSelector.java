@@ -60,19 +60,19 @@ public class CourseSelector implements Screen {
     @Override
     public void show() {
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
-        Dialog dialog = new Dialog("Warning", skin, "default") {
+        /*Dialog dialog = new Dialog("Warning", skin, "default") {
             public void result(Object obj) {
                 System.out.println("result "+obj);
             }
         };
-        dialog.text("blabla");
+        /*dialog.text("blabla");
         dialog.getContentTable().row();
         dialog.getContentTable().add("aowemcw");
         dialog.button("Test");
         dialog.button("test2");
         dialog.show(stage);
         dialog.debug();
-        dialog.setSize(300.0f, 200.0f);
+        dialog.setSize(300.0f, 200.0f);*/
         //dialog.setPosition(Gdx.graphics.getWidth() / 2.0f, Gdx.graphics.getHeight() / 2.0f, Align.center);
         //stage.addActor(dialog);
 

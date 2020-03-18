@@ -1,28 +1,55 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
-	PressStart2P-Regular-24: {
+	PressStart2P-Regular: {
 		file: PressStart2P-Regular.fnt
+	}
+	PressStart2P-Regular-2: {
+		file: PressStart2P-Regular-2.fnt
 	}
 }
 com.badlogic.gdx.graphics.Color: {
+	Black: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	Gray-Black: {
+		r: 0.33333337
+		g: 0.33333337
+		b: 0.33333337
+		a: 1
+	}
 	White: {
 		r: 1
 		g: 1
 		b: 1
 		a: 1
 	}
-	Dark_Gray: {
-		r: 0.18039216
-		g: 0.16470589
-		b: 0.16470589
-		a: 1
-	}
 }
-com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
-		font: PressStart2P-Regular-24
 		up: button-bigger
 		down: button-standard
+		over: button-standard
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: PressStart2P-Regular
+		fontColor: White
+		background: button-bigger
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: Window
+		titleFont: PressStart2P-Regular
 	}
 }
 }

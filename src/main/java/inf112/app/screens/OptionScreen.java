@@ -1,5 +1,6 @@
 package inf112.app.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -27,17 +28,35 @@ public class OptionScreen implements Screen {
 
     @Override
     public void show() {
-        //
+        stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true);
-        VisTextButton testButton = new VisTextButton("Test");
-        testButton.addListener(new ChangeListener() {
+        VisTextButton soundButton = new VisTextButton("Sound");
+        soundButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                //game.setScreen(new OptionScreenTest(game,viewport, stage));
+                //
             }
         });
-        table.add(testButton);
+        VisTextButton returnButton = new VisTextButton("Return");
+        returnButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(new MainMenuScreen(game,viewport, stage));
+            }
+        });
+        VisTextButton exitButton = new VisTextButton("Exit");
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
+        table.add(soundButton);
+        table.row();
+        table.add(returnButton);
+        table.row();
+        table.add(exitButton);
         stage.addActor(table);
 
     }
@@ -75,6 +94,6 @@ public class OptionScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.clear();
+
     }
 }

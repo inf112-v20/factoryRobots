@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import inf112.app.game.CardDeck;
 import inf112.app.game.CardSlot;
 import inf112.app.game.ICard;
 import inf112.app.map.Map;
@@ -25,6 +26,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private int damageTokens;
     private int lives;
     private boolean powerDown;
+    private boolean isDead;
+    private Position checkPoint;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -228,6 +231,18 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     /**
+     * method for deaing the right amount of cards compared to damageTokens
+     */
+    public void dealNewCards() {
+        int amount = 9;
+        for (damageTokens = 0; damageTokens < 10; damageTokens++){
+            ArrayList<ICard> playerDeck = new CardDeck().getCards(amount);
+            amount--;
+        }
+
+    }
+
+    /**
      * Method used by repairStation to remove damageTokens from robot.
      * @param amount How many damageTokens should be removed
      */
@@ -238,6 +253,25 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public int getLives() { return lives; }
 
+    /**
+     * method used to find out if robot is dead or alive
+     * @return boolean true if dead, false if alive
+     */
+    public boolean isDead(){
+        if (lives == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * Sets a new checkpoint for the robot
+     * @param p
+     */
+    public void setCheckPoint(Position p){
+        this.checkPoint = p;
+    }
     /**
      * Used to set the powerStatus of the robot(powerDown)
      * @param powerDown

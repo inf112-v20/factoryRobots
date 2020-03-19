@@ -15,12 +15,6 @@ public class GameStatus {
         this.board = map;
         resetDeck();
         setStartPosition();
-        dealNewCards();
-
-    }
-
-    public void dealNewCards() {
-
     }
 
     private void setStartPosition() {

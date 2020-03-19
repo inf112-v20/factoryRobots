@@ -57,13 +57,13 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        table.add(singleplayerButton);
+        table.add(singleplayerButton).pad(3).height(60).width(350);
         table.row();
-        table.add(multiplayerButton);
+        table.add(multiplayerButton).pad(3).height(60).width(350);
         table.row();
-        table.add(settingsButton);
+        table.add(settingsButton).pad(3).height(60).width(350);
         table.row();
-        table.add(exitButton);
+        table.add(exitButton).pad(3).height(60).width(350);
         stage.addActor(table);
     }
 

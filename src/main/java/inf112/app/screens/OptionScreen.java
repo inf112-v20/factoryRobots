@@ -49,11 +49,11 @@ public class OptionScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        table.add(soundButton);
+        table.add(soundButton).pad(3).height(60).width(350);
         table.row();
-        table.add(returnButton);
+        table.add(returnButton).pad(3).height(60).width(350);
         table.row();
-        table.add(exitButton);
+        table.add(exitButton).pad(3).height(60).width(350);
         stage.addActor(table);
 
     }

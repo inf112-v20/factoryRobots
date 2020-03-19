@@ -146,7 +146,7 @@ com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
-		background: Window
+		background: Window-2
 		titleFont: PressStart2P-Regular
 	}
 }

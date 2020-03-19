@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.building.OneRowTableBuilder;
 import com.kotcrab.vis.ui.building.utilities.Alignment;
 import com.kotcrab.vis.ui.building.utilities.CellWidget;
+import com.kotcrab.vis.ui.building.utilities.Padding;
 import com.kotcrab.vis.ui.widget.VisImageButton;
 import com.kotcrab.vis.ui.widget.VisImageTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
@@ -38,6 +39,7 @@ public class CourseSelector implements Screen {
         this.game = game;
         this.menuViewport = viewport;
         this.stage = stage;
+        //stage.setDebugAll(true);
 
         mapCamera = new OrthographicCamera(); // Create a new camera for the TiledMap
         mapCamera.setToOrtho(false, menuViewport.getWorldWidth()/2f
@@ -86,11 +88,17 @@ public class CourseSelector implements Screen {
                 game.setScreen(new MainMenuScreen(game, menuViewport, stage));
             }
         });
-
-        builder.append(CellWidget.of(leftArrow).align(Alignment.LEFT).expandX().wrap());
-        builder.append(CellWidget.of(selectButton).align(Alignment.BOTTOM).expandY().wrap());
-        builder.append(CellWidget.of(returnButton).align(Alignment.BOTTOM).expandY().wrap());
-        builder.append(CellWidget.of(rightArrow).align(Alignment.RIGHT).expandX().wrap());
+        Padding paddingArrow = new Padding(0,0,50,0); // Add padding to buttons
+        Padding paddingSelectButton = new Padding(0,2,0,5);
+        Padding paddingReturnButton = new Padding(0,5,0,10);
+        builder.append(CellWidget.of(leftArrow)
+                .padding(paddingArrow).align(Alignment.LEFT).expandX().wrap());
+        builder.append(CellWidget.of(selectButton)
+                .padding(paddingSelectButton).width(245).align(Alignment.BOTTOM).expandY().wrap());
+        builder.append(CellWidget.of(returnButton)
+                .padding(paddingReturnButton).width(245).align(Alignment.BOTTOM).expandY().wrap());
+        builder.append(CellWidget.of(rightArrow)
+                .padding(paddingArrow).align(Alignment.RIGHT).expandX().wrap());
 
         Table table = builder.build(); // Create table from the TableBuilder
         window.add(table).expand().fill();

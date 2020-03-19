@@ -2,14 +2,11 @@ package inf112.app.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -17,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.building.OneRowTableBuilder;
 import com.kotcrab.vis.ui.building.utilities.Alignment;
 import com.kotcrab.vis.ui.building.utilities.CellWidget;
@@ -27,15 +23,14 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 import inf112.app.game.RoboRally;
 
 public class CourseSelector implements Screen {
-    RoboRally game;
-    protected Stage stage;
-    Skin skin;
+    final RoboRally game;
+    protected final Stage stage;
 
-    OrthographicCamera mapCamera;
-    OrthogonalTiledMapRenderer mapRenderer;
+    final OrthographicCamera mapCamera;
+    final OrthogonalTiledMapRenderer mapRenderer;
 
-    StretchViewport menuViewport;
-    Viewport mapViewport;
+    final StretchViewport menuViewport;
+    final Viewport mapViewport;
 
     VisWindow window;
 
@@ -43,7 +38,6 @@ public class CourseSelector implements Screen {
         this.game = game;
         this.menuViewport = viewport;
         this.stage = stage;
-        skin = game.skin;
 
         mapCamera = new OrthographicCamera(); // Create a new camera for the TiledMap
         mapCamera.setToOrtho(false, menuViewport.getWorldWidth()/2f
@@ -74,19 +68,9 @@ public class CourseSelector implements Screen {
 
         OneRowTableBuilder builder = new OneRowTableBuilder(); // Create a TableBuilder to insert into the window
         VisImageButton leftArrow = new VisImageButton("arrow-left");
-        leftArrow.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                return false;
-            }
-        });
+        leftArrow.addListener(event -> false);
         VisImageButton rightArrow = new VisImageButton("arrow-right");
-        rightArrow.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                return false;
-            }
-        });
+        rightArrow.addListener(event -> false);
         VisImageTextButton selectButton = new VisImageTextButton("Select","default");
         selectButton.addListener(new ChangeListener() {
             @Override

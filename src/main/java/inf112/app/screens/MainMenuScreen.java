@@ -14,15 +14,13 @@ import inf112.app.game.RoboRally;
 public class MainMenuScreen implements Screen {
 
     final RoboRally game;
-    protected Stage stage;
-    protected Skin skin;
-    StretchViewport viewport;
+    protected final Stage stage;
+    final StretchViewport viewport;
 
     public MainMenuScreen(final RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
-        skin = game.skin;
 
     }
 
@@ -31,7 +29,7 @@ public class MainMenuScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton singleplayerButton = new VisTextButton("singleplayer");
+        VisTextButton singleplayerButton = new VisTextButton("Singleplayer");
         singleplayerButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {

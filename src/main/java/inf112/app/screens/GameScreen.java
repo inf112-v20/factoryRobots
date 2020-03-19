@@ -15,20 +15,21 @@ import inf112.app.objects.Player;
 
 public class GameScreen implements Screen {
     final RoboRally game;
-    OrthographicCamera camera;
-    OrthographicCamera uiCam;
-    OrthogonalTiledMapRenderer mapRenderer;
-    OrthogonalTiledMapRenderer uiRenderer;
+    final OrthographicCamera camera;
+    final OrthographicCamera uiCam;
+    final OrthogonalTiledMapRenderer mapRenderer;
+    final OrthogonalTiledMapRenderer uiRenderer;
     private TiledMapStage stage;
 
-    private CardDeck deck;
+    private final CardDeck deck;
 
-    private float tileSize = 300f;
-    private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
-    private float initialCameraY;
+    private final float tileSize = 300f;
+    private final float viewportWidth = 20;
+    private final float viewPortHeight = 20; //cellmap + 5
+    private final float initialCameraY;
 
-    private Map cellMap;
-    private Player player;
+    private final Map cellMap;
+    private final Player player;
 
     public GameScreen(final RoboRally game){
         this.game = game;

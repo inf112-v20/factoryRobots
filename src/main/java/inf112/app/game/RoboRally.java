@@ -40,7 +40,7 @@ public class RoboRally extends Game {
         atlas = new TextureAtlas(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.atlas"));
         skin = new Skin(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.json"), atlas);
 
-        try {
+        try { // Load the VisUI skin. Will throw GdxRuntimeException if already loaded
             VisUI.load(this.skin);
             VisUI.setDefaultTitleAlign(Align.center);
         } catch (GdxRuntimeException ignored){
@@ -50,14 +50,15 @@ public class RoboRally extends Game {
         StretchViewport viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport.apply();
 
-        stage = new Stage(viewport, batch);
-        Gdx.input.setInputProcessor(stage);
+        stage = new Stage(viewport, batch); // Create new stage to share with each screen
+        Gdx.input.setInputProcessor(stage); // Define InputProcessor on the stage
 
         this.setScreen(new MainMenuScreen(this, viewport, stage));
     }
 
     @Override
     public void dispose() {
+        // Dispose of all object if any of the screens closes
         batch.dispose();
         font.dispose();
         stage.dispose();

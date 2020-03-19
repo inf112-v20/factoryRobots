@@ -30,7 +30,7 @@ public class MainMenuScreen implements Screen {
     public void show() {
         stage.clear();
         VisTable table = new VisTable();
-        table.setFillParent(true);
+        table.setFillParent(true); // Centers the table relative to the stage
         VisTextButton singleplayerButton = new VisTextButton("singleplayer");
         singleplayerButton.addListener(new ChangeListener() {
             @Override

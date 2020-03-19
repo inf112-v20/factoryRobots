@@ -45,18 +45,19 @@ public class CourseSelector implements Screen {
         this.stage = stage;
         skin = game.skin;
 
-        mapCamera = new OrthographicCamera();
+        mapCamera = new OrthographicCamera(); // Create a new camera for the TiledMap
         mapCamera.setToOrtho(false, menuViewport.getWorldWidth()/2f
-                ,menuViewport.getWorldHeight()/2f);
+                ,menuViewport.getWorldHeight()/2f); // Center the camera
 
         mapViewport = new ScreenViewport(mapCamera);
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        mapViewport.apply();
+        mapViewport.apply(); // Fit camera to viewport
 
         TmxMapLoader loader = new TmxMapLoader();
         TiledMap map = loader.load("assets/testMap.tmx");
 
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1/9f);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1/9f); // Create a renderer for rendering of the
+                                                                          // TiledMap
         mapRenderer.setView(mapCamera);
 
     }
@@ -65,13 +66,13 @@ public class CourseSelector implements Screen {
     public void show() {
         stage.clear();
         window = new VisWindow("Select Course");
-        window.setMovable(false);
+        window.setMovable(false); // Make in unmovable
         window.setModal(true);
-        window.setHeight(650);
+        window.setHeight(650); // Set initial size of window
         window.setWidth(800);
         window.centerWindow();
 
-        OneRowTableBuilder builder = new OneRowTableBuilder();
+        OneRowTableBuilder builder = new OneRowTableBuilder(); // Create a TableBuilder to insert into the window
         VisImageButton leftArrow = new VisImageButton("arrow-left");
         leftArrow.addListener(new EventListener() {
             @Override
@@ -107,9 +108,9 @@ public class CourseSelector implements Screen {
         builder.append(CellWidget.of(returnButton).align(Alignment.BOTTOM).expandY().wrap());
         builder.append(CellWidget.of(rightArrow).align(Alignment.RIGHT).expandX().wrap());
 
-        Table table = builder.build();
+        Table table = builder.build(); // Create table from the TableBuilder
         window.add(table).expand().fill();
-        stage.addActor(window);
+        stage.addActor(window); // Add window to the stage for rendering
 
     }
 

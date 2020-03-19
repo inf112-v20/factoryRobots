@@ -30,7 +30,7 @@ public class OptionScreen implements Screen {
     public void show() {
         stage.clear();
         VisTable table = new VisTable();
-        table.setFillParent(true);
+        table.setFillParent(true); // Centers the table relative to the stage
         VisTextButton soundButton = new VisTextButton("Sound");
         soundButton.addListener(new ChangeListener() {
             @Override

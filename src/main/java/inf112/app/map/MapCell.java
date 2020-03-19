@@ -2,7 +2,9 @@ package inf112.app.map;
 
 import inf112.app.objects.IBoardElement;
 import inf112.app.objects.Position;
+import inf112.app.objects.Robot;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -16,6 +18,16 @@ public class MapCell {
     public MapCell(Position position, CellInventory inventory) {
         this.position = position;
         this.inventory = inventory;
+    }
+
+    public void doAction(Robot robot){
+        ArrayList<IBoardElement> contents = inventory.getElements();
+        for(IBoardElement elem : contents){
+            if(elem instanceof Robot){
+                continue;
+            }
+            elem.doAction(robot);
+        }
     }
 
     public Position getPosition() {

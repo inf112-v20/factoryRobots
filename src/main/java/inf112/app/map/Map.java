@@ -263,4 +263,18 @@ public class Map {
     public ArrayList<Robot> getRobotList() {
         return robotList;
     }
+
+    public void deleteRobot(Robot robot){
+        cellList.getCell(robot.getPos()).getInventory().getElements().remove(robot);
+        laserObjects.remove(robot);
+        robotList.remove(robot);
+    }
+
+    public void clearBots(){
+        for(Robot robot : robotList){
+            cellList.getCell(robot.getPos()).getInventory().getElements().remove(robot);
+            laserObjects.remove(robot);
+        }
+        robotList.clear();
+    }
 }

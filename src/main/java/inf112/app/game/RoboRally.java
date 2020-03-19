@@ -10,10 +10,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import inf112.app.map.Map;
 import inf112.app.objects.Player;
 
+import inf112.app.screens.CourseSelector;
 import inf112.app.screens.MainMenuScreen;
 
 public class RoboRally extends Game {
@@ -36,6 +39,10 @@ public class RoboRally extends Game {
         atlas = new TextureAtlas(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.atlas"));
         skin = new Skin(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.json"), atlas);
 
+
+        StretchViewport viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport.apply();
+
         try {
             VisUI.load(this.skin);
             VisUI.setDefaultTitleAlign(Align.center);
@@ -43,7 +50,7 @@ public class RoboRally extends Game {
 
         }
 
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new MainMenuScreen(this, viewport));
     }
 
     @Override

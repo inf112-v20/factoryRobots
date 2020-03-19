@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 import sun.font.CoreMetrics;
@@ -30,9 +31,12 @@ public class MainMenuScreen implements Screen {
     private TextureAtlas atlas;
     protected Skin skin;
     public SpriteBatch batch;
+    StretchViewport viewport;
 
-    public MainMenuScreen(final RoboRally game) {
+    public MainMenuScreen(final RoboRally game, StretchViewport viewport) {
         this.game = game;
+        this.viewport = viewport;
+
     }
 
     @Override
@@ -41,7 +45,6 @@ public class MainMenuScreen implements Screen {
         camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         batch = new SpriteBatch();
-        FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport.apply();
 
         stage = new Stage();
@@ -147,39 +150,8 @@ public class MainMenuScreen implements Screen {
     public void showCourseSelector(boolean multiplayer){
         stage.clear();
         dispose();
-        game.setScreen(new CourseSelector(game));
+        game.setScreen(new CourseSelector(game, new StretchViewport(1000,1000)));
 
-        /*TextButton standardCourseButton = new TextButton("Test Course", skin);
-        TextButton returnButton = new TextButton("Return", skin);
-        TextButton exitButton = new TextButton("Exit", skin);
-
-        standardCourseButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                dispose();
-                // We need to implement multiplayer first
-                game.setScreen(new GameScreen(game));
-            }
-        });
-        TmxMapLoader loader = new TmxMapLoader();
-        TiledMap map = loader.load("assets/testMap.tmx");
-        OrthogonalTiledMapRenderer mapRenderer = new OrthogonalTiledMapRenderer(map, (1/300f));
-        mapRenderer.setView(camera);
-        mapRenderer.render();
-
-        /*returnButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                showPlayScreen();
-            }
-        });
-        exitButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
-        stage.addActor(createTable(standardCourseButton, returnButton, exitButton));*/
     }
 
 
@@ -197,8 +169,8 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
+    public void resize(int x, int y) {
+        viewport.update(x, y, true);
     }
 
     @Override

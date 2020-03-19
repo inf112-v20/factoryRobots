@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.building.OneRowTableBuilder;
@@ -30,27 +31,22 @@ public class CourseSelector implements Screen {
     protected Stage stage;
     Skin skin;
 
-    OrthographicCamera menuCamera;
     OrthographicCamera mapCamera;
     OrthogonalTiledMapRenderer mapRenderer;
 
-    Viewport menuViewport;
+    StretchViewport menuViewport;
     Viewport mapViewport;
 
     VisWindow window;
 
-    public CourseSelector(final RoboRally game) {
+    public CourseSelector(final RoboRally game, StretchViewport viewport) {
         this.game = game;
         this.skin = game.skin;
-
-        menuCamera = new OrthographicCamera();
-        menuViewport = new ScreenViewport(menuCamera);
-        menuViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        menuViewport.apply();
+        this.menuViewport = viewport;
 
         mapCamera = new OrthographicCamera();
-        mapCamera.setToOrtho(false, Gdx.graphics.getWidth()/2f
-                ,Gdx.graphics.getHeight()/1.6f);
+        mapCamera.setToOrtho(false, menuViewport.getWorldWidth()/2f
+                ,menuViewport.getWorldHeight()/2f);
 
 
         mapViewport = new ScreenViewport(mapCamera);
@@ -74,7 +70,9 @@ public class CourseSelector implements Screen {
         window = new VisWindow("Select Course");
         window.setMovable(false);
         window.setModal(true);
-        centerWindowTable();
+        window.setHeight(650);
+        window.setWidth(800);
+        window.centerWindow();
 
         OneRowTableBuilder builder = new OneRowTableBuilder();
         VisImageButton leftArrow = new VisImageButton("arrow-left");
@@ -103,7 +101,7 @@ public class CourseSelector implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new MainMenuScreen(game,menuViewport));
             }
         });
 
@@ -122,12 +120,10 @@ public class CourseSelector implements Screen {
     public void render(float v) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        menuCamera.update();
         mapCamera.update();
-        game.batch.setProjectionMatrix(menuCamera.combined);
 
         game.batch.begin();
-        game.batch.draw(game.backgroundImg,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        game.batch.draw(game.backgroundImg,0,0,menuViewport.getWorldWidth(),menuViewport.getWorldHeight());
         game.batch.end();
 
         stage.act();
@@ -137,9 +133,8 @@ public class CourseSelector implements Screen {
 
     @Override
     public void resize(int x, int y) {
-        menuCamera.position.set((float) x / 2, y / 2.0f, 0.0f);
         menuViewport.update(x, y, true);
-        centerWindowTable();
+        mapViewport.update(x,y,true);
     }
 
     @Override
@@ -164,20 +159,5 @@ public class CourseSelector implements Screen {
         VisUI.dispose();
         game.backgroundImg.dispose();
         game.atlas.dispose();
-    }
-
-    private void centerWindowTable(){
-        window.setHeight(getWindowHeight());
-        window.setWidth(getWindowWidth());
-        window.setPosition((stage.getWidth() - window.getWidth()) / 2F
-               , (stage.getHeight() - window.getHeight()) / 3.2F);
-    }
-
-    private float getWindowHeight(){
-        return Gdx.graphics.getHeight()*(2.1f/3f);
-    }
-    private float getWindowWidth(){
-        return Gdx.graphics.getWidth()*(3/4f);
-
     }
 }

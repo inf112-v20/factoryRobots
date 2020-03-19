@@ -12,9 +12,9 @@ import inf112.app.game.RoboRally;
 
 public class MainMenuScreen implements Screen {
 
-    final RoboRally game;
-    protected final Stage stage;
-    final StretchViewport viewport;
+    private final RoboRally game;
+    private final Stage stage;
+    private final StretchViewport viewport;
 
     public MainMenuScreen(final RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;

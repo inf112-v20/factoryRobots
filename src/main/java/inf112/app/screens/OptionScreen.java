@@ -11,10 +11,10 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 
 public class OptionScreen implements Screen {
-    protected final Stage stage;
+    private final Stage stage;
 
-    final RoboRally game;
-    final StretchViewport viewport;
+    private final RoboRally game;
+    private final StretchViewport viewport;
 
     public OptionScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;

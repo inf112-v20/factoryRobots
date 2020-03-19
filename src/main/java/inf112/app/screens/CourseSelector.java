@@ -23,14 +23,14 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 import inf112.app.game.RoboRally;
 
 public class CourseSelector implements Screen {
-    final RoboRally game;
-    protected final Stage stage;
+    private final RoboRally game;
+    private final Stage stage;
 
-    final OrthographicCamera mapCamera;
-    final OrthogonalTiledMapRenderer mapRenderer;
+    private final OrthographicCamera mapCamera;
+    private final OrthogonalTiledMapRenderer mapRenderer;
 
-    final StretchViewport menuViewport;
-    final Viewport mapViewport;
+    private final StretchViewport menuViewport;
+    private final Viewport mapViewport;
 
     VisWindow window;
 

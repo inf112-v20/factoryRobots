@@ -2,9 +2,7 @@ package inf112.app.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,28 +18,24 @@ import inf112.app.screens.MainMenuScreen;
 
 public class RoboRally extends Game {
     public SpriteBatch batch;
-    public BitmapFont font;
 
     private Player player;
-    private Stage stage;
+    protected Stage stage;
 
     public Texture backgroundImg;
-    public Skin skin;
-    public TextureAtlas atlas;
+    private TextureAtlas atlas;
 
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        font = new BitmapFont();
-        font.setColor(Color.RED);
 
         backgroundImg = new Texture(Gdx.files.internal("assets/game-menu.png"));
         atlas = new TextureAtlas(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.atlas"));
-        skin = new Skin(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.json"), atlas);
+        Skin skin = new Skin(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.json"), atlas);
 
         try { // Load the VisUI skin. Will throw GdxRuntimeException if already loaded
-            VisUI.load(this.skin);
+            VisUI.load(skin);
             VisUI.setDefaultTitleAlign(Align.center);
         } catch (GdxRuntimeException ignored){
 
@@ -60,7 +54,6 @@ public class RoboRally extends Game {
     public void dispose() {
         // Dispose of all object if any of the screens closes
         batch.dispose();
-        font.dispose();
         stage.dispose();
         VisUI.dispose();
         backgroundImg.dispose();

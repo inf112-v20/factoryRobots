@@ -1,7 +1,5 @@
 package inf112.app.game;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import inf112.app.objects.Direction;
 
@@ -116,9 +114,6 @@ public class CardDeck {
         deck.add(card);
     }
 
-    /**
-     * Get cards
-     */
 
     /**
      * Return the desired amount of cards

@@ -3,8 +3,6 @@ package inf112.app.game;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.app.screens.CardUI;
 
-import java.util.NoSuchElementException;
-
 public class CardSlot {
     private ICard card;
     private String position;

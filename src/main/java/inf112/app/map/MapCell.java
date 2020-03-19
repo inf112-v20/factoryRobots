@@ -20,6 +20,12 @@ public class MapCell {
         this.inventory = inventory;
     }
 
+    /**
+     * Method for triggering all the objects in the cell's
+     * {@link IBoardElement#doAction(Robot)} method,
+     * with the exception of {@link Robot}s
+     * @param robot The robot the action should be performed on
+     */
     public void doAction(Robot robot){
         ArrayList<IBoardElement> contents = inventory.getElements();
         for(IBoardElement elem : contents){

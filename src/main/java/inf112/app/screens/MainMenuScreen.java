@@ -1,5 +1,6 @@
 package inf112.app.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -55,7 +56,7 @@ public class MainMenuScreen implements Screen {
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                //
+                Gdx.app.exit();
             }
         });
         table.add(singleplayerButton);
@@ -100,5 +101,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+
     }
 }

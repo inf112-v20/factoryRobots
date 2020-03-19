@@ -4,9 +4,8 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import inf112.app.objects.IBoardElement;
-import inf112.app.objects.Position;
-import inf112.app.objects.Wall;
+import inf112.app.objects.*;
+
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -28,11 +27,18 @@ public class Map {
     private TiledMapTileLayer wallLayer;
     private TiledMapTileLayer conveyorLayer;
     private TiledMapTileLayer laserLayer;
+    private TiledMapTileLayer laser2Layer;
     private TiledMapTileLayer utilityLayer;
 
     private final int mapSizeX;
     private final int mapSizeY;
     private MapCellList cellList;
+    private ArrayList<Robot> robotList;
+
+    private TiledMap laserSprites;
+    private ArrayList<ILaserInteractor> laserObjects;
+    private int laserTimer = 0;
+    private boolean lasersActive = false;
 
     private Map(String mapName){
         String pathToMap = "assets/" + mapName + ".tmx";
@@ -40,6 +46,7 @@ public class Map {
         //Loading map
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load(pathToMap);
+        laserSprites = loader.load("assets/Lasers.tmx");
 
         //Loading layers
         boardLayer = (TiledMapTileLayer) map.getLayers().get("Board");
@@ -50,12 +57,33 @@ public class Map {
         wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall");
         conveyorLayer = (TiledMapTileLayer) map.getLayers().get("Conveyor");
         laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser");
+        //Extra layer so lasers can cross each other
+        laser2Layer = (TiledMapTileLayer) map.getLayers().get("Laser2");
         utilityLayer = (TiledMapTileLayer) map.getLayers().get("Utility");
 
         MapProperties props = map.getProperties();
         mapSizeX = props.get("width",Integer.class);
         mapSizeY = props.get("height",Integer.class);
         cellList = new MapCellList(mapSizeX, mapSizeY, map.getLayers());
+
+        laserObjects = obtainLaserObjects();
+        robotList = new ArrayList<>();
+    }
+
+    private ArrayList<ILaserInteractor> obtainLaserObjects() {
+        ArrayList<ILaserInteractor> objects = new ArrayList<>();
+        for(int x = 0; x < mapSizeX; x++){
+            for(int y = 0; y < mapSizeY; y++){
+                MapCell cell = cellList.getCell(x,y);
+                ArrayList<IBoardElement> inventory = cell.getInventory().getElements();
+                for(IBoardElement elem : inventory){
+                    if(elem instanceof ILaserInteractor){
+                        objects.add((ILaserInteractor) elem);
+                    }
+                }
+            }
+        }
+        return objects;
     }
 
 
@@ -93,6 +121,8 @@ public class Map {
                 return conveyorLayer;
             case "laser":
                 return laserLayer;
+            case "laser2":
+                return laser2Layer;
             case "utility":
                 return utilityLayer;
             default:
@@ -174,5 +204,63 @@ public class Map {
         if (cellMap == null)
             throw new NoSuchElementException("Could not find the cellMap");
         return cellMap;
+    }
+
+    public TiledMap getLaserSprites() {
+        return laserSprites;
+    }
+
+    public void clearLayer(TiledMapTileLayer layer){
+        for(int x = 0; x < layer.getWidth(); x++){
+            for(int y = 0; y < layer.getHeight(); y++){
+                layer.setCell(x,y,null);
+            }
+        }
+    }
+
+    public void fireLasers(){
+        for(ILaserInteractor object : laserObjects){
+            object.fireLaser();
+        }
+        lasersActive = true;
+    }
+
+    public int getLaserTimer() {
+        return laserTimer;
+    }
+
+    public boolean lasersActive() {
+        return lasersActive;
+    }
+
+    public void incrementLaserTimer(){
+        laserTimer++;
+    }
+
+    public void deactivateLasers(){
+        lasersActive = false;
+        laserTimer = 0;
+        clearLayer(laserLayer);
+        clearLayer(laser2Layer);
+    }
+
+    public void registerRobot(Robot robot){
+        cellList.getCell(robot.getPos()).appendToInventory(robot);
+        laserObjects.add(robot);
+        robotList.add(robot);
+    }
+
+    public Robot robotInTile(Position pos){
+        ArrayList<IBoardElement> elems = cellList.getCell(pos).getInventory().getElements();
+        for(IBoardElement e : elems){
+            if(e instanceof Robot){
+                return (Robot) e;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Robot> getRobotList() {
+        return robotList;
     }
 }

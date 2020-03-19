@@ -21,6 +21,14 @@ public class CardUI {
         cardUI = loader.load("assets/CardUI2.tmx");
     }
 
+    public void dealNewCards() {
+        for(int i = 0; i < sideCardSlots.length; i++){
+            if(!sideCardSlots[i].hasCard()){
+
+            }
+        }
+    }
+
 
     public TiledMap getTiles() {
         return cardUI;

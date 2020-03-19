@@ -31,7 +31,7 @@ public class RotateCardTest {
     public void doActionRotateLeftTest() {
         Position oldPos = player.getCharacter().getPos().copyOf();
         oldPos.getDirection().turn(Rotation.LEFT);
-        leftRotate.doAction(player);
+        leftRotate.doAction(player.getCharacter());
         assertEquals("Failure, positions should be the same ",oldPos,player.getCharacter().getPos());
     }
 
@@ -40,7 +40,7 @@ public class RotateCardTest {
     public void doActionRotateRightTest() {
         Position oldPos = player.getCharacter().getPos().copyOf();
         oldPos.getDirection().turn(Rotation.RIGHT);
-        rightRotate.doAction(player);
+        rightRotate.doAction(player.getCharacter());
         assertEquals("Failure, positions should be the same ",oldPos,player.getCharacter().getPos());
     }
 
@@ -49,7 +49,7 @@ public class RotateCardTest {
         Position oldPos = player.getCharacter().getPos().copyOf();
         oldPos.getDirection().turn(Rotation.RIGHT);
         oldPos.getDirection().turn(Rotation.RIGHT);
-        uTurn.doAction(player);
+        uTurn.doAction(player.getCharacter());
         assertEquals("Failure, positions should be the same ",oldPos,player.getCharacter().getPos());
     }
 }

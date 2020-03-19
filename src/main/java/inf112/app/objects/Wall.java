@@ -10,7 +10,6 @@ import java.util.NoSuchElementException;
 public class Wall implements IBoardElement, ILaserInteractor {
     private Direction[] facing;
     private boolean hasLaser;
-    private boolean hasDoubleLaser;
     private Position position;
     private Laser laser;
 
@@ -23,26 +22,17 @@ public class Wall implements IBoardElement, ILaserInteractor {
         laserDir.turn(Rotation.LEFT);
         laserDir.turn(Rotation.LEFT);
 
-        hasLaser = hasLaser;
-        hasDoubleLaser = doubleLaser;
+        this.hasLaser = hasLaser;
         this.position = new Position(x,y,laserDir);
         if(hasLaser){
-            this.laser = new Laser(this,hasDoubleLaser);
+            this.laser = new Laser(this,doubleLaser);
         } else {
             this.laser = null;
         }
     }
 
-    public Direction[] getFacing() {
-        return facing;
-    }
-
     public boolean isLaser() {
         return hasLaser;
-    }
-
-    public boolean isDoubleLaser() {
-        return hasDoubleLaser;
     }
 
     /**
@@ -63,10 +53,18 @@ public class Wall implements IBoardElement, ILaserInteractor {
     }
 
     @Override
-    public void doAction(Player player) {
+    public void doAction(Robot robot) {
+        fireLaser();
     }
 
     public Position getPos(){
         return position;
+    }
+
+    @Override
+    public void fireLaser() {
+        if(hasLaser){
+            laser.fire();
+        }
     }
 }

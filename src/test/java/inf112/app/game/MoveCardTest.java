@@ -5,6 +5,7 @@ import inf112.app.map.Map;
 import inf112.app.objects.Direction.Rotation;
 import inf112.app.objects.Player;
 import inf112.app.objects.Position;
+import inf112.app.objects.Robot;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +19,7 @@ public class MoveCardTest {
     MoveCard moveThree;
     MoveCard backUp;
     Map map;
-    Player player;
-
+    Robot robot;
     @Before
     public void setUp() throws Exception {
         moveOne = new MoveCard(150,1,null);
@@ -28,45 +28,46 @@ public class MoveCardTest {
         backUp = new MoveCard(150,true,null);
         Map.setInstance("testMap");
         map = Map.getInstance();
-        player = new Player(2,2);
+        Player player = new Player(2,2);
+        robot = player.getCharacter();
     }
 
     @Test
     public void doActionMoveOneTest() {
-        Position oldPos = player.getCharacter().getPos().copyOf();
+        Position oldPos = robot.getPos().copyOf();
         oldPos.moveInDirection();
-        moveOne.doAction(player);
-        assertEquals("Failure, positions should be the same",oldPos,player.getCharacter().getPos());
+        moveOne.doAction(robot);
+        assertEquals("Failure, positions should be the same",oldPos,robot.getPos());
     }
 
     @Test
     public void doActionMoveTwoTest() {
-        Position oldPos = player.getCharacter().getPos().copyOf();
+        Position oldPos = robot.getPos().copyOf();
         oldPos.moveInDirection();
         oldPos.moveInDirection();
-        moveTwo.doAction(player);
-        assertEquals("Failure, positions should be the same",oldPos,player.getCharacter().getPos());
+        moveTwo.doAction(robot);
+        assertEquals("Failure, positions should be the same",oldPos,robot.getPos());
     }
 
     @Test
     public void doActionMoveThreeTest() {
-        Position oldPos = player.getCharacter().getPos().copyOf();
+        Position oldPos = robot.getPos().copyOf();
         for(int i = 0; i<3; i++){
             oldPos.moveInDirection();
         }
-        moveThree.doAction(player);
-        assertEquals("Failure, positions should be the same",oldPos,player.getCharacter().getPos());
+        moveThree.doAction(robot);
+        assertEquals("Failure, positions should be the same",oldPos,robot.getPos());
     }
     @Test
     public void doActionBackUpTest() {
-        Position oldPos = player.getCharacter().getPos().copyOf();
+        Position oldPos = robot.getPos().copyOf();
         oldPos.getDirection().turn(Rotation.LEFT);
         oldPos.getDirection().turn(Rotation.LEFT);
         oldPos.moveInDirection();
         oldPos.getDirection().turn(Rotation.LEFT);
         oldPos.getDirection().turn(Rotation.LEFT);
-        backUp.doAction(player);
-        assertEquals("Failure, positions should be the same",oldPos,player.getCharacter().getPos());
+        backUp.doAction(robot);
+        assertEquals("Failure, positions should be the same", oldPos, robot.getPos());
     }
 
 }

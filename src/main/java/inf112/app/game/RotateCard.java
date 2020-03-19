@@ -1,9 +1,8 @@
 package inf112.app.game;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import inf112.app.objects.Direction.Rotation;
-import inf112.app.objects.Player;
+import inf112.app.objects.Robot;
 
 /**
  * this class represents the gameaction to rotate the robot
@@ -38,14 +37,14 @@ public class RotateCard extends CardStatus implements ICard {
     /**
      * method to rotate or turn the robot around
      * checks if the card is uturn, and checks the direction of the rotation
-     * @param player
+     * @param robot
      */
-    public void doAction(Player player){
+    public void doAction(Robot robot){
         if (uTurn){
-            player.getCharacter().turn(rotation);
-            player.getCharacter().turn(rotation);
+            robot.turn(rotation);
+            robot.turn(rotation);
         } else {
-            player.getCharacter().turn(rotation);
+            robot.turn(rotation);
         }
     }
 

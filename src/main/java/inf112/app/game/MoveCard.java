@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import inf112.app.objects.Direction;
 import inf112.app.objects.Player;
+import inf112.app.objects.Robot;
 
 /**
  * this class represents the gameaction to change the players position
@@ -39,17 +40,17 @@ public class MoveCard extends CardStatus implements ICard  {
     /**
      * Method to change a players position on the board
      *checks if the card is backup, and takes in steps for how many moves
-     * @param player
+     * @param robot
      */
-    public void doAction(Player player){
+    public void doAction(Robot robot){
         if (backUp){
-            player.getCharacter().turn(Direction.Rotation.LEFT);
-            player.getCharacter().turn(Direction.Rotation.LEFT);
-            player.getCharacter().move(steps);
-            player.getCharacter().turn(Direction.Rotation.LEFT);
-            player.getCharacter().turn(Direction.Rotation.LEFT);
+            robot.turn(Direction.Rotation.LEFT);
+            robot.turn(Direction.Rotation.LEFT);
+            robot.move(steps);
+            robot.turn(Direction.Rotation.LEFT);
+            robot.turn(Direction.Rotation.LEFT);
         } else {
-            player.getCharacter().move(steps);
+            robot.move(steps);
         }
     }
 

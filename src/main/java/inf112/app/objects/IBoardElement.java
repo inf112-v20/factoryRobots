@@ -1,5 +1,5 @@
 package inf112.app.objects;
 
 public interface IBoardElement {
-    void doAction(Player player);
+    void doAction(Robot robot);
 }

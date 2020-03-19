@@ -12,24 +12,30 @@ import inf112.app.game.CardDeck;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 import inf112.app.objects.Player;
+import inf112.app.objects.Position;
+import inf112.app.objects.Robot;
+
+import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     final RoboRally game;
-    final OrthographicCamera camera;
-    final OrthographicCamera uiCam;
-    final OrthogonalTiledMapRenderer mapRenderer;
-    final OrthogonalTiledMapRenderer uiRenderer;
+
+    private OrthographicCamera camera;
+    private OrthographicCamera uiCam;
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private OrthogonalTiledMapRenderer uiRenderer;
     private TiledMapStage stage;
 
-    private final CardDeck deck;
+    private CardDeck deck;
 
-    private final float tileSize = 300f;
-    private final float viewportWidth = 20;
-    private final float viewPortHeight = 20; //cellmap + 5
-    private final float initialCameraY;
+    private final int laserTime = 30;
+    private float tileSize = 300f;
+    private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
+    private float initialCameraY;
 
-    private final Map cellMap;
-    private final Player player;
+    private Map cellMap;
+    private Player player;
+    private Robot testRobot;
 
     public GameScreen(final RoboRally game){
         this.game = game;
@@ -38,6 +44,7 @@ public class GameScreen implements Screen {
 
         this.cellMap = Map.getInstance();
         this.player = game.getPlayer();
+        this.testRobot = new Robot(new Position(4,4),"player");
 
         //Set up cameras
         camera = new OrthographicCamera();
@@ -48,10 +55,10 @@ public class GameScreen implements Screen {
         //Initialize frame around board
         CardUI ui = CardUI.getInstance();
         ui.initializeCardSlots();
+
         //Create and shuffle deck
         deck = new CardDeck();
-        //add single card for testing purposes
-        //ui.addCardToSlot(deck.getCard(),"bottom",0);
+
         for(int i = 0; i<9; i++){
             ui.addCardToSlot(deck.getCard(),"side",i);
         }
@@ -110,31 +117,36 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
 
-        updatePlayer();
+        updateRobots();
         stage.act();
 
         uiRenderer.render();
         mapRenderer.render();
 
-        //Remove last player position
-        cellMap.getLayer("player").setCell(player.getCharacter().getPos().getXCoordinate(),
-                player.getCharacter().getPos().getYCoordinate(), null);
+        //Remove previous robot positions
+        cellMap.clearLayer(cellMap.getLayer("player"));
 
+        if(cellMap.getLaserTimer() == laserTime) {
+            cellMap.deactivateLasers();
+        }
+        if(cellMap.lasersActive()){
+            cellMap.incrementLaserTimer();
+        }
         game.batch.end();
     }
 
-    private void updatePlayer(){
-        int playerX = player.getCharacter().getPos().getXCoordinate();
-        int playerY = player.getCharacter().getPos().getYCoordinate();
-        TiledMapTileLayer playerLayer = cellMap.getLayer("player");
+    private void updateRobot(Robot robot){
+        int robotX = robot.getPos().getXCoordinate();
+        int robotY = robot.getPos().getYCoordinate();
+        TiledMapTileLayer robotLayer = cellMap.getLayer("player");
 
         //Setting player sprite to current position
-        playerLayer.setCell(playerX, playerY, player.getCharacter().getNormal());
+        robotLayer.setCell(robotX, robotY, robot.getNormal());
         //Checking if player is touching hole or flag
-        if(cellMap.getLayer("hole").getCell(playerX, playerY) != null){
-            playerLayer.setCell(playerX, playerY, player.getCharacter().getLooser());
-        } else if(cellMap.getLayer("flag").getCell(playerX, playerY) != null) {
-            playerLayer.setCell(playerX, playerY, player.getCharacter().getWinner());
+        if(cellMap.getLayer("hole").getCell(robotX, robotY) != null){
+            robotLayer.setCell(robotX, robotY, robot.getLooser());
+        } else if(cellMap.getLayer("flag").getCell(robotX, robotY) != null) {
+            robotLayer.setCell(robotX, robotY, robot.getWinner());
         }
     }
 
@@ -164,5 +176,12 @@ public class GameScreen implements Screen {
         game.batch.dispose();
         uiRenderer.dispose();
         mapRenderer.dispose();
+    }
+
+    public void updateRobots(){
+        ArrayList<Robot> list = cellMap.getRobotList();
+        for(Robot r : list){
+            updateRobot(r);
+        }
     }
 }

@@ -1,9 +1,7 @@
 package inf112.app.game;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import inf112.app.objects.Direction;
-import inf112.app.objects.Player;
 import inf112.app.objects.Robot;
 
 /**

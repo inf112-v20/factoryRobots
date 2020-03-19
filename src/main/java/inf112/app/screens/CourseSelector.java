@@ -39,22 +39,19 @@ public class CourseSelector implements Screen {
 
     VisWindow window;
 
-    public CourseSelector(final RoboRally game, StretchViewport viewport) {
+    public CourseSelector(final RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
-        this.skin = game.skin;
         this.menuViewport = viewport;
+        this.stage = stage;
+        skin = game.skin;
 
         mapCamera = new OrthographicCamera();
         mapCamera.setToOrtho(false, menuViewport.getWorldWidth()/2f
                 ,menuViewport.getWorldHeight()/2f);
 
-
         mapViewport = new ScreenViewport(mapCamera);
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         mapViewport.apply();
-
-        this.stage = new Stage(menuViewport);
-        Gdx.input.setInputProcessor(this.stage);
 
         TmxMapLoader loader = new TmxMapLoader();
         TiledMap map = loader.load("assets/testMap.tmx");
@@ -66,7 +63,7 @@ public class CourseSelector implements Screen {
 
     @Override
     public void show() {
-        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
+        stage.clear();
         window = new VisWindow("Select Course");
         window.setMovable(false);
         window.setModal(true);
@@ -101,7 +98,7 @@ public class CourseSelector implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                //game.setScreen(new MainMenuScreen(game, menuViewport));
+                game.setScreen(new MainMenuScreen(game, menuViewport, stage));
             }
         });
 
@@ -118,8 +115,6 @@ public class CourseSelector implements Screen {
 
     @Override
     public void render(float v) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         mapCamera.update();
 
         game.batch.begin();
@@ -154,10 +149,6 @@ public class CourseSelector implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
 
-        VisUI.dispose();
-        game.backgroundImg.dispose();
-        game.atlas.dispose();
     }
 }

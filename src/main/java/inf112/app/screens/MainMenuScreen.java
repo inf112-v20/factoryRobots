@@ -27,22 +27,21 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true);
         VisTextButton singleplayerButton = new VisTextButton("singleplayer");
         singleplayerButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport));
-                //game.setScreen(new CourseSelector(game, viewport, stage));
+                game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
         VisTextButton multiplayerButton = new VisTextButton("Multiplayer");
         multiplayerButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport));
-                //game.setScreen(new CourseSelector(game, viewport, stage));
+                game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
         VisTextButton settingsButton = new VisTextButton("Settings");
@@ -101,6 +100,5 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.clear();
     }
 }

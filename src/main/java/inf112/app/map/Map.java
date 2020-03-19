@@ -256,7 +256,7 @@ public class Map {
     }
 
     /**
-     * Method for turning of the lasers. <br>
+     * Method for turning off the lasers. <br>
      * Resets the timer and clears all the laser graphics from the map
      */
     public void deactivateLasers(){

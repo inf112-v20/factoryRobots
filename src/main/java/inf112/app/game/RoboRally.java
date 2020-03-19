@@ -16,19 +16,19 @@ import com.kotcrab.vis.ui.VisUI;
 import inf112.app.map.Map;
 import inf112.app.objects.Player;
 
-import inf112.app.screens.CourseSelector;
 import inf112.app.screens.MainMenuScreen;
-import inf112.app.screens.OptionScreen;
 
 public class RoboRally extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
 
     private Player player;
+    private Stage stage;
 
     public Texture backgroundImg;
     public Skin skin;
     public TextureAtlas atlas;
+
 
     @Override
     public void create() {
@@ -50,17 +50,20 @@ public class RoboRally extends Game {
         StretchViewport viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport.apply();
 
-        Stage stage = new Stage(viewport, batch);
+        stage = new Stage(viewport, batch);
         Gdx.input.setInputProcessor(stage);
 
-        this.setScreen(new OptionScreen(this, viewport, stage));
-        //this.setScreen(new MainMenuScreen(this, viewport));
+        this.setScreen(new MainMenuScreen(this, viewport, stage));
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         font.dispose();
+        stage.dispose();
+        VisUI.dispose();
+        backgroundImg.dispose();
+        atlas.dispose();
     }
 
     @Override

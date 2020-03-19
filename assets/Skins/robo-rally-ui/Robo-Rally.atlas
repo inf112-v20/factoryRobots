@@ -1,0 +1,65 @@
+
+Robo-Rally.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+PressStart2P-Regular
+  rotate: false
+  xy: 1, 805
+  size: 506, 208
+  orig: 506, 208
+  offset: 0, 0
+  index: -1
+Window
+  rotate: false
+  xy: 1, 403
+  size: 400, 400
+  split: 34, 26, 60, 0
+  orig: 400, 400
+  offset: 0, 0
+  index: -1
+Window-2
+  rotate: false
+  xy: 1, 1
+  size: 400, 400
+  split: 34, 26, 60, 0
+  orig: 400, 400
+  offset: 0, 0
+  index: -1
+arrow-left
+  rotate: false
+  xy: 403, 753
+  size: 50, 50
+  split: 24, 19, 24, 22
+  pad: 25, 24, 25, 24
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+arrow-right
+  rotate: false
+  xy: 509, 911
+  size: 50, 50
+  split: 23, 18, 22, 22
+  pad: 25, 24, 25, 24
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+button-bigger
+  rotate: false
+  xy: 509, 963
+  size: 300, 50
+  split: 0, 0, 4, 4
+  pad: 4, 4, 4, 4
+  orig: 300, 50
+  offset: 0, 0
+  index: -1
+button-standard-2
+  rotate: false
+  xy: 811, 997
+  size: 32, 16
+  split: 1, 1, 1, 1
+  pad: 0, 0, 0, 0
+  orig: 32, 16
+  offset: 0, 0
+  index: -1

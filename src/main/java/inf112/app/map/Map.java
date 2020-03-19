@@ -70,6 +70,10 @@ public class Map {
         robotList = new ArrayList<>();
     }
 
+    /**
+     * Method used by the constructor to find all the {@link ILaserInteractor}'s on the map
+     * @return All objects on the map that are able to shoot and interact with lasers
+     */
     private ArrayList<ILaserInteractor> obtainLaserObjects() {
         ArrayList<ILaserInteractor> objects = new ArrayList<>();
         for(int x = 0; x < mapSizeX; x++){
@@ -210,6 +214,10 @@ public class Map {
         return laserSprites;
     }
 
+    /**
+     * Method for removing all the graphics from a {@link TiledMapTileLayer}
+     * @param layer which the elements should be removed from
+     */
     public void clearLayer(TiledMapTileLayer layer){
         for(int x = 0; x < layer.getWidth(); x++){
             for(int y = 0; y < layer.getHeight(); y++){
@@ -218,6 +226,9 @@ public class Map {
         }
     }
 
+    /**
+     * Method for triggering all the lasers on the map to fire
+     */
     public void fireLasers(){
         for(ILaserInteractor object : laserObjects){
             object.fireLaser();
@@ -225,10 +236,17 @@ public class Map {
         lasersActive = true;
     }
 
+    /**
+     * @return The amount of ticks since the lasers were activated
+     */
     public int getLaserTimer() {
         return laserTimer;
     }
 
+    /**
+     *
+     * @return true if lasers are active, otherwise false
+     */
     public boolean lasersActive() {
         return lasersActive;
     }
@@ -237,6 +255,10 @@ public class Map {
         laserTimer++;
     }
 
+    /**
+     * Method for turning off the lasers. <br>
+     * Resets the timer and clears all the laser graphics from the map
+     */
     public void deactivateLasers(){
         lasersActive = false;
         laserTimer = 0;
@@ -244,12 +266,22 @@ public class Map {
         clearLayer(laser2Layer);
     }
 
+    /**
+     * Method used by the {@link Robot} constructor to make sure that
+     * the object is registered in all required lists .
+     * @param robot to be registered
+     */
     public void registerRobot(Robot robot){
         cellList.getCell(robot.getPos()).appendToInventory(robot);
         laserObjects.add(robot);
         robotList.add(robot);
     }
 
+    /**
+     * Method for checking if there is a robot in a given cell on the map
+     * @param pos Position of the cell to check
+     * @return the robot if there is one, otherwise null
+     */
     public Robot robotInTile(Position pos){
         ArrayList<IBoardElement> elems = cellList.getCell(pos).getInventory().getElements();
         for(IBoardElement e : elems){
@@ -262,5 +294,29 @@ public class Map {
 
     public ArrayList<Robot> getRobotList() {
         return robotList;
+    }
+
+    /**
+     * Method for deleting specific robots from the registries. <br>
+     * Mostly used for testing
+     * @param robot to be deleted
+     */
+    public void deleteRobot(Robot robot){
+        cellList.getCell(robot.getPos()).getInventory().getElements().remove(robot);
+        laserObjects.remove(robot);
+        robotList.remove(robot);
+    }
+
+    /**
+     * Method for deleting all the robots on the map.
+     * Mostly used for testing purposes as the instance
+     * can get cluttered after a lot of tests
+     */
+    public void clearBots(){
+        for(Robot robot : robotList){
+            cellList.getCell(robot.getPos()).getInventory().getElements().remove(robot);
+            laserObjects.remove(robot);
+        }
+        robotList.clear();
     }
 }

@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -39,7 +38,6 @@ public class CourseSelector implements Screen {
         this.game = game;
         this.menuViewport = viewport;
         this.stage = stage;
-        //stage.setDebugAll(true);
 
         mapCamera = new OrthographicCamera(); // Create a new camera for the TiledMap
         mapCamera.setToOrtho(false, menuViewport.getWorldWidth()/2f

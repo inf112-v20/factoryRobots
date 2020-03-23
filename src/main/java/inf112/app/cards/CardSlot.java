@@ -1,7 +1,7 @@
-package inf112.app.game;
+package inf112.app.cards;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import inf112.app.screens.CardUI;
+import inf112.app.game.CardUI;
 
 public class CardSlot {
     private ICard card;

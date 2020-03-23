@@ -1,8 +1,9 @@
-package inf112.app.objects;
+package inf112.app.util;
 
+import inf112.app.util.IDTranslator;
 import org.junit.Before;
 import org.junit.Test;
-import inf112.app.objects.IDTranslator.ElemEnum;
+import inf112.app.util.IDTranslator.ElemEnum;
 
 import static org.junit.Assert.*;
 

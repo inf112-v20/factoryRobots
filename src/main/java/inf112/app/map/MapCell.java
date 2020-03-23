@@ -1,7 +1,6 @@
 package inf112.app.map;
 
 import inf112.app.objects.IBoardElement;
-import inf112.app.objects.Position;
 import inf112.app.objects.Robot;
 
 import java.util.ArrayList;

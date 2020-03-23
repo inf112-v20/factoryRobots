@@ -1,9 +1,10 @@
-package inf112.app.objects;
+package inf112.app.util;
 
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import inf112.app.objects.IDTranslator.ElemEnum;
-import inf112.app.objects.Direction.Rotation;
+import inf112.app.objects.*;
+import inf112.app.util.IDTranslator.ElemEnum;
+import inf112.app.map.Direction.Rotation;
 
 /**
  * Class for generating {@link IBoardElement} for

@@ -1,8 +1,6 @@
 package inf112.app.map;
 
-import inf112.app.objects.Direction;
 import inf112.app.objects.Flag;
-import inf112.app.objects.Position;
 
 import org.junit.Before;
 import org.junit.Test;

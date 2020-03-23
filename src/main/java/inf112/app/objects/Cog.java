@@ -1,9 +1,5 @@
 package inf112.app.objects;
-import inf112.app.map.Map;
-import inf112.app.objects.Direction.Rotation;
-import inf112.app.objects.Player;
-
-import java.util.NoSuchElementException;
+import inf112.app.map.Direction.Rotation;
 
 
 /**

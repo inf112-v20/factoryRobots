@@ -1,8 +1,7 @@
-package inf112.app.game;
+package inf112.app.cards;
 
-import com.badlogic.gdx.graphics.Texture;
 import inf112.app.GdxTestRunner;
-import org.junit.Before;
+import inf112.app.cards.MoveCard;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

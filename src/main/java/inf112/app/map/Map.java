@@ -40,7 +40,7 @@ public class Map {
     private int laserTimer = 0;
     private boolean lasersActive = false;
 
-    private Map(String mapName){
+    public Map(String mapName){
         String pathToMap = "assets/" + mapName + ".tmx";
 
         //Loading map

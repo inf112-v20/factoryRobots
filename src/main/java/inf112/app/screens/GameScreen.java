@@ -41,25 +41,24 @@ public class GameScreen implements Screen {
 
     public GameScreen(final RoboRally game){
         this.game = game;
-        game.setMap("testMap");
-        game.setPlayer(2,2);
 
         this.cellMap = Map.getInstance();
         this.player = game.getPlayer();
         this.testRobot = new Robot(new Position(4,4),"player");
 
+        game.setPlayer(2,2);
+        this.player = game.getPlayer();
+
         //Set up cameras
         camera = new OrthographicCamera();
         uiCam = new OrthographicCamera();
-
-        Map cellMap = Map.getInstance();
 
         //Initialize frame around board
         CardUI ui = CardUI.getInstance();
         ui.initializeCardSlots();
 
         //Create and shuffle deck
-        deck = new CardDeck();
+        deck = game.manager.get("deck");
 
         for(int i = 0; i<9; i++){
             ui.addCardToSlot(deck.getCard(),"side",i);
@@ -85,8 +84,6 @@ public class GameScreen implements Screen {
                 return player.keyUp(keycode);
             }
         });
-
-
 
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/tileSize));

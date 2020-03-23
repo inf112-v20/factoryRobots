@@ -1,16 +1,15 @@
 package inf112.app;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import inf112.app.game.RoboRally;
 
 public class Main {
     public static void main(String[] args) {
-        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "RoboRally";
-        cfg.width = 1000;
-        cfg.height = 1000;
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("RoboRaly");
+        config.setWindowedMode(1000,1000);
 
-        new LwjglApplication(new RoboRally(), cfg);
+        new Lwjgl3Application(new RoboRally(), config);
     }
 }

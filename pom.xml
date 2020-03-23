@@ -36,6 +36,11 @@
       <artifactId>gdx-backend-headless</artifactId>
       <version>1.9.10</version>
     </dependency>
+    <dependency>
+      <groupId>com.kotcrab.vis</groupId>
+      <artifactId>vis-ui</artifactId>
+      <version>1.4.4</version>
+    </dependency>
 
     <dependency>
       <groupId>com.badlogicgames.gdx</groupId>

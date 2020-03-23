@@ -10,17 +10,16 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 
-public class MainMenuScreen implements Screen {
+public class OptionScreen implements Screen {
+    private final Stage stage;
 
     private final RoboRally game;
-    private final Stage stage;
     private final StretchViewport viewport;
 
-    public MainMenuScreen(final RoboRally game, StretchViewport viewport, Stage stage) {
+    public OptionScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
-
     }
 
     @Override
@@ -28,25 +27,18 @@ public class MainMenuScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton singleplayerButton = new VisTextButton("Singleplayer");
-        singleplayerButton.addListener(new ChangeListener() {
+        VisTextButton soundButton = new VisTextButton("Sound");
+        soundButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport, stage));
+                //
             }
         });
-        VisTextButton multiplayerButton = new VisTextButton("Multiplayer");
-        multiplayerButton.addListener(new ChangeListener() {
+        VisTextButton returnButton = new VisTextButton("Return");
+        returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport, stage));
-            }
-        });
-        VisTextButton settingsButton = new VisTextButton("Settings");
-        settingsButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new OptionScreen(game,viewport, stage));
+                game.setScreen(new MainMenuScreen(game,viewport, stage));
             }
         });
         VisTextButton exitButton = new VisTextButton("Exit");
@@ -56,14 +48,13 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        table.add(singleplayerButton).pad(3).height(60).width(350);
+        table.add(soundButton).pad(3).height(60).width(350);
         table.row();
-        table.add(multiplayerButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(settingsButton).pad(3).height(60).width(350);
+        table.add(returnButton).pad(3).height(60).width(350);
         table.row();
         table.add(exitButton).pad(3).height(60).width(350);
         stage.addActor(table);
+
     }
 
     @Override
@@ -74,6 +65,7 @@ public class MainMenuScreen implements Screen {
 
         stage.act();
         stage.draw();
+
     }
 
     @Override

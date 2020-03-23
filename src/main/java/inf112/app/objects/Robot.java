@@ -49,6 +49,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         lives = 3;
         powerDown = false;
         laser = new Laser(this,false);
+        isDead = false;
     }
 
     /**
@@ -254,6 +255,16 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public int getLives() { return lives; }
 
     /**
+     *method for when a robot looses a life
+     */
+    public void loseLife(){
+        this.lives = lives - 1;
+        if (this.lives <= 0){
+            isDead = true;
+        }
+    }
+
+    /**
      * method used to find out if robot is dead or alive
      * @return boolean true if dead, false if alive
      */
@@ -272,6 +283,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void setCheckPoint(Position p){
         this.checkPoint = p;
     }
+
+
     /**
      * Used to set the powerStatus of the robot(powerDown)
      * @param powerDown

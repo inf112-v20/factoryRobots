@@ -10,5 +10,7 @@ public class RepairStation implements IBoardElement {
     @Override
     public void doAction(Robot robot) {
         robot.removeDamageTokens(repairSpeed);
+        Position position = robot.getPos();
+        robot.setCheckPoint(position);
     }
 }

@@ -1,7 +1,11 @@
-package inf112.app.game;
+package inf112.app.cards;
 
 import inf112.app.GdxTestRunner;
-import inf112.app.objects.Direction.Rotation;
+import inf112.app.cards.CardDeck;
+import inf112.app.cards.ICard;
+import inf112.app.cards.MoveCard;
+import inf112.app.cards.RotateCard;
+import inf112.app.map.Direction.Rotation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,9 +1,11 @@
-package inf112.app.objects;
+package inf112.app.game;
 
 import com.badlogic.gdx.Input;
 import inf112.app.GdxTestRunner;
+import inf112.app.game.Player;
 import inf112.app.map.Map;
-import inf112.app.objects.Direction.Rotation;
+import inf112.app.map.Position;
+import inf112.app.map.Direction.Rotation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

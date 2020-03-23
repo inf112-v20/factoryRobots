@@ -5,8 +5,7 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.app.objects.IBoardElement;
-import inf112.app.objects.ObjectFactory;
-import inf112.app.objects.Position;
+import inf112.app.util.ObjectFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;

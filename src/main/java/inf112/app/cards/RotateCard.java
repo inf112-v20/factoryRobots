@@ -1,7 +1,7 @@
-package inf112.app.game;
+package inf112.app.cards;
 
 import com.badlogic.gdx.graphics.Texture;
-import inf112.app.objects.Direction.Rotation;
+import inf112.app.map.Direction.Rotation;
 import inf112.app.objects.Robot;
 
 /**

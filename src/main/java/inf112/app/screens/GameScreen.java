@@ -8,11 +8,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import inf112.app.game.CardDeck;
+import inf112.app.cards.CardDeck;
+import inf112.app.game.CardUI;
 import inf112.app.game.RoboRally;
+import inf112.app.game.TiledMapStage;
 import inf112.app.map.Map;
-import inf112.app.objects.Player;
-import inf112.app.objects.Position;
+import inf112.app.game.Player;
+import inf112.app.map.Position;
 import inf112.app.objects.Robot;
 
 import java.util.ArrayList;

@@ -1,10 +1,11 @@
 package inf112.app.objects;
 
+import inf112.app.map.Direction;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import inf112.app.objects.Direction.*;
+import inf112.app.map.Direction.*;
 
 public class DirectionTest {
     private Direction dir;

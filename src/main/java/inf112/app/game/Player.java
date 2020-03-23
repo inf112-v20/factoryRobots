@@ -1,9 +1,11 @@
-package inf112.app.objects;
+package inf112.app.game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import inf112.app.map.Map;
-import inf112.app.objects.Direction.Rotation;
+import inf112.app.map.Position;
+import inf112.app.map.Direction.Rotation;
+import inf112.app.objects.Robot;
 
 /**
  * Class for the player which the clients user controls,

@@ -1,10 +1,10 @@
-package inf112.app.screens;
+package inf112.app.game;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import inf112.app.game.CardSlot;
+import inf112.app.cards.CardSlot;
 
 public class TiledMapStage extends Stage {
     private TiledMap tiledMap;

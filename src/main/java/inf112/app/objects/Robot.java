@@ -29,6 +29,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private boolean isDead;
     private Position checkPoint;
 
+
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
     private TiledMapTileLayer.Cell winningPlayer;
@@ -243,6 +244,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     }
 
+
     /**
      * Method used by repairStation to remove damageTokens from robot.
      * @param amount How many damageTokens should be removed
@@ -302,10 +304,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void initiateRobotProgramme() {
         CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
-        for(CardSlot slot : slots){
-            ICard card  = slot.removeCard();
-            if(card != null){
-                card.doAction(this);
+        for(CardSlot slot : slots) {
+            if (slot.isLocked()){
+                ICard card = slot.removeCard();
+                if (card != null) {
+                    card.doAction(this);
+                }
             }
         }
     }

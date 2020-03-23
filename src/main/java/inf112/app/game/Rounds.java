@@ -1,5 +1,6 @@
 package inf112.app.game;
 
+import com.badlogic.gdx.Game;
 import inf112.app.objects.Position;
 import inf112.app.objects.Robot;
 
@@ -11,7 +12,7 @@ public class Rounds {
     private final ArrayList<Robot> robots = null;
 
     public Rounds(){
-        this.robots =
+        this.robots = GameStatus.getRobots();
     }
     public void putBackPlayers(){
 

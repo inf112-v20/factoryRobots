@@ -1,6 +1,7 @@
 package inf112.app.game;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import inf112.app.screens.CardUI;
 
 public class CardSlot {
@@ -9,6 +10,7 @@ public class CardSlot {
     private int xCoord;
     private int yCoord;
     private TiledMapTileLayer cardLayer;
+    private boolean isLocked;
 
     public CardSlot(int x, int y, String position){
         card = null;
@@ -17,6 +19,7 @@ public class CardSlot {
         CardUI cardUI = CardUI.getInstance();
         cardLayer = (TiledMapTileLayer) cardUI.getTiles().getLayers().get("Cards");
         this.position = position;
+        this.isLocked = false;
     }
 
     public boolean addCard(ICard newCard){
@@ -40,11 +43,27 @@ public class CardSlot {
         }
     }
 
+    public void lockSloth(){
+        this.isLocked = true;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void unlockSloth(){
+        this.isLocked = false;
+    }
+
     public String getPosition() {
         return position;
     }
 
     public boolean hasCard(){
         return card != null;
+    }
+
+    public ICard getCard() {
+        return card;
     }
 }

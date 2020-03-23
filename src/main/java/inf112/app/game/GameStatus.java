@@ -28,5 +28,13 @@ public class GameStatus {
         }
     }
 
+    /**
+     * returns all robots that are in the game
+     * @return
+     */
+    public ArrayList<Robot> getRobots(){
+        return robots;
+    }
+
 
 }

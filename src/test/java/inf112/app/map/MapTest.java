@@ -4,8 +4,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.GdxTestRunner;
-import inf112.app.objects.Direction;
-import inf112.app.objects.Position;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

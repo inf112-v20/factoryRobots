@@ -1,4 +1,4 @@
-package inf112.app.screens;
+package inf112.app.game;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;

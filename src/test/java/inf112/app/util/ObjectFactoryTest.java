@@ -1,10 +1,12 @@
-package inf112.app.objects;
+package inf112.app.util;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.GdxTestRunner;
 import inf112.app.map.Map;
+import inf112.app.objects.*;
+import inf112.app.util.ObjectFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

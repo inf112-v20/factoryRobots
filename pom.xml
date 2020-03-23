@@ -27,7 +27,7 @@
 
     <dependency>
       <groupId>com.badlogicgames.gdx</groupId>
-      <artifactId>gdx-backend-lwjgl</artifactId>
+      <artifactId>gdx-backend-lwjgl3</artifactId>
       <version>1.9.10</version>
     </dependency>
 
@@ -36,6 +36,7 @@
       <artifactId>gdx-backend-headless</artifactId>
       <version>1.9.10</version>
     </dependency>
+
     <dependency>
       <groupId>com.kotcrab.vis</groupId>
       <artifactId>vis-ui</artifactId>

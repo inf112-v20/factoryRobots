@@ -1,7 +1,8 @@
-package inf112.app.objects;
+package inf112.app.map;
 
 import java.util.Objects;
-import inf112.app.objects.Direction.DirEnum;
+
+import inf112.app.map.Direction.DirEnum;
 
 /**
  * Class for representing the objects position on the grid

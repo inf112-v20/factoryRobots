@@ -1,4 +1,4 @@
-package inf112.app.objects;
+package inf112.app.util;
 
 /*
 Issue:

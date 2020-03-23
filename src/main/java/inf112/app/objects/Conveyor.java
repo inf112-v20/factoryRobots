@@ -1,7 +1,9 @@
 package inf112.app.objects;
 
+import inf112.app.map.Direction;
 import inf112.app.map.Map;
-import inf112.app.objects.Direction.Rotation;
+import inf112.app.map.Position;
+import inf112.app.map.Direction.Rotation;
 
 import java.util.ArrayList;
 

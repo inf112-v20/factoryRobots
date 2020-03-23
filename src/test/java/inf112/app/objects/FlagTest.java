@@ -3,6 +3,7 @@ package inf112.app.objects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.GdxTestRunner;
+import inf112.app.game.Player;
 import inf112.app.map.Map;
 import org.junit.Before;
 import org.junit.Test;

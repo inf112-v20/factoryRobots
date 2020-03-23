@@ -1,8 +1,7 @@
-package inf112.app.game;
+package inf112.app.cards;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import inf112.app.screens.CardUI;
+import inf112.app.game.CardUI;
 
 public class CardSlot {
     private ICard card;
@@ -43,7 +42,7 @@ public class CardSlot {
         }
     }
 
-    public void lockSloth(){
+    public void lockSlot(){
         this.isLocked = true;
     }
 
@@ -51,7 +50,7 @@ public class CardSlot {
         return isLocked;
     }
 
-    public void unlockSloth(){
+    public void unlockSlot(){
         this.isLocked = false;
     }
 

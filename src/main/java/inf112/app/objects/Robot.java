@@ -5,12 +5,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
-import inf112.app.game.CardDeck;
-import inf112.app.game.CardSlot;
-import inf112.app.game.ICard;
+import inf112.app.cards.CardSlot;
+import inf112.app.cards.ICard;
+import inf112.app.map.Direction;
 import inf112.app.map.Map;
-import inf112.app.objects.Direction.Rotation;
-import inf112.app.screens.CardUI;
+import inf112.app.map.Position;
+import inf112.app.map.Direction.Rotation;
+import inf112.app.game.CardUI;
 import java.util.ArrayList;
 
 /**

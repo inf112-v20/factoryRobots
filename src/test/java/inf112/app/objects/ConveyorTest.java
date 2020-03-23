@@ -1,9 +1,13 @@
 package inf112.app.objects;
 
 import inf112.app.GdxTestRunner;
+import inf112.app.game.Player;
+import inf112.app.map.Direction;
 import inf112.app.map.Map;
 
 import java.util.ArrayList;
+
+import inf112.app.map.Position;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

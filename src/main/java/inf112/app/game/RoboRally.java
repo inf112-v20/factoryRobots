@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import inf112.app.map.Map;
-import inf112.app.objects.Player;
 
 import inf112.app.screens.MainMenuScreen;
 

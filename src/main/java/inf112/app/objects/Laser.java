@@ -1,8 +1,10 @@
 package inf112.app.objects;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.MapCell;
+import inf112.app.map.Position;
 
 import java.util.ArrayList;
 

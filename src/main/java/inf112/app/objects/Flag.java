@@ -1,7 +1,7 @@
 package inf112.app.objects;
 
 
-import javafx.geometry.Pos;
+import inf112.app.map.Position;
 
 import java.util.Objects;
 

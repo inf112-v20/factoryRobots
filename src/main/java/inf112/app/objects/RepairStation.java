@@ -1,5 +1,7 @@
 package inf112.app.objects;
 
+import inf112.app.map.Position;
+
 public class RepairStation implements IBoardElement {
     private int repairSpeed;
 

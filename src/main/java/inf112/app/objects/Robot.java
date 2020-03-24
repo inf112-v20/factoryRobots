@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import inf112.app.cards.CardDeck;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 import inf112.app.map.Direction;

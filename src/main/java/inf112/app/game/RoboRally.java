@@ -2,6 +2,7 @@ package inf112.app.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,12 +13,15 @@ import com.kotcrab.vis.ui.VisUI;
 import inf112.app.map.Map;
 
 import inf112.app.screens.LoadingMenuScreen;
+import inf112.app.screens.PauseGameScreen;
 
 public class RoboRally extends Game {
     public SpriteBatch batch;
 
     private Player player;
     protected Stage stage;
+    protected StretchViewport viewport;
+    protected Screen lastScreen;
 
     public Texture backgroundImg;
 
@@ -32,7 +36,7 @@ public class RoboRally extends Game {
 
         backgroundImg = new Texture(Gdx.files.internal("assets/game-menu.png"));
 
-        StretchViewport viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport.apply();
 
         stage = new Stage(viewport, batch); // Create new stage to share with each screen
@@ -57,11 +61,19 @@ public class RoboRally extends Game {
 
     @Override
     public void pause() {
+        if (!(this.getScreen() instanceof PauseGameScreen)){
+            lastScreen = this.getScreen();
+        }
+        this.setScreen(new PauseGameScreen(this, viewport, stage));
     }
 
     @Override
     public void resume() {
+        if (lastScreen != null){
+            this.setScreen(this.lastScreen);
+        }
     }
+
     public void setMapName(String mapName){
         this.mapName = mapName;
     }
@@ -75,6 +87,7 @@ public class RoboRally extends Game {
     public void setPlayer(int x, int y){
         player = new Player(x, y);
     }
+
     public Player getPlayer(){
         return this.player;
     }

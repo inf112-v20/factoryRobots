@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import inf112.app.map.Map;
@@ -21,12 +20,10 @@ public class RoboRally extends Game {
     protected Stage stage;
 
     public Texture backgroundImg;
-    private TextureAtlas atlas;
 
     public AssetManager manager;
 
     private String mapName;
-
 
     @Override
     public void create() {
@@ -34,10 +31,6 @@ public class RoboRally extends Game {
         manager = new AssetManager();
 
         backgroundImg = new Texture(Gdx.files.internal("assets/game-menu.png"));
-        atlas = new TextureAtlas(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.atlas"));
-        //Skin skin = new Skin(Gdx.files.internal("assets/Skins/robo-rally-ui/Robo-Rally.json"), atlas);
-
-
 
         StretchViewport viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport.apply();
@@ -54,7 +47,7 @@ public class RoboRally extends Game {
         stage.dispose();
         VisUI.dispose();
         backgroundImg.dispose();
-        atlas.dispose();
+        manager.dispose();
     }
 
     @Override
@@ -72,6 +65,7 @@ public class RoboRally extends Game {
     public void setMapName(String mapName){
         this.mapName = mapName;
     }
+
     public String getMapName(){
         return this.mapName;
     }

@@ -30,8 +30,8 @@ public class Map {
     private TiledMapTileLayer laser2Layer;
     private TiledMapTileLayer utilityLayer;
 
-    private final int mapSizeX;
-    private final int mapSizeY;
+    private int mapSizeX;
+    private int mapSizeY;
     private MapCellList cellList;
     private ArrayList<Robot> robotList;
 
@@ -40,13 +40,36 @@ public class Map {
     private int laserTimer = 0;
     private boolean lasersActive = false;
 
+    /**
+     * Create a init the Map object by map title
+     * @param mapName Name of the map. Must be without extension and full path
+     */
     public Map(String mapName){
         String pathToMap = "assets/" + mapName + ".tmx";
 
         //Loading map
         TmxMapLoader loader = new TmxMapLoader();
-        map = loader.load(pathToMap);
+        this.map = loader.load(pathToMap);
         laserSprites = loader.load("assets/Lasers.tmx");
+        initializeObjects();
+
+    }
+
+    /**
+     * Create a init the Map object by TiledMap. Much faster if map is already loaded.
+     * @param tiledMap The TiledMap object to init objects from
+     */
+    public Map(TiledMap tiledMap, TiledMap laserSprites){
+        this.map = tiledMap;
+        this.laserSprites = laserSprites;
+        initializeObjects();
+
+    }
+
+    /**
+     * Init objects
+     */
+    private void initializeObjects(){
 
         //Loading layers
         boardLayer = (TiledMapTileLayer) map.getLayers().get("Board");
@@ -154,10 +177,12 @@ public class Map {
         //Check if there are walls that are blocking
         if(containsWall(current)){
             Wall wall = (Wall) findWall(current.getInventory().getElements());
+            assert wall != null;
             valid = !wall.blocks(true, currentPos.getDirection().copyOf());
         }
         if(containsWall(next)){
             Wall wall = (Wall) findWall(next.getInventory().getElements());
+            assert wall != null;
             return valid && !wall.blocks(false, newPos.getDirection().copyOf());
         }
         return valid;
@@ -195,6 +220,19 @@ public class Map {
     public static synchronized boolean setInstance(String mapName){
         if (cellMap == null) {
             cellMap = new Map(mapName);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param tiledMap TiledMap to create a map instance from
+     * @return true if cellMap was created and false if not.
+     */
+    public static synchronized boolean setInstance(TiledMap tiledMap, TiledMap laserSprites){
+        if (cellMap == null) {
+            cellMap = new Map(tiledMap, laserSprites);
             return true;
         }
         return false;

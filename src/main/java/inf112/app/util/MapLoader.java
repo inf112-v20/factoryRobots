@@ -7,12 +7,14 @@ import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
+import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 
 public class MapLoader extends AsynchronousAssetLoader<Map, MapLoader.Parameters> {
-
-    public MapLoader(FileHandleResolver resolver) {
+    RoboRally game;
+    public MapLoader(FileHandleResolver resolver, RoboRally game) {
         super(resolver);
+        this.game = game;
     }
 
     @Override
@@ -20,9 +22,18 @@ public class MapLoader extends AsynchronousAssetLoader<Map, MapLoader.Parameters
 
     }
 
+    /**
+     * Load the map in the background. Uses the already stored TiledMaps: MapName and Laser
+     * @param assetManager The current AssetManager
+     * @param mapName The map to load
+     * @param fileHandle ..
+     * @param parameters ..
+     * @return The map instance
+     */
     @Override
     public Map loadSync(AssetManager assetManager, String mapName, FileHandle fileHandle, Parameters parameters) {
-        Map.setInstance(mapName);
+        Map.setInstance(game.manager.get("assets/" + mapName + ".tmx"),
+                game.manager.get("assets/Lasers.tmx"));
         return Map.getInstance();
     }
 

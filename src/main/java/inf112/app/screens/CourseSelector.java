@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -43,12 +44,12 @@ public class CourseSelector implements Screen {
         this.game = game;
         this.menuViewport = viewport;
         this.stage = stage;
-
-        this.mapList = new LinkedList<>();
+        mapList = new LinkedList<>();
         FileHandle[] files = Gdx.files.internal("assets/Maps").list();
         mapList.addAll(Arrays.asList(files));
 
         this.index = 0;
+
 
         mapCamera = new OrthographicCamera(); // Create a new camera for the TiledMap
         mapCamera.setToOrtho(false, menuViewport.getWorldWidth()/2f
@@ -96,8 +97,8 @@ public class CourseSelector implements Screen {
         selectButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                dispose();
                 selectCourse();
+                dispose();
                 game.setScreen(new LoadingGameScreen(game, menuViewport, stage));
             }
         });
@@ -162,8 +163,13 @@ public class CourseSelector implements Screen {
 
     @Override
     public void dispose() {
-        mapList.forEach(asset -> game.manager.unload(asset.toString()));
-        game.manager.finishLoading();
+        // Remove maps that are not in use from the AssetManager
+        Array<String> assetNames = game.manager.getAssetNames();
+        assetNames.forEach(asset -> {
+            if (asset.contains("Maps") && !asset.equals(mapList.get(index).toString())){
+                game.manager.unload(asset);
+            }
+        });
     }
 
     private String getPreviousMap(){

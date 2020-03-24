@@ -20,7 +20,6 @@ public class MainMenuScreen implements Screen {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
-
     }
 
     @Override

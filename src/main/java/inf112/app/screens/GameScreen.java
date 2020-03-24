@@ -43,7 +43,9 @@ public class GameScreen implements Screen {
         this.game = game;
 
         this.cellMap = Map.getInstance();
-        this.player = game.getPlayer();
+        game.manager.unload(game.getMapName());
+        game.manager.unload("assets/Lasers.tmx");
+
         this.testRobot = new Robot(new Position(4,4),"player");
 
         game.setPlayer(2,2);
@@ -59,6 +61,8 @@ public class GameScreen implements Screen {
 
         //Create and shuffle deck
         deck = game.manager.get("deck");
+        game.manager.unload("deck");
+
 
         for(int i = 0; i<9; i++){
             ui.addCardToSlot(deck.getCard(),"side",i);
@@ -98,6 +102,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+
     }
 
     @Override

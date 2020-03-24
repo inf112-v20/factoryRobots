@@ -23,10 +23,10 @@ public class LoadingGameScreen implements Screen {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
-
-        game.manager.setLoader(Map.class, new MapLoader(new InternalFileHandleResolver()));
+        // Load the map in the background
+        game.manager.setLoader(Map.class, new MapLoader(new InternalFileHandleResolver(), this.game));
         game.manager.load(game.getMapName(), Map.class);
-
+        // Load the deck in the background
         game.manager.setLoader(CardDeck.class, new CardDeckLoader(new InternalFileHandleResolver()));
         game.manager.load("deck",CardDeck.class);
 
@@ -78,6 +78,8 @@ public class LoadingGameScreen implements Screen {
 
     @Override
     public void dispose() {
+        // RoboRally disposes of objects at termination.
+        // Gamescreen clears the AssetManager
 
     }
 }

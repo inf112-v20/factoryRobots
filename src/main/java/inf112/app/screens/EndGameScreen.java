@@ -38,21 +38,33 @@ public class EndGameScreen implements Screen {
         viewport.update(x, y, true);
     }
 
+    /**
+     * Pauses the game. This is currently handled by an window listener instead of this function
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Resumes the game. This is currently handled by an window listener instead of this function
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Not used
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Not used
+     */
     @Override
     public void dispose() {
 

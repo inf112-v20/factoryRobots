@@ -11,12 +11,19 @@ import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 
 public class MapLoader extends AsynchronousAssetLoader<Map, MapLoader.Parameters> {
-    RoboRally game;
+    private RoboRally game;
     public MapLoader(FileHandleResolver resolver, RoboRally game) {
         super(resolver);
         this.game = game;
     }
 
+    /**
+     * Unused function
+     * @param assetManager The current AssetManager
+     * @param mapName The map to load
+     * @param fileHandle ..
+     * @param parameters ..
+     */
     @Override
     public void loadAsync(AssetManager assetManager, String mapName, FileHandle fileHandle, Parameters parameters) {
 
@@ -43,7 +50,5 @@ public class MapLoader extends AsynchronousAssetLoader<Map, MapLoader.Parameters
     }
 
     public static class Parameters extends AssetLoaderParameters<Map> {
-        public Parameters() {
-        }
     }
 }

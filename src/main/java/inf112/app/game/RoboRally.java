@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
@@ -59,6 +58,9 @@ public class RoboRally extends Game {
         super.render();
     }
 
+    /**
+     * Sets the screen to PauseGameScreen
+     */
     @Override
     public void pause() {
         if (!(this.getScreen() instanceof PauseGameScreen)){
@@ -67,6 +69,9 @@ public class RoboRally extends Game {
         this.setScreen(new PauseGameScreen(this, viewport, stage));
     }
 
+    /**
+     * Resumes the last used screen
+     */
     @Override
     public void resume() {
         if (lastScreen != null){

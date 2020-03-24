@@ -15,6 +15,13 @@ public class CardDeckLoader extends AsynchronousAssetLoader<CardDeck, CardDeckLo
         super(resolver);
     }
 
+    /**
+     * Unused function
+     * @param assetManager The current AssetManager
+     * @param s ..
+     * @param fileHandle ..
+     * @param parameters ..
+     */
     @Override
     public void loadAsync(AssetManager assetManager, String s, FileHandle fileHandle, Parameters parameters) {
     }
@@ -30,7 +37,5 @@ public class CardDeckLoader extends AsynchronousAssetLoader<CardDeck, CardDeckLo
     }
 
     public static class Parameters extends AssetLoaderParameters<CardDeck> {
-        public Parameters() {
-        }
     }
 }

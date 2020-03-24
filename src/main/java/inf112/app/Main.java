@@ -13,6 +13,11 @@ public class Main {
         config.setTitle("RoboRaly");
         config.setWindowedMode(1000,1000);
         config.setWindowListener(new Lwjgl3WindowListener() {
+
+            /**
+             * Not used
+             * @param lwjgl3Window The window instance
+             */
             @Override
             public void created(Lwjgl3Window lwjgl3Window) {
 
@@ -26,14 +31,21 @@ public class Main {
 
             }
 
+            /**
+             * Not used
+             * @param b True if maximized, false if not
+             */
             @Override
             public void maximized(boolean b) {
 
             }
 
+            /**
+             * The window lost focus, pause the game
+             */
             @Override
             public void focusLost() {
-                // the window lost focus, pause the game
+
                 System.out.println("Lost Focus -> Pause game");
                 // Cancel pause debugger is attached
                 if (!(java.lang.management.ManagementFactory.getRuntimeMXBean()
@@ -41,10 +53,11 @@ public class Main {
                     game.pause();
                 }
             }
-
+            /**
+             * The window gained focus, resume the game
+             */
             @Override
             public void focusGained() {
-                // the window received input focus, unpause the game
                 System.out.println("Gained Focus -> Start Game");
                 // Cancel resume debugger is attached
                 if (!(java.lang.management.ManagementFactory.getRuntimeMXBean()
@@ -55,18 +68,25 @@ public class Main {
 
             /**
              * Could potentially show a dialog box here
-             * @return
+             * @return true
              */
             @Override
             public boolean closeRequested() {
                 return true;
             }
 
+            /**
+             * Not used
+             * @param strings Files dropped into the window
+             */
             @Override
             public void filesDropped(String[] strings) {
 
             }
 
+            /**
+             * Not used
+             */
             @Override
             public void refreshRequested() {
 

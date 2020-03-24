@@ -146,24 +146,36 @@ public class CourseSelector implements Screen {
         mapViewport.update(x,y,true);
     }
 
+    /**
+     * Pauses the game. This is currently handled by an window listener instead of this function
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Resumes the game. This is currently handled by an window listener instead of this function
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Not used
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Remove maps that are not in use from the AssetManager
+     */
     @Override
     public void dispose() {
-        // Remove maps that are not in use from the AssetManager
+
         Array<String> assetNames = game.manager.getAssetNames();
         assetNames.forEach(asset -> {
             if (asset.contains("Maps") && !asset.equals(mapList.get(index).toString())){
@@ -172,6 +184,10 @@ public class CourseSelector implements Screen {
         });
     }
 
+    /**
+     *
+     * @return The previous map in the map list
+     */
     private String getPreviousMap(){
         if (index < 1){
             index = mapList.size()-1;
@@ -181,6 +197,10 @@ public class CourseSelector implements Screen {
 
     }
 
+    /**
+     *
+     * @return The next map in the map list
+     */
     private String getNextMap(){
         if (index >= mapList.size() - 1){
             index = 0;
@@ -190,6 +210,9 @@ public class CourseSelector implements Screen {
 
     }
 
+    /**
+     * Set the course in Game. Uses the current map list index to fetch map name
+     */
     private void selectCourse(){
         game.setMapName("Maps/" + mapList.get(index).nameWithoutExtension());
     }

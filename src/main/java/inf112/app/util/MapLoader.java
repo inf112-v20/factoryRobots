@@ -26,7 +26,7 @@ public class MapLoader extends AsynchronousAssetLoader<Map, MapLoader.Parameters
      */
     @Override
     public void loadAsync(AssetManager assetManager, String mapName, FileHandle fileHandle, Parameters parameters) {
-
+        // Not used
     }
 
     /**

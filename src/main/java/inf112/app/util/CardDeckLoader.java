@@ -24,6 +24,7 @@ public class CardDeckLoader extends AsynchronousAssetLoader<CardDeck, CardDeckLo
      */
     @Override
     public void loadAsync(AssetManager assetManager, String s, FileHandle fileHandle, Parameters parameters) {
+        // Not used
     }
 
     @Override

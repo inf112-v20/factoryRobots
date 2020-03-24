@@ -77,7 +77,7 @@ public class PauseGameScreen implements Screen {
      */
     @Override
     public void pause() {
-
+        // Not used
     }
 
     /**
@@ -85,7 +85,7 @@ public class PauseGameScreen implements Screen {
      */
     @Override
     public void resume() {
-
+        // Not used
     }
 
     /**
@@ -93,7 +93,7 @@ public class PauseGameScreen implements Screen {
      */
     @Override
     public void hide() {
-
+        // Not used
     }
 
     /**
@@ -101,6 +101,6 @@ public class PauseGameScreen implements Screen {
      */
     @Override
     public void dispose() {
-
+        // Not used
     }
 }

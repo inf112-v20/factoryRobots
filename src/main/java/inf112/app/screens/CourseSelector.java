@@ -49,11 +49,21 @@ public class CourseSelector implements Screen {
         mapList.addAll(Arrays.asList(files));
 
         this.index = 0;
+        boolean screenHeightAdjustment = false;
+        float heightCenterScale = 2f;
 
+        if(Gdx.graphics.getHeight() != 1000){
+            screenHeightAdjustment = true;
+            heightCenterScale = Gdx.graphics.getHeight()/500f;
+        }
 
         mapCamera = new OrthographicCamera(); // Create a new camera for the TiledMap
-        mapCamera.setToOrtho(false, menuViewport.getWorldWidth()/2f
-                ,menuViewport.getWorldHeight()/2f); // Center the camera
+        mapCamera.setToOrtho(false, Gdx.graphics.getWidth()/2f
+                ,Gdx.graphics.getHeight()/heightCenterScale); // Center the camera
+
+        if(screenHeightAdjustment) {
+            mapCamera.zoom = 1 + ((Gdx.graphics.getHeight()/2.2f)/1000);
+        }
 
         mapViewport = new ScreenViewport(mapCamera);
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -71,9 +81,10 @@ public class CourseSelector implements Screen {
         window = new VisWindow("Select Course");
         window.setMovable(false); // Make in unmovable
         window.setModal(true);
-        window.setHeight(650); // Set initial size of window
-        window.setWidth(800);
+        window.setHeight(Gdx.graphics.getHeight()*0.65f); // Set initial size of window
+        window.setWidth(Gdx.graphics.getWidth()*0.8f);
         window.centerWindow();
+        //window.setPosition((menuViewport.getWorldWidth() / 2.0F), (menuViewport.getWorldHeight() / 2.0F));
 
         OneRowTableBuilder builder = new OneRowTableBuilder(); // Create a TableBuilder to insert into the window
         VisImageButton leftArrow = new VisImageButton("arrow-left");

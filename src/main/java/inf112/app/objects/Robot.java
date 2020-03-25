@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.cards.CardDeck;
 import inf112.app.cards.CardSlot;
+import inf112.app.cards.CardStatus;
 import inf112.app.cards.ICard;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
@@ -30,7 +31,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private boolean powerDown;
     private boolean isDead;
     private Position checkPoint;
-
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -239,12 +239,16 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void dealNewCards() {
         int amount = 9;
-        for (damageTokens = 0; damageTokens < 10; damageTokens++){
-            ArrayList<ICard> playerDeck = new CardDeck().getCards(amount);
-            amount--;
+        if (powerDown){
+            ArrayList<ICard> playerDeck = new CardDeck().getCards(0);
+        }else {
+            for (damageTokens = 0; damageTokens < 10; damageTokens++) {
+                ArrayList<ICard> playerDeck = new CardDeck().getCards(amount);
+                amount--;
+            }
         }
-
     }
+
 
 
     /**
@@ -268,6 +272,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
+    public boolean hasLostLife() {
+        if (damageTokens == 10) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * method used to find out if robot is dead or alive
      * @return boolean true if dead, false if alive
@@ -286,6 +298,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void setCheckPoint(Position p){
         this.checkPoint = p;
+    }
+
+    public void backToCheckPoint(){
+        this.pos = checkPoint;
     }
 
 

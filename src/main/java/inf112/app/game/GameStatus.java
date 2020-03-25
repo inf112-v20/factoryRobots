@@ -5,12 +5,11 @@ import inf112.app.map.Map;
 import inf112.app.map.Position;
 import inf112.app.objects.Robot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GameStatus {
     private final Map board;
-    private final ArrayList<Robot> robots;
+    public final ArrayList<Robot> robots;
     private CardDeck deck;
     private int amountOfPlayers;
     private Position startPosition;
@@ -19,6 +18,7 @@ public class GameStatus {
         this.robots = robots;
         this.board = map;
         resetDeck();
+        getRobots(amountOfPlayers);
     }
 
 

@@ -41,25 +41,28 @@ public class GameScreen implements Screen {
 
     public GameScreen(final RoboRally game){
         this.game = game;
-        game.setMap("testMap");
-        game.setPlayer(2,2);
 
         this.cellMap = Map.getInstance();
-        this.player = game.getPlayer();
+        game.manager.unload(game.getMapName());
+        game.manager.unload("assets/Lasers.tmx");
+
         this.testRobot = new Robot(new Position(4,4),"player");
+
+        game.setPlayer(2,2);
+        this.player = game.getPlayer();
 
         //Set up cameras
         camera = new OrthographicCamera();
         uiCam = new OrthographicCamera();
-
-        Map cellMap = Map.getInstance();
 
         //Initialize frame around board
         CardUI ui = CardUI.getInstance();
         ui.initializeCardSlots();
 
         //Create and shuffle deck
-        deck = new CardDeck();
+        deck = game.manager.get("deck");
+        game.manager.unload("deck");
+
 
         for(int i = 0; i<9; i++){
             ui.addCardToSlot(deck.getCard(),"side",i);
@@ -86,8 +89,6 @@ public class GameScreen implements Screen {
             }
         });
 
-
-
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/tileSize));
         mapRenderer.setView(camera);
@@ -101,6 +102,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+
     }
 
     @Override
@@ -157,19 +159,28 @@ public class GameScreen implements Screen {
         stage.getViewport().setCamera(uiCam);
     }
 
+    /**
+     * Pauses the game. This is currently handled by an window listener instead of this function
+     */
     @Override
     public void pause() {
-
+        // Not used
     }
 
+    /**
+     * Resumes the game. This is currently handled by an window listener instead of this function
+     */
     @Override
     public void resume() {
-
+        // Not used
     }
 
+    /**
+     * Not used
+     */
     @Override
     public void hide() {
-
+        // Not used
     }
 
     @Override

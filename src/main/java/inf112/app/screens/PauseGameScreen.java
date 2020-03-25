@@ -6,17 +6,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.kotcrab.vis.ui.building.OneColumnTableBuilder;
+import com.kotcrab.vis.ui.building.utilities.Padding;
+import com.kotcrab.vis.ui.widget.VisImageTextButton;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 
-public class MainMenuScreen implements Screen {
+public class PauseGameScreen implements Screen {
+    private final Stage stage;
 
     private final RoboRally game;
-    private final Stage stage;
     private final StretchViewport viewport;
 
-    public MainMenuScreen(final RoboRally game, StretchViewport viewport, Stage stage) {
+    public PauseGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
@@ -26,42 +29,30 @@ public class MainMenuScreen implements Screen {
     public void show() {
         stage.clear();
         VisTable table = new VisTable();
-        table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton singleplayerButton = new VisTextButton("Singleplayer");
-        singleplayerButton.addListener(new ChangeListener() {
+        table.setFillParent(true);
+        VisLabel title = new VisLabel("The game is paused!");
+        VisImageTextButton resumeButton = new VisImageTextButton("Resume", "default");
+        table.add(title);
+
+        OneColumnTableBuilder builder = new OneColumnTableBuilder(); // Create a TableBuilder to insert into the window
+        resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport, stage));
+                game.resume();
             }
         });
-        VisTextButton multiplayerButton = new VisTextButton("Multiplayer");
-        multiplayerButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport, stage));
-            }
-        });
-        VisTextButton settingsButton = new VisTextButton("Settings");
-        settingsButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new OptionScreen(game,viewport, stage));
-            }
-        });
-        VisTextButton exitButton = new VisTextButton("Exit");
+        VisImageTextButton exitButton = new VisImageTextButton("Exit", "default");
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
             }
         });
-        table.add(singleplayerButton).pad(3).height(60).width(350);
+        Padding padding = new Padding(50,0,0,0);
+        builder.append(resumeButton,exitButton).setTablePadding(padding);
         table.row();
-        table.add(multiplayerButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(settingsButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(exitButton).pad(3).height(60).width(350);
+        table.add(builder.build());
+
         stage.addActor(table);
     }
 
@@ -73,6 +64,7 @@ public class MainMenuScreen implements Screen {
 
         stage.act();
         stage.draw();
+
     }
 
     @Override

@@ -1,60 +1,44 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
+import inf112.app.cards.CardDeck;
 import inf112.app.game.RoboRally;
+import inf112.app.map.Map;
+import inf112.app.util.CardDeckLoader;
+import inf112.app.util.MapLoader;
 
-public class OptionScreen implements Screen {
+public class LoadingGameScreen implements Screen {
+
     private final Stage stage;
 
     private final RoboRally game;
     private final StretchViewport viewport;
 
-    public OptionScreen(RoboRally game, StretchViewport viewport, Stage stage) {
+    public LoadingGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
+        // Load the map in the background
+        game.manager.setLoader(Map.class, new MapLoader(new InternalFileHandleResolver(), this.game));
+        game.manager.load(game.getMapName(), Map.class);
+        // Load the deck in the background
+        game.manager.setLoader(CardDeck.class, new CardDeckLoader(new InternalFileHandleResolver()));
+        game.manager.load("deck",CardDeck.class);
+
     }
 
     @Override
     public void show() {
         stage.clear();
         VisTable table = new VisTable();
-        table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton soundButton = new VisTextButton("Sound");
-        soundButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                //
-            }
-        });
-        VisTextButton returnButton = new VisTextButton("Return");
-        returnButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game,viewport, stage));
-            }
-        });
-        VisTextButton exitButton = new VisTextButton("Exit");
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
-        table.add(soundButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(returnButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(exitButton).pad(3).height(60).width(350);
+        table.setFillParent(true);
+        table.add(new VisLabel("Loading..."));
         stage.addActor(table);
-
     }
 
     @Override
@@ -62,6 +46,10 @@ public class OptionScreen implements Screen {
         game.batch.begin();
         game.batch.draw(game.backgroundImg,0,0,viewport.getWorldWidth(), viewport.getWorldHeight());
         game.batch.end();
+        game.manager.update();
+        if (game.manager.isFinished()) { // Load some, will return true if done loading
+            game.setScreen(new GameScreen(game));
+        }
 
         stage.act();
         stage.draw();
@@ -98,7 +86,7 @@ public class OptionScreen implements Screen {
     }
 
     /**
-     * Not used
+     * RoboRally disposes of objects at termination. Gamescreen clears the AssetManager
      */
     @Override
     public void dispose() {

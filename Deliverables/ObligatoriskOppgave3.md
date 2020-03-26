@@ -326,7 +326,7 @@ Finner du i README.md
 Klassediagram representerer utvalgte metoder vi anser som viktigst for å presentere spillet. Det finner du i Deliverables/UML.
 
 ### Tester
-Manuelle tester ligger i Deliverables/ManualTests.md //kanskje et annet navn
+Manuelle tester ligger i Deliverables/ManualTests2.md
 
 ### Vektleggelse i kodebasen
 Det er verdt å nevne at noen gruppemedlemmer har større issues som vil ta lenger tid. I tillegg har vi fremdeles roller på teamet og derfor forskjellige ansvarsområder som ikke innebærer å commite til prosjektet i like stor grad. Som vi har nevnt tidligere så har en i gruppen hatt problemer med at commits som ikke ble registrert på github og kan derfor være ukorrekt antall commits som er representert. Det er verdt å nevne at vi i starten av prosjektet assignet likt antall issues til hvert gruppemedlem og på grunn av størrelse på issues vil folk bli ferdig på forksjellige tidspunkt. Derfor er det blitt omfordeling av issues etter behov.

@@ -19,11 +19,11 @@ Frem til nå har vi fått til en bra flyt når det kommer til prosjektmetodikken
 * Forbedre brukerhistorier og arbeidskrav FØR vi begynner å jobbe med issue.
 
 ### Prioritering av oppgaver
-//Legg ved skjermdump av project board ved innlevering.
+Dette er linken til et bildet av projectboard:
+https://scontent.fosl3-2.fna.fbcdn.net/v/t1.15752-9/90638515_215689749744447_7241243959735877632_n.png?_nc_cat=109&_nc_sid=b96e70&_nc_ohc=5xjAn1bEp4UAX93q8aq&_nc_ht=scontent.fosl3-2.fna&oh=a8af18718adb0afa5f2afa7fd90574e6&oe=5EA1E407
 
 Implementert kort og interface, 
 For å utvikle flere spillfunksjoner har vi prioritert kort og kortenes funksjoner på spillbrettet til denne innleveringen. For at spillerne etterhvert skal kunne bruke kortene, er det nødvendig at funksjonaliteten er utviklet. Derfor har vi til denne innleveringen fokusert på å lage ferdig objektfunksjoner, før det senere blir tilgjengelig for spilleren. Dette er nødvendig for at vi senere skal kunne bruke funksjonaliteten på spillere. 
-//INNSPILL
  
 
 ### Gruppedynamikk og kommunikasjon

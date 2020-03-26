@@ -1,7 +1,5 @@
 package inf112.app.map;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.GdxTestRunner;
 import inf112.app.objects.Flag;
 import inf112.app.objects.IBoardElement;

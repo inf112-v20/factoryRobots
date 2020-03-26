@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
-import inf112.app.map.Map;
 
 
 public class CardUI {
@@ -35,6 +34,7 @@ public class CardUI {
     }
 
     public void initializeCardSlots(Player player){
+        user = player;
         bottomCardSlots = player.getCharacter().getProgrammedCards();
         sideCardSlots = player.getCharacter().getAvailableCards();
         lookupSlots = new CardSlot[8][6];

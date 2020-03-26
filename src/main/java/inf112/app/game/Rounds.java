@@ -1,6 +1,5 @@
 package inf112.app.game;
 
-import inf112.app.cards.CardDeck;
 import inf112.app.cards.ICard;
 import inf112.app.map.Map;
 import inf112.app.objects.Robot;
@@ -10,14 +9,12 @@ import java.util.Collections;
 
 public class Rounds {
     private final ArrayList<Robot> robots;
-    private final CardDeck deck;
 
-    public Rounds(CardDeck deck){
-        this.deck = deck;
+    public Rounds(){
         this.robots = Map.getInstance().getRobotList();
     }
 
-    private void startRound(){
+    public void startRound(){
         putBackPlayers();
         dealCards();
     }
@@ -60,12 +57,10 @@ public class Rounds {
 
     }
 
-    //fases
 
     /**
-     * methods for doing the actions in rights order for each of the cards
+     * method for doing the actions in rights order for each of the cards
      */
-    //f
     public void doPhase(int phaseNum){
         ArrayList<Integer> slotOne = new ArrayList<>();
         for (Robot r : robots){

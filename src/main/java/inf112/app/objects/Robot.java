@@ -5,15 +5,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
-import inf112.app.cards.CardDeck;
 import inf112.app.cards.CardSlot;
-import inf112.app.cards.CardStatus;
 import inf112.app.cards.ICard;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
 import inf112.app.map.Direction.Rotation;
-import inf112.app.game.CardUI;
+
 import java.util.ArrayList;
 
 /**
@@ -31,8 +29,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private boolean powerDown;
     private boolean isDead;
     private Position checkPoint;
-    private ICard[] programmedCards;
+    private CardSlot[] availableCards;
+    private CardSlot[] programmedCards;
     private boolean doneProgramming;
+    private boolean hasLostLife;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -56,6 +56,18 @@ public class Robot implements ILaserInteractor, IBoardElement {
         laser = new Laser(this,false);
         isDead = false;
 
+        initializeCardsSlots();
+    }
+
+    private void initializeCardsSlots(){
+        programmedCards = new CardSlot[5];
+        availableCards = new CardSlot[9];
+        for(int i = 0; i<9; i++){
+            if(i < 5){
+                programmedCards[i] = new CardSlot("bottom");
+            }
+            availableCards[i] = new CardSlot("side");
+        }
     }
 
     /**
@@ -232,7 +244,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
         damageTokens += dealDamage;
         if (damageTokens >= 10) {
             lives--;
+            hasLostLife = true;
             damageTokens = 0;
+            isDead = lives <= 0;
         }
         System.out.println("Damage tokens:" + damageTokens);
     }
@@ -241,17 +255,22 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * method for deaing the right amount of cards compared to damageTokens
      */
     public void dealNewCards() {
-        int amount = 9;
+        wipeSlots(availableCards);
+        wipeSlots(programmedCards);
         if (powerDown){
-            ArrayList<ICard> playerDeck = new CardDeck().getCards(0);
-        }else {
-            for (damageTokens = 0; damageTokens < 10; damageTokens++) {
-                ArrayList<ICard> playerDeck = new CardDeck().getCards(amount);
-                amount--;
-            }
+            return;
+        }
+
+        for (int i = 0; i<9-damageTokens; i++) {
+            availableCards[i].addCard(Map.getInstance().getDeck().getCard());
         }
     }
 
+    private void wipeSlots(CardSlot[] slotList){
+        for(CardSlot slot : slotList){
+            slot.removeCard();
+        }
+    }
 
 
     /**
@@ -265,18 +284,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public int getLives() { return lives; }
 
-    /**
-     *method for when a robot looses a life
-     */
-    public void loseLife(){
-        this.lives = lives - 1;
-        if (this.lives <= 0){
-            isDead = true;
-        }
+    public boolean hasLostLife() {
+        return hasLostLife;
     }
 
-    public boolean hasLostLife() {
-        return damageTokens == 10;
+    public void setLostLife(boolean lostLife){
+        hasLostLife = lostLife;
     }
 
     /**
@@ -316,13 +329,15 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * in the programming slots
      */
     public void initiateRobotProgramme() {
-        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
-        for(CardSlot slot : slots) {
+        for(CardSlot slot : programmedCards) {
+            ICard card = null;
             if (slot.isLocked()){
-                ICard card = slot.removeCard();
-                if (card != null) {
-                    card.doAction(this);
-                }
+                card = slot.getCard();
+            } else {
+                card = slot.removeCard();
+            }
+            if (card != null) {
+                card.doAction(this);
             }
         }
     }
@@ -333,11 +348,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @param card The card to set.
      */
     public void setProgrammedCard(int index, ICard card) {
-        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
         if (index >= 0 && index < 5) {
-            slots[index].addCard(card);
-        }
-        else {
+            programmedCards[index].addCard(card);
+        } else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }
     }
@@ -350,12 +363,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
    public ICard getProgrammedCard(int index){
         if (index >= 0 && index < 5){
-            CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
-            for (index = 0; index < slots.length; index ++){
-                programmedCards[index] = slots[index].getCard();
-
-            }
-            return programmedCards[index];
+            return programmedCards[index].getCard();
         }else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }
@@ -371,5 +379,13 @@ public class Robot implements ILaserInteractor, IBoardElement {
     @Override
     public void fireLaser() {
         laser.fire();
+    }
+
+    public CardSlot[] getAvailableCards() {
+        return availableCards;
+    }
+
+    public CardSlot[] getProgrammedCards() {
+        return programmedCards;
     }
 }

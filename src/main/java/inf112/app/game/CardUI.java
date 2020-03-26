@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
+import inf112.app.map.Map;
 
 
 public class CardUI {
@@ -14,6 +15,7 @@ public class CardUI {
     private CardSlot[] sideCardSlots;
     //Used as a lookup table for the stage
     private CardSlot[][] lookupSlots;
+    private Player user;
 
 
     private CardUI(){
@@ -32,9 +34,9 @@ public class CardUI {
         return instance;
     }
 
-    public void initializeCardSlots(){
-        bottomCardSlots = new CardSlot[5];
-        sideCardSlots = new CardSlot[9];
+    public void initializeCardSlots(Player player){
+        bottomCardSlots = player.getCharacter().getProgrammedCards();
+        sideCardSlots = player.getCharacter().getAvailableCards();
         lookupSlots = new CardSlot[8][6];
 
         for(int i = 0; i<5; i++){

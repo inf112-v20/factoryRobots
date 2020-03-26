@@ -1,30 +1,25 @@
 package inf112.app.game;
 
 import inf112.app.cards.CardDeck;
-import inf112.app.cards.CardSlot;
-import inf112.app.cards.CardStatus;
 import inf112.app.cards.ICard;
+import inf112.app.map.Map;
 import inf112.app.objects.Robot;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Rounds {
-    private final int standardCardAmount = 9;
     private final ArrayList<Robot> robots;
-    private int chooserIndex = 0;
     private final CardDeck deck;
-    private boolean startTimer;
 
-    public Rounds(CardDeck deck, ArrayList<Robot> robots){
+    public Rounds(CardDeck deck){
         this.deck = deck;
-        this.robots = robots;
+        this.robots = Map.getInstance().getRobotList();
     }
 
     private void startRound(){
         putBackPlayers();
         dealCards();
-
     }
 
     /**
@@ -35,6 +30,7 @@ public class Rounds {
         for (Robot r : robots){
             if (!r.isDead() && r.hasLostLife()){
                 r.backToCheckPoint();
+                r.setLostLife(false);
             }
         }
     }
@@ -70,17 +66,22 @@ public class Rounds {
      * methods for doing the actions in rights order for each of the cards
      */
     //f
-    public void doFase(int fasenr){
+    public void doPhase(int phaseNum){
         ArrayList<Integer> slotOne = new ArrayList<>();
-        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
         for (Robot r : robots){
-            slotOne.add(slots[fasenr].getCard().getPoint());
+            ICard card = r.getProgrammedCard(phaseNum);
+            if(card!=null){
+                slotOne.add(card.getPoint());
+            }
         }
         Collections.sort(slotOne, Collections.reverseOrder());
         for (int i = 0; i < slotOne.size(); i ++) {
             for (Robot r : robots) {
-                if (slotOne.get(i) == r.getProgrammedCard(fasenr).getPoint()){
-                   ICard card = r.getProgrammedCard(fasenr);
+                ICard card = r.getProgrammedCard(phaseNum);
+                if(card == null){
+                    continue;
+                }
+                if (slotOne.get(i) == card.getPoint()){
                    card.doAction(r);
                 }
             }

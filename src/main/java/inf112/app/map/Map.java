@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import inf112.app.cards.CardDeck;
 import inf112.app.objects.*;
 
 
@@ -34,6 +35,7 @@ public class Map {
     private int mapSizeY;
     private MapCellList cellList;
     private ArrayList<Robot> robotList;
+    private CardDeck deck;
 
     private TiledMap laserSprites;
     private ArrayList<ILaserInteractor> laserObjects;
@@ -356,5 +358,13 @@ public class Map {
             laserObjects.remove(robot);
         }
         robotList.clear();
+    }
+
+    public void setDeck(CardDeck deck){
+        this.deck = deck;
+    }
+
+    public CardDeck getDeck(){
+        return this.deck;
     }
 }

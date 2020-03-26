@@ -276,11 +276,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     public boolean hasLostLife() {
-        if (damageTokens == 10) {
-            return true;
-        }else{
-            return false;
-        }
+        return damageTokens == 10;
     }
 
     /**
@@ -288,11 +284,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @return boolean true if dead, false if alive
      */
     public boolean isDead(){
-        if (lives == 0){
-            return true;
-        }else{
-            return false;
-        }
+        return isDead;
     }
 
     /**

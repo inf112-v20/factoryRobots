@@ -16,7 +16,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
  *
  * Class for all the cards in the game
  */
-public abstract class CardStatus implements Comparable<ICard> {
+public abstract class CardStatus implements Comparable<ICard>, ICard {
 
     private final int point;
     private boolean isHidden;

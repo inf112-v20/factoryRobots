@@ -2,6 +2,7 @@ package inf112.app.game;
 
 import inf112.app.cards.CardDeck;
 import inf112.app.cards.CardSlot;
+import inf112.app.cards.CardStatus;
 import inf112.app.cards.ICard;
 import inf112.app.objects.Robot;
 
@@ -23,9 +24,13 @@ public class Rounds {
     private void startRound(){
         putBackPlayers();
         dealCards();
-        pickCards();
+
     }
 
+    /**
+     * method for putting the players who have lost a life
+     * back to their checkpoint
+     */
     public void putBackPlayers(){
         for (Robot r : robots){
             if (!r.isDead() && r.hasLostLife()){
@@ -34,21 +39,14 @@ public class Rounds {
         }
     }
 
+    /**
+     * dealing cards
+     */
     private void dealCards(){
         for (Robot r : robots){
             r.dealNewCards();
         }
 
-    }
-    private void pickCards(){
-        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
-        for (Robot r : robots){
-            for (CardSlot slot : slots){
-                if (slot.hasCard()){
-                    r.doneProgramming();
-                }
-            }
-        }
     }
 
     /**
@@ -56,107 +54,34 @@ public class Rounds {
      * @return boolean
      */
     private boolean startTimer(){
-        ArrayList<Robot> count = new ArrayList<>();
+        int count = 0;
         for (Robot r : robots){
             if (r.doneProgramming()){
-                count.add(r);
+                count ++;
             }
         }
-        if (count.size() == robots.size() - 1){
-            return true;
-        }else{
-            return false;
-        }
+        return count == robots.size() -1;
 
     }
 
     //fases
 
-    //fase1
-    public void doMoveOne(){
-        ArrayList<ICard> slotOne = new ArrayList<>();
+    /**
+     * methods for doing the actions in rights order for each of the cards
+     */
+    //f
+    public void doFase(int fasenr){
+        ArrayList<Integer> slotOne = new ArrayList<>();
         CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
         for (Robot r : robots){
-            slotOne.add(slots[0].getCard().getPoint());
+            slotOne.add(slots[fasenr].getCard().getPoint());
         }
         Collections.sort(slotOne, Collections.reverseOrder());
         for (int i = 0; i < slotOne.size(); i ++) {
             for (Robot r : robots) {
-                if (slotOne.get(i) == r.getProgrammedCard(0).getPoint()){
-                   ICard card = r.getProgrammedCard(0);
+                if (slotOne.get(i) == r.getProgrammedCard(fasenr).getPoint()){
+                   ICard card = r.getProgrammedCard(fasenr);
                    card.doAction(r);
-                }
-            }
-        }
-        putBackPlayers();
-    }
-    //fase2
-    public void doMoveTwo() {
-        ArrayList<ICard> slotOne = new ArrayList<>();
-        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
-        for (Robot r : robots) {
-            slotOne.add(slots[1].getCard().getPoint());
-        }
-        Collections.sort(slotOne, Collections.reverseOrder());
-        for (int i = 0; i < slotOne.size(); i++) {
-            for (Robot r : robots) {
-                if (slotOne.get(i) == r.getProgrammedCard(1).getPoint()) {
-                    ICard card = r.getProgrammedCard(1);
-                    card.doAction(r);
-                }
-            }
-        }
-        putBackPlayers();
-    }
-    //fase3
-    public void doMoveThree() {
-        ArrayList<ICard> slotOne = new ArrayList<>();
-        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
-        for (Robot r : robots) {
-            slotOne.add(slots[2].getCard().getPoint());
-        }
-        Collections.sort(slotOne, Collections.reverseOrder());
-        for (int i = 0; i < slotOne.size(); i++) {
-            for (Robot r : robots) {
-                if (slotOne.get(i) == r.getProgrammedCard(2).getPoint()) {
-                    ICard card = r.getProgrammedCard(2);
-                    card.doAction(r);
-                }
-            }
-        }
-        putBackPlayers();
-    }
-    //fase4
-    public void doMoveFour() {
-        ArrayList<ICard> slotOne = new ArrayList<>();
-        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
-        for (Robot r : robots) {
-            slotOne.add(slots[3].getCard().getPoint());
-        }
-        Collections.sort(slotOne, Collections.reverseOrder());
-        for (int i = 0; i < slotOne.size(); i++) {
-            for (Robot r : robots) {
-                if (slotOne.get(i) == r.getProgrammedCard(3).getPoint()) {
-                    ICard card = r.getProgrammedCard(3);
-                    card.doAction(r);
-                }
-            }
-        }
-        putBackPlayers();
-    }
-    //fase5
-    public void doMoveFive() {
-        ArrayList<ICard> slotOne = new ArrayList<>();
-        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
-        for (Robot r : robots) {
-            slotOne.add(slots[4].getCard().getPoint());
-        }
-        Collections.sort(slotOne, Collections.reverseOrder());
-        for (int i = 0; i < slotOne.size(); i++) {
-            for (Robot r : robots) {
-                if (slotOne.get(i) == r.getProgrammedCard(4).getPoint()) {
-                    ICard card = r.getProgrammedCard(4);
-                    card.doAction(r);
                 }
             }
         }

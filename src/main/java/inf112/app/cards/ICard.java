@@ -11,6 +11,6 @@ public interface ICard {
 
     TiledMapTileLayer.Cell getCardTile();
 
-    ICard getPoint();
+    int getPoint();
 
 }

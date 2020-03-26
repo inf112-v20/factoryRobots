@@ -8,7 +8,7 @@ import inf112.app.objects.Robot;
  * this class represents the gameaction to change the players position
  * on the board.
  */
-public class MoveCard extends CardStatus implements ICard  {
+public class MoveCard extends CardStatus  {
     private int steps;
     private boolean backUp;
 
@@ -68,4 +68,5 @@ public class MoveCard extends CardStatus implements ICard  {
     public boolean isBackUp() {
         return backUp;
     }
+
 }

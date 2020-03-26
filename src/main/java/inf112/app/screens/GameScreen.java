@@ -57,12 +57,13 @@ public class GameScreen implements Screen {
 
         //Initialize frame around board
         CardUI ui = CardUI.getInstance();
-        ui.initializeCardSlots();
+        ui.initializeCardSlots(game.getPlayer());
 
         //Create and shuffle deck
         deck = game.manager.get("deck");
         game.manager.unload("deck");
 
+        cellMap.setDeck(deck);
 
         for(int i = 0; i<9; i++){
             ui.addCardToSlot(deck.getCard(),"side",i);

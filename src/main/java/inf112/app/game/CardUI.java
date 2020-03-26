@@ -14,21 +14,13 @@ public class CardUI {
     private CardSlot[] sideCardSlots;
     //Used as a lookup table for the stage
     private CardSlot[][] lookupSlots;
+    private Player user;
 
 
     private CardUI(){
         TmxMapLoader loader = new TmxMapLoader();
         cardUI = loader.load("assets/CardUI2.tmx");
     }
-
-    public void dealNewCards() {
-        for(int i = 0; i < sideCardSlots.length; i++){
-            if(!sideCardSlots[i].hasCard()){
-
-            }
-        }
-    }
-
 
     public TiledMap getTiles() {
         return cardUI;
@@ -41,9 +33,10 @@ public class CardUI {
         return instance;
     }
 
-    public void initializeCardSlots(){
-        bottomCardSlots = new CardSlot[5];
-        sideCardSlots = new CardSlot[9];
+    public void initializeCardSlots(Player player){
+        user = player;
+        bottomCardSlots = player.getCharacter().getProgrammedCards();
+        sideCardSlots = player.getCharacter().getAvailableCards();
         lookupSlots = new CardSlot[8][6];
 
         for(int i = 0; i<5; i++){

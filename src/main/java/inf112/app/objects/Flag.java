@@ -1,6 +1,8 @@
 package inf112.app.objects;
 
 
+import inf112.app.map.Position;
+
 import java.util.Objects;
 
 public class Flag implements IBoardElement {
@@ -33,11 +35,15 @@ public class Flag implements IBoardElement {
         if(lastVisitedFlag == null){
             if(num == 1){
                 robot.setVisitedFlag(this);
+                Position pos = robot.getPos();
+                robot.setCheckPoint(pos);
             }
         } else {
             int lastVisitedFlagNum = robot.getVisitedFlag().getNum();
             if(lastVisitedFlagNum == num-1){
                 robot.setVisitedFlag(this);
+                Position pos = robot.getPos();
+                robot.setCheckPoint(pos);
             }
         }
     }

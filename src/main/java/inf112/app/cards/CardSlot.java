@@ -9,6 +9,8 @@ public class CardSlot {
     private int xCoord;
     private int yCoord;
     private TiledMapTileLayer cardLayer;
+    private boolean isLocked;
+    private boolean noUI;
 
     public CardSlot(int x, int y, String position){
         card = null;
@@ -17,12 +19,23 @@ public class CardSlot {
         CardUI cardUI = CardUI.getInstance();
         cardLayer = (TiledMapTileLayer) cardUI.getTiles().getLayers().get("Cards");
         this.position = position;
+        this.isLocked = false;
+        noUI = false;
+    }
+
+    public CardSlot(String position){
+        card = null;
+        this.position = position;
+        this.isLocked = false;
+        noUI = true;
     }
 
     public boolean addCard(ICard newCard){
         if(card == null){
             this.card = newCard;
-            cardLayer.setCell(xCoord,yCoord,card.getCardTile());
+            if(!noUI) {
+                cardLayer.setCell(xCoord, yCoord, card.getCardTile());
+            }
             return true;
         }
         return false;
@@ -40,11 +53,27 @@ public class CardSlot {
         }
     }
 
+    public void lockSlot(){
+        this.isLocked = true;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void unlockSlot(){
+        this.isLocked = false;
+    }
+
     public String getPosition() {
         return position;
     }
 
     public boolean hasCard(){
         return card != null;
+    }
+
+    public ICard getCard() {
+        return card;
     }
 }

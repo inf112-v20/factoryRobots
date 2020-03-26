@@ -1,7 +1,6 @@
 package inf112.app.cards;
 
 import inf112.app.GdxTestRunner;
-import inf112.app.cards.MoveCard;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

@@ -1,5 +1,7 @@
 package inf112.app.objects;
 
+import inf112.app.map.Position;
+
 public class RepairStation implements IBoardElement {
     private int repairSpeed;
 
@@ -10,5 +12,7 @@ public class RepairStation implements IBoardElement {
     @Override
     public void doAction(Robot robot) {
         robot.removeDamageTokens(repairSpeed);
+        Position position = robot.getPos();
+        robot.setCheckPoint(position);
     }
 }

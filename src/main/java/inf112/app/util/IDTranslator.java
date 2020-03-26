@@ -1,10 +1,5 @@
 package inf112.app.util;
 
-/*
-Issue:
-Make Enum that maps objects name to the number the object has in the tileset /assets/tiles.png
- */
-
 /**
  * IDTranslator checks id and matches it with the right ElementEnum
  */

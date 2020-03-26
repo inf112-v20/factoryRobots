@@ -7,7 +7,7 @@ import inf112.app.objects.Robot;
 /**
  * this class represents the gameaction to rotate the robot
  */
-public class RotateCard extends CardStatus implements ICard {
+public class RotateCard extends CardStatus {
     private Rotation rotation;
     private boolean uTurn;
 

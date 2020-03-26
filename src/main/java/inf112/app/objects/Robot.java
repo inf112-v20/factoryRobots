@@ -11,7 +11,7 @@ import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
 import inf112.app.map.Direction.Rotation;
-import inf112.app.game.CardUI;
+
 import java.util.ArrayList;
 
 /**
@@ -27,6 +27,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private int damageTokens;
     private int lives;
     private boolean powerDown;
+    private boolean isDead;
+    private Position checkPoint;
+    private CardSlot[] availableCards;
+    private CardSlot[] programmedCards;
+    private boolean doneProgramming;
+    private boolean hasLostLife;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -48,6 +54,20 @@ public class Robot implements ILaserInteractor, IBoardElement {
         lives = 3;
         powerDown = false;
         laser = new Laser(this,false);
+        isDead = false;
+
+        initializeCardsSlots();
+    }
+
+    private void initializeCardsSlots(){
+        programmedCards = new CardSlot[5];
+        availableCards = new CardSlot[9];
+        for(int i = 0; i<9; i++){
+            if(i < 5){
+                programmedCards[i] = new CardSlot("bottom");
+            }
+            availableCards[i] = new CardSlot("side");
+        }
     }
 
     /**
@@ -224,10 +244,34 @@ public class Robot implements ILaserInteractor, IBoardElement {
         damageTokens += dealDamage;
         if (damageTokens >= 10) {
             lives--;
+            hasLostLife = true;
             damageTokens = 0;
+            isDead = lives <= 0;
         }
         System.out.println("Damage tokens:" + damageTokens);
     }
+
+    /**
+     * method for deaing the right amount of cards compared to damageTokens
+     */
+    public void dealNewCards() {
+        wipeSlots(availableCards);
+        wipeSlots(programmedCards);
+        if (powerDown){
+            return;
+        }
+
+        for (int i = 0; i<9-damageTokens; i++) {
+            availableCards[i].addCard(Map.getInstance().getDeck().getCard());
+        }
+    }
+
+    private void wipeSlots(CardSlot[] slotList){
+        for(CardSlot slot : slotList){
+            slot.removeCard();
+        }
+    }
+
 
     /**
      * Method used by repairStation to remove damageTokens from robot.
@@ -239,6 +283,35 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     public int getLives() { return lives; }
+
+    public boolean hasLostLife() {
+        return hasLostLife;
+    }
+
+    public void setLostLife(boolean lostLife){
+        hasLostLife = lostLife;
+    }
+
+    /**
+     * method used to find out if robot is dead or alive
+     * @return boolean true if dead, false if alive
+     */
+    public boolean isDead(){
+        return isDead;
+    }
+
+    /**
+     * Sets a new checkpoint for the robot
+     * @param p
+     */
+    public void setCheckPoint(Position p){
+        this.checkPoint = p;
+    }
+
+    public void backToCheckPoint(){
+        this.pos = checkPoint;
+    }
+
 
     /**
      * Used to set the powerStatus of the robot(powerDown)
@@ -256,17 +329,63 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * in the programming slots
      */
     public void initiateRobotProgramme() {
-        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
-        for(CardSlot slot : slots){
-            ICard card  = slot.removeCard();
-            if(card != null){
+        for(CardSlot slot : programmedCards) {
+            ICard card = null;
+            if (slot.isLocked()){
+                card = slot.getCard();
+            } else {
+                card = slot.removeCard();
+            }
+            if (card != null) {
                 card.doAction(this);
             }
         }
     }
 
+    /**
+     * Sets a players programmed card into its register.
+     * @param index The register index to set the card for.
+     * @param card The card to set.
+     */
+    public void setProgrammedCard(int index, ICard card) {
+        if (index >= 0 && index < 5) {
+            programmedCards[index].addCard(card);
+        } else {
+            throw new IllegalArgumentException("Index must be between 0 and 4");
+        }
+    }
+
+    /**
+     * returns a programmed card form a spesific position in
+     * the register array
+     * @param index
+     * @return
+     */
+   public ICard getProgrammedCard(int index){
+        if (index >= 0 && index < 5){
+            return programmedCards[index].getCard();
+        }else {
+            throw new IllegalArgumentException("Index must be between 0 and 4");
+        }
+
+   }
+
+
+
+    public boolean doneProgramming(){
+        return doneProgramming;
+    }
+
     @Override
     public void fireLaser() {
         laser.fire();
+    }
+
+    public CardSlot[] getAvailableCards() {
+        return availableCards;
+    }
+
+    public CardSlot[] getProgrammedCards() {
+        return programmedCards;
     }
 }

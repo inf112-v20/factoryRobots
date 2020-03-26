@@ -10,4 +10,7 @@ public interface ICard {
     ICard copyOf();
 
     TiledMapTileLayer.Cell getCardTile();
+
+    ICard getPoint();
+
 }

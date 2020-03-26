@@ -30,6 +30,12 @@ public class GameStatus {
         }
     }
 
+    public void startPositions(){
+        for (int i = 0; i < robots.size(); i++) {
+            startPosition = new Position(2*(i+1), 2);
+        }
+    }
+
     /**
      * returns all robots that are in the game
      * @return

@@ -31,7 +31,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private boolean powerDown;
     private boolean isDead;
     private Position checkPoint;
-    private CardStatus[] programmedCards;
+    private ICard[] programmedCards;
     private boolean doneProgramming;
 
     //Player sprites
@@ -340,9 +340,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @param index The register index to set the card for.
      * @param card The card to set.
      */
-    public void setProgrammedCard(int index, CardStatus card) {
+    public void setProgrammedCard(int index, ICard card) {
+        CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
         if (index >= 0 && index < 5) {
-            programmedCards[index] = card;
+            slots[index].addCard(card);
         }
         else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
@@ -355,8 +356,13 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @param index
      * @return
      */
-   public CardStatus getProgrammedCard(int index){
+   public ICard getProgrammedCard(int index){
         if (index >= 0 && index < 5){
+            CardSlot[] slots = CardUI.getInstance().getBottomCardSlots();
+            for (index = 0; index < slots.length; index ++){
+                programmedCards[index] = slots[index].getCard();
+
+            }
             return programmedCards[index];
         }else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
@@ -364,28 +370,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
    }
 
-    /**
-     * Locks cards depending on the amount of damage tokens.
-     */
-    private void lockOrUnlockCards() {
-        programmedCards[4].setLocked(false);
-        programmedCards[3].setLocked(false);
-        programmedCards[2].setLocked(false);
-        programmedCards[1].setLocked(false);
-        programmedCards[0].setLocked(false);
-        switch (damageTokens) {
-            case 9:
-                programmedCards[0].setLocked(true);
-            case 8:
-                programmedCards[1].setLocked(true);
-            case 7:
-                programmedCards[2].setLocked(true);
-            case 6:
-                programmedCards[3].setLocked(true);
-            case 5:
-                programmedCards[4].setLocked(true);
-        }
-    }
+
 
     public boolean doneProgramming(){
         return doneProgramming;

@@ -15,8 +15,6 @@ public class Conveyor implements IBoardElement {
     private Direction[] entries;
     private Direction exit;
     private int speed;
-    //private boolean rotate;
-    //private Rotation rotation;
 
     /**
      * constructor for the conveyor belts
@@ -35,6 +33,11 @@ public class Conveyor implements IBoardElement {
 
     }
 
+    /**
+     * method to find out if the robot will rotate on the conveyor
+     * @param dir
+     * @return boolean; true if it will rotate, false if not
+     */
     public boolean willRotate(Direction dir){
         if (dir.equals(exit)){
             return false;
@@ -51,6 +54,11 @@ public class Conveyor implements IBoardElement {
 
     }
 
+    /**
+     * method to find out witch direction the rotation will be
+     * @param dir
+     * @return the rotation that is to be executed
+     */
     public Rotation rotationDirection(Direction dir){
         int leftRotationAngle = dir.getAngleDeg() - 90;
         if (leftRotationAngle < 0){

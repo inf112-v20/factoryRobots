@@ -251,6 +251,27 @@ public class Robot implements ILaserInteractor, IBoardElement {
         System.out.println("Damage tokens:" + damageTokens);
     }
 
+    /**
+     * method for deaing the right amount of cards compared to damageTokens
+     */
+    public void dealNewCards() {
+        wipeSlots(availableCards);
+        wipeSlots(programmedCards);
+        if (powerDown){
+            return;
+        }
+
+        for (int i = 0; i<9-damageTokens; i++) {
+            availableCards[i].addCard(Map.getInstance().getDeck().getCard());
+        }
+    }
+
+    private void wipeSlots(CardSlot[] slotList){
+        for(CardSlot slot : slotList){
+            slot.removeCard();
+        }
+    }
+
 
     /**
      * Method used by repairStation to remove damageTokens from robot.
@@ -261,7 +282,23 @@ public class Robot implements ILaserInteractor, IBoardElement {
         if (damageTokens < 0) damageTokens = 0;
     }
 
+    public int getLives() { return lives; }
 
+    public boolean hasLostLife() {
+        return hasLostLife;
+    }
+
+    public void setLostLife(boolean lostLife){
+        hasLostLife = lostLife;
+    }
+
+    /**
+     * method used to find out if robot is dead or alive
+     * @return boolean true if dead, false if alive
+     */
+    public boolean isDead(){
+        return isDead;
+    }
 
     /**
      * Sets a new checkpoint for the robot
@@ -270,6 +307,22 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void setCheckPoint(Position p){
         this.checkPoint = p;
     }
+
+    public void backToCheckPoint(){
+        this.pos = checkPoint;
+    }
+
+
+    /**
+     * Used to set the powerStatus of the robot(powerDown)
+     * @param powerDown
+     */
+    public void setPowerDown(boolean powerDown) {
+        this.powerDown = powerDown;
+        damageTokens = 0;
+    }
+
+    public boolean getPowerDown() { return powerDown; }
 
     /**
      * Method for initialising the moves depicted on the cards
@@ -287,6 +340,40 @@ public class Robot implements ILaserInteractor, IBoardElement {
                 card.doAction(this);
             }
         }
+    }
+
+    /**
+     * Sets a players programmed card into its register.
+     * @param index The register index to set the card for.
+     * @param card The card to set.
+     */
+    public void setProgrammedCard(int index, ICard card) {
+        if (index >= 0 && index < 5) {
+            programmedCards[index].addCard(card);
+        } else {
+            throw new IllegalArgumentException("Index must be between 0 and 4");
+        }
+    }
+
+    /**
+     * returns a programmed card form a spesific position in
+     * the register array
+     * @param index
+     * @return
+     */
+   public ICard getProgrammedCard(int index){
+        if (index >= 0 && index < 5){
+            return programmedCards[index].getCard();
+        }else {
+            throw new IllegalArgumentException("Index must be between 0 and 4");
+        }
+
+   }
+
+
+
+    public boolean doneProgramming(){
+        return doneProgramming;
     }
 
     @Override

@@ -1,9 +1,12 @@
 package inf112.app.util;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.GdxTestRunner;
 import inf112.app.map.Map;
 import inf112.app.objects.*;
+import inf112.app.util.ObjectFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +15,10 @@ import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class ObjectFactoryTest {
+    private TiledMapTile tile;
+    private TmxMapLoader loader;
     private Map map;
+    private TiledMapTileLayer wallLayer;
     private ObjectFactory factory;
 
     @Before

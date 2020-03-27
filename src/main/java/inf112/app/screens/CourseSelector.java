@@ -38,7 +38,7 @@ public class CourseSelector implements Screen {
     private LinkedList<FileHandle> mapList;
     private int index;
 
-    private VisWindow window;
+    VisWindow window;
 
     public CourseSelector(final RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;

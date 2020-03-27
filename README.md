@@ -20,5 +20,5 @@ This project uses:
 - Currently throws "WARNING: An illegal reflective access operation has occurred", 
 when the java version used is >8. This has no effect on function or performance, and is just a warning.
 
-- Exception when using Mac OS: Please run the JVM with -XstartOnFirstThread. For example:
+- Exception when using Mac OS: Please run the JVM with -XstartOnFirstThread. For example:<br>
 ```java -XstartOnFirstThread -cp target/factory-robots-1.0-SNAPSHOT.jar inf112.app.Main```

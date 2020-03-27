@@ -67,6 +67,14 @@ public class MapCellList {
         return getCell(p);
     }
 
+    private void setCell(Position p, CellInventory inventory){
+        cellList[p.getXCoordinate()][p.getYCoordinate()] = new MapCell(p, inventory);
+    }
+    private void setCell(int x, int y, CellInventory inventory){
+        Position p = new Position(x,y);
+        setCell(p, inventory);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

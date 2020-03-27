@@ -1,5 +1,6 @@
 package inf112.app.game;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import inf112.app.cards.CardSlot;
@@ -7,11 +8,18 @@ import inf112.app.cards.ICard;
 
 public class TiledMapActor extends Actor {
 
+    private TiledMap tiledMap;
+
+    private TiledMapTileLayer tiledLayer;
+
     private TiledMapTileLayer.Cell cell;
 
     private CardSlot slot;
 
-    public TiledMapActor(TiledMapTileLayer.Cell cell, CardSlot slot) {
+    public TiledMapActor(TiledMap tiledMap, TiledMapTileLayer tiledLayer, TiledMapTileLayer.Cell cell,
+                         CardSlot slot) {
+        this.tiledMap = tiledMap;
+        this.tiledLayer = tiledLayer;
         this.cell = cell;
         this.slot = slot;
     }

@@ -13,10 +13,10 @@ import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class RotateCardTest {
-    RotateCard leftRotate;
-    RotateCard rightRotate;
-    RotateCard uTurn;
-    Player player;
+    private RotateCard leftRotate;
+    private RotateCard rightRotate;
+    private RotateCard uTurn;
+    private Player player;
 
     @Before
     public void setUp() throws Exception {

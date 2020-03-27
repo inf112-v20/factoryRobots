@@ -54,7 +54,7 @@ Jeg ønsker at roboter skal kunne dø, slik at jeg eller andre spillere kan elim
 **Akseptansekrav**:
 
 Robot dør og går ut av spillet etter å ha mistet 3 liv ("respawner" ikke)
-Hvis robot mottar 9 damage tokens mister den et liv
+Hvis robot mottar 10 damage tokens mister den et liv
 Når roboten mister et liv, "respawner" den på forrige checkpoint
 Etterhvert som roboten går på checkpoints, oppdateres posisjon for "respawn"
 Robot "spawner" på riktig checkpoint

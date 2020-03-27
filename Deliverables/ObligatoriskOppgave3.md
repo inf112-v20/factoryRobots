@@ -48,10 +48,10 @@ Vi har skrevet brukerhistorier, arbeidsoppgaver og akseptansekrav på vært enke
 Under beskrives alle issues med brukerhistorie, akseptansekrav og arbeidsoppgaver for Assignment 3.
 
 #### Robot må kunne dø 
--Brukerhistorie:
+**Brukerhistorie**:
 Jeg ønsker at roboter skal kunne dø, slik at jeg eller andre spillere kan eliminere motspillere.
 
--Akseptansekrav:
+**Akseptansekrav**:
 
 Robot dør og går ut av spillet etter å ha mistet 3 liv ("respawner" ikke)
 Hvis robot mottar 9 damage tokens mister den et liv
@@ -59,7 +59,7 @@ Når roboten mister et liv, "respawner" den på forrige checkpoint
 Etterhvert som roboten går på checkpoints, oppdateres posisjon for "respawn"
 Robot "spawner" på riktig checkpoint
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver**:
 
  * Holde styr på hvor mange damage tokens roboten har
  * Holde styr på hvor mange liv roboten har igjen
@@ -68,13 +68,13 @@ Robot "spawner" på riktig checkpoint
  * Sette checkpoint som "spawn" når robot besøker det
 
 #### Implementere runder
--Brukerhistorie:
+**Brukerhistorie:**
 Spiller ønsker å spille rundebasert Robo Rally for å lage strategi og planlegge bevegelser.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Rundene må følge runde strukturen til Robo Rally.
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 
 * Hver fase skal gå i rett rekkefølge
 * Initiering av hver fase og runde skal ferdigstilles riktig måte
@@ -83,14 +83,14 @@ Rundene må følge runde strukturen til Robo Rally.
 * At utdeling og programmering av kort blir gjort riktig
 
 #### Lage spillmeny
--Brukerhistorie:
+**Brukerhistorie:**
 Spiller ønsker å se en meny for å velge bane og flerspiller valg
 
--Akseptansekrav:
+**Akseptansekrav:**
 Programkort må være synlig for spilleren
 Gitt en knapp vil brukeren bli sendt til en ny menypage, avslutte eller starte spillet
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Representere spillet
 * Gi alternativer til lyd
 * Gi alternativer til antall spillere
@@ -99,78 +99,78 @@ Gitt en knapp vil brukeren bli sendt til en ny menypage, avslutte eller starte s
 * Avslutte spillet
 
 #### Reparere skade
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg å reparere roboten min om jeg har mange damage-tokens.
 
 
--Akseptansekrav:
+**Akseptansekrav:**
 Gitt at robot er i powerdown eller på repairstation, vil roboten fjerne damage-tokens.
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Om robot har vært i powerdown forsvinner alle damage tokens
 * Fjerne damage-tokens hvis du er på repairstation
 * Etter en runde legger alle roboter fra seg ett damage kort
 
 #### Ta skade
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg at robot skal ta skade av laser eller hull.
 
--Akseptansekrav
+**Akseptansekrav:**
 Gitt at robot blir truffet av laser eller faller i et hull, vil robot få x antall damage-tokens
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Få forventa mengde damage tokens fra laser
 * Miste liv ved 10 damage tokens
 * Miste liv når robot detter ut av brettet eller ned i ett hull
 
 #### Roboter stopper lasere
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg at laseren stopper på den første roboten den treffer, slik at jeg kan gjemme meg bak andre roboter, for å unngå å ta skade fra laser.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Laserstråle stopper på første robot den treffer.
 Bare denne første roboten tar skade
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Bestemme stien laseren skal følge og sørge for at denne stopper når den skal.
 * Finne ut om det er en robot i enden av laserstrålen.
 * Dersom det er en robot i enden, gi denne roboten skade.
 * Tegne laserstrålens sti grafisk.
 
 #### Vegger stopper roboter og lasere
-- Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg at vegger stoppe roboter og lasere fra å passere veggen
 
--Akseptansekrav:
+**Akseptansekrav:**
 Gitt at vegg ligger i posisjon foran en robot eller laser, skal robot og laser bli stoppet fra å gå videre.
 Hvis det er en laser, skal den bli slettet.
 
-Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Roboter går ikkje gjennom vegger, sjølv om kortet tilsier at dei skal bevega seg i den retningen
 * Om lasere treffer vegger går dei ikkje gjennom.
 
 #### Fyre av laser
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg at laser skal fyres av i en gitt retning etter bestemte faser.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Gitt det er riktig fase, vil laserkanon skyte av laser i en bestemt retning, den vil da gå til den treffer en vegg eller robot.
 
--Arbeidsoppgaver
+**Arbeidsoppgaver**
 * Laser blir stoppet av robot
 * Laser blir stoppet av vegg
 * Går i forventa retning
 
 #### Dytte andre roboter
--Brukerhistorie:
+**Brukerhistorie:**
 Jeg vil kunne dytte andre roboter slik at jeg kan sabotere andre spillere på brettet.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Om en robot er i veien for en annen robots trekk, vil denne roboten bli dyttet fremfor roboten som beveger seg
 Om det er enda en robot foran denne, blir denne også dyttet, osv.
 Roboten blir ikke dyttet om den er blokkert av en vegg, eller kanten av kartet
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 
 * Sjekke om det er en robot i feltet hvor roboten er på vei
 * Sjekke hva som finnes bak denne roboten
@@ -178,15 +178,15 @@ Roboten blir ikke dyttet om den er blokkert av en vegg, eller kanten av kartet
 * Gjennomføre trekket dersom roboten(e) som dyttes ikke er blokkert av kanten av brettet eller en vegg
 
 #### Lage klasse for conveyerbelt
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg at transportbåndene flytter roboten min som forventet, slik at jeg kan bruke disse til å flytte meg effektivt rundt på brettet.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Båndet flytter robot i forventet retning
 Robot roteres riktig retning når båndet svinger
 Bånd med dobbel hastighet flytter roboter dobbelt så fort.
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 
 * Finne ut hastigheten på båndet
 * Finne ut hvilken retning båndet svinger i forhold til retningen roboten kommer inn på båndet fra
@@ -195,71 +195,71 @@ Bånd med dobbel hastighet flytter roboter dobbelt så fort.
 * Om robot blokkeres av en annen robot eller vegg som ikke står på båndet skal ikke båndet flytte roboten
 
 #### Programmere robot
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg at roboten skal reagere etter kortene sin funksjonalitet
 
--Akseptansekrav:
+**Akseptansekrav:**
 Gitt at robot tar opp et kort, skal robot utføre den bestemte handlingen til kortet.
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Roboten må bevege seg rett etter kortene som blir lagt ned
 * Må ta opp ett og ett kort i riktig rekkefølge
 
 #### Besøke flagg
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg at når jeg besøker riktig flagg i stigende rekkefølge vil jeg få nytt checkpoint og muligheten til å besøke nytt flagg.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Gitt at spilleren er på riktig flagg, vil roboten sitt checkpoint bli oppdatert.
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Når robot kommer på rett flagg (riktig rekkefølge) blir dette registrert
 
-####Lage grafikk for programkort
--Brukerhistorie:
+#### Lage grafikk for programkort
+**Brukerhistorie:**
 Spiller ønsker å se programkort for å spille Robo Rally.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Programkort må være synlig for spilleren.
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Implementere grafikk for programkort
 * Implementere ramme rundt spillebrettet
 * OnClick funksjonalitet
 
 #### Robot respawner på checkpoint
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg at når roboten til spilleren dør, bli plassert tilbake på siste checkpoint.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Gitt at robot dør skal robot bli plassert på sitt siste checkpoint. Dette er enten startposisjon, repairstation eller forrige besøkte flagg.
 
--Arbeidsoppgaver:
-*Oppdaterer hvilket checkpoint roboten har
+**Arbeidsoppgaver:**
+* Oppdaterer hvilket checkpoint roboten har
 * Spawner på riktig checkpoint
 * Spawner om ikke om ikke mer liv
 
 #### Kortstokk funksjonalitet
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg å velge kort for å bestemme robotens videre trekk
 
--Akseptansekrav:
+**Akseptansekrav:**
 Gitt et bestemt kort vil roboten gjøre en handling som samsvarer med hva funksjonaliteten til kortet sier.
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Kort gjør hva det forventes
 * Ha rett antall kort av forskjellige typer 
 * Riktig antall prioritetspoeng
 * Skade vil gjøre at spilleren blir gitt færre kort
 
 #### Få spilleranimasjon til å rotere
--Brukerhistorie:
+**Brukerhistorie:**
 Som spiller ønsker jeg å se at spilleranimasjonen roterer utifra det logiske objektets orientering.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Gitt at programkort, tannhjul eller transportbånd roterer robot, skal spilleranimasjonen rotere i samme retning
 
--Arbeidsoppgaver:
+**Arbeidsoppgaver:**
 * Høyre/venstre roterer, opp fremover
 * Spilleranimasjonen korresponderer til det logiske objektets orientering
 * Spilleranimasjonen skal rotere i retningen gitt av programkort
@@ -267,37 +267,41 @@ Gitt at programkort, tannhjul eller transportbånd roterer robot, skal spilleran
 * Spilleranimasjonen skal rotere i retningen gitt av tannhjul
 
 #### Lage klasse for vegg
--Brukerhistorie:
-Som spiller ønsker jeg en klasse for veggene på spillbrettet
+**Brukerhistorie:**
+Som spiller ønsker jeg vegger blokkerer lasere og hvor jeg kan gå, slik at jeg kan bruke dette til min fordel. 
 
--Akseptansekrav:
-Gitt at vi har en klasse for vegg, kan vi videre utvikle funksjonaliteten til vegger på spillbrettet
+**Akseptansekrav:**
+Vegger blokkerer roboter og lasere. Veggene med lasere på seg kan også fyre av disse.
 
--Arbeidsoppgaver:
-* Inneholde nødvendige felt
-* Inneholde nødvendige metoder
+**Arbeidsoppgaver:**
+* Når en robot ønsker å gjøre en bevegelse, kalkulere om dette er gyldig mht. retningen veggen blokkerer.
+* Representere om veggen har laser, og evt. om denne er dobbel. 
+* Lage metode for å trigge laser.
 
 #### Lage klasse for laser
--Brukerhistorie:
-Som spiller ønsker jeg å ha en klasse for laser
+**Brukerhistorie:**
+Som spiller ønsker jeg at lasere oppfører seg som forventet, slik at jeg kan forutsi hvilken strategi jeg skal bruke.
 
--Akseptansekrav:
-Gitt at vi har en klasse for laser, kan vi da lage funksjonalitet for laser
+**Akseptansekrav:**
+Lasere kan fyres av, strålen går i forventet retning og stopper ved første robot eller vegg, evt. kanten av banen.
 
--Arbeidsoppgaver:
-* Ha klasse for laser
-* Inneholder nødvendige felt og applikasjoner
+**Arbeidsoppgaver:**
+* Lage klasse for å representere laser
+* Lage metode for å finne stien laseren skal gå
+* Sørge for at laseren gir skade til eventuelle roboter den treffer.
+* Vise laserstrålen grafisk når den fyres av.
 
 #### Lage klasse for tannhjul
--Brukerhistorie:
-Som spiller ønsker jeg å lage en funksjon for tannhjul
+**Brukerhistorie:**
+Som spiller ønsker jeg at tannhjulet oppfører seg som forventet, slik at jeg kan bruke det til å forflytte meg på kartet.
 
--Akseptansekrav:
+**Akseptansekrav:**
 Gitt at robot står på et tannhjul, skal roboten rotere i retningen bestemt på tannhjulet.
 
--Arbeidsoppgaver:
-* Inneholde nødvendige felt
-* Inneholde nødvendige metoder
+**Arbeidsoppgaver:**
+* Lage klasse for å representere tannhjul
+* Sørge for at spilleren roteres i passende retning når spilleren står på tannhjulet
+
 ### Hovedkrav og MVP
 Vi følger fortsatt opprinnelig plan og rekkefølge for hvordan vi skal utvikle spillet. Etter å ha fått på plass minstekravene for at spillet skal fungere har vi nå satt oss nye krav og MVP for videre utvikling.
 Krav som vi ser på som MVP funksjonene ved denne innleveringen er de vi mener er viktigst for å få gjennomføre en fase. Derfor har vi lagt vekt på kort og kortfunksjonalitet, samt rundesystemet. Gi Robotens funksjonalitet på objekter på brettet.
@@ -320,7 +324,7 @@ Frem til nå har vi hatt høy fokus på back end utvikling med unntak av menu og
 # Deloppgave 3: Produktleveranse og kodekvalitet
 
 ### Bygge, teste og kjøre prosjekt
-Finner du i README.md
+Finner du i README.md. Legg merke til at du trenger et ekstra argument om du kjører Mac OS. 
 
 ### Klassediagram
 Klassediagram representerer utvalgte metoder vi anser som viktigst for å presentere spillet. Det finner du i Deliverables/UML.

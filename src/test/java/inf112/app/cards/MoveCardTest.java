@@ -14,12 +14,12 @@ import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class MoveCardTest {
-    MoveCard moveOne;
-    MoveCard moveTwo;
-    MoveCard moveThree;
-    MoveCard backUp;
-    Map map;
-    Robot robot;
+    private MoveCard moveOne;
+    private MoveCard moveTwo;
+    private MoveCard moveThree;
+    private MoveCard backUp;
+    private Map map;
+    private Robot robot;
     @Before
     public void setUp() throws Exception {
         moveOne = new MoveCard(150,1,null);

@@ -1,6 +1,5 @@
-package inf112.app.objects;
+package inf112.app.map;
 
-import inf112.app.map.Direction;
 import org.junit.Before;
 import org.junit.Test;
 

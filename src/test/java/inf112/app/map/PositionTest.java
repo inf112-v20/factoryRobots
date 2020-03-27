@@ -1,7 +1,5 @@
-package inf112.app.objects;
+package inf112.app.map;
 
-import inf112.app.map.Direction;
-import inf112.app.map.Position;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

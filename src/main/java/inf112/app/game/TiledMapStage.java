@@ -11,16 +11,13 @@ public class TiledMapStage extends Stage {
     private TiledMap tiledMap;
     private TiledMapTileLayer cardLayer;
     private CardUI cardUI;
-    private Stage buttonStage;
 
-
-    public TiledMapStage(Stage buttonStage){
+    public TiledMapStage(){
         cardUI = CardUI.getInstance();
         tiledMap = cardUI.getTiles();
 
         cardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Cards");
         createActor(cardLayer);
-        this.buttonStage = buttonStage;
     }
 
     private void createActor(TiledMapTileLayer layer){
@@ -37,15 +34,16 @@ public class TiledMapStage extends Stage {
         }
     }
 
+    private void instansiateButtons(){
+
+    }
+
     @Override
     public void act() {
         //Reset list of actors
         getActors().clear();
         //Refreshed list based on tiledmap
         createActor(cardLayer);
-        for(Actor actor : buttonStage.getActors()){
-            addActor(actor);
-        }
         super.act();
     }
 }

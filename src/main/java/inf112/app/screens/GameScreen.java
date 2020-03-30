@@ -6,13 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.cards.CardDeck;
 import inf112.app.game.*;
 import inf112.app.map.Map;
@@ -29,7 +25,6 @@ public class GameScreen implements Screen {
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthogonalTiledMapRenderer uiRenderer;
     private TiledMapStage tiledStage;
-    private Stage stage;
 
     private CardDeck deck;
 
@@ -73,8 +68,7 @@ public class GameScreen implements Screen {
         }
 
         //Initialize clicklistener
-        this.stage = stage;
-        tiledStage = new TiledMapStage(stage);
+        tiledStage = new TiledMapStage();
         Gdx.input.setInputProcessor(tiledStage);
         camera.setToOrtho(false, viewportWidth, viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
@@ -85,7 +79,7 @@ public class GameScreen implements Screen {
         camera.update();
 
         //Initialize clicklistener
-        tiledStage = new TiledMapStage(stage);
+        tiledStage = new TiledMapStage();
 
         tiledStage.addListener(new ClickListener() {
             @Override
@@ -107,16 +101,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        VisTable table = new VisTable();
-        table.setFillParent(true);
-        VisTextButton lockProgrammingButton = new VisTextButton("Lock programming");
-        lockProgrammingButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-            }
-        });
-        table.add(lockProgrammingButton).pad(3).height(60).width(350);
-        stage.addActor(table);
     }
 
     @Override
@@ -141,7 +125,6 @@ public class GameScreen implements Screen {
 
         uiRenderer.render();
         mapRenderer.render();
-        tiledStage.draw();
 
         //Remove previous robot positions
         cellMap.clearLayer(cellMap.getLayer("player"));

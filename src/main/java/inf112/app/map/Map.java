@@ -43,6 +43,8 @@ public class Map {
     private int laserTimer = 0;
     private boolean lasersActive = false;
 
+    private TiledMap gameButtons;
+
     /**
      * Create a init the Map object by map title
      * @param mapName Name of the map. Must be without extension and full path
@@ -56,6 +58,7 @@ public class Map {
         laserSprites = loader.load("assets/Lasers.tmx");
         initializeObjects();
 
+        gameButtons = loader.load("assets/GameButtons/Buttons.tmx");
     }
 
     /**
@@ -383,5 +386,9 @@ public class Map {
 
     public boolean checkIfAllRobotsReady(){
         return doneProgrammingCount == robotList.size();
+    }
+
+    public TiledMap getGameButtons() {
+        return gameButtons;
     }
 }

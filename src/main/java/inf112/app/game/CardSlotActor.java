@@ -5,13 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 
-public class TiledMapActor extends Actor {
+public class CardSlotActor extends Actor implements IActor {
 
     private TiledMapTileLayer.Cell cell;
 
     private CardSlot slot;
 
-    public TiledMapActor(TiledMapTileLayer.Cell cell, CardSlot slot) {
+    public CardSlotActor(TiledMapTileLayer.Cell cell, CardSlot slot) {
         this.cell = cell;
         this.slot = slot;
     }

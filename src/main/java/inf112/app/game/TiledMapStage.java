@@ -2,7 +2,6 @@ package inf112.app.game;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import inf112.app.cards.CardSlot;
@@ -25,7 +24,7 @@ public class TiledMapStage extends Stage {
             for(int y = 0; y < layer.getHeight(); y++){
                 TiledMapTileLayer.Cell cell = layer.getCell(x, y);
                 CardSlot slot = cardUI.getSlotFromCoordinates(x,y);
-                TiledMapActor actor = new TiledMapActor(cell, slot);
+                CardSlotActor actor = new CardSlotActor(cell, slot);
                 actor.setBounds(x, y*(1.5f), 1, 1.5f);  //height 1.5 since that is the cards ratio (400x600)
                 addActor(actor);                                        //*1.5f to compensate the stretch downward
                 EventListener eventListener = new TiledMapClickListener(actor);
@@ -34,7 +33,18 @@ public class TiledMapStage extends Stage {
         }
     }
 
-    private void instansiateButtons(){
+    private void instansiateButtons(TiledMapTileLayer layer){
+        boolean done = false;
+        int x = layer.getWidth() - 1;
+        while(!done){
+            TiledMapTileLayer.Cell cell = layer.getCell(x, 0);
+            GameButtonActor actor = new GameButtonActor(cell,"");
+            actor.setBounds(x,0,1,1.5f);
+            addActor(actor);
+            EventListener eventListener = new TiledMapClickListener(actor);
+            actor.addListener(eventListener);
+            x--;
+        }
 
     }
 

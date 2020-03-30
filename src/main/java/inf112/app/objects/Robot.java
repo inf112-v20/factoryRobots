@@ -55,6 +55,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         powerDown = false;
         laser = new Laser(this,false);
         isDead = false;
+        doneProgramming = false;
 
         initializeCardsSlots();
     }
@@ -367,13 +368,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }
-
    }
 
-
-
     public boolean doneProgramming(){
-        return doneProgramming;
+       map.incrementDoneProgramming();
+       return doneProgramming;
     }
 
     @Override

@@ -36,6 +36,7 @@ public class Map {
     private MapCellList cellList;
     private ArrayList<Robot> robotList;
     private CardDeck deck;
+    private int doneProgrammingCount = 0;
 
     private TiledMap laserSprites;
     private ArrayList<ILaserInteractor> laserObjects;
@@ -366,5 +367,21 @@ public class Map {
 
     public CardDeck getDeck(){
         return this.deck;
+    }
+
+    public void incrementDoneProgramming(){
+        doneProgrammingCount++;
+    }
+
+    public void resetDoneProgramming(){
+        doneProgrammingCount = 0;
+    }
+
+    public boolean checkForTimerActivation(){
+        return doneProgrammingCount == robotList.size()-1;
+    }
+
+    public boolean checkIfAllRobotsReady(){
+        return doneProgrammingCount == robotList.size();
     }
 }

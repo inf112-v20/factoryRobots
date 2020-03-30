@@ -2,6 +2,7 @@ package inf112.app.game;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import inf112.app.cards.CardSlot;
@@ -10,14 +11,16 @@ public class TiledMapStage extends Stage {
     private TiledMap tiledMap;
     private TiledMapTileLayer cardLayer;
     private CardUI cardUI;
+    private Stage buttonStage;
 
 
-    public TiledMapStage(){
+    public TiledMapStage(Stage buttonStage){
         cardUI = CardUI.getInstance();
         tiledMap = cardUI.getTiles();
 
         cardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Cards");
         createActor(cardLayer);
+        this.buttonStage = buttonStage;
     }
 
     private void createActor(TiledMapTileLayer layer){
@@ -40,6 +43,9 @@ public class TiledMapStage extends Stage {
         getActors().clear();
         //Refreshed list based on tiledmap
         createActor(cardLayer);
+        for(Actor actor : buttonStage.getActors()){
+            addActor(actor);
+        }
         super.act();
     }
 }

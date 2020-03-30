@@ -6,14 +6,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.cards.CardDeck;
-import inf112.app.game.CardUI;
-import inf112.app.game.RoboRally;
-import inf112.app.game.TiledMapStage;
+import inf112.app.game.*;
 import inf112.app.map.Map;
-import inf112.app.game.Player;
 import inf112.app.map.Position;
 import inf112.app.objects.Robot;
 
@@ -26,7 +28,8 @@ public class GameScreen implements Screen {
     private OrthographicCamera uiCam;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthogonalTiledMapRenderer uiRenderer;
-    private TiledMapStage stage;
+    private TiledMapStage tiledStage;
+    private Stage stage;
 
     private CardDeck deck;
 
@@ -39,7 +42,7 @@ public class GameScreen implements Screen {
     private Player player;
     private Robot testRobot;
 
-    public GameScreen(final RoboRally game){
+    public GameScreen(final RoboRally game, Stage stage){
         this.game = game;
 
         this.cellMap = Map.getInstance();
@@ -70,8 +73,9 @@ public class GameScreen implements Screen {
         }
 
         //Initialize clicklistener
-        stage = new TiledMapStage();
-        Gdx.input.setInputProcessor(stage);
+        this.stage = stage;
+        tiledStage = new TiledMapStage(stage);
+        Gdx.input.setInputProcessor(tiledStage);
         camera.setToOrtho(false, viewportWidth, viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
 
@@ -81,9 +85,9 @@ public class GameScreen implements Screen {
         camera.update();
 
         //Initialize clicklistener
-        stage = new TiledMapStage();
+        tiledStage = new TiledMapStage(stage);
 
-        stage.addListener(new ClickListener() {
+        tiledStage.addListener(new ClickListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 return player.keyUp(keycode);
@@ -97,13 +101,22 @@ public class GameScreen implements Screen {
         uiRenderer.setView(uiCam);
         //Setting the clicklistener to have the same frame as the renderers
 
-        stage.getViewport().setCamera(uiCam);
-        Gdx.input.setInputProcessor(stage);
+        tiledStage.getViewport().setCamera(uiCam);
+        Gdx.input.setInputProcessor(tiledStage);
     }
 
     @Override
     public void show() {
-
+        VisTable table = new VisTable();
+        table.setFillParent(true);
+        VisTextButton lockProgrammingButton = new VisTextButton("Lock programming");
+        lockProgrammingButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+            }
+        });
+        table.add(lockProgrammingButton).pad(3).height(60).width(350);
+        stage.addActor(table);
     }
 
     @Override
@@ -123,10 +136,12 @@ public class GameScreen implements Screen {
         game.batch.begin();
 
         updateRobots();
-        stage.act();
+        tiledStage.act();
+
 
         uiRenderer.render();
         mapRenderer.render();
+        tiledStage.draw();
 
         //Remove previous robot positions
         cellMap.clearLayer(cellMap.getLayer("player"));
@@ -138,6 +153,14 @@ public class GameScreen implements Screen {
             cellMap.incrementLaserTimer();
         }
         game.batch.end();
+        if(cellMap.checkForTimerActivation()){
+            // #TODO: Implement timer, and display it if player
+        }
+        if(cellMap.checkIfAllRobotsReady()){
+            Rounds round = new Rounds();
+            cellMap.resetDoneProgramming();
+            round.startRound();
+        }
     }
 
     private void updateRobot(Robot robot){
@@ -157,7 +180,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().setCamera(uiCam);
+        tiledStage.getViewport().setCamera(uiCam);
     }
 
     /**
@@ -186,7 +209,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        tiledStage.dispose();
         game.batch.dispose();
         uiRenderer.dispose();
         mapRenderer.dispose();

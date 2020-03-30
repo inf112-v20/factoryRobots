@@ -5,13 +5,14 @@ import inf112.app.map.Direction;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Stack;
 
 /**
  *
  * This class creates and holds an entire deck of cards.
  */
 public class CardDeck {
-    private ArrayList<ICard> deck;
+    private Stack<ICard> deck;
     private Texture[] textures;
 
     public CardDeck(){
@@ -40,7 +41,7 @@ public class CardDeck {
      * Resets the deck and 'unshuffles' them
      */
     public void reset() {
-        deck = new ArrayList<>();
+        deck = new Stack<>();
 
         //MOVE_ONE Cards:
         int point = 490;
@@ -111,7 +112,7 @@ public class CardDeck {
      * @param card A single card that is to be added back to the deck
      */
     public void addCard(ICard card){
-        deck.add(card);
+        deck.push(card);
     }
 
 
@@ -124,8 +125,7 @@ public class CardDeck {
     public ArrayList<ICard> getCards(int amount) {
         ArrayList<ICard> playerDeck = new ArrayList<>();
         for (int i = 0; i < amount; i ++) {
-            playerDeck.add(deck.get(i));
-            deck.remove(i);
+            playerDeck.add(deck.pop());
         }
         return playerDeck;
     }
@@ -135,9 +135,7 @@ public class CardDeck {
             System.out.println("Deck is empty");
             return null;
         }
-        ICard card = deck.get(0);
-        deck.remove(0);
-        return card;
+        return deck.pop();
     }
 
     public boolean isEmpty(){

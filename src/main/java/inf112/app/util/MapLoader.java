@@ -40,7 +40,7 @@ public class MapLoader extends AsynchronousAssetLoader<Map, MapLoader.Parameters
     @Override
     public Map loadSync(AssetManager assetManager, String mapName, FileHandle fileHandle, Parameters parameters) {
         Map.setInstance(game.manager.get("assets/" + mapName + ".tmx"),
-                game.manager.get("assets/Lasers.tmx"));
+                game.manager.get("assets/Lasers.tmx"), game.manager.get("assets/GameButtons/Buttons.tmx"));
         return Map.getInstance();
     }
 

@@ -10,13 +10,17 @@ public class TiledMapStage extends Stage {
     private TiledMap tiledMap;
     private TiledMapTileLayer cardLayer;
     private CardUI cardUI;
+    private TiledMapTileLayer buttonLayer;
 
     public TiledMapStage(){
         cardUI = CardUI.getInstance();
         tiledMap = cardUI.getTiles();
 
         cardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Cards");
+        buttonLayer = (TiledMapTileLayer) cardUI.getTiles().getLayers().get("Buttons");
+
         createActor(cardLayer);
+        instantiateButtons(buttonLayer);
     }
 
     private void createActor(TiledMapTileLayer layer){
@@ -33,17 +37,20 @@ public class TiledMapStage extends Stage {
         }
     }
 
-    private void instansiateButtons(TiledMapTileLayer layer){
+    private void instantiateButtons(TiledMapTileLayer layer){
         boolean done = false;
         int x = layer.getWidth() - 1;
+        String type = "powerdown";
         while(!done){
+            done = x == layer.getWidth() - 2;
             TiledMapTileLayer.Cell cell = layer.getCell(x, 0);
-            GameButtonActor actor = new GameButtonActor(cell,"");
+            GameButtonActor actor = new GameButtonActor(cell,layer,type,x,0);
             actor.setBounds(x,0,1,1.5f);
             addActor(actor);
             EventListener eventListener = new TiledMapClickListener(actor);
             actor.addListener(eventListener);
             x--;
+            type = "lockIn";
         }
 
     }
@@ -54,6 +61,7 @@ public class TiledMapStage extends Stage {
         getActors().clear();
         //Refreshed list based on tiledmap
         createActor(cardLayer);
+        instantiateButtons(buttonLayer);
         super.act();
     }
 }

@@ -19,4 +19,8 @@ public class TiledMapClickListener extends ClickListener {
             actor.clickAction();
         }
     }
+
+
+
+
 }

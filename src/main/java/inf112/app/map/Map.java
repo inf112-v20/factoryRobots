@@ -65,11 +65,11 @@ public class Map {
      * Create a init the Map object by TiledMap. Much faster if map is already loaded.
      * @param tiledMap The TiledMap object to init objects from
      */
-    public Map(TiledMap tiledMap, TiledMap laserSprites){
+    public Map(TiledMap tiledMap, TiledMap laserSprites, TiledMap gameButtons){
         this.map = tiledMap;
         this.laserSprites = laserSprites;
+        this.gameButtons = gameButtons;
         initializeObjects();
-
     }
 
     /**
@@ -236,9 +236,9 @@ public class Map {
      * @param tiledMap TiledMap to create a map instance from
      * @return true if cellMap was created and false if not.
      */
-    public static synchronized boolean setInstance(TiledMap tiledMap, TiledMap laserSprites){
+    public static synchronized boolean setInstance(TiledMap tiledMap, TiledMap laserSprites, TiledMap gameButtons){
         if (cellMap == null) {
-            cellMap = new Map(tiledMap, laserSprites);
+            cellMap = new Map(tiledMap, laserSprites, gameButtons);
             return true;
         }
         return false;

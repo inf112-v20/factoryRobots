@@ -48,7 +48,7 @@ public class LoadingGameScreen implements Screen {
         game.batch.end();
         game.manager.update();
         if (game.manager.isFinished()) { // Load some, will return true if done loading
-            game.setScreen(new GameScreen(game,stage));
+            game.setScreen(new GameScreen(game,viewport));
         }
 
         stage.act();

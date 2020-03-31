@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import inf112.app.cards.CardDeck;
 import inf112.app.game.*;
 import inf112.app.map.Map;
@@ -18,7 +18,8 @@ import inf112.app.objects.Robot;
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
-    final RoboRally game;
+    private final RoboRally game;
+    private StretchViewport viewport;
 
     private OrthographicCamera camera;
     private OrthographicCamera uiCam;
@@ -37,12 +38,14 @@ public class GameScreen implements Screen {
     private Player player;
     private Robot testRobot;
 
-    public GameScreen(final RoboRally game, Stage stage){
+    public GameScreen(final RoboRally game, StretchViewport viewport){
         this.game = game;
 
         this.cellMap = Map.getInstance();
         game.manager.unload(game.getMapName());
         game.manager.unload("assets/Lasers.tmx");
+
+        this.viewport = viewport;
 
         this.testRobot = new Robot(new Position(4,4),"player");
 
@@ -70,7 +73,8 @@ public class GameScreen implements Screen {
         //Initialize clicklistener
         tiledStage = new TiledMapStage();
         Gdx.input.setInputProcessor(tiledStage);
-        camera.setToOrtho(false, viewportWidth, viewPortHeight);
+
+        camera.setToOrtho(false, viewportWidth,viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
 
         //Set up cameras
@@ -89,7 +93,7 @@ public class GameScreen implements Screen {
         });
 
         //Initializing renderers
-        mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(), (1/tileSize));
+        mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(),1/tileSize);
         mapRenderer.setView(camera);
         uiRenderer = new OrthogonalTiledMapRenderer(ui.getTiles(), (1/400f)); //400f = card width
         uiRenderer.setView(uiCam);
@@ -114,7 +118,7 @@ public class GameScreen implements Screen {
 
         // tell the SpriteBatch to render in the
         // coordinate system specified by the camera.
-        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.setProjectionMatrix(uiCam.combined);
 
 
         game.batch.begin();
@@ -163,7 +167,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        tiledStage.getViewport().setCamera(uiCam);
+       tiledStage.resize(width,height);
+        //tiledStage.act();
     }
 
     /**

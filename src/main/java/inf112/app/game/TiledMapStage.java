@@ -1,5 +1,6 @@
 package inf112.app.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -14,6 +15,8 @@ public class TiledMapStage extends Stage {
     private float cardHeight = 1.5f;
     private float cardWidth = 1f;
 
+    private float heightRatio;
+
     public TiledMapStage(){
         cardUI = CardUI.getInstance();
         tiledMap = cardUI.getTiles();
@@ -23,6 +26,8 @@ public class TiledMapStage extends Stage {
 
         createActor(cardLayer);
         instantiateButtons(buttonLayer);
+
+        heightRatio = 1.5f/Gdx.graphics.getHeight();
     }
 
     private void createActor(TiledMapTileLayer layer){
@@ -69,7 +74,7 @@ public class TiledMapStage extends Stage {
 
     public void resize(int width, int height){
         cardWidth = width*0.001f;
-        cardHeight = height*0.0015f;
+        cardHeight = height*heightRatio;
     }
 
 }

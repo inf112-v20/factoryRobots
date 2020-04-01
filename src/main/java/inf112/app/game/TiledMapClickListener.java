@@ -5,9 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class TiledMapClickListener extends ClickListener {
 
-    private TiledMapActor actor;
+    private IActor actor;
 
-    public TiledMapClickListener(TiledMapActor actor) {
+    public TiledMapClickListener(IActor actor) {
         this.actor = actor;
     }
 
@@ -19,4 +19,8 @@ public class TiledMapClickListener extends ClickListener {
             actor.clickAction();
         }
     }
+
+
+
+
 }

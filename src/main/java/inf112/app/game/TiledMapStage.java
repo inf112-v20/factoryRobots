@@ -20,7 +20,7 @@ public class TiledMapStage extends Stage {
     private float heightRatio;
     private float widthRatio;
 
-    ArrayList<IActor> actors;
+    private ArrayList<IActor> actors;
 
     public TiledMapStage(){
         cardUI = CardUI.getInstance();
@@ -34,12 +34,10 @@ public class TiledMapStage extends Stage {
 
         heightRatio = 1.5f/Gdx.graphics.getHeight();
         widthRatio = 1f/Gdx.graphics.getWidth();
+
+        actors = new ArrayList<>();
     }
-
-    private void refreshActors(){
-
-    }
-
+    // # TODO: Refresh rather than create new actors
     private void createActor(TiledMapTileLayer layer){
         for(int x = 0; x < layer.getWidth(); x++) {
             for(int y = 0; y < layer.getHeight(); y++){
@@ -47,7 +45,7 @@ public class TiledMapStage extends Stage {
                 CardSlot slot = cardUI.getSlotFromCoordinates(x,y);
                 CardSlotActor actor = new CardSlotActor(cell, slot);
                 actor.setBounds(x*(cardWidth), y*(cardHeight), cardWidth, cardHeight);  //height 1.5 since that is the cards ratio (400x600)
-                addActor(actor);                                        //*1.5f to compensate the stretch downward
+                addActor(actor);                                            //*1.5f to compensate the stretch downward
                 EventListener eventListener = new TiledMapClickListener(actor);
                 actor.addListener(eventListener);
             }

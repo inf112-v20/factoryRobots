@@ -20,6 +20,10 @@ public class CardSlotActor extends Actor implements IActor {
         return cell;
     }
 
+    public void setCell(TiledMapTileLayer.Cell cell) {
+        this.cell = cell;
+    }
+
     public void clickAction() {
         if(slot == null){
             System.out.println("Slot is not initialized, something is very wrong");

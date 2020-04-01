@@ -80,9 +80,7 @@ public class GameScreen implements Screen {
             ui.addCardToSlot(deck.getCard(),"side",i);
         }
 
-        //Initialize clicklistener
-        tiledStage = new TiledMapStage();
-        Gdx.input.setInputProcessor(tiledStage);
+
 
         camera.setToOrtho(false, viewportWidth,viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
@@ -93,7 +91,7 @@ public class GameScreen implements Screen {
         camera.update();
 
         //Initialize clicklistener
-        tiledStage = new TiledMapStage();
+        tiledStage = new TiledMapStage(game);
 
         tiledStage.addListener(new ClickListener() {
             @Override
@@ -134,11 +132,13 @@ public class GameScreen implements Screen {
         camera.update();
         uiCam.update();
 
+        updateRobots();
+
         uiRenderer.render();
         mapRenderer.render();
 
         tiledStage.act();
-        updateRobots();
+
 
         game.batch.begin();
 
@@ -161,7 +161,7 @@ public class GameScreen implements Screen {
             cellMap.incrementLaserTimer();
         }
 
-        if(cellMap.checkForTimerActivation()){
+        if(cellMap.checkForTimerActivation() && !timerRunning){
             timerRunning = true;
             timer.start();
         }

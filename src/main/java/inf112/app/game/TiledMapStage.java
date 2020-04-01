@@ -10,6 +10,7 @@ import inf112.app.cards.CardSlot;
 import java.util.ArrayList;
 
 public class TiledMapStage extends Stage {
+    private final RoboRally game;
     private TiledMap tiledMap;
     private TiledMapTileLayer cardLayer;
     private CardUI cardUI;
@@ -22,7 +23,7 @@ public class TiledMapStage extends Stage {
 
     private ArrayList<IActor> actors;
 
-    public TiledMapStage(){
+    public TiledMapStage(RoboRally game){
         cardUI = CardUI.getInstance();
         tiledMap = cardUI.getTiles();
 
@@ -36,6 +37,7 @@ public class TiledMapStage extends Stage {
         widthRatio = 1f/Gdx.graphics.getWidth();
 
         actors = new ArrayList<>();
+        this.game = game;
     }
     // # TODO: Refresh rather than create new actors
     private void createActor(TiledMapTileLayer layer){
@@ -59,7 +61,7 @@ public class TiledMapStage extends Stage {
         while(!done){
             done = x == layer.getWidth() - 2;
             TiledMapTileLayer.Cell cell = layer.getCell(x, 0);
-            GameButtonActor actor = new GameButtonActor(cell,layer,type,x,0);
+            GameButtonActor actor = new GameButtonActor(cell,layer,type,x,0,this);
             actor.setBounds(x*cardWidth,0,cardWidth,cardHeight);
             addActor(actor);
             EventListener eventListener = new TiledMapClickListener(actor);
@@ -85,4 +87,7 @@ public class TiledMapStage extends Stage {
         cardHeight = height*heightRatio;
     }
 
+    public RoboRally getGame() {
+        return game;
+    }
 }

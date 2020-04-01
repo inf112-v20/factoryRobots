@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import inf112.app.cards.CardSlot;
 
+import java.util.ArrayList;
+
 public class TiledMapStage extends Stage {
     private TiledMap tiledMap;
     private TiledMapTileLayer cardLayer;
@@ -16,6 +18,9 @@ public class TiledMapStage extends Stage {
     private float cardWidth = 1f;
 
     private float heightRatio;
+    private float widthRatio;
+
+    ArrayList<IActor> actors;
 
     public TiledMapStage(){
         cardUI = CardUI.getInstance();
@@ -28,6 +33,11 @@ public class TiledMapStage extends Stage {
         instantiateButtons(buttonLayer);
 
         heightRatio = 1.5f/Gdx.graphics.getHeight();
+        widthRatio = 1f/Gdx.graphics.getWidth();
+    }
+
+    private void refreshActors(){
+
     }
 
     private void createActor(TiledMapTileLayer layer){
@@ -73,7 +83,7 @@ public class TiledMapStage extends Stage {
     }
 
     public void resize(int width, int height){
-        cardWidth = width*0.001f;
+        cardWidth = width*widthRatio;
         cardHeight = height*heightRatio;
     }
 

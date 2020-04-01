@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private final RoboRally game;
-    private StretchViewport viewport;
 
     private OrthographicCamera camera;
     private OrthographicCamera uiCam;
@@ -44,8 +43,6 @@ public class GameScreen implements Screen {
         this.cellMap = Map.getInstance();
         game.manager.unload(game.getMapName());
         game.manager.unload("assets/Lasers.tmx");
-
-        this.viewport = viewport;
 
         this.testRobot = new Robot(new Position(4,4),"player");
 

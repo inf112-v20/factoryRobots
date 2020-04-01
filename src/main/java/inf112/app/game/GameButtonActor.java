@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import inf112.app.map.Map;
 
-public class GameButtonActor extends Actor implements IActor {
+public class GameButtonActor extends ButtonActor {
 
     private TiledMapTileLayer.Cell buttonUp;
     private TiledMapTileLayer.Cell buttonDown;
@@ -26,6 +26,11 @@ public class GameButtonActor extends Actor implements IActor {
         this.x = x;
         this.y = y;
         this.stage = stage;
+    }
+
+    @Override
+    void setCell(TiledMapTileLayer.Cell cell) {
+        this.active = cell;
     }
 
     @Override

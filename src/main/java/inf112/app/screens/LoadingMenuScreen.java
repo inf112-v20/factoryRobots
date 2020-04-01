@@ -48,6 +48,7 @@ public class LoadingMenuScreen implements Screen {
         // Load the LaserSprite into the AssetManager
         // to optimize loading time in LoadingGameScreen
         game.manager.load("assets/Lasers.tmx", TiledMap.class);
+        game.manager.load("assets/GameButtons/Buttons.tmx",TiledMap.class);
 
     }
 

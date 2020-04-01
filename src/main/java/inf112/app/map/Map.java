@@ -36,11 +36,14 @@ public class Map {
     private MapCellList cellList;
     private ArrayList<Robot> robotList;
     private CardDeck deck;
+    private int doneProgrammingCount = 0;
 
     private TiledMap laserSprites;
     private ArrayList<ILaserInteractor> laserObjects;
     private int laserTimer = 0;
     private boolean lasersActive = false;
+
+    private TiledMap gameButtons;
 
     /**
      * Create a init the Map object by map title
@@ -55,17 +58,18 @@ public class Map {
         laserSprites = loader.load("assets/Lasers.tmx");
         initializeObjects();
 
+        gameButtons = loader.load("assets/GameButtons/Buttons.tmx");
     }
 
     /**
      * Create a init the Map object by TiledMap. Much faster if map is already loaded.
      * @param tiledMap The TiledMap object to init objects from
      */
-    public Map(TiledMap tiledMap, TiledMap laserSprites){
+    public Map(TiledMap tiledMap, TiledMap laserSprites, TiledMap gameButtons){
         this.map = tiledMap;
         this.laserSprites = laserSprites;
+        this.gameButtons = gameButtons;
         initializeObjects();
-
     }
 
     /**
@@ -232,9 +236,9 @@ public class Map {
      * @param tiledMap TiledMap to create a map instance from
      * @return true if cellMap was created and false if not.
      */
-    public static synchronized boolean setInstance(TiledMap tiledMap, TiledMap laserSprites){
+    public static synchronized boolean setInstance(TiledMap tiledMap, TiledMap laserSprites, TiledMap gameButtons){
         if (cellMap == null) {
-            cellMap = new Map(tiledMap, laserSprites);
+            cellMap = new Map(tiledMap, laserSprites, gameButtons);
             return true;
         }
         return false;
@@ -366,5 +370,25 @@ public class Map {
 
     public CardDeck getDeck(){
         return this.deck;
+    }
+
+    public void incrementDoneProgramming(){
+        doneProgrammingCount++;
+    }
+
+    public void resetDoneProgramming(){
+        doneProgrammingCount = 0;
+    }
+
+    public boolean checkForTimerActivation(){
+        return doneProgrammingCount == robotList.size()-1;
+    }
+
+    public boolean checkIfAllRobotsReady(){
+        return doneProgrammingCount == robotList.size();
+    }
+
+    public TiledMap getGameButtons() {
+        return gameButtons;
     }
 }

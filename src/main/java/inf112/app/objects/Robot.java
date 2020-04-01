@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
+import inf112.app.game.CardUI;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
@@ -153,7 +154,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
         //Loading and splitting player sprites
         Texture spriteMap = new Texture(path);
         TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
-
         //Assigning individual sprites
         normalPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
         loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
@@ -249,7 +249,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
             damageTokens = 0;
             isDead = lives <= 0;
         }
-        System.out.println("Damage tokens:" + damageTokens);
+        CardUI.getInstance().updateDamageTokens(damageTokens);
     }
 
     /**
@@ -281,6 +281,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void removeDamageTokens(int amount) {
         damageTokens -= amount;
         if (damageTokens < 0) damageTokens = 0;
+        CardUI.getInstance().updateDamageTokens(damageTokens);
     }
 
     public int getLives() { return lives; }

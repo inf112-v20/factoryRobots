@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="4" height="1" tilewidth="400" tileheight="600" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="4" height="1" tilewidth="400" tileheight="600" infinite="0" nextlayerid="3" nextobjectid="1">
  <tileset firstgid="1" source="../CardSet.tsx"/>
  <layer id="1" name="Buttons" width="4" height="1">
   <data encoding="csv">
 16,15,14,13
+</data>
+ </layer>
+ <layer id="2" name="Tokens" width="4" height="1">
+  <data encoding="csv">
+17,18,19,0
 </data>
  </layer>
 </map>

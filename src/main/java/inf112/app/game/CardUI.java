@@ -1,13 +1,16 @@
 package inf112.app.game;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
+import inf112.app.map.Map;
 
 
 public class CardUI {
     private TiledMap cardUI;
+    private TiledMapTileLayer damageTokens;
     private static CardUI instance;
 
     private CardSlot[] bottomCardSlots;
@@ -15,11 +18,14 @@ public class CardUI {
     //Used as a lookup table for the stage
     private CardSlot[][] lookupSlots;
     private Player user;
+    private TiledMapTileLayer cardUIButtonLayer;
 
 
     private CardUI(){
         TmxMapLoader loader = new TmxMapLoader();
         cardUI = loader.load("assets/CardUI2.tmx");
+        damageTokens = (TiledMapTileLayer) Map.getInstance().getGameButtons().getLayers().get("Tokens");
+        cardUIButtonLayer = (TiledMapTileLayer) cardUI.getLayers().get("Buttons");
     }
 
     public TiledMap getTiles() {
@@ -50,6 +56,24 @@ public class CardUI {
             CardSlot newSlot = new CardSlot(x,y,"side");
             sideCardSlots[i-1] = newSlot;
             lookupSlots[x][y] = newSlot;
+        }
+    }
+
+    public void initializeDamageTokens(){
+        for (int i = 0; i < 5; i++){
+            cardUIButtonLayer.setCell(i, 1, damageTokens.getCell(0,0));
+        }
+    }
+
+    public void updateDamageTokens(int tokens) {
+        initializeDamageTokens();
+        int amountDouble = tokens / 2;
+        boolean rest = (tokens % 2 == 1);
+        for (int i = 0; i < amountDouble; i++) {
+            cardUIButtonLayer.setCell(i, 1, damageTokens.getCell(2, 0));
+        }
+        if (rest) {
+            cardUIButtonLayer.setCell(amountDouble, 1, damageTokens.getCell(1, 0));
         }
     }
 

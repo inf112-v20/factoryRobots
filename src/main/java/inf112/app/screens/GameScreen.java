@@ -56,6 +56,7 @@ public class GameScreen implements Screen {
         //Initialize frame around board
         CardUI ui = CardUI.getInstance();
         ui.initializeCardSlots(game.getPlayer());
+        ui.initializeDamageTokens();
 
         //Create and shuffle deck
         deck = game.manager.get("deck");

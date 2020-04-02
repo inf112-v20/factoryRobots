@@ -76,4 +76,12 @@ public class CardSlot {
     public ICard getCard() {
         return card;
     }
+
+    public int getxCoord() {
+        return xCoord;
+    }
+
+    public int getyCoord() {
+        return yCoord;
+    }
 }

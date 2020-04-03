@@ -2,6 +2,8 @@ package inf112.app.game;
 
 import inf112.app.cards.ICard;
 import inf112.app.map.Map;
+import inf112.app.objects.IBoardElement;
+import inf112.app.objects.Laser;
 import inf112.app.objects.Robot;
 
 import java.util.ArrayList;
@@ -80,6 +82,7 @@ public class Rounds {
                    card.doAction(r);
                 }
             }
+
         }
         putBackPlayers();
     }

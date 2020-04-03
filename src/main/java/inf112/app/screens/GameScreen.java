@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 import inf112.app.cards.CardDeck;
 import inf112.app.game.*;
 import inf112.app.map.Map;
@@ -19,6 +22,8 @@ import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private final RoboRally game;
+    private Stage stage;
+    private StretchViewport viewport;
 
     private OrthographicCamera camera;
     private OrthographicCamera uiCam;
@@ -27,9 +32,14 @@ public class GameScreen implements Screen {
     private TiledMapStage tiledStage;
 
     private CardDeck deck;
+    private Rounds currentRound;
+
+    private boolean timerRunning = false;
+    private Timer timer;
 
     private final int laserTime = 30;
     private float tileSize = 300f;
+    private float cardWidth = 400f;
     private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
     private float initialCameraY;
 
@@ -37,8 +47,10 @@ public class GameScreen implements Screen {
     private Player player;
     private Robot testRobot;
 
-    public GameScreen(final RoboRally game, StretchViewport viewport){
+    public GameScreen(final RoboRally game, Stage stage, StretchViewport viewport){
         this.game = game;
+        this.stage = stage;
+        this.viewport = viewport;
 
         this.cellMap = Map.getInstance();
         game.manager.unload(game.getMapName());
@@ -63,14 +75,12 @@ public class GameScreen implements Screen {
         game.manager.unload("deck");
 
         cellMap.setDeck(deck);
-
+        //Cards for testing
         for(int i = 0; i<9; i++){
             ui.addCardToSlot(deck.getCard(),"side",i);
         }
 
-        //Initialize clicklistener
-        tiledStage = new TiledMapStage();
-        Gdx.input.setInputProcessor(tiledStage);
+
 
         camera.setToOrtho(false, viewportWidth,viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
@@ -81,7 +91,7 @@ public class GameScreen implements Screen {
         camera.update();
 
         //Initialize clicklistener
-        tiledStage = new TiledMapStage();
+        tiledStage = new TiledMapStage(game);
 
         tiledStage.addListener(new ClickListener() {
             @Override
@@ -93,16 +103,24 @@ public class GameScreen implements Screen {
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(),1/tileSize);
         mapRenderer.setView(camera);
-        uiRenderer = new OrthogonalTiledMapRenderer(ui.getTiles(), (1/400f)); //400f = card width
+        uiRenderer = new OrthogonalTiledMapRenderer(ui.getTiles(), (1/cardWidth));
         uiRenderer.setView(uiCam);
-        //Setting the clicklistener to have the same frame as the renderers
 
+        //Setting the clicklistener to have the same frame as the renderers
         tiledStage.getViewport().setCamera(uiCam);
+
         Gdx.input.setInputProcessor(tiledStage);
     }
 
     @Override
     public void show() {
+        stage.clear();
+        VisTable table = new VisTable();
+        table.setFillParent(true);
+        VisLabel label = new VisLabel("");
+        this.timer = new Timer(-1,label); //set count to float > 0 to test timer
+        table.add(label);
+        stage.addActor(table);
     }
 
     @Override
@@ -114,19 +132,24 @@ public class GameScreen implements Screen {
         camera.update();
         uiCam.update();
 
-        // tell the SpriteBatch to render in the
-        // coordinate system specified by the camera.
-        game.batch.setProjectionMatrix(uiCam.combined);
+        updateRobots();
+
+        uiRenderer.render();
+        mapRenderer.render();
+
+        tiledStage.act();
 
 
         game.batch.begin();
 
-        updateRobots();
-        tiledStage.act();
+        if(timerRunning){
+            timer.drawTime();
+        }
 
+        game.batch.end();
 
-        uiRenderer.render();
-        mapRenderer.render();
+        stage.act();
+        stage.draw();
 
         //Remove previous robot positions
         cellMap.clearLayer(cellMap.getLayer("player"));
@@ -137,14 +160,16 @@ public class GameScreen implements Screen {
         if(cellMap.lasersActive()){
             cellMap.incrementLaserTimer();
         }
-        game.batch.end();
-        if(cellMap.checkForTimerActivation()){
-            // #TODO: Implement timer, and display it if player
+
+        if(cellMap.checkForTimerActivation() && !timerRunning){
+            timerRunning = true;
+            timer.start();
         }
-        if(cellMap.checkIfAllRobotsReady()){
-            Rounds round = new Rounds();
+        if(cellMap.checkIfAllRobotsReady() || timer.done()){
+            currentRound = new Rounds();
             cellMap.resetDoneProgramming();
-            round.startRound();
+            timerRunning = false;
+            //currentRound.startRound();
         }
     }
 
@@ -166,7 +191,6 @@ public class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
        tiledStage.resize(width,height);
-        //tiledStage.act();
     }
 
     /**

@@ -5,19 +5,26 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 
-public class CardSlotActor extends Actor implements IActor {
+public class CardSlotActor extends ButtonActor {
 
     private TiledMapTileLayer.Cell cell;
 
     private CardSlot slot;
 
-    public CardSlotActor(TiledMapTileLayer.Cell cell, CardSlot slot) {
+    private TiledMapStage stage;
+
+    public CardSlotActor(TiledMapTileLayer.Cell cell, CardSlot slot, TiledMapStage stage) {
         this.cell = cell;
         this.slot = slot;
+        this.stage = stage;
     }
 
     public TiledMapTileLayer.Cell getCell() {
         return cell;
+    }
+
+    public void setCell(TiledMapTileLayer.Cell cell) {
+        this.cell = cell;
     }
 
     public void clickAction() {
@@ -35,6 +42,8 @@ public class CardSlotActor extends Actor implements IActor {
             System.out.println("All card slots are occupied");
             return;
         }
+        stage.getActorFromGrid(newSlot.getxCoord(), newSlot.getyCoord()).setCell(this.cell);
+        this.cell = null;
         ICard card = slot.removeCard();
         newSlot.addCard(card);
     }

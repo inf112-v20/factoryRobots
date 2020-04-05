@@ -1,16 +1,17 @@
 package inf112.app.game;
 
 import inf112.app.cards.ICard;
+import inf112.app.map.CellInventory;
 import inf112.app.map.Map;
-import inf112.app.objects.IBoardElement;
-import inf112.app.objects.Laser;
-import inf112.app.objects.Robot;
+import inf112.app.map.MapCell;
+import inf112.app.objects.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Rounds {
     private final ArrayList<Robot> robots;
+    private CellInventory inventory;
 
     public Rounds(){
         this.robots = Map.getInstance().getRobotList();
@@ -75,14 +76,25 @@ public class Rounds {
         for (int i = 0; i < slotOne.size(); i ++) {
             for (Robot r : robots) {
                 ICard card = r.getProgrammedCard(phaseNum);
-                if(card == null){
+                if (card == null) {
                     continue;
                 }
-                if (slotOne.get(i) == card.getPoint()){
-                   card.doAction(r);
+                if (slotOne.get(i) == card.getPoint()) {
+                    card.doAction(r);
                 }
             }
-
+            ArrayList<IBoardElement> contents = inventory.getElements();
+            for(IBoardElement elem : contents){
+                if (elem instanceof Laser) {
+                    ((Laser) elem).fire();
+                    contents.remove(elem);
+                }
+            }
+            for (Robot r : robots){
+                for(IBoardElement elem : contents){
+                    elem.doAction(r);
+                }
+            }
         }
         putBackPlayers();
     }

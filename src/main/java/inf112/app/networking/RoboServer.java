@@ -42,8 +42,8 @@ public class RoboServer extends Listener {
             Payload p = (Payload) object;
             System.out.println(p.message);
             if("q".equals(p.message)){
-                server.stop();
                 terminated = true;
+                server.stop();
             }
         }
     }

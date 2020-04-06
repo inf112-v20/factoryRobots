@@ -34,6 +34,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private CardSlot[] programmedCards;
     private boolean doneProgramming;
     private boolean hasLostLife;
+    private boolean powerDownNextRound;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -322,6 +323,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void setPowerDown(boolean powerDown) {
         this.powerDown = powerDown;
         damageTokens = 0;
+    }
+
+    public void setPowerDownNextRound(boolean powerDownNextRound){
+        this.powerDownNextRound = powerDownNextRound;
+    }
+
+    public boolean getPowerDownNextRound(){
+        return powerDownNextRound;
     }
 
     public boolean getPowerDown() { return powerDown; }

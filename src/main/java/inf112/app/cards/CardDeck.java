@@ -44,7 +44,7 @@ public class CardDeck {
         deck = new Stack<>();
 
         //MOVE_ONE Cards:
-        int point = 490;
+        int point = 520;
         for (int i = 1; i <= 18; i++) {
             deck.add(new MoveCard(point,1, textures[0]));
             point = point + 10;
@@ -52,7 +52,7 @@ public class CardDeck {
         }
 
         //MOVE_TWO Cards:
-        point = 670;
+        point = 710;
         for (int i = 1; i <= 12; i++) {
             deck.add(new MoveCard(point,2, textures[1]));
             point = point + 10;
@@ -60,7 +60,7 @@ public class CardDeck {
         }
 
         //MOVE_THREE Cards
-        point = 790;
+        point = 840;
         for (int i = 1; i <= 6; i++) {
             deck.add(new MoveCard(point, 3, textures[2]));
             point = point + 10;
@@ -68,7 +68,7 @@ public class CardDeck {
         }
 
         //BACKUP Cards
-        point = 430;
+        point = 450;
         for (int i = 1; i <= 6; i++) {
             deck.add(new MoveCard(point, true, textures[6]));
             point = point + 10;
@@ -76,7 +76,7 @@ public class CardDeck {
         }
 
         //ROTATE_LEFT Cards
-        point = 70;
+        point = 80;
         for (int i = 1; i <= 18; i++) {
             deck.add(new RotateCard(point, Direction.Rotation.LEFT, textures[3]));
             point = point + 20;

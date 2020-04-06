@@ -1,9 +1,7 @@
 package inf112.app.game;
 
 import inf112.app.cards.ICard;
-import inf112.app.map.CellInventory;
 import inf112.app.map.Map;
-import inf112.app.map.MapCell;
 import inf112.app.objects.*;
 
 import java.util.ArrayList;
@@ -11,10 +9,11 @@ import java.util.Collections;
 
 public class Rounds {
     private final ArrayList<Robot> robots;
-    private CellInventory inventory;
+    private Map map;
 
     public Rounds(){
         this.robots = Map.getInstance().getRobotList();
+        this.map = Map.getInstance();
     }
 
     public void startRound(){
@@ -63,36 +62,55 @@ public class Rounds {
 
     /**
      * method for doing the actions in rights order for each of the cards
+     * and triggering all the elements
      */
-    public void doPhase(int phaseNum){
-        ArrayList<Integer> slotOne = new ArrayList<>();
+    public void doPhase(int phaseNum) throws InterruptedException{
+        ArrayList<Integer> cardsFromSlot = new ArrayList<>();
         for (Robot r : robots){
             ICard card = r.getProgrammedCard(phaseNum);
             if(card!=null){
-                slotOne.add(card.getPoint());
+                cardsFromSlot.add(card.getPoint());
             }
         }
-        Collections.sort(slotOne, Collections.reverseOrder());
-        for (int i = 0; i < slotOne.size(); i ++) {
+        Collections.sort(cardsFromSlot, Collections.reverseOrder());
+        for (int i = 0; i < cardsFromSlot.size(); i ++) {
             for (Robot r : robots) {
                 ICard card = r.getProgrammedCard(phaseNum);
                 if (card == null) {
                     continue;
                 }
-                if (slotOne.get(i) == card.getPoint()) {
+                if (cardsFromSlot.get(i) == card.getPoint()) {
                     card.doAction(r);
                 }
             }
-            ArrayList<IBoardElement> contents = inventory.getElements();
-            for(IBoardElement elem : contents){
-                if (elem instanceof Laser) {
-                    ((Laser) elem).fire();
-                    contents.remove(elem);
+            for (Robot r : robots) {
+                Conveyor conveyor = Conveyor.extractConveyorFromCell(r.getPos());
+                if (conveyor != null) {
+                    conveyor.doAction(r);
                 }
             }
             for (Robot r : robots){
+                ArrayList<IBoardElement> contents = map.getCellList().getCell(r.getPos()).getInventory().getElements();
                 for(IBoardElement elem : contents){
-                    elem.doAction(r);
+                    if (elem instanceof Conveyor){
+                        continue;
+                    }else if (elem instanceof Laser){
+                        continue;
+                    }else{
+                        elem.doAction(r);
+                    }
+                }
+            }
+            Thread.sleep(1000);
+            map.fireLasers();
+            if (phaseNum == 5){
+                for (Robot r : robots){
+                    if (r.getPowerDownNextRound()){
+                        r.setPowerDown(true);
+                        r.setPowerDownNextRound(false);
+                    }else{
+                        r.setPowerDown(false);
+                    }
                 }
             }
         }

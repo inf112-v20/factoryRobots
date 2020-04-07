@@ -21,7 +21,7 @@ public class GameButtonActor extends ButtonActor {
         this.layer = layer;
         this.type = type;
         int index = "powerdown".equals(type) ? 1 : 3;
-        TiledMapTileLayer buttons = (TiledMapTileLayer) Map.getInstance().getGameButtons().getLayers().get(0);
+        TiledMapTileLayer buttons = CardUI.getInstance().getUiButtons();
         buttonDown = buttons.getCell(index,0);
         this.x = x;
         this.y = y;

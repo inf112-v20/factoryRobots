@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * on the board
  */
 public class Robot implements ILaserInteractor, IBoardElement {
-    private Map map;
     private Position pos;
     private Vector2 vectorPos;
     private Flag lastVisited;
@@ -41,14 +40,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private TiledMapTileLayer.Cell loosingPlayer;
 
     public Robot(Position pos, String charName){
-        this.map = Map.getInstance();
-
         this.pos = pos;
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
 
         loadPlayerSprites(charName);
 
-        map.registerRobot(this);
+        Map.getInstance().registerRobot(this);
 
         lastVisited = null;
         damageTokens = 0;
@@ -91,9 +88,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void move(Direction dir){
         Position copy = pos.copyOf();
         copy.setDirection(dir);
-        boolean valid = map.validMove(copy);
+        boolean valid = Map.getInstance().validMove(copy);
         copy.moveInDirection();
-        if(valid && map.robotInTile(copy) == null) {
+        if(valid && Map.getInstance().robotInTile(copy) == null) {
             updatePosition(this,dir);
         }
     }
@@ -168,7 +165,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      public boolean moveAndPush(Robot r, Direction dir) {
          Position newPos = r.getPos().copyOf();
          newPos.setDirection(dir);
-         if(map.validMove(newPos)) {
+         if(Map.getInstance().validMove(newPos)) {
              newPos.moveInDirection();
              IBoardElement nextCell = checkContentOfCell(newPos);
              if (nextCell == null || nextCell instanceof Wall) {
@@ -199,8 +196,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
          robot.getPos().setDirection(dir);
          robot.getPos().moveInDirection();
          robot.getPos().setDirection(old);
-         map.getCellList().getCell(oldPos).getInventory().getElements().remove(robot);
-         map.getCellList().getCell(robot.getPos()).getInventory().addElement(robot);
+         Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(robot);
+         Map.getInstance().getCellList().getCell(robot.getPos()).getInventory().addElement(robot);
          vectorPos.set(robot.getPos().getXCoordinate(), robot.getPos().getYCoordinate());
      }
 
@@ -211,7 +208,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @return The element found in the cell, either a robot or a wall
      */
     public IBoardElement checkContentOfCell(Position position) {
-        ArrayList<IBoardElement> newCell = map.getCellList().getCell(position).getInventory().getElements();
+        ArrayList<IBoardElement> newCell = Map.getInstance().getCellList().getCell(position).getInventory().getElements();
         IBoardElement elem = null;
         for (IBoardElement e : newCell) {
             if(e instanceof Robot){
@@ -372,7 +369,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
    }
 
     public boolean doneProgramming(){
-       map.incrementDoneProgramming();
+       Map.getInstance().incrementDoneProgramming();
        return doneProgramming;
     }
 

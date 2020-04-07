@@ -7,9 +7,11 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import inf112.app.cards.CardDeck;
+import inf112.app.game.CardUI;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 import inf112.app.util.CardDeckLoader;
+import inf112.app.util.CardUILoader;
 import inf112.app.util.MapLoader;
 
 public class LoadingGameScreen implements Screen {
@@ -29,7 +31,9 @@ public class LoadingGameScreen implements Screen {
         // Load the deck in the background
         game.manager.setLoader(CardDeck.class, new CardDeckLoader(new InternalFileHandleResolver()));
         game.manager.load("deck",CardDeck.class);
-
+        // Load the CardUI in the background
+        game.manager.setLoader(CardUI.class, new CardUILoader(new InternalFileHandleResolver(), this.game));
+        game.manager.load("cardUI",CardUI.class);
     }
 
     @Override

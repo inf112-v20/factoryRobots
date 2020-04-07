@@ -17,7 +17,7 @@ public class CardSlot {
         xCoord = x;
         yCoord = y;
         CardUI cardUI = CardUI.getInstance();
-        cardLayer = (TiledMapTileLayer) cardUI.getTiles().getLayers().get("Cards");
+        cardLayer = (TiledMapTileLayer) cardUI.getCardUITiles().getLayers().get("Cards");
         this.position = position;
         this.isLocked = false;
         noUI = false;

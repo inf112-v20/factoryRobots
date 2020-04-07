@@ -87,7 +87,7 @@ public class RoboRally extends Game {
         return this.mapName;
     }
     public void setMap(String name){
-        Map.setInstance(name);
+       // Map.setInstance(name);
     }
     public void setPlayer(int x, int y){
         player = new Player(x, y);

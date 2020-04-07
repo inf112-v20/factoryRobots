@@ -11,6 +11,8 @@ import inf112.app.map.Map;
 public class CardUI {
     private TiledMap cardUI;
     private TiledMapTileLayer damageTokens;
+    private TiledMapTileLayer uiButtons;
+    private TiledMapTileLayer laserSprites;
     private static CardUI instance;
 
     private CardSlot[] bottomCardSlots;
@@ -18,18 +20,27 @@ public class CardUI {
     //Used as a lookup table for the stage
     private CardSlot[][] lookupSlots;
     private Player user;
-    private TiledMapTileLayer cardUIButtonLayer;
+    private TiledMapTileLayer buttonApplicationLayer;
 
 
     private CardUI(){
         TmxMapLoader loader = new TmxMapLoader();
         cardUI = loader.load("assets/CardUI2.tmx");
-        damageTokens = (TiledMapTileLayer) Map.getInstance().getGameButtons().getLayers().get("Tokens");
-        cardUIButtonLayer = (TiledMapTileLayer) cardUI.getLayers().get("Buttons");
+        //damageTokens = (TiledMapTileLayer) Map.getInstance().getGameButtons().getLayers().get("Tokens");
+        buttonApplicationLayer = (TiledMapTileLayer) cardUI.getLayers().get("Buttons");
     }
 
-    public TiledMap getTiles() {
-        return cardUI;
+    private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites){
+        this.cardUI = cardUI;
+        damageTokens = (TiledMapTileLayer) buttons.getLayers().get("Tokens");
+        uiButtons = (TiledMapTileLayer) buttons.getLayers().get("Buttons");
+        buttonApplicationLayer = (TiledMapTileLayer) cardUI.getLayers().get("Buttons");
+        this.laserSprites = (TiledMapTileLayer) laserSprites.getLayers().get("Laser");
+    }
+
+    public static CardUI setInstance(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites){
+        instance = new CardUI(cardUI,buttons,laserSprites);
+        return instance;
     }
 
     public static CardUI getInstance(){
@@ -37,6 +48,10 @@ public class CardUI {
             instance = new CardUI();
         }
         return instance;
+    }
+
+    public TiledMap getCardUITiles() {
+        return cardUI;
     }
 
     public void initializeCardSlots(Player player){
@@ -61,7 +76,7 @@ public class CardUI {
 
     public void initializeDamageTokens(){
         for (int i = 0; i < 5; i++){
-            cardUIButtonLayer.setCell(i, 1, damageTokens.getCell(0,0));
+            buttonApplicationLayer.setCell(i, 1, damageTokens.getCell(0,0));
         }
     }
 
@@ -70,10 +85,10 @@ public class CardUI {
         int amountDouble = tokens / 2;
         boolean rest = (tokens % 2 == 1);
         for (int i = 0; i < amountDouble; i++) {
-            cardUIButtonLayer.setCell(i, 1, damageTokens.getCell(2, 0));
+            buttonApplicationLayer.setCell(i, 1, damageTokens.getCell(2, 0));
         }
         if (rest) {
-            cardUIButtonLayer.setCell(amountDouble, 1, damageTokens.getCell(1, 0));
+            buttonApplicationLayer.setCell(amountDouble, 1, damageTokens.getCell(1, 0));
         }
     }
 
@@ -114,5 +129,13 @@ public class CardUI {
             }
         }
         return null;
+    }
+
+    public TiledMapTileLayer getUiButtons() {
+        return uiButtons;
+    }
+
+    public TiledMapTileLayer getLaserSprites() {
+        return laserSprites;
     }
 }

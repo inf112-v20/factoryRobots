@@ -23,10 +23,10 @@ public class TiledMapStage extends Stage {
 
     public TiledMapStage(RoboRally game){
         cardUI = CardUI.getInstance();
-        tiledMap = cardUI.getTiles();
+        tiledMap = cardUI.getCardUITiles();
 
         cardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Cards");
-        buttonLayer = (TiledMapTileLayer) cardUI.getTiles().getLayers().get("Buttons");
+        buttonLayer = (TiledMapTileLayer) cardUI.getCardUITiles().getLayers().get("Buttons");
 
         actorGrid = new ButtonActor[cardLayer.getWidth()][cardLayer.getHeight()];
 

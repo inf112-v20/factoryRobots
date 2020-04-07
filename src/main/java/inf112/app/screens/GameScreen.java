@@ -103,7 +103,7 @@ public class GameScreen implements Screen {
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(),1/tileSize);
         mapRenderer.setView(camera);
-        uiRenderer = new OrthogonalTiledMapRenderer(ui.getTiles(), (1/cardWidth));
+        uiRenderer = new OrthogonalTiledMapRenderer(ui.getCardUITiles(), (1/cardWidth));
         uiRenderer.setView(uiCam);
 
         //Setting the clicklistener to have the same frame as the renderers

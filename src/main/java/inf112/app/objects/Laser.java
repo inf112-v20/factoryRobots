@@ -1,6 +1,7 @@
 package inf112.app.objects;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import inf112.app.game.CardUI;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.MapCell;
@@ -38,15 +39,14 @@ public class Laser {
 
        //Laser should start on the same cell as the owner
        path.add(map.getCellList().getCell(laserBeam));
-       laserBeam.moveInDirection();
 
        while (map.validMove(laserBeam)) {
+           laserBeam.moveInDirection();
            MapCell current = map.getCellList().getCell(laserBeam);
            path.add(current);
            if(map.robotInTile(current.getPosition()) != null){
                break;
            }
-           laserBeam.moveInDirection();
        }
        return path;
    }
@@ -68,7 +68,7 @@ public class Laser {
        } else {
            index = (!isDouble) ? 1 : 3;
        }
-       TiledMapTileLayer sourceLayer = (TiledMapTileLayer) map.getLaserSprites().getLayers().get(0);
+       TiledMapTileLayer sourceLayer = CardUI.getInstance().getLaserSprites();
        for(MapCell cell : path){
            Position pos = cell.getPosition();
            TiledMapTileLayer.Cell laser = sourceLayer.getCell(index,0);

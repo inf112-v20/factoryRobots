@@ -3,6 +3,7 @@ package inf112.app.networking;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import inf112.app.objects.Robot;
 
 import java.io.IOException;
 
@@ -15,10 +16,10 @@ public class RoboClient extends Listener {
         client = new Client();
 
         client.getKryo().register(Payload.class);
+        client.getKryo().register(Robot.class);
 
         client.start();
-        client.connect(5000,ip,tcpPort);
-
+        client.connect(5000, ip, tcpPort);
         client.addListener(this);
 
     }

@@ -22,12 +22,20 @@ public class CardUI {
     private Player user;
     private TiledMapTileLayer buttonApplicationLayer;
 
-
+    /**
+     * Constructor used only for testing
+     */
     private CardUI(){
         TmxMapLoader loader = new TmxMapLoader();
         cardUI = loader.load("assets/CardUI2.tmx");
-        //damageTokens = (TiledMapTileLayer) Map.getInstance().getGameButtons().getLayers().get("Tokens");
         buttonApplicationLayer = (TiledMapTileLayer) cardUI.getLayers().get("Buttons");
+
+        TiledMap buttons = loader.load("assets/GameButtons/Buttons.tmx");
+        damageTokens = (TiledMapTileLayer) buttons.getLayers().get("Tokens");
+        uiButtons = (TiledMapTileLayer) buttons.getLayers().get("Buttons");
+
+        TiledMap lasers = loader.load("assets/Lasers.tmx");
+        laserSprites = (TiledMapTileLayer) lasers.getLayers().get("Laser");
     }
 
     private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites){

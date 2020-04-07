@@ -20,19 +20,27 @@ import java.util.ArrayList;
  * on the board
  */
 public class Robot implements ILaserInteractor, IBoardElement {
+    private int id;
     private Position pos;
     private Vector2 vectorPos;
+
     private Flag lastVisited;
+
     private Laser laser;
+
     private int damageTokens;
     private int lives;
-    private boolean powerDown;
     private boolean isDead;
+    private boolean hasLostLife;
+
+    private boolean powerDown;
+
     private Position checkPoint;
+
     private CardSlot[] availableCards;
     private CardSlot[] programmedCards;
+
     private boolean doneProgramming;
-    private boolean hasLostLife;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
@@ -56,6 +64,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         doneProgramming = false;
 
         initializeCardsSlots();
+        id = -1;
     }
 
     private void initializeCardsSlots(){
@@ -384,5 +393,17 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public CardSlot[] getProgrammedCards() {
         return programmedCards;
+    }
+
+    public boolean assignID(int id){
+       if(this.id == -1){
+           this.id = id;
+           return true;
+       }
+       return false;
+    }
+
+    public int getID(){
+       return id;
     }
 }

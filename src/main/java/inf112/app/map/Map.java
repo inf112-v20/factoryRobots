@@ -331,4 +331,8 @@ public class Map {
         return doneProgrammingCount == robotList.size();
     }
 
+    public void setRobotList(ArrayList<Robot> robotList){
+        this.robotList = robotList;
+    }
+
 }

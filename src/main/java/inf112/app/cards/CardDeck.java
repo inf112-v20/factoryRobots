@@ -138,6 +138,16 @@ public class CardDeck {
         return deck.pop();
     }
 
+    public ICard getCard(int priority){
+        for(ICard card : deck){
+            if(card.getPoint() == priority){
+                deck.remove(card);
+                return card;
+            }
+        }
+        return null;
+    }
+
     public boolean isEmpty(){
         return deck.isEmpty();
     }

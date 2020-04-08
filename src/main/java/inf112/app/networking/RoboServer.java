@@ -4,10 +4,16 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.kryonet.rmi.ObjectSpace;
+import inf112.app.cards.CardDeck;
 import inf112.app.map.Map;
+import inf112.app.map.Position;
+import inf112.app.networking.packets.Payload;
+import inf112.app.networking.packets.RobotListPacket;
+import inf112.app.networking.packets.RobotPacket;
 import inf112.app.objects.Robot;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class RoboServer extends Listener {
     private static final int MAX_PLAYER_AMOUNT = 8;
@@ -17,46 +23,51 @@ public class RoboServer extends Listener {
 
     private ServerState state;
     private boolean terminated = false;
-    private int nextAvailableRobotID;
 
     private ObjectSpace objectSpace;
-    private Connection[] clients;
+
+    private HashMap<Integer, Robot> robotMap;
 
     private Map map;
+    private CardDeck deck = new CardDeck();
+
+    private String[] robotNames = new String[]{"","","","","","","",""};
+    private Position[] spawnPoints = new Position[MAX_PLAYER_AMOUNT];
 
     public RoboServer() {
         server = new Server();
         System.out.println("Launching server..");
 
         server.getKryo().register(Payload.class);
-        server.getKryo().register(Robot.class);
+        server.getKryo().register(RobotListPacket.class);
 
         try {
             server.bind(tcpPort);
         } catch (IOException e) {
+            //Should never happen
             System.out.println("Invalid port, binding the server failed:\n" + e.getMessage());
         }
-
 
         server.start();
 
         server.addListener(this);
-       // map = Map.getInstance();
-        nextAvailableRobotID = 0;
-        nPlayers = 8;
+        nPlayers = 0;
 
         ObjectSpace.registerClasses(server.getKryo());
         objectSpace = new ObjectSpace();
-        clients = new Connection[MAX_PLAYER_AMOUNT];
+
+        robotMap = new HashMap<>(MAX_PLAYER_AMOUNT);
+
         state = ServerState.LOBBY;
     }
 
     @Override
     public void connected(Connection connection) {
         Payload reply = new Payload();
+        //Need to register nevertheless as disconnect can't distinguish accepted and rejected connections
+        registerNewConnection(connection);
         //Only accept if not full and game hasn't started
         if(state == ServerState.LOBBY && nPlayers < MAX_PLAYER_AMOUNT){
-            registerNewConnection(connection);
             reply.message = "Successfully joined the server!";
             connection.sendTCP(reply);
         } else {
@@ -71,6 +82,7 @@ public class RoboServer extends Listener {
     public void disconnected(Connection connection) {
         System.out.println("A client disconnected");
         objectSpace.removeConnection(connection);
+        nPlayers--;
     }
 
     @Override
@@ -82,21 +94,43 @@ public class RoboServer extends Listener {
                 case "q":
                     terminated = true;
                     server.stop();
-                    break;
+                    System.exit(0);
                 default: assert true; //do nothing
-            }
-        } else if (object instanceof Robot){ //Rather assign the clients a robot when sending the robotlist
-            if (state == ServerState.LOBBY){
-                Robot r = (Robot) object;
-                processNewRobot(connection,r);
-            } else {
-                Payload reply = new Payload();
-                reply.message = "Can not register new Robot at this time";
-                connection.sendTCP(reply);
             }
         }
     }
 
+    private void interpretPayload(Connection connection, Payload payload){
+        String[] split = payload.message.split(" ");
+        if(split.length == 0){
+            System.out.println("Empty payload");
+            return;
+        }
+        try {
+            switch (split[0].toLowerCase()) {
+                default:
+                    break;
+            }
+        } catch (NumberFormatException e){
+            System.out.println("Move message contains invalid id\n" + e.getMessage());
+            connection.close();
+            return;
+        }
+    }
+
+    private boolean updateRobot(Connection connection, RobotPacket robot){
+        Robot unwrapped = robot.robot;
+        if(unwrapped.getID() == connection.getID()){
+            System.out.println("Robot doesn't belong to the client");
+            return false;
+        }
+        if(robotMap.get(connection.getID()) == null){
+            System.out.println("Robot not registered");
+            return false;
+        }
+        robotMap.put(connection.getID(),unwrapped);
+        return true;
+    }
 
     @Override
     public void idle(Connection connection) {
@@ -104,37 +138,42 @@ public class RoboServer extends Listener {
 
     private void registerNewConnection(Connection connection){
         objectSpace.addConnection(connection);
-        clients[nextAvailableRobotID] = connection;
 
         Payload reply = new Payload();
-        reply.message = "id " + nextAvailableRobotID;
+        reply.message = "id " + connection.getID();
         connection.sendTCP(reply);
-        
-        nextAvailableRobotID++;
+
         nPlayers++;
     }
-
+/*
     private void processNewRobot(Connection connection, Robot r){
         map.registerRobot(r);
-
-        //Assigning robotID server side
-        if(r.assignID(nextAvailableRobotID)){
-            nextAvailableRobotID++;
-            nPlayers++;
-        }
         //Registering connection and remote robot
         objectSpace.register(r.getID(),r);
-
         //Assign the client robot it's ID as well
         ObjectSpace.getRemoteObject(connection,r.getID(),Robot.class).assignID(r.getID());
-    }
+    } */
 
-    private void launchGame(){
+    private void launchGame(String mapName){
         state = ServerState.GAME;
-        //assign robots spawnpoints
+        //Create and process robots, assign spawn points
+        Robot[] robotList = new Robot[nPlayers];
+        int i = 0;
+        for(Connection c : server.getConnections()){
+            Robot robot = new Robot(spawnPoints[i],robotNames[i]);
+            robotMap.put(c.getID(),robot);
+            robot.assignID(c.getID());
+            robotList[i++] = robot;
+        }
+        //send mapname to all clients so they can load
+        Payload mapInfo = new Payload();
+        mapInfo.message = "map " + mapName;
+        server.sendToAllTCP(mapInfo);
 
-
-
+        //send list of robots
+        RobotListPacket robots = new RobotListPacket();
+        robots.list = robotList;
+        server.sendToAllTCP(robots);
     }
 
     public static void main(String[] args) throws Exception{

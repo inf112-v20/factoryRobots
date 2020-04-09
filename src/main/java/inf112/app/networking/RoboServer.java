@@ -5,14 +5,16 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.kryonet.rmi.ObjectSpace;
 import inf112.app.cards.CardDeck;
+import inf112.app.cards.ICard;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
 import inf112.app.networking.packets.Payload;
 import inf112.app.networking.packets.RobotListPacket;
-import inf112.app.networking.packets.RobotPacket;
 import inf112.app.objects.Robot;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class RoboServer extends Listener {
@@ -29,7 +31,8 @@ public class RoboServer extends Listener {
     private HashMap<Integer, Robot> robotMap;
 
     private Map map;
-    private CardDeck deck = new CardDeck();
+    private CardDeck deck;
+    private HashMap<Integer,ICard> usedCards;
 
     private String[] robotNames = new String[]{"","","","","","","",""};
     private Position[] spawnPoints = new Position[MAX_PLAYER_AMOUNT];
@@ -59,6 +62,8 @@ public class RoboServer extends Listener {
         robotMap = new HashMap<>(MAX_PLAYER_AMOUNT);
 
         state = ServerState.LOBBY;
+        deck = new CardDeck();
+        usedCards = new HashMap<>(deck.getSize());
     }
 
     @Override
@@ -106,8 +111,14 @@ public class RoboServer extends Listener {
             System.out.println("Empty payload");
             return;
         }
+
         try {
             switch (split[0].toLowerCase()) {
+                case "prog":
+                    registerProgramming(connection, Arrays.copyOfRange(split,1,split.length));
+                    break;
+                case "rem":
+                    registerUnusedCards(connection, Arrays.copyOfRange(split,1,split.length));
                 default:
                     break;
             }
@@ -118,18 +129,59 @@ public class RoboServer extends Listener {
         }
     }
 
-    private boolean updateRobot(Connection connection, RobotPacket robot){
-        Robot unwrapped = robot.robot;
-        if(unwrapped.getID() == connection.getID()){
-            System.out.println("Robot doesn't belong to the client");
-            return false;
+    /**
+     * Used when robots have locked in their programming and pass it to the server
+     * @param connection
+     * @param priorities
+     */
+    private void registerProgramming(Connection connection, String[] priorities){
+        Robot robot = robotMap.get(connection.getID());
+        for(int i = 0; i < priorities.length; i++){
+            try {
+                ICard card = usedCards.get(Integer.parseInt(priorities[i]));
+                robot.setProgrammedCard(i, card);
+            } catch (NumberFormatException e){
+                System.out.println("Couldn't parse priority\n" + e.getMessage());
+            }
         }
-        if(robotMap.get(connection.getID()) == null){
-            System.out.println("Robot not registered");
-            return false;
+    }
+
+    /**
+     * Used when robots have passed their programming and want to return
+     * the cards remaining in their possession
+     * @param connection
+     * @param priorities
+     */
+    private void registerUnusedCards(Connection connection, String[] priorities){
+        for(String s : priorities){
+            int priority = Integer.parseInt(s);
+            ICard card = usedCards.get(priority);
+            if(card == null){
+                System.out.println("Priority doesn't match, possible cheater");
+                connection.close();
+                return;
+            }
+            deck.addCard(card);
+            usedCards.remove(priority);
         }
-        robotMap.put(connection.getID(),unwrapped);
-        return true;
+    }
+
+    /**
+     * Used at the start of the round when distributing cards to the clients
+     */
+    private void handOutCards(){
+        for(Connection c : server.getConnections()){
+            // # TODO : Handle empty card deck
+            ArrayList<ICard> cards = deck.getCards(9);
+            String message = "cards ";
+            for(ICard card : cards){
+                usedCards.put(card.getPoint(),card);
+                message += card.getPoint() + " ";
+            }
+            Payload payload = new Payload();
+            payload.message = message;
+            c.sendTCP(payload);
+        }
     }
 
     @Override
@@ -145,14 +197,6 @@ public class RoboServer extends Listener {
 
         nPlayers++;
     }
-/*
-    private void processNewRobot(Connection connection, Robot r){
-        map.registerRobot(r);
-        //Registering connection and remote robot
-        objectSpace.register(r.getID(),r);
-        //Assign the client robot it's ID as well
-        ObjectSpace.getRemoteObject(connection,r.getID(),Robot.class).assignID(r.getID());
-    } */
 
     private void launchGame(String mapName){
         state = ServerState.GAME;

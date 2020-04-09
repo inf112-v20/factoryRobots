@@ -148,6 +148,10 @@ public class CardDeck {
         return null;
     }
 
+    public int getSize(){
+        return deck.size();
+    }
+
     public boolean isEmpty(){
         return deck.isEmpty();
     }

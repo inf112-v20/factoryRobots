@@ -106,7 +106,7 @@ public class Conveyor implements IBoardElement {
      * @param pos
      * @return
      */
-    private Conveyor extractConveyorFromCell(Position pos){
+    public static Conveyor extractConveyorFromCell(Position pos){
         Map map = Map.getInstance();
         ArrayList<IBoardElement> objectList = map.getCellList().getCell(pos).getInventory().getElements();
         Conveyor next = null;

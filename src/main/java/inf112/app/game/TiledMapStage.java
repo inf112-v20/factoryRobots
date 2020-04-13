@@ -94,4 +94,17 @@ public class TiledMapStage extends Stage {
     public ButtonActor getActorFromGrid(int x, int y){
         return actorGrid[x][y];
     }
+
+    public GameButtonActor getLockInButton(){
+        return (GameButtonActor) actorGrid[cardLayer.getWidth()-2][0];
+    }
+
+    public GameButtonActor getPowerdownButton(){
+        return (GameButtonActor) actorGrid[cardLayer.getWidth()-1][0];
+    }
+
+    public void releaseButtons(){
+         getLockInButton().releaseButton();
+         getPowerdownButton().releaseButton();
+    }
 }

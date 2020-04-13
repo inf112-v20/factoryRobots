@@ -332,7 +332,10 @@ public class Map {
     }
 
     public void setRobotList(ArrayList<Robot> robotList){
-        this.robotList = robotList;
+        clearBots();
+        for(Robot r : robotList){
+            registerRobot(r);
+        }
     }
 
 }

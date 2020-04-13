@@ -178,6 +178,7 @@ public class GameScreen implements Screen {
         if(ongoingRound){
             if(phaseNum > 5){
                 ongoingRound = false;
+                tiledStage.releaseButtons();
             } else {
                 currentRound.doPhase(phaseNum);
                 phaseNum++;

@@ -13,9 +13,11 @@ import inf112.app.networking.packets.RobotListPacket;
 import inf112.app.objects.Robot;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class RoboServer extends Listener {
     private static final int MAX_PLAYER_AMOUNT = 8;
@@ -33,6 +35,7 @@ public class RoboServer extends Listener {
     private Map map;
     private CardDeck deck;
     private HashMap<Integer,ICard> usedCards;
+    private int doneProgrammingCount;
 
     private String[] robotNames = new String[]{"","","","","","","",""};
     private Position[] spawnPoints = new Position[MAX_PLAYER_AMOUNT];
@@ -55,6 +58,7 @@ public class RoboServer extends Listener {
 
         server.addListener(this);
         nPlayers = 0;
+        doneProgrammingCount = 0;
 
         ObjectSpace.registerClasses(server.getKryo());
         objectSpace = new ObjectSpace();
@@ -93,15 +97,7 @@ public class RoboServer extends Listener {
     @Override
     public void received(Connection connection, Object object) {
         if(object instanceof Payload) {
-            Payload p = (Payload) object;
-            System.out.println(p.message);
-            switch(p.message){
-                case "q":
-                    terminated = true;
-                    server.stop();
-                    System.exit(0);
-                default: assert true; //do nothing
-            }
+            interpretPayload(connection, (Payload) object);
         }
     }
 
@@ -111,7 +107,6 @@ public class RoboServer extends Listener {
             System.out.println("Empty payload");
             return;
         }
-
         try {
             switch (split[0].toLowerCase()) {
                 case "prog":
@@ -119,6 +114,19 @@ public class RoboServer extends Listener {
                     break;
                 case "rem":
                     registerUnusedCards(connection, Arrays.copyOfRange(split,1,split.length));
+                    break;
+                case "done":
+                    doneProgrammingCount++;
+                    if(doneProgrammingCount == nPlayers) {
+                        RobotListPacket packet = new RobotListPacket();
+                        ArrayList<Robot> list = (ArrayList<Robot>) robotMap.values();
+                        packet.list = list;
+                        server.sendToAllTCP(packet);
+                    }
+                    Payload message = new Payload();
+                    message.message = "incrdone";
+                    server.sendToAllTCP(message);
+                    break;
                 default:
                     break;
             }
@@ -184,6 +192,7 @@ public class RoboServer extends Listener {
         }
     }
 
+
     @Override
     public void idle(Connection connection) {
     }
@@ -201,13 +210,13 @@ public class RoboServer extends Listener {
     private void launchGame(String mapName){
         state = ServerState.GAME;
         //Create and process robots, assign spawn points
-        Robot[] robotList = new Robot[nPlayers];
+        ArrayList<Robot> robotList = new ArrayList<>(nPlayers);
         int i = 0;
         for(Connection c : server.getConnections()){
             Robot robot = new Robot(spawnPoints[i],robotNames[i]);
             robotMap.put(c.getID(),robot);
             robot.assignID(c.getID());
-            robotList[i++] = robot;
+            robotList.add(robot);
         }
         //send mapname to all clients so they can load
         Payload mapInfo = new Payload();
@@ -230,6 +239,6 @@ public class RoboServer extends Listener {
     }
 
     public enum ServerState{
-        LOBBY, GAME
+        LOBBY, GAME, SIMULATING
     }
 }

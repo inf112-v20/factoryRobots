@@ -48,5 +48,9 @@ public class GameButtonActor extends ButtonActor {
         }
     }
 
+    public void releaseButton(){
+        layer.setCell(x,y,buttonUp);
+    }
+
 
 }

@@ -32,12 +32,12 @@ public class GameScreen implements Screen {
     private TiledMapStage tiledStage;
 
     private CardDeck deck;
-    private Rounds currentRound;
+    private Rounds currentRound = new Rounds();
 
     private boolean timerRunning = false;
     private Timer timer;
 
-    private final int laserTime = 30;
+    private final int laserTime = 1;
     private float tileSize = 300f;
     private float cardWidth = 400f;
     private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
@@ -46,6 +46,8 @@ public class GameScreen implements Screen {
     private Map cellMap;
     private Player player;
     private Robot testRobot;
+    private int phaseNum = 6;
+    private boolean ongoingRound = false;
 
     public GameScreen(final RoboRally game, Stage stage, StretchViewport viewport){
         this.game = game;
@@ -165,14 +167,25 @@ public class GameScreen implements Screen {
             timerRunning = true;
             timer.start();
         }
-        if(cellMap.checkIfAllRobotsReady() || timer.done()){
-            currentRound = new Rounds();
+        if(cellMap.checkIfAllRobotsReady() || timer.done){
+            ongoingRound = true;
+            phaseNum = 1;
+            currentRound.putBackPlayers();
             cellMap.resetDoneProgramming();
             timerRunning = false;
-            try {
-                currentRound.startRound();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            timer.done = false;
+        }
+        if(ongoingRound){
+            if(phaseNum > 5){
+                ongoingRound = false;
+            } else {
+                currentRound.doPhase(phaseNum);
+                phaseNum++;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
 

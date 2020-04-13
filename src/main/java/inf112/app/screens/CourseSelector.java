@@ -2,6 +2,7 @@ package inf112.app.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -93,6 +94,7 @@ public class CourseSelector implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 mapRenderer.setMap(game.manager.get(getPreviousMap()));
+                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
 
@@ -101,6 +103,7 @@ public class CourseSelector implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 mapRenderer.setMap(game.manager.get(getNextMap()));
+                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
 
@@ -111,6 +114,7 @@ public class CourseSelector implements Screen {
                 selectCourse();
                 dispose();
                 game.setScreen(new LoadingGameScreen(game, menuViewport, stage));
+                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         VisImageTextButton returnButton = new VisImageTextButton("Return","default");
@@ -118,6 +122,7 @@ public class CourseSelector implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new MainMenuScreen(game, menuViewport, stage));
+                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         Padding paddingArrow = new Padding(0,0,50,0); // Add padding to buttons

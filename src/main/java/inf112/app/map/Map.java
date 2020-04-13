@@ -1,10 +1,12 @@
 package inf112.app.map;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardDeck;
+import inf112.app.game.RoboRally;
 import inf112.app.objects.*;
 
 
@@ -41,6 +43,11 @@ public class Map {
     private ArrayList<ILaserInteractor> laserObjects;
     private int laserTimer = 0;
     private boolean lasersActive = false;
+
+    //For sound use
+    private RoboRally game;
+
+
 
     /**
      * Create a init the Map object by map title
@@ -274,6 +281,7 @@ public class Map {
             object.fireLaser();
         }
         lasersActive = true;
+        game.manager.get("assets/Sounds/LaserSound.wav", Sound.class).play(4.0f);
     }
 
     /**
@@ -367,4 +375,6 @@ public class Map {
     public CardDeck getDeck(){
         return this.deck;
     }
+
+    public RoboRally getGame() {return this.game;}
 }

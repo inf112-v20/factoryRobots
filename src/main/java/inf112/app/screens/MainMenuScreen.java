@@ -2,6 +2,7 @@ package inf112.app.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -32,6 +33,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new CourseSelector(game, viewport, stage));
+                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         VisTextButton multiplayerButton = new VisTextButton("Multiplayer");
@@ -39,6 +41,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new CourseSelector(game, viewport, stage));
+                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         VisTextButton settingsButton = new VisTextButton("Settings");
@@ -46,6 +49,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new OptionScreen(game,viewport, stage));
+                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         VisTextButton exitButton = new VisTextButton("Exit");

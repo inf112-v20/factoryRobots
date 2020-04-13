@@ -1,5 +1,6 @@
 package inf112.app.objects;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
+import inf112.app.game.RoboRally;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
@@ -38,6 +40,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private TiledMapTileLayer.Cell normalPlayer;
     private TiledMapTileLayer.Cell winningPlayer;
     private TiledMapTileLayer.Cell loosingPlayer;
+
+    // Sounds
+    private RoboRally game;
 
     public Robot(Position pos, String charName){
         this.map = Map.getInstance();
@@ -247,6 +252,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
             hasLostLife = true;
             damageTokens = 0;
             isDead = lives <= 0;
+            game.manager.get("assets/Sounds/DeathNoise.wav", Sound.class).play(4.0f);
+        } else {
+            game.manager.get("assets/Sounds/TakesDamage.wav", Sound.class).play(4.0f);
         }
         System.out.println("Damage tokens:" + damageTokens);
     }
@@ -306,6 +314,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void setCheckPoint(Position p){
         this.checkPoint = p;
+        game.manager.get("assets/Sounds/NewCheckPoint.wav", Sound.class).play(4.0f);
     }
 
     public void backToCheckPoint(){

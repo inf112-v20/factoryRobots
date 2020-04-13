@@ -2,6 +2,7 @@ package inf112.app.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -15,6 +16,8 @@ public class OptionScreen implements Screen {
 
     private final RoboRally game;
     private final StretchViewport viewport;
+
+
 
     public OptionScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
@@ -31,7 +34,12 @@ public class OptionScreen implements Screen {
         soundButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                //
+                if (game.backgroundMusic.isPlaying()) {
+                    game.backgroundMusic.pause();
+                } else {
+                    game.backgroundMusic.play();
+                }
+                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         VisTextButton returnButton = new VisTextButton("Return");
@@ -39,6 +47,7 @@ public class OptionScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new MainMenuScreen(game,viewport, stage));
+                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         VisTextButton exitButton = new VisTextButton("Exit");

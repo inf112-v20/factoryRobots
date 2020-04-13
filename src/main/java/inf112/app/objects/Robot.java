@@ -268,7 +268,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
-    private void wipeSlots(CardSlot[] slotList){
+    public void wipeSlots(CardSlot[] slotList){
         for(CardSlot slot : slotList){
             slot.removeCard();
         }

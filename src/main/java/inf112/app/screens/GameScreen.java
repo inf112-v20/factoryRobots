@@ -169,8 +169,13 @@ public class GameScreen implements Screen {
             currentRound = new Rounds();
             cellMap.resetDoneProgramming();
             timerRunning = false;
-            //currentRound.startRound();
+            try {
+                currentRound.startRound();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     private void updateRobot(Robot robot){

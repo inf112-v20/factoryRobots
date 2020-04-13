@@ -14,7 +14,7 @@ public class Timer {
     private DecimalFormat df = new DecimalFormat("#");
     private VisLabel label;
     private boolean warning;
-    private boolean done;
+    public boolean done;
     private String str;
 
     public Timer(float count, VisLabel label){
@@ -43,13 +43,9 @@ public class Timer {
 
     public void start(){
         Gdx.graphics.getDeltaTime();
-        count = 30;
+        count = 10;
         label.setColor(Color.WHITE);
         warning = false;
         done = false;
-    }
-
-    public boolean done(){
-        return done;
     }
 }

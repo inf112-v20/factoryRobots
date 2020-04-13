@@ -42,6 +42,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     private boolean doneProgramming;
 
+    private boolean powerDownNextRound;
+
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
     private TiledMapTileLayer.Cell winningPlayer;
@@ -273,7 +275,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
-    private void wipeSlots(CardSlot[] slotList){
+    public void wipeSlots(CardSlot[] slotList){
         for(CardSlot slot : slotList){
             slot.removeCard();
         }
@@ -328,6 +330,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void setPowerDown(boolean powerDown) {
         this.powerDown = powerDown;
         damageTokens = 0;
+    }
+
+    public void setPowerDownNextRound(boolean powerDownNextRound){
+        this.powerDownNextRound = powerDownNextRound;
+    }
+
+    public boolean getPowerDownNextRound(){
+        return powerDownNextRound;
     }
 
     public boolean getPowerDown() { return powerDown; }

@@ -1,7 +1,6 @@
 package inf112.app.game;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import inf112.app.map.Map;
 
 public class GameButtonActor extends ButtonActor {
@@ -45,7 +44,7 @@ public class GameButtonActor extends ButtonActor {
           //  stage.getGame().getPlayer().getCharacter().initiateRobotProgramme();
             stage.getGame().getPlayer().getCharacter().doneProgramming();
         } else if ("powerdown".equals(type)){
-            stage.getGame().getPlayer().getCharacter().setPowerDown(true);
+            stage.getGame().getPlayer().getCharacter().setPowerDownNextRound(true);
         }
     }
 

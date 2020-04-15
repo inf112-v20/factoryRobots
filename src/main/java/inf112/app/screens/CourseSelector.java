@@ -117,7 +117,7 @@ public class CourseSelector implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game, menuViewport, stage));
+                game.setScreen(game.getLastScreen());
             }
         });
         Padding paddingArrow = new Padding(0,0,50,0); // Add padding to buttons

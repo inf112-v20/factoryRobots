@@ -97,4 +97,13 @@ public class RoboRally extends Game {
         return this.player;
     }
 
+    public Screen getLastScreen(){
+        return this.lastScreen;
+    }
+
+    @Override
+    public void setScreen(Screen screen) {
+        lastScreen = this.screen;
+        super.setScreen(screen);
+    }
 }

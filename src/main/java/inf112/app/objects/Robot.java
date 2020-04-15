@@ -1,6 +1,5 @@
 package inf112.app.objects;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -8,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
-import inf112.app.game.RoboRally;
+import inf112.app.game.CardUI;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
@@ -35,14 +34,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private CardSlot[] programmedCards;
     private boolean doneProgramming;
     private boolean hasLostLife;
+    private boolean powerDownNextRound;
 
     //Player sprites
     private TiledMapTileLayer.Cell normalPlayer;
     private TiledMapTileLayer.Cell winningPlayer;
     private TiledMapTileLayer.Cell loosingPlayer;
-
-    // Sounds
-    private RoboRally game;
 
     public Robot(Position pos, String charName){
         this.map = Map.getInstance();
@@ -60,6 +57,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         powerDown = false;
         laser = new Laser(this,false);
         isDead = false;
+        doneProgramming = false;
 
         initializeCardsSlots();
     }
@@ -157,7 +155,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
         //Loading and splitting player sprites
         Texture spriteMap = new Texture(path);
         TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
-
         //Assigning individual sprites
         normalPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
         loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
@@ -264,7 +261,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
             }
         }
-        System.out.println("Damage tokens:" + damageTokens);
+        CardUI.getInstance().updateDamageTokens(damageTokens);
     }
 
     /**
@@ -282,7 +279,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
-    private void wipeSlots(CardSlot[] slotList){
+    public void wipeSlots(CardSlot[] slotList){
         for(CardSlot slot : slotList){
             slot.removeCard();
         }
@@ -296,6 +293,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void removeDamageTokens(int amount) {
         damageTokens -= amount;
         if (damageTokens < 0) damageTokens = 0;
+        CardUI.getInstance().updateDamageTokens(damageTokens);
     }
 
     public int getLives() { return lives; }
@@ -343,6 +341,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
         damageTokens = 0;
     }
 
+    public void setPowerDownNextRound(boolean powerDownNextRound){
+        this.powerDownNextRound = powerDownNextRound;
+    }
+
+    public boolean getPowerDownNextRound(){
+        return powerDownNextRound;
+    }
+
     public boolean getPowerDown() { return powerDown; }
 
     /**
@@ -388,13 +394,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }
-
    }
 
-
-
     public boolean doneProgramming(){
-        return doneProgramming;
+       map.incrementDoneProgramming();
+       return doneProgramming;
     }
 
     @Override

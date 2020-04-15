@@ -15,6 +15,7 @@ import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 import inf112.app.networking.packets.Payload;
 import inf112.app.networking.packets.RobotListPacket;
+import inf112.app.networking.packets.RobotStatePacket;
 import inf112.app.objects.Robot;
 import inf112.app.screens.LoadingGameScreen;
 
@@ -136,14 +137,16 @@ public class RoboClient extends Listener {
     }
 
     public void sendProgramming(){
-        String message = "prog ";
+        int[] priorities = new int[5];
         Robot robot = game.getPlayer().getCharacter();
         for(int i = 0; i < robot.getProgrammedCards().length; i++){
             ICard card = robot.getProgrammedCard(i);
-            message += card.getPoint() + " ";
+            priorities[i] = card.getPoint();
         }
-        Payload payload = new Payload();
-        payload.message = message;
+        RobotStatePacket payload = new RobotStatePacket();
+        payload.programmedCards = priorities;
+        payload.id = this.id;
+        payload.powerdownNextRound = game.getPlayer().getCharacter().getPowerDownNextRound();
         client.sendTCP(payload);
         sendRemainingCards();
     }

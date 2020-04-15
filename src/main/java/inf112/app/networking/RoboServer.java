@@ -5,11 +5,13 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.kryonet.rmi.ObjectSpace;
 import inf112.app.cards.CardDeck;
+import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
 import inf112.app.networking.packets.Payload;
 import inf112.app.networking.packets.RobotListPacket;
+import inf112.app.networking.packets.RobotStatePacket;
 import inf112.app.objects.Robot;
 
 import java.io.IOException;
@@ -109,19 +111,17 @@ public class RoboServer extends Listener {
         }
         try {
             switch (split[0].toLowerCase()) {
-                case "prog":
-                    registerProgramming(connection, Arrays.copyOfRange(split,1,split.length));
-                    break;
                 case "rem":
                     registerUnusedCards(connection, Arrays.copyOfRange(split,1,split.length));
                     break;
                 case "done":
                     doneProgrammingCount++;
                     if(doneProgrammingCount == nPlayers) {
-                        RobotListPacket packet = new RobotListPacket();
-                        ArrayList<Robot> list = (ArrayList<Robot>) robotMap.values();
-                        packet.list = list;
-                        server.sendToAllTCP(packet);
+                        for(Robot r : robotMap.values()){
+                            RobotStatePacket packet = assembleRobotStatePacket(r);
+                            server.sendToAllTCP(packet);
+                        }
+
                     }
                     Payload message = new Payload();
                     message.message = "incrdone";
@@ -137,16 +137,36 @@ public class RoboServer extends Listener {
         }
     }
 
+    private RobotStatePacket assembleRobotStatePacket(Robot r) {
+        RobotStatePacket packet = new RobotStatePacket();
+        packet.id = r.getID();
+        packet.powerdownNextRound = r.getPowerDownNextRound();
+        int[] priorities = new int[5];
+        int i = 0;
+        for(CardSlot slot : r.getProgrammedCards()){
+            if(slot.getCard() != null){
+                priorities[i] = slot.getCard().getPoint();
+            }
+            i++;
+        }
+        packet.programmedCards = priorities;
+        return packet;
+    }
+
+    private void interpretRobotState(RobotStatePacket packet){
+        Robot r = robotMap.get(packet.id);
+        r.setPowerDownNextRound(packet.powerdownNextRound);
+        registerProgramming(r,packet.programmedCards);
+    }
+
     /**
      * Used when robots have locked in their programming and pass it to the server
-     * @param connection
      * @param priorities
      */
-    private void registerProgramming(Connection connection, String[] priorities){
-        Robot robot = robotMap.get(connection.getID());
+    private void registerProgramming(Robot robot, int[] priorities){
         for(int i = 0; i < priorities.length; i++){
             try {
-                ICard card = usedCards.get(Integer.parseInt(priorities[i]));
+                ICard card = usedCards.get(priorities[i]);
                 robot.setProgrammedCard(i, card);
             } catch (NumberFormatException e){
                 System.out.println("Couldn't parse priority\n" + e.getMessage());

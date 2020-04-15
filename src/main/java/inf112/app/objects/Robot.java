@@ -294,6 +294,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public int getLives() { return lives; }
 
+    public void setLives(int lives){
+        this.lives = lives;
+    }
+
     public boolean hasLostLife() {
         return hasLostLife;
     }

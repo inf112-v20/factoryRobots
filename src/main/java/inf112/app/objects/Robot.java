@@ -252,9 +252,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
             hasLostLife = true;
             damageTokens = 0;
             isDead = lives <= 0;
-            game.manager.get("assets/Sounds/DeathNoise.wav", Sound.class).play(4.0f);
+            game.sounds.deathSound();
         } else {
-            game.manager.get("assets/Sounds/TakesDamage.wav", Sound.class).play(4.0f);
+            game.sounds.takeDamage();
         }
         System.out.println("Damage tokens:" + damageTokens);
     }
@@ -314,7 +314,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void setCheckPoint(Position p){
         this.checkPoint = p;
-        game.manager.get("assets/Sounds/NewCheckPoint.wav", Sound.class).play(4.0f);
+        game.sounds.checkpoint();
     }
 
     public void backToCheckPoint(){

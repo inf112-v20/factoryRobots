@@ -281,7 +281,7 @@ public class Map {
             object.fireLaser();
         }
         lasersActive = true;
-        game.manager.get("assets/Sounds/LaserSound.wav", Sound.class).play(4.0f);
+        game.sounds.laserSound();
     }
 
     /**

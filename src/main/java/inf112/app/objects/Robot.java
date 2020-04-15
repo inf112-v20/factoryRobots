@@ -347,7 +347,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void initiateRobotProgramme() {
         for(CardSlot slot : programmedCards) {
-            ICard card = null;
+            ICard card;
             if (slot.isLocked()){
                 card = slot.getCard();
             } else {
@@ -403,12 +403,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         return programmedCards;
     }
 
-    public boolean assignID(int id){
+    public void assignID(int id){
        if(this.id == -1){
            this.id = id;
-           return true;
        }
-       return false;
     }
 
     public int getID(){

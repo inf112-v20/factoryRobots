@@ -5,14 +5,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
-import inf112.app.map.Map;
 
 
 public class CardUI {
-    private TiledMap cardUI;
-    private TiledMapTileLayer damageTokens;
-    private TiledMapTileLayer uiButtons;
-    private TiledMapTileLayer laserSprites;
+    private final TiledMap cardUI;
+    private final TiledMapTileLayer damageTokens;
+    private final TiledMapTileLayer uiButtons;
+    private final TiledMapTileLayer laserSprites;
+    private final TiledMapTileLayer buttonApplicationLayer;
+
     private static CardUI instance;
 
     private CardSlot[] bottomCardSlots;
@@ -20,7 +21,7 @@ public class CardUI {
     //Used as a lookup table for the stage
     private CardSlot[][] lookupSlots;
     private Player user;
-    private TiledMapTileLayer buttonApplicationLayer;
+
 
     /**
      * Constructor used only for testing

@@ -32,7 +32,7 @@ public class RoboServer extends Listener {
     private HashMap<Integer,ICard> usedCards;
 
     private String[] robotNames = new String[]{"1","2","3","4","5","6","7","8"};
-    private Position[] spawnPoints = new Position[MAX_PLAYER_AMOUNT];
+    private Position[] spawnPoints = new Position[MAX_PLAYER_AMOUNT]; // #TODO: get spawnpoints
 
     public RoboServer() {
         server = new Server();
@@ -123,7 +123,6 @@ public class RoboServer extends Listener {
         } catch (NumberFormatException e){
             System.out.println("Rem message contains strings that can't be parsed\n" + e.getMessage());
             connection.close();
-            return;
         }
     }
 /* Might not need this

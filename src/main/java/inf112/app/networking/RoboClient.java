@@ -5,12 +5,10 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration;
 import inf112.app.cards.CardDeck;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 import inf112.app.game.CardUI;
-import inf112.app.game.Player;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 import inf112.app.networking.packets.Payload;
@@ -149,11 +147,9 @@ public class RoboClient extends Listener {
         } catch (IndexOutOfBoundsException e){
             System.out.println("Malformed payload message\n" + e.getMessage());
             c.close();
-            return;
         } catch (NumberFormatException e){
             System.out.println("ID message contains invalid id\n" + e.getMessage());
             c.close();
-            return;
         }
     }
 

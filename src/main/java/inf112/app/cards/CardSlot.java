@@ -5,12 +5,12 @@ import inf112.app.game.CardUI;
 
 public class CardSlot {
     private ICard card;
-    private String position;
+    private final String position;
     private int xCoord;
     private int yCoord;
     private TiledMapTileLayer cardLayer;
     private boolean isLocked;
-    private boolean noUI;
+    private final boolean noUI;
 
     public CardSlot(int x, int y, String position){
         card = null;

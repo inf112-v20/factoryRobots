@@ -1,7 +1,6 @@
 package inf112.app.game;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 
@@ -9,9 +8,9 @@ public class CardSlotActor extends ButtonActor {
 
     private TiledMapTileLayer.Cell cell;
 
-    private CardSlot slot;
+    private final CardSlot slot;
 
-    private TiledMapStage stage;
+    private final TiledMapStage stage;
 
     private boolean pushable;
 

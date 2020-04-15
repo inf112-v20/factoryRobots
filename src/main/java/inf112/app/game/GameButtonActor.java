@@ -5,13 +5,13 @@ import inf112.app.map.Map;
 
 public class GameButtonActor extends ButtonActor {
 
-    private TiledMapTileLayer.Cell buttonUp;
-    private TiledMapTileLayer.Cell buttonDown;
+    private final TiledMapTileLayer.Cell buttonUp;
+    private final TiledMapTileLayer.Cell buttonDown;
     private TiledMapTileLayer.Cell active;
-    private TiledMapTileLayer layer;
-    private int x,y;
-    private String type;
-    private TiledMapStage stage;
+    private final TiledMapTileLayer layer;
+    private final int x,y;
+    private final String type;
+    private final TiledMapStage stage;
     private boolean pushable;
 
 

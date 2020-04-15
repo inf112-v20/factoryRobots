@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * Class for representing the lasers
  */
 public class Laser {
-    private ILaserInteractor owner;
-    private boolean isDouble;
+    private final ILaserInteractor owner;
+    private final boolean isDouble;
 
     /**
      * Constructor for creating a laser

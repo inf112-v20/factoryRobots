@@ -31,10 +31,13 @@ public class RoboRally extends Game {
 
     public Music backgroundMusic;
 
+    public Sounds sounds;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
         manager = new AssetManager();
+        sounds = new Sounds(manager);
 
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/BackGroundSong.wav"));
         backgroundMusic.setVolume(0.1f);
@@ -75,6 +78,7 @@ public class RoboRally extends Game {
         if (!(this.getScreen() instanceof PauseGameScreen)){
             lastScreen = this.getScreen();
         }
+        this.backgroundMusic.pause();
         this.setScreen(new PauseGameScreen(this, viewport, stage));
     }
 
@@ -86,6 +90,7 @@ public class RoboRally extends Game {
         if (lastScreen != null){
             this.setScreen(this.lastScreen);
         }
+        this.backgroundMusic.play();
     }
 
     public void setMapName(String mapName){

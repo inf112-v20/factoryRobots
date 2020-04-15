@@ -33,7 +33,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new CourseSelector(game, viewport, stage));
-                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
+                game.sounds.buttonSound();
             }
         });
         VisTextButton multiplayerButton = new VisTextButton("Multiplayer");
@@ -41,6 +41,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new CourseSelector(game, viewport, stage));
+                // TODO change all game.manager.get calls to game.sounds. calls
                 game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });

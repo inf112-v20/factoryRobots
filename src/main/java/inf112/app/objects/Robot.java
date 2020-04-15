@@ -251,7 +251,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void addDamageTokens(int dealDamage) {
         damageTokens += dealDamage;
-        if (damageTokens >= 10) {
+        if (damageTokens >= 9) {
             lives--;
             hasLostLife = true;
             damageTokens = 0;
@@ -292,11 +292,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
         CardUI.getInstance().updateDamageTokens(damageTokens);
     }
 
-    public int getLives() { return lives; }
-
-    public void setLives(int lives){
-        this.lives = lives;
-    }
 
     public boolean hasLostLife() {
         return hasLostLife;
@@ -392,7 +387,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
    }
 
     public boolean doneProgramming(){
-       Map.getInstance().incrementDoneProgramming();
        return doneProgramming;
     }
 
@@ -419,5 +413,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public int getID(){
        return id;
+    }
+
+    public void setDoneProgramming(boolean done) {
+       this.doneProgramming = done;
     }
 }

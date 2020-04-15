@@ -168,6 +168,7 @@ public class GameScreen implements Screen {
             timer.start();
         }
         if(cellMap.checkIfAllRobotsReady() || timer.done){
+            tiledStage.setCardLock(false);
             ongoingRound = true;
             phaseNum = 1;
             currentRound.putBackPlayers();
@@ -187,6 +188,9 @@ public class GameScreen implements Screen {
                 } catch (InterruptedException e) {
                     System.out.println(e.getMessage());
                 }
+            }
+            if(game.client != null){
+                game.client.sendDone();
             }
         }
 

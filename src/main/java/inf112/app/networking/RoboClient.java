@@ -20,6 +20,7 @@ import inf112.app.objects.Robot;
 import inf112.app.screens.LoadingGameScreen;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class RoboClient extends Listener {
     private final RoboRally game;
@@ -68,8 +69,26 @@ public class RoboClient extends Listener {
             interpretPayload(connection, (Payload) object);
         } else if(object instanceof RobotListPacket){
             processRobotList(connection, (RobotListPacket) object);
+        } else if (object instanceof RobotStatePacket){
+            interpretRobotState((RobotStatePacket) object);
+        }
+    }
 
-
+    private void interpretRobotState(RobotStatePacket packet){
+        Robot r = null;
+        ArrayList<Robot> roboList = Map.getInstance().getRobotList();
+        for(Robot robot : roboList){
+            if(robot.getID() == packet.id){
+                r = robot;
+            }
+        }
+        r.setPowerDownNextRound(packet.powerdownNextRound);
+        for(int i = 0; i < packet.programmedCards.length; i++){
+            ICard card = deck.getCard(packet.programmedCards[i]);
+            r.setProgrammedCard(i, card);
+        }
+        if(packet.id != id){
+            Map.getInstance().incrementDoneProgramming();
         }
     }
 
@@ -115,14 +134,16 @@ public class RoboClient extends Listener {
                         ui.addCardToSlot(card,"side",(i-1));
                     }
                     break;
-                case "start":
-                    Map.getInstance().resetDoneProgramming();
-                    //Initiate the round simulation
-                    //send reply when done simulating round or if something went wrong
-                    // then verify map state
+                case "disc":
+                    int id = Integer.parseInt(split[1]);
+                    for(Robot r : Map.getInstance().getRobotList()){
+                        if(r.getID() == id){
+                            Map.getInstance().deleteRobot(r);
+                        }
+                    }
                     break;
-                case "incrdone":
-                    Map.getInstance().incrementDoneProgramming();
+                default:
+                    System.out.println("Server reply: " + payload.message);
                     break;
             }
         } catch (IndexOutOfBoundsException e){
@@ -163,6 +184,12 @@ public class RoboClient extends Listener {
         client.sendTCP(payload);
         payload.message = "done";
         client.sendTCP(payload);
+    }
+
+    public void sendDone(){
+        Payload message = new Payload();
+        message.message = "done";
+        client.sendTCP(message);
     }
 
 

@@ -3,6 +3,7 @@ package inf112.app.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import inf112.app.cards.CardSlot;
@@ -95,16 +96,30 @@ public class TiledMapStage extends Stage {
         return actorGrid[x][y];
     }
 
-    public GameButtonActor getLockInButton(){
+    private GameButtonActor getLockInButton(){
         return (GameButtonActor) actorGrid[cardLayer.getWidth()-2][0];
     }
 
-    public GameButtonActor getPowerdownButton(){
+    private GameButtonActor getPowerdownButton(){
         return (GameButtonActor) actorGrid[cardLayer.getWidth()-1][0];
     }
 
     public void releaseButtons(){
          getLockInButton().releaseButton();
          getPowerdownButton().releaseButton();
+         setCardLock(true);
+    }
+
+    /**
+     * Method for setting if the cards are clickable
+     * @param clickable true if cards should be clickable, false if they should be locked
+     */
+    public void setCardLock(boolean clickable){
+        for(Actor actor : getActors()){
+            if(actor instanceof CardSlotActor){
+                CardSlotActor cardSlot = (CardSlotActor) actor;
+                cardSlot.setPushable(clickable);
+            }
+        }
     }
 }

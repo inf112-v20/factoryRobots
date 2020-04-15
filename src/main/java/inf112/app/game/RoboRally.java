@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import inf112.app.map.Map;
 
+import inf112.app.networking.RoboClient;
 import inf112.app.screens.LoadingMenuScreen;
 import inf112.app.screens.PauseGameScreen;
 
@@ -22,6 +23,8 @@ public class RoboRally extends Game {
     protected StretchViewport viewport;
     protected Screen lastScreen;
 
+    public RoboClient client;
+
     public Texture backgroundImg;
 
     public AssetManager manager;
@@ -32,6 +35,8 @@ public class RoboRally extends Game {
     public void create() {
         batch = new SpriteBatch();
         manager = new AssetManager();
+
+        client = null;
 
         backgroundImg = new Texture(Gdx.files.internal("assets/game-menu.png"));
 

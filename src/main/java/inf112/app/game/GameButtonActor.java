@@ -12,6 +12,7 @@ public class GameButtonActor extends ButtonActor {
     private int x,y;
     private String type;
     private TiledMapStage stage;
+    private boolean pushable;
 
 
     public GameButtonActor(TiledMapTileLayer.Cell cell, TiledMapTileLayer layer, String type, int x, int y, TiledMapStage stage){
@@ -25,6 +26,7 @@ public class GameButtonActor extends ButtonActor {
         this.x = x;
         this.y = y;
         this.stage = stage;
+        pushable = true;
     }
 
     @Override
@@ -39,16 +41,24 @@ public class GameButtonActor extends ButtonActor {
 
     @Override
     public void clickAction() {
-        layer.setCell(x,y,buttonDown);
-        if("lockIn".equals(type)){
-          //  stage.getGame().getPlayer().getCharacter().initiateRobotProgramme();
-            stage.getGame().getPlayer().getCharacter().doneProgramming();
-        } else if ("powerdown".equals(type)){
-            stage.getGame().getPlayer().getCharacter().setPowerDownNextRound(true);
+        if(pushable) {
+            pushable = false;
+            layer.setCell(x, y, buttonDown);
+            if ("lockIn".equals(type)) {
+                stage.getGame().getPlayer().getCharacter().setDoneProgramming(true);
+                Map.getInstance().incrementDoneProgramming();
+                stage.setCardLock(false);
+                if(stage.getGame().client != null){
+                    stage.getGame().client.sendProgramming();
+                }
+            } else if ("powerdown".equals(type)) {
+                stage.getGame().getPlayer().getCharacter().setPowerDownNextRound(true);
+            }
         }
     }
 
     public void releaseButton(){
+        pushable = true;
         layer.setCell(x,y,buttonUp);
     }
 

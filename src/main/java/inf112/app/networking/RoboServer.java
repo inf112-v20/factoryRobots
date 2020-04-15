@@ -3,11 +3,8 @@ package inf112.app.networking;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.kryonet.rmi.ObjectSpace;
 import inf112.app.cards.CardDeck;
-import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
-import inf112.app.map.Map;
 import inf112.app.map.Position;
 import inf112.app.networking.packets.Payload;
 import inf112.app.networking.packets.RobotListPacket;
@@ -15,31 +12,26 @@ import inf112.app.networking.packets.RobotStatePacket;
 import inf112.app.objects.Robot;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class RoboServer extends Listener {
     private static final int MAX_PLAYER_AMOUNT = 8;
     private int nPlayers;
+    private int nDoneSimulating;
     private static Server server;
     private static int tcpPort = 10801;
 
     private ServerState state;
     private boolean terminated = false;
 
-    private ObjectSpace objectSpace;
-
     private HashMap<Integer, Robot> robotMap;
 
-    private Map map;
     private CardDeck deck;
     private HashMap<Integer,ICard> usedCards;
-    private int doneProgrammingCount;
 
-    private String[] robotNames = new String[]{"","","","","","","",""};
+    private String[] robotNames = new String[]{"1","2","3","4","5","6","7","8"};
     private Position[] spawnPoints = new Position[MAX_PLAYER_AMOUNT];
 
     public RoboServer() {
@@ -60,10 +52,7 @@ public class RoboServer extends Listener {
 
         server.addListener(this);
         nPlayers = 0;
-        doneProgrammingCount = 0;
-
-        ObjectSpace.registerClasses(server.getKryo());
-        objectSpace = new ObjectSpace();
+        nDoneSimulating = 0;
 
         robotMap = new HashMap<>(MAX_PLAYER_AMOUNT);
 
@@ -92,14 +81,20 @@ public class RoboServer extends Listener {
     @Override
     public void disconnected(Connection connection) {
         System.out.println("A client disconnected");
-        objectSpace.removeConnection(connection);
         nPlayers--;
+        if(state == ServerState.GAME){
+            Payload playerDisc = new Payload();
+            playerDisc.message = "disc " + connection.getID();
+            server.sendToAllTCP(playerDisc);
+        }
     }
 
     @Override
     public void received(Connection connection, Object object) {
         if(object instanceof Payload) {
             interpretPayload(connection, (Payload) object);
+        } else if (object instanceof RobotStatePacket){
+            interpretRobotState(connection, (RobotStatePacket) object);
         }
     }
 
@@ -115,28 +110,23 @@ public class RoboServer extends Listener {
                     registerUnusedCards(connection, Arrays.copyOfRange(split,1,split.length));
                     break;
                 case "done":
-                    doneProgrammingCount++;
-                    if(doneProgrammingCount == nPlayers) {
-                        for(Robot r : robotMap.values()){
-                            RobotStatePacket packet = assembleRobotStatePacket(r);
-                            server.sendToAllTCP(packet);
-                        }
-
+                    nDoneSimulating++;
+                    if(nDoneSimulating == nPlayers){
+                        handOutCards();
+                        nDoneSimulating = 0;
                     }
-                    Payload message = new Payload();
-                    message.message = "incrdone";
-                    server.sendToAllTCP(message);
                     break;
                 default:
+                    System.out.println("Payload from client " + connection.getID() + ": " + payload.message);
                     break;
             }
         } catch (NumberFormatException e){
-            System.out.println("Move message contains invalid id\n" + e.getMessage());
+            System.out.println("Rem message contains strings that can't be parsed\n" + e.getMessage());
             connection.close();
             return;
         }
     }
-
+/* Might not need this
     private RobotStatePacket assembleRobotStatePacket(Robot r) {
         RobotStatePacket packet = new RobotStatePacket();
         packet.id = r.getID();
@@ -151,12 +141,18 @@ public class RoboServer extends Listener {
         }
         packet.programmedCards = priorities;
         return packet;
-    }
+    } */
 
-    private void interpretRobotState(RobotStatePacket packet){
+    private void interpretRobotState(Connection c, RobotStatePacket packet){
+        if(c.getID() != packet.id){
+            System.out.println("Client trying to manipulate robot that it doesn't own\nClosing connection");
+            c.close();
+            return;
+        }
         Robot r = robotMap.get(packet.id);
         r.setPowerDownNextRound(packet.powerdownNextRound);
         registerProgramming(r,packet.programmedCards);
+        server.sendToAllTCP(packet);
     }
 
     /**
@@ -165,12 +161,8 @@ public class RoboServer extends Listener {
      */
     private void registerProgramming(Robot robot, int[] priorities){
         for(int i = 0; i < priorities.length; i++){
-            try {
-                ICard card = usedCards.get(priorities[i]);
-                robot.setProgrammedCard(i, card);
-            } catch (NumberFormatException e){
-                System.out.println("Couldn't parse priority\n" + e.getMessage());
-            }
+            ICard card = usedCards.get(priorities[i]);
+            robot.setProgrammedCard(i, card);
         }
     }
 
@@ -198,8 +190,11 @@ public class RoboServer extends Listener {
      * Used at the start of the round when distributing cards to the clients
      */
     private void handOutCards(){
+        for(ICard card : usedCards.values()){
+            deck.addCard(card);
+        }
+        usedCards.clear();
         for(Connection c : server.getConnections()){
-            // # TODO : Handle empty card deck
             ArrayList<ICard> cards = deck.getCards(9);
             String message = "cards ";
             for(ICard card : cards){
@@ -218,15 +213,13 @@ public class RoboServer extends Listener {
     }
 
     private void registerNewConnection(Connection connection){
-        objectSpace.addConnection(connection);
-
         Payload reply = new Payload();
         reply.message = "id " + connection.getID();
         connection.sendTCP(reply);
 
         nPlayers++;
     }
-
+    //triggered by button press
     private void launchGame(String mapName){
         state = ServerState.GAME;
         //Create and process robots, assign spawn points
@@ -259,6 +252,6 @@ public class RoboServer extends Listener {
     }
 
     public enum ServerState{
-        LOBBY, GAME, SIMULATING
+        LOBBY, GAME
     }
 }

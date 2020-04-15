@@ -34,20 +34,20 @@ public class OptionScreen implements Screen {
         soundButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 if (game.backgroundMusic.isPlaying()) {
                     game.backgroundMusic.pause();
                 } else {
                     game.backgroundMusic.play();
                 }
-                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         VisTextButton returnButton = new VisTextButton("Return");
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new MainMenuScreen(game,viewport, stage));
-                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         VisTextButton exitButton = new VisTextButton("Exit");

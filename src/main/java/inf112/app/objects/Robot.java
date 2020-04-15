@@ -252,9 +252,17 @@ public class Robot implements ILaserInteractor, IBoardElement {
             hasLostLife = true;
             damageTokens = 0;
             isDead = lives <= 0;
-            game.sounds.deathSound();
+            try {
+                game.sounds.deathSound();
+            } catch (NullPointerException ignored){ // Catch exception for test classes
+
+            }
         } else {
-            game.sounds.takeDamage();
+            try {
+                game.sounds.takeDamage();
+            } catch (NullPointerException ignored){ // Catch exception for test classes
+
+            }
         }
         System.out.println("Damage tokens:" + damageTokens);
     }
@@ -314,7 +322,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void setCheckPoint(Position p){
         this.checkPoint = p;
-        game.sounds.checkpoint();
+        try {
+            game.sounds.checkpoint();
+        } catch (NullPointerException ignored){ // Preventing error in test classes
+
+        }
     }
 
     public void backToCheckPoint(){

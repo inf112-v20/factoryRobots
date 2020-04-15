@@ -11,42 +11,22 @@ public class Sounds {
     }
 
     public void buttonSound(){
-        try {
-            manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
-        } catch (NullPointerException ignored){ // Catch exception for test classes
-
-        }
+        manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
     }
 
     public void checkpoint() {
-        try {
-            manager.get("assets/Sounds/NewCheckPoint.wav", Sound.class).play(4.0f);
-        } catch (NullPointerException ignored){ // Catch exception for test classes
-
-        }
+        manager.get("assets/Sounds/NewCheckPoint.wav", Sound.class).play(4.0f);
     }
 
     public void takeDamage() {
-        try {
-            manager.get("assets/Sounds/TakesDamage.wav", Sound.class).play(4.0f);
-        } catch (NullPointerException ignored){ // Catch exception for test classes
-
-        }
+        manager.get("assets/Sounds/TakesDamage.wav", Sound.class).play(4.0f);
     }
 
     public void deathSound() {
-        try {
-            manager.get("assets/Sounds/DeathNoise.wav", Sound.class).play(4.0f);
-        } catch (NullPointerException ignored){ // Catch exception for test classes
-
-        }
+        manager.get("assets/Sounds/DeathNoise.wav", Sound.class).play(4.0f);
     }
 
     public void laserSound() {
-        try {
             manager.get("assets/Sounds/LaserSound.wav", Sound.class).play(4.0f);
-        } catch (NullPointerException ignored){ // Catch exception for test classes
-
-        }
     }
 }

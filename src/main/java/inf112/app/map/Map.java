@@ -281,7 +281,11 @@ public class Map {
             object.fireLaser();
         }
         lasersActive = true;
-        game.sounds.laserSound();
+        try {
+            game.sounds.laserSound();
+        } catch (NullPointerException ignored){ // Catch exception for test classes
+
+        }
     }
 
     /**

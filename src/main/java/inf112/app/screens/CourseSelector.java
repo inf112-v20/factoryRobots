@@ -93,8 +93,8 @@ public class CourseSelector implements Screen {
         leftArrow.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 mapRenderer.setMap(game.manager.get(getPreviousMap()));
-                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
 
@@ -102,8 +102,8 @@ public class CourseSelector implements Screen {
         rightArrow.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 mapRenderer.setMap(game.manager.get(getNextMap()));
-                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
 
@@ -111,18 +111,18 @@ public class CourseSelector implements Screen {
         selectButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 selectCourse();
                 dispose();
                 game.setScreen(new LoadingGameScreen(game, menuViewport, stage));
-                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         VisImageTextButton returnButton = new VisImageTextButton("Return","default");
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new MainMenuScreen(game, menuViewport, stage));
-                game.manager.get("assets/Sounds/ButtonClick.wav", Sound.class).play(4.0f);
             }
         });
         Padding paddingArrow = new Padding(0,0,50,0); // Add padding to buttons

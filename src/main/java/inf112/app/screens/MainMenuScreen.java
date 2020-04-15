@@ -32,24 +32,24 @@ public class MainMenuScreen implements Screen {
         singleplayerButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport, stage));
                 game.sounds.buttonSound();
+                game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
         VisTextButton multiplayerButton = new VisTextButton("Multiplayer");
         multiplayerButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport, stage));
                 game.sounds.buttonSound();
+                game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
         VisTextButton settingsButton = new VisTextButton("Settings");
         settingsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new OptionScreen(game,viewport, stage));
                 game.sounds.buttonSound();
+                game.setScreen(new OptionScreen(game,viewport, stage));
             }
         });
         VisTextButton exitButton = new VisTextButton("Exit");

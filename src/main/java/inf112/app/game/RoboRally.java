@@ -13,6 +13,7 @@ import inf112.app.map.Map;
 
 import inf112.app.screens.LoadingMenuScreen;
 import inf112.app.screens.PauseGameScreen;
+import org.mockito.internal.matchers.Null;
 
 public class RoboRally extends Game {
     public SpriteBatch batch;
@@ -64,7 +65,7 @@ public class RoboRally extends Game {
     @Override
     public void pause() {
         if (!(this.getScreen() instanceof PauseGameScreen)){
-            lastScreen = this.getScreen();
+           // lastScreen = this.getScreen();
         }
         this.setScreen(new PauseGameScreen(this, viewport, stage));
     }
@@ -103,7 +104,9 @@ public class RoboRally extends Game {
 
     @Override
     public void setScreen(Screen screen) {
-        lastScreen = this.screen;
+        if (screen.getClass() != PauseGameScreen.class) {
+            lastScreen = this.screen;
+        }
         super.setScreen(screen);
     }
 }

@@ -34,25 +34,36 @@ public class HostGameScreen implements Screen {
                 game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
-        VisTextButton optionButton = new VisTextButton("Game Options");
+        VisTextButton optionButton = new VisTextButton("Game Options"); // TODO change out button to use same screen
         optionButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new GameOptionScreen(game, viewport, stage, true));
             }
         });
-        VisTextButton returnButton = new VisTextButton("Return");
-        returnButton.addListener(new ChangeListener() {
+        VisTextButton cancelButton = new VisTextButton("Return");
+        cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
-        table.add(courseButton).pad(3).height(60).width(350);
+        VisTextButton startButton = new VisTextButton("Start");
+        cancelButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(new MainMenuScreen(game, viewport, stage));
+            }
+        });
+        VisTable buttonTable = new VisTable();
+        buttonTable.add(cancelButton).pad(3).height(60).width(350);
+        buttonTable.add(startButton).pad(3).height(60).width(350);
+
+        table.add(courseButton).pad(3).height(60).width(700);
         table.row();
-        table.add(optionButton).pad(3).height(60).width(350);
+        table.add(optionButton).pad(3).height(60).width(700);
         table.row();
-        table.add(returnButton).pad(3).height(60).width(350);
+        table.add(buttonTable).pad(3).height(60).width(700);
         stage.addActor(table);
 
     }

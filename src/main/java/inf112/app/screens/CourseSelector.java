@@ -109,8 +109,9 @@ public class CourseSelector implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 selectCourse();
-                dispose();
-                game.setScreen(new LoadingGameScreen(game, menuViewport, stage));
+                //dispose();
+                game.setScreen(game.getLastScreen());
+                //game.setScreen(new LoadingGameScreen(game, menuViewport, stage));
             }
         });
         VisImageTextButton returnButton = new VisImageTextButton("Return","default");
@@ -182,17 +183,11 @@ public class CourseSelector implements Screen {
     }
 
     /**
-     * Remove maps that are not in use from the AssetManager
+     * Not used
      */
     @Override
     public void dispose() {
-
-        Array<String> assetNames = game.manager.getAssetNames();
-        assetNames.forEach(asset -> {
-            if (asset.contains("Maps") && !asset.equals(mapList.get(index).toString())){
-                game.manager.unload(asset);
-            }
-        });
+        // Not used
     }
 
     /**

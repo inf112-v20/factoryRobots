@@ -1,6 +1,5 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,13 +9,14 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 
-public class MainMenuScreen implements Screen {
+public class SinglePlayerScreen implements Screen {
+    private final Stage stage;
 
     private final RoboRally game;
-    private final Stage stage;
     private final StretchViewport viewport;
+    private int botsNumber = 1;
 
-    public MainMenuScreen(final RoboRally game, StretchViewport viewport, Stage stage) {
+    public SinglePlayerScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
@@ -27,51 +27,57 @@ public class MainMenuScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton singleplayerButton = new VisTextButton("Singleplayer");
-        singleplayerButton.addListener(new ChangeListener() {
+        VisTextButton selectCourseButton = new VisTextButton("Select Course");
+
+        selectCourseButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new SinglePlayerScreen(game, viewport, stage));
+                game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
-        VisTextButton joinButton = new VisTextButton("Join Game");
-        joinButton.addListener(new ChangeListener() {
+
+        VisTextButton botsButton = new VisTextButton("How many bots: " + botsNumber);
+        botsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new JoinGameScreen(game, viewport, stage));
+                if ( botsNumber >= 3 ){
+                    botsNumber = 1;
+                }
+                else botsNumber++;
+                botsButton.setText("How many bots: " + botsNumber);
             }
         });
-        VisTextButton hostButton = new VisTextButton("Host Game");
-        hostButton.addListener(new ChangeListener() {
+
+        VisTable buttonTable = new VisTable();
+
+        VisTextButton cancelButton = new VisTextButton("Cancel");
+        VisTextButton startButton = new VisTextButton("Start");
+        cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new HostGameScreen(game, viewport, stage));
+                game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
-        VisTextButton settingsButton = new VisTextButton("Settings");
-        settingsButton.addListener(new ChangeListener() {
+        startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new OptionScreen(game,viewport, stage));
+                // TODO validate that course have been set. Maybe use default map
+                game.setScreen(new LoadingGameScreen(game, viewport, stage));
             }
         });
-        VisTextButton exitButton = new VisTextButton("Exit");
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
-        table.add(singleplayerButton).pad(3).height(60).width(350);
+
+        buttonTable.add(cancelButton).pad(3).height(60).width(350);
+        buttonTable.add(startButton).pad(3).height(60).width(350);
+
+        table.add(selectCourseButton).pad(3).height(60).width(700);
         table.row();
-        table.add(joinButton).pad(3).height(60).width(350);
+        table.add(botsButton).pad(3).height(60).width(700);
         table.row();
-        table.add(hostButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(settingsButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(exitButton).pad(3).height(60).width(350);
+        table.add(buttonTable).pad(3).height(60).width(700);
+
         stage.addActor(table);
+        stage.setDebugAll(true);
+
     }
 
     @Override
@@ -82,6 +88,7 @@ public class MainMenuScreen implements Screen {
 
         stage.act();
         stage.draw();
+
     }
 
     @Override

@@ -26,7 +26,7 @@ public class RoboRally extends Game {
 
     public AssetManager manager;
 
-    private String mapName;
+    private String mapName; // TODO set default value
 
     @Override
     public void create() {

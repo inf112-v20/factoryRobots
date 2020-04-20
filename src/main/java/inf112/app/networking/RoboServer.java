@@ -98,6 +98,13 @@ public class RoboServer extends Listener {
         }
     }
 
+    /**
+     * Lookup method for the roborally protocol
+     * Used whenever a payload object is sent. Message contains a keyword
+     * and following information based on the keyword
+     * @param connection payload is received from
+     * @param payload containing the information
+     */
     private void interpretPayload(Connection connection, Payload payload){
         String[] split = payload.message.split(" ");
         if(split.length == 0){
@@ -142,6 +149,13 @@ public class RoboServer extends Listener {
         return packet;
     } */
 
+    /**
+     * Used to decode the information about a players choice
+     * and apply it to the servers representation of that robot.
+     * It also forwards this information to all the other connected clients
+     * @param c Connection the information is received from
+     * @param packet The packet carrying the information about the robots state
+     */
     private void interpretRobotState(Connection c, RobotStatePacket packet){
         if(c.getID() != packet.id){
             System.out.println("Client trying to manipulate robot that it doesn't own\nClosing connection");
@@ -211,6 +225,11 @@ public class RoboServer extends Listener {
     public void idle(Connection connection) {
     }
 
+    /**
+     * Used when a new client connects to assign the client an ID
+     * and update the server state
+     * @param connection of the client that just connected
+     */
     private void registerNewConnection(Connection connection){
         Payload reply = new Payload();
         reply.message = "id " + connection.getID();
@@ -218,7 +237,13 @@ public class RoboServer extends Listener {
 
         nPlayers++;
     }
-    //triggered by button press
+
+    /**
+     * Called when the host wants to launch the game
+     * Creates robots for the users and sends info about the maps
+     * as well as the robots
+     * @param mapName Name of the map
+     */
     private void launchGame(String mapName){
         state = ServerState.GAME;
         //Create and process robots, assign spawn points
@@ -241,6 +266,11 @@ public class RoboServer extends Listener {
         server.sendToAllTCP(robots);
     }
 
+    /**
+     * Used for testing
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception{
         RoboServer serv = new RoboServer();
         while(true){

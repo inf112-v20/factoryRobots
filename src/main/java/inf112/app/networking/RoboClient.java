@@ -27,7 +27,7 @@ public class RoboClient extends Listener {
 
     private static Client client;
     private static int tcpPort = 10801;
-    private static String ip = "localhost";
+    private static String ip = "localhost"; //#TODO get this from input field
     private int id = -1;
 
     private CardDeck deck;
@@ -64,14 +64,19 @@ public class RoboClient extends Listener {
     @Override
     public void received(Connection connection, Object object) {
         if(object instanceof Payload){
-            interpretPayload(connection, (Payload) object);
+            interpretPayload((Payload) object);
         } else if(object instanceof RobotListPacket){
-            processRobotList(connection, (RobotListPacket) object);
+            processRobotList((RobotListPacket) object);
         } else if (object instanceof RobotStatePacket){
             interpretRobotState((RobotStatePacket) object);
         }
     }
 
+    /**
+     * Used to decode the information about a players choice
+     * and apply it to the clients representation of that robot
+     * @param packet The packet carrying the information about the robots state
+     */
     private void interpretRobotState(RobotStatePacket packet){
         Robot r = null;
         ArrayList<Robot> roboList = Map.getInstance().getRobotList();
@@ -95,10 +100,15 @@ public class RoboClient extends Listener {
         super.idle(connection);
     }
 
-    private void processRobotList(Connection c, RobotListPacket packet){
+    /**
+     * Used to interpret the list of robots that is initially sent by the server
+     * when the game launches
+     * @param packet containing the list of robots
+     */
+    private void processRobotList(RobotListPacket packet){
         if(this.id == -1){
             System.out.println("Haven't recevied ID from server, something is wrong\nClosing connection");
-            c.close();
+            client.close();
         }
         Map map = Map.getInstance();
         for(Robot r : packet.list){
@@ -109,7 +119,13 @@ public class RoboClient extends Listener {
         map.setRobotList(packet.list);
     }
 
-    private void interpretPayload(Connection c, Payload payload){
+    /**
+     * Lookup method for the roborally protocol
+     * Used whenever a payload object is sent. Message contains a keyword
+     * and following information based on the keyword
+     * @param payload containing the information
+     */
+    private void interpretPayload(Payload payload){
         String[] split = payload.message.split(" ");
         if(split.length == 0){
             System.out.println("Empty payload");
@@ -146,13 +162,19 @@ public class RoboClient extends Listener {
             }
         } catch (IndexOutOfBoundsException e){
             System.out.println("Malformed payload message\n" + e.getMessage());
-            c.close();
+            client.close();
         } catch (NumberFormatException e){
             System.out.println("ID message contains invalid id\n" + e.getMessage());
-            c.close();
+            client.close();
         }
     }
 
+    /**
+     * Used when the player has locked in
+     * his choice of programming for the round
+     * His robots state is then sent to the server
+     * which passes the info to all the other clients as well
+     */
     public void sendProgramming(){
         int[] priorities = new int[5];
         Robot robot = game.getPlayer().getCharacter();
@@ -168,6 +190,11 @@ public class RoboClient extends Listener {
         sendRemainingCards();
     }
 
+    /**
+     * After the programming is sent
+     * the server also needs to know which
+     * cards the client hasn't used
+     */
     private void sendRemainingCards(){
         String message = "rem ";
         for(CardSlot slot : CardUI.getInstance().getSideCardSlots()){
@@ -178,17 +205,24 @@ public class RoboClient extends Listener {
         Payload payload = new Payload();
         payload.message = message;
         client.sendTCP(payload);
-        payload.message = "done";
-        client.sendTCP(payload);
     }
 
+    /**
+     * When the {@link inf112.app.screens.GameScreen} is done simulating the round
+     * this method is called to let the server know that the client is now ready to receive
+     * a new set of cards
+     */
     public void sendDone(){
         Payload message = new Payload();
         message.message = "done";
         client.sendTCP(message);
     }
 
-
+    /**
+     * Used for testing
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception{
         RoboClient client = new RoboClient(new RoboRally(),new StretchViewport(1000,1000), new Stage(), new CardDeck());
         while(true){

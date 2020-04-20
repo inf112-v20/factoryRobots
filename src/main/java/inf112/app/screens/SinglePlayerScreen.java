@@ -40,7 +40,7 @@ public class SinglePlayerScreen implements Screen {
         botsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                if ( botsNumber >= 3 ){
+                if ( botsNumber >= 7 ){
                     botsNumber = 1;
                 }
                 else botsNumber++;

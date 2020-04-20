@@ -161,6 +161,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		down: button-standard-2
 		pressedOffsetX: 2
 	}
+	text: {
+		font: PressStart2P-Regular
+		fontColor: White
+		up: button-bigger
+		down: button-bigger
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {

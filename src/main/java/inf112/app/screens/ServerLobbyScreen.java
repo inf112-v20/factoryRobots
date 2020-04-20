@@ -5,18 +5,20 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 
-public class HostGameScreen implements Screen {
+public class ServerLobbyScreen implements Screen {
     private final Stage stage;
 
     private final RoboRally game;
     private final StretchViewport viewport;
 
-    public HostGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
+    public ServerLobbyScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
@@ -27,44 +29,37 @@ public class HostGameScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton courseButton = new VisTextButton("Select Course");
-        courseButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport, stage));
-            }
-        });
-        VisTextButton optionButton = new VisTextButton("Game Options"); // TODO change out button to use same screen
-        optionButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new GameOptionScreen(game, viewport, stage, true));
-            }
-        });
-        VisTextButton cancelButton = new VisTextButton("Return");
+
+        // Button table
+        VisTable buttonTable = new VisTable();
+        VisTextButton cancelButton = new VisTextButton("Cancel");
+        VisTextButton startButton = new VisTextButton("Start");
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
-        VisTextButton startButton = new VisTextButton("Start");
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new ServerLobbyScreen(game, viewport, stage));
+                // TODO validate that course have been set. Maybe use default map
+                game.setScreen(new LoadingGameScreen(game, viewport, stage));
             }
         });
-        VisTable buttonTable = new VisTable();
         buttonTable.add(cancelButton).pad(3).height(60).width(350);
         buttonTable.add(startButton).pad(3).height(60).width(350);
 
-        table.add(courseButton).pad(3).height(60).width(700);
+        for (int i = 0; i < 8; i++){
+            VisTextButton button = new VisTextButton("","text");
+            table.add(button).pad(3).height(60).width(700);
+            table.row();
+        }
+
+        table.add(buttonTable);
         table.row();
-        table.add(optionButton).pad(3).height(60).width(700);
-        table.row();
-        table.add(buttonTable).pad(3).height(60).width(700);
         stage.addActor(table);
+        stage.setDebugAll(true);
 
     }
 

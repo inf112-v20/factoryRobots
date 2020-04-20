@@ -1,6 +1,5 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,16 +9,19 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 
-public class OptionScreen implements Screen {
+public class GameOptionScreen implements Screen {
     private final Stage stage;
 
     private final RoboRally game;
     private final StretchViewport viewport;
 
-    public OptionScreen(RoboRally game, StretchViewport viewport, Stage stage) {
+    private boolean multiplayer;
+
+    public GameOptionScreen(RoboRally game, StretchViewport viewport, Stage stage, Boolean multiplayer) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
+        this.multiplayer = multiplayer;
     }
 
     @Override
@@ -27,13 +29,30 @@ public class OptionScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton soundButton = new VisTextButton("Sound");
-        soundButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                //
-            }
-        });
+        if (multiplayer) {
+            VisTextButton playersButton = new VisTextButton("Select Players");
+            playersButton.addListener(new ChangeListener() {
+                @Override
+                public void changed (ChangeEvent event, Actor actor) {
+                    //
+                }
+            });
+            table.add(playersButton).pad(3).height(60).width(350);
+            table.row();
+        }
+
+        else {
+            VisTextButton botsNumber = new VisTextButton("Select Bots");
+            botsNumber.addListener(new ChangeListener() {
+                @Override
+                public void changed (ChangeEvent event, Actor actor) {
+                    //
+                }
+            });
+            table.add(botsNumber).pad(3).height(60).width(350);
+            table.row();
+        }
+
         VisTextButton returnButton = new VisTextButton("Return");
         returnButton.addListener(new ChangeListener() {
             @Override
@@ -41,18 +60,9 @@ public class OptionScreen implements Screen {
                 game.setScreen(game.getLastScreen());
             }
         });
-        VisTextButton exitButton = new VisTextButton("Exit");
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
-        table.add(soundButton).pad(3).height(60).width(350);
-        table.row();
+
         table.add(returnButton).pad(3).height(60).width(350);
         table.row();
-        table.add(exitButton).pad(3).height(60).width(350);
         stage.addActor(table);
 
     }

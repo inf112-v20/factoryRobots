@@ -1,22 +1,24 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
 
-public class MainMenuScreen implements Screen {
+public class JoinGameScreen implements Screen {
+    private final Stage stage;
 
     private final RoboRally game;
-    private final Stage stage;
     private final StretchViewport viewport;
 
-    public MainMenuScreen(final RoboRally game, StretchViewport viewport, Stage stage) {
+    public JoinGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
@@ -27,50 +29,38 @@ public class MainMenuScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton singleplayerButton = new VisTextButton("Singleplayer");
-        singleplayerButton.addListener(new ChangeListener() {
+        VisValidatableTextField ipField = new VisValidatableTextField();
+        VisTextButton cancelButton = new VisTextButton("cancel");
+        VisTextButton acceptButton = new VisTextButton("accept");
+
+        VisTable buttonTable = new VisTable();
+        buttonTable.add(cancelButton).pad(3).height(60).width(350);
+        buttonTable.add(acceptButton).pad(3).height(60).width(350);
+
+        acceptButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new SinglePlayerScreen(game, viewport, stage));
+                // ipField.toString(); -> Ip address
+                // TODO Validate input and join game
+                // TODO Make input more intuitive with error labels and colors
             }
         });
-        VisTextButton joinButton = new VisTextButton("Join Game");
-        joinButton.addListener(new ChangeListener() {
+
+        cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new JoinGameScreen(game, viewport, stage));
+                game.setScreen(game.getLastScreen());
             }
         });
-        VisTextButton hostButton = new VisTextButton("Host Game");
-        hostButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new HostGameScreen(game, viewport, stage));
-            }
-        });
-        VisTextButton settingsButton = new VisTextButton("Settings");
-        settingsButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new OptionScreen(game,viewport, stage));
-            }
-        });
-        VisTextButton exitButton = new VisTextButton("Exit");
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
-        table.add(singleplayerButton).pad(3).height(60).width(350);
+        VisLabel info = new VisLabel("Ip Address: ");
+        info.setAlignment(Align.center); // Align text to center
+        ipField.setAlignment(Align.center);
+
+        table.add(info).pad(3).height(60).width(700);
         table.row();
-        table.add(joinButton).pad(3).height(60).width(350);
+        table.add(ipField).pad(3).height(60).width(700);
         table.row();
-        table.add(hostButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(settingsButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(exitButton).pad(3).height(60).width(350);
+        table.add(buttonTable);
         stage.addActor(table);
     }
 
@@ -82,6 +72,7 @@ public class MainMenuScreen implements Screen {
 
         stage.act();
         stage.draw();
+
     }
 
     @Override

@@ -23,6 +23,18 @@ com.badlogic.gdx.graphics.Color: {
 		b: 0.85333335
 		a: 1
 	}
+	Light-Green: {
+		r: 0.52087784
+		g: 0.8633331
+		b: 0.53946507
+		a: 1
+	}
+	Red: {
+		r: 1
+		g: 0
+		b: 0
+		a: 1
+	}
 	White: {
 		r: 1
 		g: 1
@@ -44,6 +56,16 @@ com.kotcrab.vis.ui.Sizes: {
 		fileChooserViewModeMediumIconsSize: 128
 		fileChooserViewModeSmallIconsSize: 64
 		fileChooserViewModeListWidthSize: 150
+	}
+}
+com.kotcrab.vis.ui.widget.VisTextField$VisTextFieldStyle: {
+	default: {
+		font: PressStart2P-Regular
+		fontColor: White
+		background: input-button
+		backgroundOver: input-button
+		messageFont: PressStart2P-Regular
+		messageFontColor: White
 	}
 }
 com.kotcrab.vis.ui.widget.VisTextButton$VisTextButtonStyle: {
@@ -109,6 +131,13 @@ com.kotcrab.vis.ui.widget.BusyBar$BusyBarStyle: {
 		height: 5
 		segmentWidth: 150
 		segmentOverflow: 10
+	}
+}
+com.kotcrab.vis.ui.util.form.SimpleFormValidator$FormValidatorStyle: {
+	default: {
+		errorLabelColor: Red
+		validLabelColor: Light-Green
+		colorTransitionDuration: 1
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {

@@ -20,12 +20,6 @@ public class Rounds {
 
     }
 
-    public void startRound() {
-        putBackPlayers();
-        for (int i = 1; i < 6; i ++){
-                doPhase(i);
-        }
-    }
 
     /**
      * method for putting the players who have lost a life
@@ -41,30 +35,13 @@ public class Rounds {
     }
 
     /**
-     * dealing cards
+     * dealing right amount of cards to each robot
      */
-    private void dealCards(){
+    public void dealCards(){
         for (Robot r : robots){
             r.dealNewCards();
         }
-
     }
-
-    /**
-     * method for finding out when to start the timer
-     * @return boolean
-     */
-    private boolean startTimer(){
-        int count = 0;
-        for (Robot r : robots){
-            if (r.doneProgramming()){
-                count ++;
-            }
-        }
-        return count == robots.size() -1;
-
-    }
-
 
     /**
      * method for doing the actions in rights order for each of the cards

@@ -10,13 +10,13 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 
-public class MainMenuScreen implements Screen {
+public class HostGameScreen implements Screen {
+    private final Stage stage;
 
     private final RoboRally game;
-    private final Stage stage;
     private final StretchViewport viewport;
 
-    public MainMenuScreen(final RoboRally game, StretchViewport viewport, Stage stage) {
+    public HostGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
@@ -27,51 +27,45 @@ public class MainMenuScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton singleplayerButton = new VisTextButton("Singleplayer");
-        singleplayerButton.addListener(new ChangeListener() {
+        VisTextButton courseButton = new VisTextButton("Select Course");
+        courseButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new SinglePlayerScreen(game, viewport, stage));
+                game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
-        VisTextButton joinButton = new VisTextButton("Join Game");
-        joinButton.addListener(new ChangeListener() {
+        VisTextButton optionButton = new VisTextButton("Game Options"); // TODO change out button to use same screen
+        optionButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new JoinGameScreen(game, viewport, stage));
+                game.setScreen(new GameOptionScreen(game, viewport, stage, true));
             }
         });
-        VisTextButton hostButton = new VisTextButton("Host Game");
-        hostButton.addListener(new ChangeListener() {
+        VisTextButton cancelButton = new VisTextButton("Return");
+        cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new HostGameScreen(game, viewport, stage));
+                game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
-        VisTextButton settingsButton = new VisTextButton("Settings");
-        settingsButton.addListener(new ChangeListener() {
+        VisTextButton startButton = new VisTextButton("Start");
+        cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new OptionScreen(game,viewport, stage));
+                game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
-        VisTextButton exitButton = new VisTextButton("Exit");
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
-        table.add(singleplayerButton).pad(3).height(60).width(350);
+        VisTable buttonTable = new VisTable();
+        buttonTable.add(cancelButton).pad(3).height(60).width(350);
+        buttonTable.add(startButton).pad(3).height(60).width(350);
+
+        table.add(courseButton).pad(3).height(60).width(700);
         table.row();
-        table.add(joinButton).pad(3).height(60).width(350);
+        table.add(optionButton).pad(3).height(60).width(700);
         table.row();
-        table.add(hostButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(settingsButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(exitButton).pad(3).height(60).width(350);
+        table.add(buttonTable).pad(3).height(60).width(700);
         stage.addActor(table);
+
     }
 
     @Override
@@ -82,6 +76,7 @@ public class MainMenuScreen implements Screen {
 
         stage.act();
         stage.draw();
+
     }
 
     @Override

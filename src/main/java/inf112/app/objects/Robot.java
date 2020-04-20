@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 import inf112.app.game.CardUI;
+import inf112.app.game.GameSounds;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
@@ -40,6 +41,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private TiledMapTileLayer.Cell normalPlayer;
     private TiledMapTileLayer.Cell winningPlayer;
     private TiledMapTileLayer.Cell loosingPlayer;
+
+    private GameSounds sound;
 
     public Robot(Position pos, String charName){
         this.map = Map.getInstance();
@@ -250,13 +253,13 @@ public class Robot implements ILaserInteractor, IBoardElement {
             damageTokens = 0;
             isDead = lives <= 0;
             try {
-                game.sounds.deathSound();
+                sound.deathSound();
             } catch (NullPointerException ignored){ // Catch exception for test classes
 
             }
         } else {
             try {
-                game.sounds.takeDamage();
+                sound.takeDamage();
             } catch (NullPointerException ignored){ // Catch exception for test classes
 
             }
@@ -321,7 +324,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void setCheckPoint(Position p){
         this.checkPoint = p;
         try {
-            game.sounds.checkpoint();
+            sound.checkpoint();
         } catch (NullPointerException ignored){ // Preventing error in test classes
 
         }

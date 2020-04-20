@@ -85,6 +85,12 @@ com.kotcrab.vis.ui.widget.VisTextButton$VisTextButtonStyle: {
 	tab: {
 		focusBorder: button-bigger
 	}
+	text: {
+		font: PressStart2P-Regular
+		fontColor: White
+		up: button-bigger
+		down: button-bigger
+	}
 }
 com.kotcrab.vis.ui.widget.VisImageButton$VisImageButtonStyle: {
 	arrow-1: {

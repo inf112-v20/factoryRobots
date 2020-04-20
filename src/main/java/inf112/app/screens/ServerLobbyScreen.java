@@ -1,13 +1,10 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
@@ -22,6 +19,11 @@ public class ServerLobbyScreen implements Screen {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
+    }
+
+    private void checkForNewPlayers(){
+        // TODO Implement check for new players
+        // TODO Update "Waiting..." labels with player names
     }
 
     @Override
@@ -50,8 +52,9 @@ public class ServerLobbyScreen implements Screen {
         buttonTable.add(cancelButton).pad(3).height(60).width(350);
         buttonTable.add(startButton).pad(3).height(60).width(350);
 
+        table.row();
         for (int i = 0; i < 8; i++){
-            VisTextButton button = new VisTextButton("","text");
+            VisTextButton button = new VisTextButton("Waiting...","text");
             table.add(button).pad(3).height(60).width(700);
             table.row();
         }
@@ -59,7 +62,6 @@ public class ServerLobbyScreen implements Screen {
         table.add(buttonTable);
         table.row();
         stage.addActor(table);
-        stage.setDebugAll(true);
 
     }
 

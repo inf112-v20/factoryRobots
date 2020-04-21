@@ -244,7 +244,7 @@ public class RoboServer extends Listener {
      * as well as the robots
      * @param mapName Name of the map
      */
-    private void launchGame(String mapName){
+    public void launchGame(String mapName){
         state = ServerState.GAME;
         //Create and process robots, assign spawn points
         ArrayList<Robot> robotList = new ArrayList<>(nPlayers);

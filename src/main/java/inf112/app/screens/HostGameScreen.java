@@ -1,6 +1,5 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,17 +8,29 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
+import inf112.app.networking.RoboClient;
+import inf112.app.networking.RoboServer;
+
+import java.io.IOException;
 
 public class HostGameScreen implements Screen {
     private final Stage stage;
 
     private final RoboRally game;
     private final StretchViewport viewport;
+    private final RoboServer server;
 
     public HostGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
+        this.server = new RoboServer();
+        try{
+            game.client = new RoboClient(game,viewport,stage,"localhost");
+        } catch (IOException e){
+            System.out.println("Unable to connect to localhost");
+        }
+
     }
 
     @Override
@@ -49,10 +60,11 @@ public class HostGameScreen implements Screen {
             }
         });
         VisTextButton startButton = new VisTextButton("Start");
-        cancelButton.addListener(new ChangeListener() {
+        startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game, viewport, stage));
+                server.launchGame(game.getMapName());
+                //game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
         VisTable buttonTable = new VisTable();

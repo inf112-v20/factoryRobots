@@ -261,7 +261,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     /**
-     * method for deaing the right amount of cards compared to damageTokens
+     * method for dealing the right amount of cards compared to damageTokens
      */
     public void dealNewCards() {
         wipeSlots(availableCards);
@@ -277,7 +277,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void wipeSlots(CardSlot[] slotList){
         for(CardSlot slot : slotList){
-            slot.removeCard();
+            if(!slot.isLocked()){ // TODO lock the slot at some point
+                slot.removeCard();
+            }
+
         }
     }
 

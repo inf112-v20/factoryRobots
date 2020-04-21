@@ -11,6 +11,9 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
+import inf112.app.networking.RoboClient;
+
+import java.io.IOException;
 
 public class JoinGameScreen implements Screen {
     private final Stage stage;
@@ -22,6 +25,12 @@ public class JoinGameScreen implements Screen {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
+        /*try{
+            game.client = new RoboClient(game,viewport,stage,ip); //TODO Move this to when the screen is set to lobby
+        } catch (IOException e){
+            System.out.println("Couldn't connect to " + ip);
+        } */
+
     }
 
     @Override

@@ -27,14 +27,15 @@ public class RoboClient extends Listener {
 
     private static Client client;
     private static int tcpPort = 10801;
-    private static String ip = "localhost"; //#TODO get this from input field
+    private final String ip; //#TODO get this from input field
     private int id = -1;
 
     private CardDeck deck;
 
 
 
-    public RoboClient(final RoboRally game, StretchViewport viewport, Stage stage, CardDeck deck) throws IOException {
+    public RoboClient(final RoboRally game, StretchViewport viewport, Stage stage, String ip) throws IOException {
+        this.ip = ip;
         client = new Client();
 
         client.getKryo().register(Payload.class);
@@ -48,7 +49,6 @@ public class RoboClient extends Listener {
         this.viewport = viewport;
         this.stage = stage;
 
-        this.deck = deck;
     }
 
     @Override
@@ -141,6 +141,9 @@ public class RoboClient extends Listener {
                     game.setScreen(new LoadingGameScreen(game, viewport, stage));
                     break;
                 case "cards":
+                    if(deck == null){
+                        this.deck = Map.getInstance().getDeck();
+                    }
                     for(int i = 1; i<split.length; i++){
                         CardUI ui = CardUI.getInstance();
                         game.getPlayer().getCharacter().wipeSlots(ui.getSideCardSlots());
@@ -224,7 +227,7 @@ public class RoboClient extends Listener {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception{
-        RoboClient client = new RoboClient(new RoboRally(),new StretchViewport(1000,1000), new Stage(), new CardDeck());
+        RoboClient client = new RoboClient(new RoboRally(),new StretchViewport(1000,1000), new Stage(), "localhost");
         while(true){
             continue;
         }

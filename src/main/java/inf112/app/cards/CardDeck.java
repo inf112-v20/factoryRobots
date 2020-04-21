@@ -13,11 +13,12 @@ import java.util.Stack;
  */
 public class CardDeck {
     private Stack<ICard> deck;
+    private ArrayList<ICard> usedStack;
     private Texture[] textures;
 
     public CardDeck(){
         loadCardTextures();
-        reset();
+        initialize();
         shuffle();
     }
 
@@ -32,16 +33,17 @@ public class CardDeck {
         for(int i = 0; i<7; i++){
             textures[i] = null;
         }
-        reset();
+        initialize();
 
     }
 
     /**
-     *
-     * Resets the deck and 'unshuffles' them
+     * Loads the card textures and adds the
+     * cards to the deck
      */
-    public void reset() {
+    public void initialize() {
         deck = new Stack<>();
+        usedStack = new ArrayList<>();
 
         //MOVE_ONE Cards:
         int point = 520;
@@ -99,6 +101,16 @@ public class CardDeck {
     }
 
     /**
+     * Moves all the used cards back to the deck
+     */
+    public void reset(){
+        for(ICard card : usedStack){
+            deck.push(card);
+        }
+        shuffle();
+    }
+
+    /**
      *
      * Shuffles the deck, use this before getting cards
      */
@@ -125,23 +137,27 @@ public class CardDeck {
     public ArrayList<ICard> getCards(int amount) {
         ArrayList<ICard> playerDeck = new ArrayList<>();
         for (int i = 0; i < amount; i ++) {
-            playerDeck.add(deck.pop());
+            ICard card = deck.pop();
+            playerDeck.add(card);
+            usedStack.add(card);
         }
         return playerDeck;
     }
 
     public ICard getCard(){
         if(deck.isEmpty()){
-            System.out.println("Deck is empty");
-            return null;
+            reset();
         }
-        return deck.pop();
+        ICard card = deck.pop();
+        usedStack.add(card);
+        return card;
     }
 
     public ICard getCard(int priority){
         for(ICard card : deck){
             if(card.getPoint() == priority){
                 deck.remove(card);
+                usedStack.add(card);
                 return card;
             }
         }

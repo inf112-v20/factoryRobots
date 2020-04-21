@@ -31,7 +31,6 @@ public class GameScreen implements Screen {
     private OrthogonalTiledMapRenderer uiRenderer;
     private TiledMapStage tiledStage;
 
-    private CardDeck deck;
     private Rounds currentRound = new Rounds();
 
     private boolean timerRunning = false;
@@ -73,13 +72,13 @@ public class GameScreen implements Screen {
         ui.initializeDamageTokens();
 
         //Create and shuffle deck
-        deck = game.manager.get("deck");
+        cellMap.setDeck(game.manager.get("deck"));
         game.manager.unload("deck");
 
-        cellMap.setDeck(deck);
+
         //Cards for testing
         for(int i = 0; i<9; i++){
-            ui.addCardToSlot(deck.getCard(),"side",i);
+            ui.addCardToSlot(Map.getInstance().getDeck().getCard(),"side",i);
         }
 
 

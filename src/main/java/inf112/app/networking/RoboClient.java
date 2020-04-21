@@ -1,6 +1,7 @@
 package inf112.app.networking;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -16,6 +17,8 @@ import inf112.app.networking.packets.RobotListPacket;
 import inf112.app.networking.packets.RobotStatePacket;
 import inf112.app.objects.Robot;
 import inf112.app.screens.LoadingGameScreen;
+import inf112.app.screens.MultiplayerScreen;
+import inf112.app.screens.ServerLobbyScreen;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,22 +30,30 @@ public class RoboClient extends Listener {
 
     private static Client client;
     private static int tcpPort = 10801;
-    private final String ip; //#TODO get this from input field
+    private final String ip;
+    public boolean serverAccept = false;
+    public boolean serverReject = false;
+    public String serverMessage = "";
+
     private int id = -1;
+    private String username;
+    private ArrayList<String> userList;
 
     private CardDeck deck;
 
 
-
-    public RoboClient(final RoboRally game, StretchViewport viewport, Stage stage, String ip) throws IOException {
+    public RoboClient(final RoboRally game, StretchViewport viewport, Stage stage, String ip, String username) throws IOException {
         this.ip = ip;
+        this.username = username;
+        userList = new ArrayList<>(8);
+
         client = new Client();
 
         client.getKryo().register(Payload.class);
         client.getKryo().register(RobotListPacket.class);
 
         client.start();
-        client.connect(5000, ip, tcpPort);
+        client.connect(5000, ip, tcpPort); //IOException if unable to connect
         client.addListener(this);
 
         this.game = game;
@@ -133,14 +144,14 @@ public class RoboClient extends Listener {
         }
         try {
             switch (split[0].toLowerCase()) {
-                case "id":
+                case "id": //Server assigns client id
                     this.id = Integer.parseInt(split[1]);
                     break;
-                case "map":
+                case "map": //Server broadcasts which map will be played
                     game.setMapName(split[1]);
                     game.setScreen(new LoadingGameScreen(game, viewport, stage));
                     break;
-                case "cards":
+                case "cards": //Server hands out cards
                     if(deck == null){
                         this.deck = Map.getInstance().getDeck();
                     }
@@ -151,12 +162,45 @@ public class RoboClient extends Listener {
                         ui.addCardToSlot(card,"side",(i-1));
                     }
                     break;
-                case "disc":
+                case "disc": //Some client disconnected
                     int id = Integer.parseInt(split[1]);
                     for(Robot r : Map.getInstance().getRobotList()){
                         if(r.getID() == id){
                             Map.getInstance().deleteRobot(r);
                         }
+                    }
+                    break;
+                case "users": //Update to the playercount
+                    userList.clear();
+                    for(int i = 1; i<split.length; i++){
+                        userList.add(split[i]);
+                    }
+                    if(game.getScreen() instanceof ServerLobbyScreen){
+                        ((ServerLobbyScreen) game.getScreen()).updatePlayerList(userList);
+                    }
+                    break;
+                case "success": //Server accepted client
+                    Payload greeting = new Payload();
+                    greeting.message = "username " + this.username;
+                    client.sendTCP(greeting);
+                    serverAccept = true;
+                    break;
+                case "running": //Servers gamesession already running
+                    serverReject = true;
+                    serverMessage = "Gamesession is already running";
+                    break;
+                case "full": //Server is full
+                    serverReject = true;
+                    serverMessage = "Server is full";
+                    break;
+                case "shutdown":
+                    if(game.getScreen() instanceof MultiplayerScreen){
+                         ((MultiplayerScreen) game.getScreen()).alertUser("Host disconnected");
+                    }
+                    break;
+                case "allready":
+                    if(game.getScreen() instanceof ServerLobbyScreen){
+                        ((ServerLobbyScreen) game.getScreen()).alertUser("Server launching..");
                     }
                     break;
                 default:
@@ -221,15 +265,20 @@ public class RoboClient extends Listener {
         client.sendTCP(message);
     }
 
-    /**
-     * Used for testing
-     * @param args
-     * @throws Exception
-     */
-    public static void main(String[] args) throws Exception{
-        RoboClient client = new RoboClient(new RoboRally(),new StretchViewport(1000,1000), new Stage(), "localhost");
-        while(true){
-            continue;
-        }
+    public void disconnect(){
+        client.stop();
     }
+
+    public void sendReady(){
+        Payload ready = new Payload();
+        ready.message = "ready";
+        client.sendTCP(ready);
+    }
+
+    public void sendUnready(){
+        Payload unready = new Payload();
+        unready.message = "unready";
+        client.sendTCP(unready);
+    }
+
 }

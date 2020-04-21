@@ -5,6 +5,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import inf112.app.cards.CardDeck;
 import inf112.app.cards.ICard;
+import inf112.app.game.RoboRally;
 import inf112.app.map.Position;
 import inf112.app.networking.packets.Payload;
 import inf112.app.networking.packets.RobotListPacket;
@@ -12,14 +13,19 @@ import inf112.app.networking.packets.RobotStatePacket;
 import inf112.app.objects.Robot;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class RoboServer extends Listener {
     private static final int MAX_PLAYER_AMOUNT = 8;
+    private final RoboRally game;
+
     private int nPlayers;
     private int nDoneSimulating;
+    private int nReady;
     private static Server server;
     private static int tcpPort = 10801;
 
@@ -27,6 +33,7 @@ public class RoboServer extends Listener {
     private boolean terminated = false;
 
     private HashMap<Integer, Robot> robotMap;
+    private HashMap<Integer, String> playerMap;
 
     private CardDeck deck;
     private HashMap<Integer,ICard> usedCards;
@@ -34,19 +41,23 @@ public class RoboServer extends Listener {
     private String[] robotNames = new String[]{"1","2","3","4","5","6","7","8"};
     private Position[] spawnPoints = new Position[MAX_PLAYER_AMOUNT]; // #TODO: get spawnpoints
 
-    public RoboServer() {
+    public RoboServer(final RoboRally game) {
+        this.game = game;
         server = new Server();
         System.out.println("Launching server..");
 
         server.getKryo().register(Payload.class);
         server.getKryo().register(RobotListPacket.class);
+        server.getKryo().register(RobotStatePacket.class);
 
         try {
             server.bind(tcpPort);
         } catch (IOException e) {
             //Should never happen
-            System.out.println("Invalid port, binding the server failed:\n" + e.getMessage());
+            System.out.println("Binding the server failed or " +
+                    "obtaining local ip failed:\n" + e.getMessage());
         }
+
 
         server.start();
 
@@ -55,6 +66,7 @@ public class RoboServer extends Listener {
         nDoneSimulating = 0;
 
         robotMap = new HashMap<>(MAX_PLAYER_AMOUNT);
+        playerMap = new HashMap<>(MAX_PLAYER_AMOUNT);
 
         state = ServerState.LOBBY;
         deck = new CardDeck();
@@ -68,11 +80,11 @@ public class RoboServer extends Listener {
         registerNewConnection(connection);
         //Only accept if not full and game hasn't started
         if(state == ServerState.LOBBY && nPlayers < MAX_PLAYER_AMOUNT){
-            reply.message = "Successfully joined the server!";
+            reply.message = "success";
             connection.sendTCP(reply);
         } else {
             reply.message = nPlayers < MAX_PLAYER_AMOUNT ?
-                    "Server unavailable, game already running" : "Server is full";
+                    "running" : "full";
             connection.sendTCP(reply);
             connection.close();
         }
@@ -82,10 +94,15 @@ public class RoboServer extends Listener {
     public void disconnected(Connection connection) {
         System.out.println("A client disconnected");
         nPlayers--;
+        robotMap.remove(connection.getID());
+        playerMap.remove(connection.getID());
         if(state == ServerState.GAME){
             Payload playerDisc = new Payload();
             playerDisc.message = "disc " + connection.getID();
             server.sendToAllTCP(playerDisc);
+        } else if (state == ServerState.LOBBY){
+            Payload users = assembleUserListPacket();
+            server.sendToAllTCP(users);
         }
     }
 
@@ -123,6 +140,21 @@ public class RoboServer extends Listener {
                         nDoneSimulating = 0;
                     }
                     break;
+                case "username":
+                    playerMap.put(connection.getID(),split[1]);
+
+                    Payload users = assembleUserListPacket();
+                    server.sendToAllTCP(users);
+                    break;
+                case "ready":
+                    nReady++;
+                    if(nReady == nPlayers){
+                        launchGame();
+                    }
+                    break;
+                case "unready":
+                    nReady--;
+                    break;
                 default:
                     System.out.println("Payload from client " + connection.getID() + ": " + payload.message);
                     break;
@@ -132,22 +164,17 @@ public class RoboServer extends Listener {
             connection.close();
         }
     }
-/* Might not need this
-    private RobotStatePacket assembleRobotStatePacket(Robot r) {
-        RobotStatePacket packet = new RobotStatePacket();
-        packet.id = r.getID();
-        packet.powerdownNextRound = r.getPowerDownNextRound();
-        int[] priorities = new int[5];
-        int i = 0;
-        for(CardSlot slot : r.getProgrammedCards()){
-            if(slot.getCard() != null){
-                priorities[i] = slot.getCard().getPoint();
-            }
-            i++;
+
+    private Payload assembleUserListPacket(){
+        Payload users = new Payload();
+        StringBuilder userList = new StringBuilder();
+        userList.append("users ");
+        for(String user : playerMap.values()){
+            userList.append(user + " ");
         }
-        packet.programmedCards = priorities;
-        return packet;
-    } */
+        users.message = userList.toString();
+        return users;
+    }
 
     /**
      * Used to decode the information about a players choice
@@ -242,9 +269,8 @@ public class RoboServer extends Listener {
      * Called when the host wants to launch the game
      * Creates robots for the users and sends info about the maps
      * as well as the robots
-     * @param mapName Name of the map
      */
-    public void launchGame(String mapName){
+    public void launchGame(){
         state = ServerState.GAME;
         //Create and process robots, assign spawn points
         ArrayList<Robot> robotList = new ArrayList<>(nPlayers);
@@ -257,7 +283,7 @@ public class RoboServer extends Listener {
         }
         //send mapname to all clients so they can load
         Payload mapInfo = new Payload();
-        mapInfo.message = "map " + mapName;
+        mapInfo.message = "map " + game.getMapName();
         server.sendToAllTCP(mapInfo);
 
         //send list of robots
@@ -267,17 +293,14 @@ public class RoboServer extends Listener {
     }
 
     /**
-     * Used for testing
-     * @param args
-     * @throws Exception
+     * DO NOT USE THIS
+     * USE {@link RoboRally#shutdownServer()}
      */
-    public static void main(String[] args) throws Exception{
-        RoboServer serv = new RoboServer();
-        while(true){
-            if(serv.terminated){
-                break;
-            }
-        }
+    public void shutdown(){
+        Payload termination = new Payload();
+        termination.message = "shutdown";
+        server.sendToAllTCP(termination);
+        server.stop();
     }
 
     public enum ServerState{

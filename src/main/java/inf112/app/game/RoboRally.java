@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
-import inf112.app.cards.CardDeck;
 import inf112.app.map.Map;
 
 import inf112.app.networking.RoboClient;
+import inf112.app.networking.RoboServer;
 import inf112.app.screens.LoadingMenuScreen;
 import inf112.app.screens.PauseGameScreen;
+
+import java.io.IOException;
 
 public class RoboRally extends Game {
     public SpriteBatch batch;
@@ -25,6 +27,8 @@ public class RoboRally extends Game {
     protected Screen lastScreen;
 
     public RoboClient client;
+    private RoboServer server;
+    public boolean isHost = false;
 
     public Texture backgroundImg;
 
@@ -111,5 +115,24 @@ public class RoboRally extends Game {
     public void setScreen(Screen screen) {
         lastScreen = this.screen;
         super.setScreen(screen);
+    }
+
+    public void launchServer(String username) {
+        if(server != null){
+            System.out.println("Server already launched");
+            return;
+        }
+        this.server = new RoboServer(this);
+        try{
+            this.client = new RoboClient(this,viewport,stage,"localhost", username);
+        } catch (IOException e){
+            System.out.println("Unable to connect to localhost");
+        }
+
+    }
+
+    public void shutdownServer() {
+        server.shutdown();
+        server = null;
     }
 }

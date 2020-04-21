@@ -20,7 +20,7 @@ import inf112.app.objects.Robot;
 
 import java.util.ArrayList;
 
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, MultiplayerScreen {
     private final RoboRally game;
     private Stage stage;
     private StretchViewport viewport;
@@ -35,6 +35,7 @@ public class GameScreen implements Screen {
 
     private boolean timerRunning = false;
     private Timer timer;
+    private VisLabel alert = new VisLabel("");
 
     private final int laserTime = 1;
     private float tileSize = 300f;
@@ -118,9 +119,8 @@ public class GameScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true);
-        VisLabel label = new VisLabel("");
-        this.timer = new Timer(-1,label); //set count to float > 0 to test timer
-        table.add(label);
+        this.timer = new Timer(-1,alert); //set count to float > 0 to test timer
+        table.add(alert);
         stage.addActor(table);
     }
 
@@ -252,5 +252,9 @@ public class GameScreen implements Screen {
         for(Robot r : list){
             updateRobot(r);
         }
+    }
+
+    public void alertUser(String info){
+        alert.setText(info);
     }
 }

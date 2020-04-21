@@ -12,24 +12,20 @@ import inf112.app.networking.RoboClient;
 import inf112.app.networking.RoboServer;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class HostGameScreen implements Screen {
     private final Stage stage;
 
     private final RoboRally game;
     private final StretchViewport viewport;
-    private final RoboServer server;
 
     public HostGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
-        this.server = new RoboServer();
-        try{
-            game.client = new RoboClient(game,viewport,stage,"localhost");
-        } catch (IOException e){
-            System.out.println("Unable to connect to localhost");
-        }
+
 
     }
 
@@ -63,7 +59,16 @@ public class HostGameScreen implements Screen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new ServerLobbyScreen(game, viewport, stage));
+                game.launchServer("host"); //temporary username for host
+                String ip = "";
+                try{
+                    ip = InetAddress.getLocalHost().toString();
+                    ip = ip.split("/")[1];
+                } catch (UnknownHostException e){
+                    System.out.println("Couldn't obtain ip");
+                }
+                game.isHost = true;
+                game.setScreen(new ServerLobbyScreen(game, viewport, stage, ip));
             }
         });
         VisTable buttonTable = new VisTable();

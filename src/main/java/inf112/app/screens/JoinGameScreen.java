@@ -20,17 +20,14 @@ public class JoinGameScreen implements Screen {
 
     private final RoboRally game;
     private final StretchViewport viewport;
+    private VisLabel message;
 
     public JoinGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
-        /*try{
-            game.client = new RoboClient(game,viewport,stage,ip); //TODO Move this to when the screen is set to lobby
-        } catch (IOException e){
-            System.out.println("Couldn't connect to " + ip);
-        } */
 
+        message = new VisLabel("");
     }
 
     @Override
@@ -53,15 +50,38 @@ public class JoinGameScreen implements Screen {
                 // ipField.toString(); -> Ip address
                 // TODO Validate input and join game
                 // TODO Make input more intuitive with error labels and colors
+                RoboClient client = null;
+                try{
+                    String ip = ipField.getText();
+                    client = new RoboClient(game,viewport,stage,ip,playerName.getText());
+                    message.setText("Connecting...");
+                    while(!client.serverReject && !client.serverAccept){
+                        continue;   //Wait for server reply
+                    }
+                    if(client.serverReject){
+                        message.setText(client.serverMessage);
+                        client = null;
+                    } else if (client.serverAccept){
+                        game.client = client;
+                        game.setScreen(new ServerLobbyScreen(game,viewport,stage,ip));
+                    }
+                }catch (IOException e){
+                    System.out.println("Unable to connect to " + ipField.getText());
+                    message.setText("Unable to connect to " + ipField.getText());
+                }
+
             }
         });
 
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(game.getLastScreen());
+                game.setScreen(game.getLastScreen()); //TODO: bug if game has lost focus since last screen switch, pause game screen
             }
         });
+        message.setAlignment(Align.center);
+        table.add(message);
+        table.row();
         VisLabel name = new VisLabel("Player Name: ");
         name.setAlignment(Align.center); // Align text to center
         playerName.setAlignment(Align.center);

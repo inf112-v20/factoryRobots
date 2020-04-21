@@ -36,15 +36,15 @@ public class SinglePlayerScreen implements Screen {
             }
         });
 
-        VisTextButton botsButton = new VisTextButton("How many bots: " + botsNumber);
+        VisTextButton botsButton = new VisTextButton("Number of Bots: " + botsNumber);
         botsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                if ( botsNumber >= 3 ){
+                if ( botsNumber >= 7 ){
                     botsNumber = 1;
                 }
                 else botsNumber++;
-                botsButton.setText("How many bots: " + botsNumber);
+                botsButton.setText("Number of Bots: " + botsNumber);
             }
         });
 
@@ -76,7 +76,6 @@ public class SinglePlayerScreen implements Screen {
         table.add(buttonTable).pad(3).height(60).width(700);
 
         stage.addActor(table);
-        stage.setDebugAll(true);
 
     }
 

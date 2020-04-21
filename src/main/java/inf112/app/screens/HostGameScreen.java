@@ -63,8 +63,7 @@ public class HostGameScreen implements Screen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                server.launchGame(game.getMapName());
-                //game.setScreen(new MainMenuScreen(game, viewport, stage));
+                game.setScreen(new ServerLobbyScreen(game, viewport, stage));
             }
         });
         VisTable buttonTable = new VisTable();

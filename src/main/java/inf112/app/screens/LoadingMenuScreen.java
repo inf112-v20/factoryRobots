@@ -43,9 +43,7 @@ public class LoadingMenuScreen implements Screen {
         FileHandle files = Gdx.files.internal("assets/Maps");
         assert files.exists();
         for (FileHandle file : files.list()){
-            if(file.name().startsWith(".")){
-                continue;
-            } else {
+            if(file.name().endsWith(".tmx")){
                 game.manager.load(file.toString(), TiledMap.class);
             }
         }

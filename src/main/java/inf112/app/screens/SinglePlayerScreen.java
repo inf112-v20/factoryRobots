@@ -1,6 +1,5 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,15 +8,15 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
-import inf112.app.util.TableBuilder;
 
-public class OptionScreen implements Screen {
+public class SinglePlayerScreen implements Screen {
     private final Stage stage;
 
     private final RoboRally game;
     private final StretchViewport viewport;
+    private int botsNumber = 1;
 
-    public OptionScreen(RoboRally game, StretchViewport viewport, Stage stage) {
+    public SinglePlayerScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
@@ -28,28 +27,53 @@ public class OptionScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton soundButton = new VisTextButton("Sound");
-        soundButton.addListener(new ChangeListener() {
+        VisTextButton selectCourseButton = new VisTextButton("Select Course");
+
+        selectCourseButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                //
+                game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
-        VisTextButton returnButton = new VisTextButton("Return");
-        returnButton.addListener(new ChangeListener() {
+
+        VisTextButton botsButton = new VisTextButton("Number of Bots: " + botsNumber);
+        botsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(game.getLastScreen());
+                if ( botsNumber >= 7 ){
+                    botsNumber = 1;
+                }
+                else botsNumber++;
+                botsButton.setText("Number of Bots: " + botsNumber);
             }
         });
-        VisTextButton exitButton = new VisTextButton("Exit");
-        exitButton.addListener(new ChangeListener() {
+
+        VisTable buttonTable = new VisTable();
+
+        VisTextButton cancelButton = new VisTextButton("Cancel");
+        VisTextButton startButton = new VisTextButton("Start");
+        cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
+                game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
-        TableBuilder.column(table, soundButton, returnButton, exitButton);
+        startButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(new LoadingGameScreen(game, viewport, stage));
+            }
+        });
+
+        buttonTable.add(cancelButton).pad(3).height(60).width(300);
+        buttonTable.add(startButton).pad(3).height(60).width(300);
+
+        table.add(selectCourseButton).pad(3).height(60).width(600);
+        table.row();
+        table.add(botsButton).pad(3).height(60).width(600);
+        table.row();
+        table.add(buttonTable).pad(3).height(60).width(600);
+
         stage.addActor(table);
 
     }

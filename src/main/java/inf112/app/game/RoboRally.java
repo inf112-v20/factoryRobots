@@ -21,12 +21,13 @@ public class RoboRally extends Game {
     protected Stage stage;
     protected StretchViewport viewport;
     protected Screen lastScreen;
+    protected Screen currentScreen;
 
     public Texture backgroundImg;
 
     public AssetManager manager;
 
-    private String mapName;
+    private String mapName = "Maps/testMap.tmx"; // If the user doesn't select a map.
 
     @Override
     public void create() {
@@ -63,9 +64,6 @@ public class RoboRally extends Game {
      */
     @Override
     public void pause() {
-        if (!(this.getScreen() instanceof PauseGameScreen)){
-            lastScreen = this.getScreen();
-        }
         this.setScreen(new PauseGameScreen(this, viewport, stage));
     }
 
@@ -74,8 +72,8 @@ public class RoboRally extends Game {
      */
     @Override
     public void resume() {
-        if (lastScreen != null){
-            this.setScreen(this.lastScreen);
+        if (currentScreen != null){
+            this.setScreen(this.currentScreen);
         }
     }
 
@@ -97,4 +95,24 @@ public class RoboRally extends Game {
         return this.player;
     }
 
+    public Screen getLastScreen(){
+        return this.lastScreen;
+    }
+
+    /**
+     * Set the game screen
+     * This overrides the super method to check that the screen parameter is not of PauseGameScreen Class.
+     * Also sets the current screen and last screen
+     * @param screen
+     */
+    @Override
+    public void setScreen(Screen screen) {
+        if (screen.getClass() != PauseGameScreen.class) {
+            if (this.screen != null && this.screen.getClass() != PauseGameScreen.class) {
+                lastScreen = this.screen; // Set last screen
+            }
+            currentScreen = screen; // Set current screen
+        }
+        super.setScreen(screen);
+    }
 }

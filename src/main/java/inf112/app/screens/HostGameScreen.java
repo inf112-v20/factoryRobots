@@ -1,23 +1,25 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
 import inf112.app.util.TableBuilder;
 
-public class OptionScreen implements Screen {
+public class HostGameScreen implements Screen {
     private final Stage stage;
 
     private final RoboRally game;
     private final StretchViewport viewport;
 
-    public OptionScreen(RoboRally game, StretchViewport viewport, Stage stage) {
+    public HostGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
@@ -28,28 +30,43 @@ public class OptionScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton soundButton = new VisTextButton("Sound");
-        soundButton.addListener(new ChangeListener() {
+        VisTextButton courseButton = new VisTextButton("Select Course");
+        courseButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                //
+                game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
-        VisTextButton returnButton = new VisTextButton("Return");
-        returnButton.addListener(new ChangeListener() {
+        VisTextButton flagButton = new VisTextButton("Number of Flags: 3");
+        flagButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(game.getLastScreen());
+                // TODO
             }
         });
-        VisTextButton exitButton = new VisTextButton("Exit");
-        exitButton.addListener(new ChangeListener() {
+        VisTextButton cancelButton = new VisTextButton("Return");
+        cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
+                game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
-        TableBuilder.column(table, soundButton, returnButton, exitButton);
+        VisTextButton startButton = new VisTextButton("Start");
+        startButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(new ServerLobbyScreen(game, viewport, stage));
+            }
+        });
+
+        VisValidatableTextField playerName = new VisValidatableTextField(); // TODO implement validator
+        VisLabel name = new VisLabel("Player Name: ");
+        name.setAlignment(Align.center); // Align text to center
+        playerName.setAlignment(Align.center);
+        TableBuilder.column(table, name, playerName, flagButton);
+        VisTable buttonTable = new VisTable();
+        TableBuilder.row(buttonTable, cancelButton, startButton);
+        TableBuilder.column(table, courseButton, buttonTable);
         stage.addActor(table);
 
     }

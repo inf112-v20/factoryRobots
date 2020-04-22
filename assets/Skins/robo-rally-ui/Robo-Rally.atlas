@@ -38,7 +38,7 @@ arrow-left
   index: -1
 arrow-right
   rotate: false
-  xy: 509, 911
+  xy: 811, 963
   size: 50, 50
   split: 23, 18, 22, 22
   pad: 25, 24, 25, 24
@@ -56,10 +56,19 @@ button-bigger
   index: -1
 button-standard-2
   rotate: false
-  xy: 811, 997
+  xy: 509, 893
   size: 32, 16
   split: 1, 1, 1, 1
   pad: 0, 0, 0, 0
   orig: 32, 16
+  offset: 0, 0
+  index: -1
+input-button
+  rotate: false
+  xy: 509, 911
+  size: 300, 50
+  split: 0, 0, 4, 4
+  pad: 4, 4, 4, 4
+  orig: 300, 50
   offset: 0, 0
   index: -1

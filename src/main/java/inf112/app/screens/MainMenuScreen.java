@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
+import inf112.app.util.TableBuilder;
 
 public class MainMenuScreen implements Screen {
 
@@ -31,14 +32,21 @@ public class MainMenuScreen implements Screen {
         singleplayerButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport, stage));
+                game.setScreen(new SinglePlayerScreen(game, viewport, stage));
             }
         });
-        VisTextButton multiplayerButton = new VisTextButton("Multiplayer");
-        multiplayerButton.addListener(new ChangeListener() {
+        VisTextButton joinButton = new VisTextButton("Join Game");
+        joinButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new CourseSelector(game, viewport, stage));
+                game.setScreen(new JoinGameScreen(game, viewport, stage));
+            }
+        });
+        VisTextButton hostButton = new VisTextButton("Host Game");
+        hostButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(new HostGameScreen(game, viewport, stage));
             }
         });
         VisTextButton settingsButton = new VisTextButton("Settings");
@@ -55,13 +63,7 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        table.add(singleplayerButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(multiplayerButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(settingsButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(exitButton).pad(3).height(60).width(350);
+        TableBuilder.column(table, singleplayerButton, joinButton, hostButton, settingsButton, exitButton);
         stage.addActor(table);
     }
 

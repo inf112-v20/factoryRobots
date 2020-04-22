@@ -12,6 +12,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 import inf112.app.util.TableBuilder;
 
+import java.net.BindException;
 import java.util.ArrayList;
 
 public class ServerLobbyScreen implements Screen, MultiplayerScreen {
@@ -22,6 +23,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
 
     private String serverIP;
     private VisLabel alert = new VisLabel("test");
+    ArrayList<String> userList = new ArrayList<>(8);
 
     public ServerLobbyScreen(RoboRally game, StretchViewport viewport, Stage stage, String ip) {
         this.game = game;
@@ -35,6 +37,9 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         // This is called from the client whenever the server sends an updated playerlist
         // TODO Implement check for new players
         // TODO Update "Waiting..." labels with player names
+        this.userList = userList;
+        this.show();
+
     }
 
     @Override
@@ -67,9 +72,13 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         TableBuilder.row(buttonTable, cancelButton, readyButton);
 
         VisTextButton[] buttonList = new VisTextButton[8];
-        for (int i = 0; i < 8; i++){
-            buttonList[i] = new VisTextButton("Waiting...","text");
+        for (int i = 0; i < userList.size(); i++) {
+            buttonList[i] = new VisTextButton(userList.get(i), "text");
         }
+        for (int j = userList.size(); j < 8; j++){
+            buttonList[j] = new VisTextButton("Waiting...","text");
+        }
+
         TableBuilder.column(table, buttonList);
         table.add(buttonTable);
         table.row();

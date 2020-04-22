@@ -21,7 +21,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
     private final StretchViewport viewport;
 
     private String serverIP;
-    private VisLabel alert = new VisLabel("");
+    private VisLabel alert = new VisLabel("test");
 
     public ServerLobbyScreen(RoboRally game, StretchViewport viewport, Stage stage, String ip) {
         this.game = game;

@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
+import inf112.app.util.TableBuilder;
 
 public class OptionScreen implements Screen {
     private final Stage stage;
@@ -45,8 +46,8 @@ public class OptionScreen implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(game.getLastScreen());
                 game.sounds.buttonSound();
-                game.setScreen(new MainMenuScreen(game,viewport, stage));
             }
         });
         VisTextButton exitButton = new VisTextButton("Exit");
@@ -56,11 +57,7 @@ public class OptionScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        table.add(soundButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(returnButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(exitButton).pad(3).height(60).width(350);
+        TableBuilder.column(table, soundButton, returnButton, exitButton);
         stage.addActor(table);
 
     }

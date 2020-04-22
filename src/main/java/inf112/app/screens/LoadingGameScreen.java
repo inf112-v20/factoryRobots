@@ -3,6 +3,7 @@ package inf112.app.screens;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
@@ -87,9 +88,15 @@ public class LoadingGameScreen implements Screen {
 
     /**
      * RoboRally disposes of objects at termination. Gamescreen clears the AssetManager
+     * Remove unused maps from the asset manager
      */
     @Override
     public void dispose() {
-        // Not used
+         /* Array<String> assetNames = game.manager.getAssetNames();
+        assetNames.forEach(asset -> {
+            if (asset.contains("Maps") && !asset.equals(mapList.get(index).toString())){
+                game.manager.unload(asset);
+            }
+        });*/
     }
 }

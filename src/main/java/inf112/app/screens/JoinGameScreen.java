@@ -1,23 +1,25 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
 import inf112.app.util.TableBuilder;
 
-public class MainMenuScreen implements Screen {
+public class JoinGameScreen implements Screen {
+    private final Stage stage;
 
     private final RoboRally game;
-    private final Stage stage;
     private final StretchViewport viewport;
 
-    public MainMenuScreen(final RoboRally game, StretchViewport viewport, Stage stage) {
+    public JoinGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
@@ -28,45 +30,38 @@ public class MainMenuScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
-        VisTextButton singleplayerButton = new VisTextButton("Singleplayer");
-        singleplayerButton.addListener(new ChangeListener() {
+        VisValidatableTextField ipField = new VisValidatableTextField(); // TODO implement validator
+        VisValidatableTextField playerName = new VisValidatableTextField(); // TODO implement validator
+        VisTextButton cancelButton = new VisTextButton("cancel");
+        VisTextButton acceptButton = new VisTextButton("accept");
+
+        VisTable buttonTable = new VisTable();
+        TableBuilder.row(buttonTable, cancelButton, acceptButton);
+
+        acceptButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.sounds.buttonSound();
-                game.setScreen(new SinglePlayerScreen(game, viewport, stage));
+                // ipField.toString(); -> Ip address
+                // TODO Validate input and join game
+                // TODO Make input more intuitive with error labels and colors
             }
         });
-        VisTextButton joinButton = new VisTextButton("Join Game");
-        joinButton.addListener(new ChangeListener() {
+
+        cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new JoinGameScreen(game, viewport, stage));
+                game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
-        VisTextButton hostButton = new VisTextButton("Host Game");
-        hostButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new HostGameScreen(game, viewport, stage));
-                game.sounds.buttonSound();
-            }
-        });
-        VisTextButton settingsButton = new VisTextButton("Settings");
-        settingsButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.sounds.buttonSound();
-                game.setScreen(new OptionScreen(game,viewport, stage));
-            }
-        });
-        VisTextButton exitButton = new VisTextButton("Exit");
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
-        TableBuilder.column(table, singleplayerButton, joinButton, hostButton, settingsButton, exitButton);
+        VisLabel name = new VisLabel("Player Name: ");
+        name.setAlignment(Align.center); // Align text to center
+        playerName.setAlignment(Align.center);
+        TableBuilder.column(table, name, playerName);
+
+        VisLabel info = new VisLabel("Ip Address: ");
+        info.setAlignment(Align.center); // Align text to center
+        ipField.setAlignment(Align.center);
+        TableBuilder.column(table, info, ipField, buttonTable);
         stage.addActor(table);
     }
 
@@ -78,6 +73,7 @@ public class MainMenuScreen implements Screen {
 
         stage.act();
         stage.draw();
+
     }
 
     @Override

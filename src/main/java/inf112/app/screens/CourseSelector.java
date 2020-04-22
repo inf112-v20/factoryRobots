@@ -112,8 +112,9 @@ public class CourseSelector implements Screen {
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
                 selectCourse();
-                dispose();
-                game.setScreen(new LoadingGameScreen(game, menuViewport, stage));
+                //dispose();
+                game.setScreen(game.getLastScreen());
+                //game.setScreen(new LoadingGameScreen(game, menuViewport, stage));
             }
         });
         VisImageTextButton returnButton = new VisImageTextButton("Return","default");
@@ -121,7 +122,7 @@ public class CourseSelector implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
-                game.setScreen(new MainMenuScreen(game, menuViewport, stage));
+                game.setScreen(game.getLastScreen());
             }
         });
         Padding paddingArrow = new Padding(0,0,50,0); // Add padding to buttons
@@ -186,17 +187,11 @@ public class CourseSelector implements Screen {
     }
 
     /**
-     * Remove maps that are not in use from the AssetManager
+     * Not used
      */
     @Override
     public void dispose() {
-
-        Array<String> assetNames = game.manager.getAssetNames();
-        assetNames.forEach(asset -> {
-            if (asset.contains("Maps") && !asset.equals(mapList.get(index).toString())){
-                game.manager.unload(asset);
-            }
-        });
+        // Not used
     }
 
     /**

@@ -44,7 +44,9 @@ public class LoadingMenuScreen implements Screen {
         FileHandle files = Gdx.files.internal("assets/Maps");
         assert files.exists();
         for (FileHandle file : files.list()){
-            game.manager.load(file.toString(), TiledMap.class);
+            if(file.name().endsWith(".tmx")){
+                game.manager.load(file.toString(), TiledMap.class);
+            }
         }
         // Load the LaserSprite into the AssetManager
         // to optimize loading time in LoadingGameScreen

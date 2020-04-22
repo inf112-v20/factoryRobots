@@ -22,6 +22,7 @@ public class RoboRally extends Game {
     public SpriteBatch batch;
 
     private Player player;
+    private String playerName = "Anonymous";
     protected Stage stage;
     protected StretchViewport viewport;
     protected Screen lastScreen;
@@ -126,14 +127,22 @@ public class RoboRally extends Game {
         super.setScreen(screen);
     }
 
-    public void launchServer(String username) {
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void launchServer() {
         if(server != null){
             System.out.println("Server already launched");
             return;
         }
         this.server = new RoboServer(this);
         try{
-            this.client = new RoboClient(this,viewport,stage,"localhost", username);
+            this.client = new RoboClient(this,viewport,stage,"localhost", playerName);
         } catch (IOException e){
             System.out.println("Unable to connect to localhost");
         }

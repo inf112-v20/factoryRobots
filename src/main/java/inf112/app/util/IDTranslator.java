@@ -32,10 +32,10 @@ public class IDTranslator{
             return ElemEnum.FIREPIT;
         } else if ((id >= 97 && id <= 100)) {
             return ElemEnum.FLAGPLATFORM;
-        } else if ((id >= 121 && id <= 124) || (id >= 126 && id <= 130)) {
+        } else if ((id >= 121 && id <= 124) || (id >= 129 && id <= 132)) {
             return ElemEnum.STARTINGPLATFORM;
         }
-        throw new IllegalArgumentException("ID range not valid");
+        throw new IllegalArgumentException("ID range not valid. ID: " + id);
     }
 
     /**

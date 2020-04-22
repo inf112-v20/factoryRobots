@@ -45,7 +45,6 @@ public class ServerLobbyScreen implements Screen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                // TODO validate that course have been set. Maybe use default map
                 game.setScreen(new LoadingGameScreen(game, viewport, stage));
             }
         });

@@ -27,7 +27,7 @@ public class RoboRally extends Game {
 
     public AssetManager manager;
 
-    private String mapName; // TODO set default value
+    private String mapName = "Maps/testMap.tmx"; // If the user doesn't select a map.
 
     @Override
     public void create() {
@@ -104,6 +104,7 @@ public class RoboRally extends Game {
 
     @Override
     public void setScreen(Screen screen) {
+        // TODO Fix pause game screen
         if (screen.getClass() != PauseGameScreen.class) {
             lastScreen = this.screen;
         }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
+import inf112.app.util.TableBuilder;
 
 public class ServerLobbyScreen implements Screen {
     private final Stage stage;
@@ -48,18 +49,14 @@ public class ServerLobbyScreen implements Screen {
                 game.setScreen(new LoadingGameScreen(game, viewport, stage));
             }
         });
-        buttonTable.add(cancelButton).pad(3).height(60).width(350);
-        buttonTable.add(startButton).pad(3).height(60).width(350);
+        TableBuilder.row(buttonTable, cancelButton, startButton);
 
-        table.row();
+        VisTextButton[] buttonList = new VisTextButton[8];
         for (int i = 0; i < 8; i++){
-            VisTextButton button = new VisTextButton("Waiting...","text");
-            table.add(button).pad(3).height(60).width(700);
-            table.row();
+            buttonList[i] = new VisTextButton("Waiting...","text");
         }
-
+        TableBuilder.column(table, buttonList);
         table.add(buttonTable);
-        table.row();
         stage.addActor(table);
 
     }

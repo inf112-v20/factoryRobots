@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
+import inf112.app.util.TableBuilder;
 
 public class MainMenuScreen implements Screen {
 
@@ -62,15 +63,7 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        table.add(singleplayerButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(joinButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(hostButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(settingsButton).pad(3).height(60).width(350);
-        table.row();
-        table.add(exitButton).pad(3).height(60).width(350);
+        TableBuilder.column(table, singleplayerButton, joinButton, hostButton, settingsButton, exitButton);
         stage.addActor(table);
     }
 

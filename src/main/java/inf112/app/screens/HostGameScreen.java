@@ -1,6 +1,5 @@
 package inf112.app.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +11,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
+import inf112.app.util.TableBuilder;
 
 public class HostGameScreen implements Screen {
     private final Stage stage;
@@ -63,19 +63,10 @@ public class HostGameScreen implements Screen {
         VisLabel name = new VisLabel("Player Name: ");
         name.setAlignment(Align.center); // Align text to center
         playerName.setAlignment(Align.center);
-        table.add(name).height(60).width(600);
-        table.row();
-        table.add(playerName).pad(3).height(60).width(600);
-        table.row();
-        table.add(flagButton).pad(3).height(60).width(600);
-        table.row();
+        TableBuilder.column(table, name, playerName, flagButton);
         VisTable buttonTable = new VisTable();
-        buttonTable.add(cancelButton).pad(3).height(60).width(300);
-        buttonTable.add(startButton).pad(3).height(60).width(300);
-
-        table.add(courseButton).pad(3).height(60).width(600);
-        table.row();
-        table.add(buttonTable).pad(3).height(60).width(600);
+        TableBuilder.row(buttonTable, cancelButton, startButton);
+        TableBuilder.column(table, courseButton, buttonTable);
         stage.addActor(table);
 
     }

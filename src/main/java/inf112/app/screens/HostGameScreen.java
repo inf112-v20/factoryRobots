@@ -17,6 +17,8 @@ import inf112.app.networking.RoboServer;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class HostGameScreen implements Screen {
@@ -61,14 +63,16 @@ public class HostGameScreen implements Screen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.launchServer("host"); //temporary username for host
+                game.launchServer(); //temporary username for host
                 String ip = "";
                 try{
-                    ip = InetAddress.getLocalHost().toString();
-                    ip = ip.split("/")[1];
-                } catch (UnknownHostException e){
+                    Socket socket = new Socket();
+                    socket.connect(new InetSocketAddress("1.1.1.1", 80));
+                    ip = socket.getLocalAddress().getHostAddress();
+                } catch (IOException e){
                     System.out.println("Couldn't obtain ip");
                 }
+
                 game.isHost = true;
                 game.setScreen(new ServerLobbyScreen(game, viewport, stage, ip));
             }

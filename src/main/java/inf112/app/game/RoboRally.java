@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -27,12 +28,22 @@ public class RoboRally extends Game {
 
     public AssetManager manager;
 
-    private String mapName = "Maps/testMap.tmx"; // If the user doesn't select a map.
+    private String mapName = "Maps/testMap"; // If the user doesn't select a map.
+
+    public Music backgroundMusic;
+
+    public Sounds sounds;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         manager = new AssetManager();
+        sounds = new Sounds(manager);
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/BackGroundSong.wav"));
+        backgroundMusic.setVolume(0.1f);
+        backgroundMusic.play();
+        backgroundMusic.setLooping(true);
 
         backgroundImg = new Texture(Gdx.files.internal("assets/game-menu.png"));
 
@@ -51,6 +62,7 @@ public class RoboRally extends Game {
         stage.dispose();
         VisUI.dispose();
         backgroundImg.dispose();
+        backgroundMusic.dispose();
         manager.dispose();
     }
 
@@ -64,6 +76,7 @@ public class RoboRally extends Game {
      */
     @Override
     public void pause() {
+        this.backgroundMusic.pause();
         this.setScreen(new PauseGameScreen(this, viewport, stage));
     }
 
@@ -75,6 +88,7 @@ public class RoboRally extends Game {
         if (currentScreen != null){
             this.setScreen(this.currentScreen);
         }
+        this.backgroundMusic.play();
     }
 
     public void setMapName(String mapName){

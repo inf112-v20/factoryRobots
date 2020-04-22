@@ -3,6 +3,7 @@ package inf112.app.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -49,8 +50,16 @@ public class LoadingMenuScreen implements Screen {
         }
         // Load the LaserSprite into the AssetManager
         // to optimize loading time in LoadingGameScreen
+        game.manager.load("assets/CardUI2.tmx", TiledMap.class);
         game.manager.load("assets/Lasers.tmx", TiledMap.class);
         game.manager.load("assets/GameButtons/Buttons.tmx",TiledMap.class);
+
+        // Sounds
+        game.manager.load("assets/Sounds/LazerSound.wav", Sound.class);
+        game.manager.load("assets/Sounds/ButtonClick.wav", Sound.class);
+        game.manager.load("assets/Sounds/NewCheckPoint.wav", Sound.class);
+        game.manager.load("assets/Sounds/TakesDamage.wav", Sound.class);
+        game.manager.load("assets/Sounds/DeathNoise.wav", Sound.class);
 
     }
 

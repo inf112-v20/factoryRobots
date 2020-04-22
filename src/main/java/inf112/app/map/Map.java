@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardDeck;
+import inf112.app.game.GameSounds;
 import inf112.app.objects.*;
 
 
@@ -44,6 +45,8 @@ public class Map {
     private boolean lasersActive = false;
 
     private TiledMap gameButtons;
+
+    private GameSounds sound;
 
     /**
      * Create a init the Map object by map title
@@ -278,6 +281,11 @@ public class Map {
             object.fireLaser();
         }
         lasersActive = true;
+        try {
+            sound.laserSound();
+        } catch (NullPointerException ignored){ // Catch exception for test classes
+
+        }
     }
 
     /**

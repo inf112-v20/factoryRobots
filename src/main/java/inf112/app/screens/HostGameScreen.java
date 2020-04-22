@@ -4,10 +4,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
+import inf112.app.util.TableBuilder;
 import inf112.app.networking.RoboClient;
 import inf112.app.networking.RoboServer;
 
@@ -25,8 +29,6 @@ public class HostGameScreen implements Screen {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
-
-
     }
 
     @Override
@@ -41,11 +43,11 @@ public class HostGameScreen implements Screen {
                 game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
-        VisTextButton optionButton = new VisTextButton("Game Options"); // TODO change out button to use same screen
-        optionButton.addListener(new ChangeListener() {
+        VisTextButton flagButton = new VisTextButton("Number of Flags: 3");
+        flagButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new GameOptionScreen(game, viewport, stage, true));
+                // TODO
             }
         });
         VisTextButton cancelButton = new VisTextButton("Return");
@@ -71,15 +73,15 @@ public class HostGameScreen implements Screen {
                 game.setScreen(new ServerLobbyScreen(game, viewport, stage, ip));
             }
         });
-        VisTable buttonTable = new VisTable();
-        buttonTable.add(cancelButton).pad(3).height(60).width(350);
-        buttonTable.add(startButton).pad(3).height(60).width(350);
 
-        table.add(courseButton).pad(3).height(60).width(700);
-        table.row();
-        table.add(optionButton).pad(3).height(60).width(700);
-        table.row();
-        table.add(buttonTable).pad(3).height(60).width(700);
+        VisValidatableTextField playerName = new VisValidatableTextField(); // TODO implement validator
+        VisLabel name = new VisLabel("Player Name: ");
+        name.setAlignment(Align.center); // Align text to center
+        playerName.setAlignment(Align.center);
+        TableBuilder.column(table, name, playerName, flagButton);
+        VisTable buttonTable = new VisTable();
+        TableBuilder.row(buttonTable, cancelButton, startButton);
+        TableBuilder.column(table, courseButton, buttonTable);
         stage.addActor(table);
 
     }

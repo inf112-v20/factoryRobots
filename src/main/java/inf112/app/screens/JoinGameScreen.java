@@ -14,6 +14,7 @@ import inf112.app.game.RoboRally;
 import inf112.app.networking.RoboClient;
 
 import java.io.IOException;
+import inf112.app.util.TableBuilder;
 
 public class JoinGameScreen implements Screen {
     private final Stage stage;
@@ -41,8 +42,7 @@ public class JoinGameScreen implements Screen {
         VisTextButton acceptButton = new VisTextButton("accept");
 
         VisTable buttonTable = new VisTable();
-        buttonTable.add(cancelButton).pad(3).height(60).width(350);
-        buttonTable.add(acceptButton).pad(3).height(60).width(350);
+        TableBuilder.row(buttonTable, cancelButton, acceptButton);
 
         acceptButton.addListener(new ChangeListener() {
             @Override
@@ -76,7 +76,7 @@ public class JoinGameScreen implements Screen {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(game.getLastScreen()); //TODO: bug if game has lost focus since last screen switch, pause game screen
+                game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
         message.setAlignment(Align.center);
@@ -85,19 +85,12 @@ public class JoinGameScreen implements Screen {
         VisLabel name = new VisLabel("Player Name: ");
         name.setAlignment(Align.center); // Align text to center
         playerName.setAlignment(Align.center);
-        table.add(name).pad(3).height(60).width(700);
-        table.row();
-        table.add(playerName).pad(3).height(60).width(700);
-        table.row();
+        TableBuilder.column(table, name, playerName);
+
         VisLabel info = new VisLabel("Ip Address: ");
         info.setAlignment(Align.center); // Align text to center
         ipField.setAlignment(Align.center);
-
-        table.add(info).pad(3).height(60).width(700);
-        table.row();
-        table.add(ipField).pad(3).height(60).width(700);
-        table.row();
-        table.add(buttonTable);
+        TableBuilder.column(table, info, ipField, buttonTable);
         stage.addActor(table);
     }
 

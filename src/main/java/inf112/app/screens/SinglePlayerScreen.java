@@ -61,19 +61,18 @@ public class SinglePlayerScreen implements Screen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                // TODO validate that course have been set. Maybe use default map
                 game.setScreen(new LoadingGameScreen(game, viewport, stage));
             }
         });
 
-        buttonTable.add(cancelButton).pad(3).height(60).width(350);
-        buttonTable.add(startButton).pad(3).height(60).width(350);
+        buttonTable.add(cancelButton).pad(3).height(60).width(300);
+        buttonTable.add(startButton).pad(3).height(60).width(300);
 
-        table.add(selectCourseButton).pad(3).height(60).width(700);
+        table.add(selectCourseButton).pad(3).height(60).width(600);
         table.row();
-        table.add(botsButton).pad(3).height(60).width(700);
+        table.add(botsButton).pad(3).height(60).width(600);
         table.row();
-        table.add(buttonTable).pad(3).height(60).width(700);
+        table.add(buttonTable).pad(3).height(60).width(600);
 
         stage.addActor(table);
 

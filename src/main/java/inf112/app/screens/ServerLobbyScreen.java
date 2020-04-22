@@ -10,6 +10,7 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
+import inf112.app.util.TableBuilder;
 
 import java.util.ArrayList;
 
@@ -60,20 +61,16 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         readyButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                // TODO validate that course have been set. Maybe use default map
                 game.setScreen(new LoadingGameScreen(game, viewport, stage));
             }
         });
-        buttonTable.add(cancelButton).pad(3).height(60).width(350);
-        buttonTable.add(readyButton).pad(3).height(60).width(350);
+        TableBuilder.row(buttonTable, cancelButton, readyButton);
 
-        table.row();
+        VisTextButton[] buttonList = new VisTextButton[8];
         for (int i = 0; i < 8; i++){
-            VisTextButton button = new VisTextButton("Waiting...","text");
-            table.add(button).pad(3).height(60).width(700);
-            table.row();
+            buttonList[i] = new VisTextButton("Waiting...","text");
         }
-
+        TableBuilder.column(table, buttonList);
         table.add(buttonTable);
         table.row();
         table.add(alert);

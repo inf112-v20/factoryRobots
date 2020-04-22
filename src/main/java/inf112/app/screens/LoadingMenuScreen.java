@@ -53,7 +53,7 @@ public class LoadingMenuScreen implements Screen {
         game.manager.load("assets/CardUI2.tmx", TiledMap.class);
         game.manager.load("assets/Lasers.tmx", TiledMap.class);
         game.manager.load("assets/GameButtons/Buttons.tmx",TiledMap.class);
-        
+
         // Sounds
         game.manager.load("assets/Sounds/LazerSound.wav", Sound.class);
         game.manager.load("assets/Sounds/ButtonClick.wav", Sound.class);

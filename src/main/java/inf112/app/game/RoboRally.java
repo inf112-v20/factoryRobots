@@ -28,7 +28,7 @@ public class RoboRally extends Game {
 
     public AssetManager manager;
 
-    private String mapName = "Maps/testMap.tmx"; // If the user doesn't select a map.
+    private String mapName = "Maps/testMap"; // If the user doesn't select a map.
 
     public Music backgroundMusic;
 

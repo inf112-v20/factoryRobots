@@ -65,7 +65,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         readyButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new LoadingGameScreen(game, viewport, stage));
+                game.client.sendReady();
             }
         });
         TableBuilder.row(buttonTable, cancelButton, readyButton);

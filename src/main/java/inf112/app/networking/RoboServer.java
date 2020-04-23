@@ -71,6 +71,9 @@ public class RoboServer extends Listener {
         state = ServerState.LOBBY;
         deck = new CardDeck();
         usedCards = new HashMap<>(deck.getSize());
+        for(int i = 0; i<2; i++){
+            spawnPoints[i] = new Position((i+1)*2,2);
+        }
     }
 
     @Override

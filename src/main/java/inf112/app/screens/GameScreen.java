@@ -58,9 +58,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
         game.manager.unload(game.getMapName());
         game.manager.unload("assets/Lasers.tmx");
 
-        this.testRobot = new Robot(new Position(4,4),"player");
+        //this.testRobot = new Robot(new Position(4,4),"player"); //TODO remove this
 
-        game.setPlayer(2,2);
+        game.setPlayer();
         this.player = game.getPlayer();
 
         //Set up cameras
@@ -78,9 +78,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
 
         //Cards for testing
-        for(int i = 0; i<9; i++){
+        /*for(int i = 0; i<9; i++){
             ui.addCardToSlot(Map.getInstance().getDeck().getCard(),"side",i);
-        }
+        } */
 
 
 

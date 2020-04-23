@@ -21,7 +21,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
     private final StretchViewport viewport;
 
     private String serverIP;
-    private VisLabel alert = new VisLabel("test");
+    private VisLabel alert = new VisLabel("");
 
     public ServerLobbyScreen(RoboRally game, StretchViewport viewport, Stage stage, String ip) {
         this.game = game;
@@ -46,7 +46,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         // Button table
         VisTable buttonTable = new VisTable();
         VisTextButton cancelButton = new VisTextButton("Cancel");
-        VisTextButton readyButton = new VisTextButton("Ready"); //Changed to ready button so we don't need a different screen for host and client
+        VisTextButton readyButton = new VisTextButton("Ready");
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -129,6 +129,6 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
 
     @Override
     public void alertUser(String info) {
-        alert.setText(info); //TODO implement so that this is displayed
+        alert.setText(info);
     }
 }

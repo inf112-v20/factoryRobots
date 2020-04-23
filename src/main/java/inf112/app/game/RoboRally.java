@@ -101,6 +101,9 @@ public class RoboRally extends Game {
     public void setPlayer(int x, int y){
         player = new Player(x, y);
     }
+    public void setPlayer(){
+        player = new Player();
+    }
 
     public Player getPlayer(){
         return this.player;

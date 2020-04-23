@@ -32,6 +32,7 @@ public class MainMenuScreen implements Screen {
         singleplayerButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new SinglePlayerScreen(game, viewport, stage));
             }
         });
@@ -47,12 +48,14 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new HostGameScreen(game, viewport, stage));
+                game.sounds.buttonSound();
             }
         });
         VisTextButton settingsButton = new VisTextButton("Settings");
         settingsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new OptionScreen(game,viewport, stage));
             }
         });

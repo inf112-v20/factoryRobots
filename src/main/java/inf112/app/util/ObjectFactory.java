@@ -42,7 +42,7 @@ public class ObjectFactory {
                 return createRepairStation(properties);
             case FLAG:
                 return createFlag(properties);
-            default: throw new IllegalArgumentException("Enum obtained from translator could not be placed");
+            default: return null;//throw new IllegalArgumentException("Enum obtained from translator could not be placed");
         }
     }
 

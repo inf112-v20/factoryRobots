@@ -92,6 +92,7 @@ public class CourseSelector implements Screen {
         leftArrow.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 mapRenderer.setMap(game.manager.get(getPreviousMap()));
             }
         });
@@ -100,6 +101,7 @@ public class CourseSelector implements Screen {
         rightArrow.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 mapRenderer.setMap(game.manager.get(getNextMap()));
             }
         });
@@ -108,6 +110,7 @@ public class CourseSelector implements Screen {
         selectButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 selectCourse();
                 //dispose();
                 game.setScreen(game.getLastScreen());
@@ -118,6 +121,7 @@ public class CourseSelector implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(game.getLastScreen());
             }
         });

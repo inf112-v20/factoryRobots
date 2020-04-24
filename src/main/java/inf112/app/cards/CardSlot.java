@@ -1,7 +1,10 @@
 package inf112.app.cards;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import inf112.app.game.CardSlotActor;
 import inf112.app.game.CardUI;
+import inf112.app.game.TiledMapStage;
+import inf112.app.map.Map;
 
 public class CardSlot {
     private ICard card;
@@ -30,11 +33,12 @@ public class CardSlot {
         noUI = true;
     }
 
-    public boolean addCard(ICard newCard){
+    public boolean addCard(ICard newCard, TiledMapStage stage){
         if(card == null){
             this.card = newCard;
             if(!noUI) {
                 cardLayer.setCell(xCoord, yCoord, card.getCardTile());
+                stage.getActorFromGrid(xCoord, yCoord).setCell(cardLayer.getCell(xCoord, yCoord));
             }
             return true;
         }

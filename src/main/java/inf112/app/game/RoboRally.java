@@ -190,11 +190,4 @@ public class RoboRally extends Game {
         return numberOfPlayersInSession;
     }
 
- /*   public void loadRobots(Robot[] list){
-        loadedRobots = list;
-    }
-
-    public Robot[] getLoadedRobots() {
-        return loadedRobots;
-    }*/
 }

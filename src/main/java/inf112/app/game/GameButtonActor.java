@@ -30,7 +30,7 @@ public class GameButtonActor extends ButtonActor {
     }
 
     @Override
-    void setCell(TiledMapTileLayer.Cell cell) {
+    public void setCell(TiledMapTileLayer.Cell cell) {
         this.active = cell;
     }
 

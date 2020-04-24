@@ -7,7 +7,6 @@ import inf112.app.cards.CardDeck;
 import inf112.app.cards.ICard;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
-import inf112.app.map.Position;
 import inf112.app.networking.packets.Payload;
 import inf112.app.networking.packets.RobotListPacket;
 import inf112.app.networking.packets.RobotStatePacket;
@@ -47,6 +46,7 @@ public class RoboServer extends Listener {
         server.getKryo().register(Payload.class);
         server.getKryo().register(RobotListPacket.class);
         server.getKryo().register(RobotStatePacket.class);
+        server.getKryo().register(int[].class);
 
         try {
             server.bind(tcpPort);
@@ -245,6 +245,7 @@ public class RoboServer extends Listener {
             deck.addCard(card);
         }
         usedCards.clear();
+        deck.shuffle();
         for(Connection c : server.getConnections()){
             ArrayList<ICard> cards = deck.getCards(9);
             String message = "cards ";

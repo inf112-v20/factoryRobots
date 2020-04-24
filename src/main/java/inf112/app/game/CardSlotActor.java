@@ -47,10 +47,9 @@ public class CardSlotActor extends ButtonActor {
             System.out.println("All card slots are occupied");
             return;
         }
-        stage.getActorFromGrid(newSlot.getxCoord(), newSlot.getyCoord()).setCell(this.cell);
         this.cell = null;
         ICard card = slot.removeCard();
-        newSlot.addCard(card);
+        newSlot.addCard(card, stage);
     }
 
     public void setPushable(boolean pushable){

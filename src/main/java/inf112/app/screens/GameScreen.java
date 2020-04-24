@@ -12,10 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
-import inf112.app.cards.CardDeck;
 import inf112.app.game.*;
 import inf112.app.map.Map;
-import inf112.app.map.Position;
 import inf112.app.objects.Robot;
 
 import java.util.ArrayList;
@@ -36,8 +34,13 @@ public class GameScreen implements Screen, MultiplayerScreen {
     private boolean timerRunning = false;
     private Timer timer;
     private VisLabel alert = new VisLabel("");
+    //How long to wait between the phases
+    private int waitThresh = 2;
+    private float phaseTimer = 0f;
+    private boolean timeForNextPhase = false;
+    private boolean firedLasers = false;
 
-    private final int laserTime = 1;
+    private final int laserTime = 25;
     private float tileSize = 300f;
     private float cardWidth = 400f;
     private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
@@ -60,7 +63,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
         //this.testRobot = new Robot(new Position(4,4),"player"); //TODO remove this
 
-        //game.setPlayer(); moved to game creation
         this.player = game.getPlayer();
 
         //Set up cameras
@@ -102,6 +104,8 @@ public class GameScreen implements Screen, MultiplayerScreen {
             }
         });
 
+        ui.setTiledStage(tiledStage);
+
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(),1/tileSize);
         mapRenderer.setView(camera);
@@ -128,6 +132,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
     public void render(float v) {
         Gdx.gl.glClearColor(0, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        phaseTimer += Gdx.graphics.getDeltaTime();
 
         // tell the camera to update its matrices.
         camera.update();
@@ -155,44 +160,55 @@ public class GameScreen implements Screen, MultiplayerScreen {
         //Remove previous robot positions
         cellMap.clearLayer(cellMap.getLayer("player"));
 
-        if(cellMap.getLaserTimer() == laserTime) {
+        if(phaseTimer > waitThresh){
+            timeForNextPhase = true;
             cellMap.deactivateLasers();
         }
-        if(cellMap.lasersActive()){
-            cellMap.incrementLaserTimer();
+
+        if(phaseTimer > waitThresh/2 && !firedLasers && ongoingRound){
+            firedLasers = true;
+            cellMap.fireLasers();
         }
 
-        if(cellMap.checkForTimerActivation() && !timerRunning){
+        if(cellMap.checkForTimerActivation() && !timerRunning && !ongoingRound){
             timerRunning = true;
             timer.start();
         }
         if(cellMap.checkIfAllRobotsReady() || timer.done){
             tiledStage.setCardLock(false);
+
             ongoingRound = true;
             phaseNum = 1;
+            phaseTimer = 0;
+            Gdx.graphics.getDeltaTime();
+
             currentRound.putBackPlayers();
             cellMap.resetDoneProgramming();
             timerRunning = false;
             timer.done = false;
+            alert.setText("");
         }
-        if(ongoingRound){
+        if(ongoingRound && timeForNextPhase){
             if(phaseNum > 5){
                 ongoingRound = false;
                 tiledStage.releaseButtons();
+                phaseNum = 1;
+                if(game.client != null){
+                    game.client.sendDone();
+                }
             } else {
                 currentRound.doPhase(phaseNum);
                 phaseNum++;
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    System.out.println(e.getMessage());
+                long waitTime = System.currentTimeMillis();
+                long thresh = waitTime + waitThresh;
+                while(waitTime <= thresh){
+                    waitTime = System.currentTimeMillis();
                 }
             }
-            if(game.client != null){
-                game.client.sendDone();
-            }
+            timeForNextPhase = false;
+            firedLasers = false;
+            phaseTimer = 0;
         }
-
     }
 
     private void updateRobot(Robot robot){
@@ -263,4 +279,5 @@ public class GameScreen implements Screen, MultiplayerScreen {
     public void alertUser(String info){
         alert.setText(info);
     }
+
 }

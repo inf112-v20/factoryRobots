@@ -239,7 +239,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     @Override
     public void doAction(Robot robot) {
-        fireLaser();
+        //do nothing
     }
 
     public Flag getVisitedFlag() {
@@ -285,7 +285,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
 
         for (int i = 0; i<9-damageTokens; i++) {
-            availableCards[i].addCard(Map.getInstance().getDeck().getCard());
+            availableCards[i].addCard(Map.getInstance().getDeck().getCard(),null); //TODO fix hack
         }
     }
 
@@ -387,7 +387,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void setProgrammedCard(int index, ICard card) {
         if (index >= 0 && index < 5) {
-            programmedCards[index].addCard(card);
+            programmedCards[index].addCard(card,null);
         } else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }

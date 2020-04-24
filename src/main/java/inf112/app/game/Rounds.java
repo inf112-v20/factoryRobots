@@ -85,7 +85,7 @@ public class Rounds {
                         }
                     }
                 }
-                map.fireLasers();
+                //map.fireLasers(); moved to gamescreen
 
 
 

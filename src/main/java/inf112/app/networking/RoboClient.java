@@ -42,7 +42,6 @@ public class RoboClient extends Listener {
 
     private CardDeck deck;
 
-
     public RoboClient(final RoboRally game, StretchViewport viewport, Stage stage, String ip, String username) throws IOException {
         this.ip = ip;
         this.username = username;
@@ -53,9 +52,12 @@ public class RoboClient extends Listener {
 
         client.getKryo().register(Payload.class);
         client.getKryo().register(RobotListPacket.class);
+        client.getKryo().register(RobotStatePacket.class);
+        client.getKryo().register(int[].class);
 
         client.start();
-        client.connect(5000, ip, tcpPort); //IOException if unable to connect
+        //IOException if unable to connect
+        client.connect(5000, ip, tcpPort);
         client.addListener(this);
 
         this.game = game;
@@ -159,25 +161,22 @@ public class RoboClient extends Listener {
                     game.setMapName(split[1]);
                     int nPlayers = Integer.parseInt(split[2]);
                     game.setNPlayers(nPlayers);
-                    Gdx.app.postRunnable(new Runnable() {
-                        public void run() {
-                            game.setScreen(new LoadingGameScreen(game, viewport, stage));
-                        }
-                        });
+                    Gdx.app.postRunnable(() -> game.setScreen(new LoadingGameScreen(game, viewport, stage)));
 
                     break;
                 case "cards": //Server hands out cards
-                    Gdx.app.postRunnable(new Runnable(){
-                        public void run(){
-                            if(deck == null){
-                                deck = Map.getInstance().getDeck();
-                            }
-                            CardUI ui = CardUI.getInstance();
-                            game.getPlayer().getCharacter().wipeSlots(ui.getSideCardSlots());
-                            for(int i = 1; i<split.length; i++){
-                                ICard card = deck.getCard(Integer.parseInt(split[i]));
-                                ui.addCardToSlot(card,"side",(i-1));
-                            }
+                    Gdx.app.postRunnable(() -> {
+                        if(deck == null){
+                            deck = Map.getInstance().getDeck();
+                        } else {
+                            deck.reset();
+                        }
+                        CardUI ui = CardUI.getInstance();
+                        game.getPlayer().getCharacter().wipeSlots(ui.getSideCardSlots());
+                        for(int i = 1; i<split.length; i++){
+                            ICard card = deck.getCard(Integer.parseInt(split[i]));
+                            assert card != null;
+                            ui.addCardToSlot(card,"side",(i-1));
                         }
                     });
 
@@ -253,6 +252,7 @@ public class RoboClient extends Listener {
         for(int i = 0; i < robot.getProgrammedCards().length; i++){
             ICard card = robot.getProgrammedCard(i);
             priorities[i] = card.getPoint();
+
         }
         RobotStatePacket payload = new RobotStatePacket();
         payload.programmedCards = priorities;
@@ -319,4 +319,5 @@ public class RoboClient extends Listener {
     public int getId() {
         return id;
     }
+
 }

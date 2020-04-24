@@ -22,6 +22,7 @@ public class CardUI {
     private CardSlot[][] lookupSlots;
     private Player user;
 
+    private TiledMapStage stage;
 
     /**
      * Constructor used only for testing
@@ -45,6 +46,7 @@ public class CardUI {
         uiButtons = (TiledMapTileLayer) buttons.getLayers().get("Buttons");
         buttonApplicationLayer = (TiledMapTileLayer) cardUI.getLayers().get("Buttons");
         this.laserSprites = (TiledMapTileLayer) laserSprites.getLayers().get("Laser");
+        stage = null;
     }
 
     public static CardUI setInstance(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites){
@@ -107,9 +109,9 @@ public class CardUI {
 
     public boolean addCardToSlot(ICard card, String where, int num){
         if("bottom".equals(where)){
-            return bottomCardSlots[num].addCard(card);
+            return bottomCardSlots[num].addCard(card,stage);
         } else if("side".equals(where)){
-            return sideCardSlots[num].addCard(card);
+            return sideCardSlots[num].addCard(card,stage);
         }
         System.out.println("where parameter invalid");
         return false;
@@ -146,5 +148,9 @@ public class CardUI {
 
     public TiledMapTileLayer getLaserSprites() {
         return laserSprites;
+    }
+
+    public void setTiledStage(TiledMapStage stage){
+        this.stage = stage;
     }
 }

@@ -8,6 +8,6 @@ public abstract class ButtonActor extends Actor {
 
     abstract void clickAction();
 
-    abstract void setCell(TiledMapTileLayer.Cell cell);
+    public abstract void setCell(TiledMapTileLayer.Cell cell);
 
 }

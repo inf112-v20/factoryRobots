@@ -47,12 +47,14 @@ public class CardSlot {
 
     public ICard removeCard(){
         if(card == null){
-            System.out.println("No card to remove in the slot");
+            //System.out.println("No card to remove in the slot");
             return null;
         } else {
             ICard value = card.copyOf();
             card = null;
-            cardLayer.setCell(xCoord,yCoord,null);
+            if(!noUI){
+                cardLayer.setCell(xCoord,yCoord,null);
+            }
             return value;
         }
     }

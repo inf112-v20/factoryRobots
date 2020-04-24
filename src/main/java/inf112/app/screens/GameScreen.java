@@ -60,7 +60,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
         //this.testRobot = new Robot(new Position(4,4),"player"); //TODO remove this
 
-        game.setPlayer();
+        //game.setPlayer(); moved to game creation
         this.player = game.getPlayer();
 
         //Set up cameras
@@ -245,6 +245,12 @@ public class GameScreen implements Screen, MultiplayerScreen {
         game.batch.dispose();
         uiRenderer.dispose();
         mapRenderer.dispose();
+        if(game.client != null){
+            game.client.disconnect();
+        }
+        if(game.isHost){
+            game.shutdownServer();
+        }
     }
 
     public void updateRobots(){

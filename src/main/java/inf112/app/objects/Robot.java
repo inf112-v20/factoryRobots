@@ -294,7 +294,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
             if(!slot.isLocked()){ // TODO lock the slot at some point
                 slot.removeCard();
             }
-
         }
     }
 

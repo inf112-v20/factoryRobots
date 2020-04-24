@@ -10,6 +10,7 @@ import inf112.app.cards.CardDeck;
 import inf112.app.game.CardUI;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
+import inf112.app.objects.Robot;
 import inf112.app.util.CardDeckLoader;
 import inf112.app.util.CardUILoader;
 import inf112.app.util.MapLoader;
@@ -35,6 +36,7 @@ public class LoadingGameScreen implements Screen {
         // Load the CardUI in the background
         game.manager.setLoader(CardUI.class, new CardUILoader(new InternalFileHandleResolver(), this.game));
         game.manager.load("cardUI",CardUI.class);
+
     }
 
     @Override
@@ -53,6 +55,20 @@ public class LoadingGameScreen implements Screen {
         game.batch.end();
         game.manager.update();
         if (game.manager.isFinished()) { // Load some, will return true if done loading
+            //Loading robots when map is loaded
+            Robot[] list = new Robot[game.getNumberOfPlayersInSession()];
+            for(int i = 0; i<list.length; i++){
+                list[i] = new Robot(Map.getInstance().getSpawnpoint(i), RoboRally.robotNames[i]);
+                if(game.client != null){    //Id is only used in multiplayer session
+                    list[i].assignID(game.client.getIdList().get(i));
+                    if(game.client.getIdList().get(i) == game.client.getId()){ //If id matches assign robot to player
+                        game.getPlayer().assignRobot(list[i]);
+                    }
+                }
+            }
+            if(game.client != null){
+                game.client.notifyDoneLoading();
+            }
             game.setScreen(new GameScreen(game,stage,viewport));
         }
 
@@ -63,7 +79,7 @@ public class LoadingGameScreen implements Screen {
 
     @Override
     public void resize(int x, int y) {
-        viewport.update(x, y, true);
+       viewport.update(x, y, true); //TODO makes the game crash
     }
 
     /**

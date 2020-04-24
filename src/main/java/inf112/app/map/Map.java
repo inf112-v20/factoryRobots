@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardDeck;
 import inf112.app.game.GameSounds;
+import inf112.app.game.RoboRally;
 import inf112.app.objects.*;
 
 
@@ -33,6 +34,7 @@ public class Map {
     private int laserTimer = 0;
     private boolean lasersActive = false;
 
+    private Position[] spawnPoints = new Position[RoboRally.MAX_PLAYER_AMOUNT];
 
     private GameSounds sound;
 
@@ -70,6 +72,10 @@ public class Map {
 
         laserObjects = obtainLaserObjects();
         robotList = new ArrayList<>();
+
+        for(int i = 0; i<8; i++){
+            spawnPoints[i] = new Position((i+1)*2,2);
+        }
     }
 
     /**
@@ -345,6 +351,10 @@ public class Map {
         for(Robot r : robotList){
             registerRobot(r);
         }
+    }
+
+    public Position getSpawnpoint(int index){
+        return spawnPoints[index];
     }
 
 }

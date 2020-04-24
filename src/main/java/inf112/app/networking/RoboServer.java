@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Server;
 import inf112.app.cards.CardDeck;
 import inf112.app.cards.ICard;
 import inf112.app.game.RoboRally;
+import inf112.app.map.Map;
 import inf112.app.map.Position;
 import inf112.app.networking.packets.Payload;
 import inf112.app.networking.packets.RobotListPacket;
@@ -13,8 +14,6 @@ import inf112.app.networking.packets.RobotStatePacket;
 import inf112.app.objects.Robot;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,6 +25,8 @@ public class RoboServer extends Listener {
     private int nPlayers;
     private int nDoneSimulating;
     private int nReady;
+    private int nDoneLoading;
+
     private static Server server;
     private static int tcpPort = 10801;
 
@@ -37,9 +38,6 @@ public class RoboServer extends Listener {
 
     private CardDeck deck;
     private HashMap<Integer,ICard> usedCards;
-
-    private String[] robotNames = new String[]{"1","2","3","4","5","6","7","8"};
-    private Position[] spawnPoints = new Position[MAX_PLAYER_AMOUNT]; // #TODO: get spawnpoints
 
     public RoboServer(final RoboRally game) {
         this.game = game;
@@ -64,6 +62,7 @@ public class RoboServer extends Listener {
         server.addListener(this);
         nPlayers = 0;
         nDoneSimulating = 0;
+        nDoneLoading = 0;
 
         robotMap = new HashMap<>(MAX_PLAYER_AMOUNT);
         playerMap = new HashMap<>(MAX_PLAYER_AMOUNT);
@@ -71,9 +70,7 @@ public class RoboServer extends Listener {
         state = ServerState.LOBBY;
         deck = new CardDeck();
         usedCards = new HashMap<>(deck.getSize());
-        for(int i = 0; i<2; i++){
-            spawnPoints[i] = new Position((i+1)*2,2);
-        }
+
     }
 
     @Override
@@ -131,6 +128,7 @@ public class RoboServer extends Listener {
             System.out.println("Empty payload");
             return;
         }
+        System.out.println("Client sent: " + payload.message); //For debugging TODO remove
         try {
             switch (split[0].toLowerCase()) {
                 case "rem":
@@ -145,7 +143,6 @@ public class RoboServer extends Listener {
                     break;
                 case "username":
                     playerMap.put(connection.getID(),split[1]);
-
                     Payload users = assembleUserListPacket();
                     server.sendToAllTCP(users);
                     break;
@@ -157,6 +154,16 @@ public class RoboServer extends Listener {
                     break;
                 case "unready":
                     nReady--;
+                    break;
+                case "doneloading":
+                    nDoneLoading++;
+                    if(nDoneLoading >= nPlayers){ //assign id's
+                        ArrayList<Robot> robots = Map.getInstance().getRobotList();
+                        for(Robot r : robots){
+                            robotMap.put(r.getID(),r); //Might not need the robot map
+                        }
+                    }
+                    handOutCards();
                     break;
                 default:
                     System.out.println("Payload from client " + connection.getID() + ": " + payload.message);
@@ -195,7 +202,7 @@ public class RoboServer extends Listener {
         Robot r = robotMap.get(packet.id);
         r.setPowerDownNextRound(packet.powerdownNextRound);
         registerProgramming(r,packet.programmedCards);
-        server.sendToAllTCP(packet);
+        server.sendToAllExceptTCP(c.getID(),packet);
     }
 
     /**
@@ -275,6 +282,22 @@ public class RoboServer extends Listener {
      */
     public void launchGame(){
         state = ServerState.GAME;
+        //send all player ids to clients
+        Payload ids = new Payload();
+        ids.message = "ids ";
+        for(Connection c : server.getConnections()){
+            ids.message = ids.message + c.getID() + " ";
+        }
+        server.sendToAllTCP(ids);
+
+        //send mapname to all clients so they can load
+        Payload mapInfo = new Payload();
+        mapInfo.message = "map " + game.getMapName() + " " + nPlayers;
+        server.sendToAllTCP(mapInfo);
+
+    }
+
+   /* public void buildAndSendRobotList(){
         //Create and process robots, assign spawn points
         ArrayList<Robot> robotList = new ArrayList<>(nPlayers);
         int i = 0;
@@ -284,16 +307,11 @@ public class RoboServer extends Listener {
             robot.assignID(c.getID());
             robotList.add(robot);
         }
-        //send mapname to all clients so they can load
-        Payload mapInfo = new Payload();
-        mapInfo.message = "map " + game.getMapName();
-        server.sendToAllTCP(mapInfo);
-
         //send list of robots
         RobotListPacket robots = new RobotListPacket();
         robots.list = robotList;
         server.sendToAllTCP(robots);
-    }
+    } */
 
     /**
      * DO NOT USE THIS

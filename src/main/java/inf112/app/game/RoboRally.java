@@ -14,6 +14,7 @@ import inf112.app.map.Map;
 
 import inf112.app.networking.RoboClient;
 import inf112.app.networking.RoboServer;
+import inf112.app.objects.Robot;
 import inf112.app.screens.LoadingMenuScreen;
 import inf112.app.screens.PauseGameScreen;
 
@@ -21,9 +22,16 @@ import java.io.IOException;
 
 public class RoboRally extends Game {
     public SpriteBatch batch;
+    public static final int MAX_PLAYER_AMOUNT = 8;
 
     private Player player;
     private String playerName = "Anonymous";
+
+    private int numberOfPlayersInSession;
+    public static final String[] robotNames =
+            new String[]{"player","player","player","player","player","player","player","player"};
+    //private Robot[] loadedRobots;
+
     protected Stage stage;
     protected StretchViewport viewport;
     protected Screen lastScreen;
@@ -64,6 +72,9 @@ public class RoboRally extends Game {
         stage = new Stage(viewport, batch); // Create new stage to share with each screen
         Gdx.input.setInputProcessor(stage); // Define InputProcessor on the stage
         this.setScreen(new LoadingMenuScreen(this, viewport, stage));
+
+        numberOfPlayersInSession = 1;
+        setPlayer();
     }
 
     @Override
@@ -170,4 +181,20 @@ public class RoboRally extends Game {
         server.shutdown();
         server = null;
     }
+
+    public void setNPlayers(int nPlayers) {
+        numberOfPlayersInSession = nPlayers;
+    }
+
+    public int getNumberOfPlayersInSession() {
+        return numberOfPlayersInSession;
+    }
+
+ /*   public void loadRobots(Robot[] list){
+        loadedRobots = list;
+    }
+
+    public Robot[] getLoadedRobots() {
+        return loadedRobots;
+    }*/
 }

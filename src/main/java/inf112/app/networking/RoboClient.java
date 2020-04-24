@@ -1,5 +1,6 @@
 package inf112.app.networking;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.esotericsoftware.kryonet.Client;
@@ -37,6 +38,7 @@ public class RoboClient extends Listener {
     private int id = -1;
     private String username;
     private ArrayList<String> userList;
+    private ArrayList<Integer> idList;
 
     private CardDeck deck;
 
@@ -44,7 +46,8 @@ public class RoboClient extends Listener {
     public RoboClient(final RoboRally game, StretchViewport viewport, Stage stage, String ip, String username) throws IOException {
         this.ip = ip;
         this.username = username;
-        userList = new ArrayList<>(8);
+        userList = new ArrayList<>(RoboRally.MAX_PLAYER_AMOUNT);
+        idList = new ArrayList<>(RoboRally.MAX_PLAYER_AMOUNT);
 
         client = new Client();
 
@@ -78,7 +81,9 @@ public class RoboClient extends Listener {
         } else if(object instanceof RobotListPacket){
             processRobotList((RobotListPacket) object);
         } else if (object instanceof RobotStatePacket){
-            interpretRobotState((RobotStatePacket) object);
+            if(!game.isHost){ //if client is hosting, then server has already
+                interpretRobotState((RobotStatePacket) object);
+            }
         }
     }
 
@@ -126,7 +131,10 @@ public class RoboClient extends Listener {
                 game.getPlayer().assignRobot(r);
             }
         }
-        map.setRobotList(packet.list);
+        if(!game.isHost){ //The host already registered the robots when the server created them
+            map.setRobotList(packet.list);
+        }
+
     }
 
     /**
@@ -141,6 +149,7 @@ public class RoboClient extends Listener {
             System.out.println("Empty payload");
             return;
         }
+        System.out.println("Server sent: " + payload.message); //For debugging TODO Remove
         try {
             switch (split[0].toLowerCase()) {
                 case "id": //Server assigns client id
@@ -148,18 +157,30 @@ public class RoboClient extends Listener {
                     break;
                 case "map": //Server broadcasts which map will be played
                     game.setMapName(split[1]);
-                    game.setScreen(new LoadingGameScreen(game, viewport, stage));
+                    int nPlayers = Integer.parseInt(split[2]);
+                    game.setNPlayers(nPlayers);
+                    Gdx.app.postRunnable(new Runnable() {
+                        public void run() {
+                            game.setScreen(new LoadingGameScreen(game, viewport, stage));
+                        }
+                        });
+
                     break;
                 case "cards": //Server hands out cards
-                    if(deck == null){
-                        this.deck = Map.getInstance().getDeck();
-                    }
-                    for(int i = 1; i<split.length; i++){
-                        CardUI ui = CardUI.getInstance();
-                        game.getPlayer().getCharacter().wipeSlots(ui.getSideCardSlots());
-                        ICard card = deck.getCard(Integer.parseInt(split[i]));
-                        ui.addCardToSlot(card,"side",(i-1));
-                    }
+                    Gdx.app.postRunnable(new Runnable(){
+                        public void run(){
+                            if(deck == null){
+                                deck = Map.getInstance().getDeck();
+                            }
+                            CardUI ui = CardUI.getInstance();
+                            game.getPlayer().getCharacter().wipeSlots(ui.getSideCardSlots());
+                            for(int i = 1; i<split.length; i++){
+                                ICard card = deck.getCard(Integer.parseInt(split[i]));
+                                ui.addCardToSlot(card,"side",(i-1));
+                            }
+                        }
+                    });
+
                     break;
                 case "disc": //Some client disconnected
                     int id = Integer.parseInt(split[1]);
@@ -200,6 +221,11 @@ public class RoboClient extends Listener {
                 case "allready":
                     if(game.getScreen() instanceof ServerLobbyScreen){
                         ((ServerLobbyScreen) game.getScreen()).alertUser("Server launching..");
+                    }
+                    break;
+                case "ids":
+                    for(int i = 1; i<split.length; i++){
+                        idList.add(Integer.parseInt(split[i]));
                     }
                     break;
                 default:
@@ -280,4 +306,17 @@ public class RoboClient extends Listener {
         client.sendTCP(unready);
     }
 
+    public void notifyDoneLoading(){
+        Payload loading = new Payload();
+        loading.message = "doneloading";
+        client.sendTCP(loading);
+    }
+
+    public ArrayList<Integer> getIdList() {
+        return idList;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

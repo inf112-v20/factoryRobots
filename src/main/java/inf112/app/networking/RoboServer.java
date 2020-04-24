@@ -162,8 +162,9 @@ public class RoboServer extends Listener {
                         for(Robot r : robots){
                             robotMap.put(r.getID(),r); //Might not need the robot map
                         }
+                        handOutCards();
                     }
-                    handOutCards();
+
                     break;
                 default:
                     System.out.println("Payload from client " + connection.getID() + ": " + payload.message);

@@ -86,7 +86,8 @@ public class RoboClient extends Listener {
             processRobotList((RobotListPacket) object);
         } else if (object instanceof RobotStatePacket){
             Map.getInstance().incrementDoneProgramming();
-            if(!game.isHost){ //if client is hosting, then server has already
+            //if client is hosting, then server has already updated robot
+            if(!game.isHost){
                 interpretRobotState((RobotStatePacket) object);
             }
         }

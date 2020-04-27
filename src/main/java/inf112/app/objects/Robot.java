@@ -2,6 +2,7 @@ package inf112.app.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
@@ -161,14 +162,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @param charName Name of the character, will be used in the filepath to the spritesheet
      */
     public void loadPlayerSprites(String charName){
-        String path = "assets/" + charName + ".png";
+        String path = "assets/Robots/" + charName + "Comb.png";
         //Loading and splitting player sprites
         Texture spriteMap = new Texture(path);
         TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
         //Assigning individual sprites
         normalPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
-        loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
-        winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
+        winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
+        loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
     }
 
     /**

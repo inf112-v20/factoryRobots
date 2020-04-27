@@ -46,7 +46,11 @@ public class CourseSelector implements Screen {
         this.stage = stage;
         mapList = new LinkedList<>();
         FileHandle[] files = Gdx.files.internal("assets/Maps").list();
-        mapList.addAll(Arrays.asList(files));
+        for(FileHandle file : files){
+            if(file.name().endsWith(".tmx")){
+                mapList.add(file);
+            }
+        }
 
         this.index = 0;
         boolean screenHeightAdjustment = false;

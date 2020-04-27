@@ -95,19 +95,19 @@ public class RoboClient extends Listener {
      * @param packet The packet carrying the information about the robots state
      */
     private void interpretRobotState(RobotStatePacket packet){
-        Robot r = null;
-        ArrayList<Robot> roboList = Map.getInstance().getRobotList();
-        for(Robot robot : roboList){
-            if(robot.getID() == packet.id){
-                r = robot;
+        if(packet.id != id) {
+            Robot r = null;
+            ArrayList<Robot> roboList = Map.getInstance().getRobotList();
+            for (Robot robot : roboList) {
+                if (robot.getID() == packet.id) {
+                    r = robot;
+                }
             }
-        }
-        r.setPowerDownNextRound(packet.powerdownNextRound);
-        for(int i = 0; i < packet.programmedCards.length; i++){
-            ICard card = deck.getCard(packet.programmedCards[i]);
-            r.setProgrammedCard(i, card);
-        }
-        if(packet.id != id){
+            r.setPowerDownNextRound(packet.powerdownNextRound);
+            for (int i = 0; i < packet.programmedCards.length; i++) {
+                ICard card = deck.getCard(packet.programmedCards[i]);
+                r.setProgrammedCard(i, card);
+            }
             Map.getInstance().incrementDoneProgramming();
         }
     }
@@ -320,4 +320,7 @@ public class RoboClient extends Listener {
         return id;
     }
 
+    public ArrayList<String> getUserList() {
+        return userList;
+    }
 }

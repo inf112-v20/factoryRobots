@@ -30,6 +30,10 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         this.stage = stage;
 
         serverIP = ip;
+        if(game.client.getUserList() != null){
+            this.userList = game.client.getUserList();
+        }
+
     }
 
     public void updatePlayerList(ArrayList<String> userList){

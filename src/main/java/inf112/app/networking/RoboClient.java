@@ -73,7 +73,9 @@ public class RoboClient extends Listener {
 
     @Override
     public void disconnected(Connection connection) {
-        super.disconnected(connection);
+        if(game.getScreen() instanceof MultiplayerScreen){
+            ((MultiplayerScreen) game.getScreen()).alertUser("Disconnected from server");
+        }
     }
 
     @Override
@@ -232,7 +234,7 @@ public class RoboClient extends Listener {
                     break;
             }
         } catch (IndexOutOfBoundsException e){
-            System.out.println("Malformed payload message\n" + e.getMessage());
+            System.out.println("Malformed payload message\n" + e.getMessage() + "\nPacket: " + split[0]);
             client.close();
         } catch (NumberFormatException e){
             System.out.println("ID message contains invalid id\n" + e.getMessage());

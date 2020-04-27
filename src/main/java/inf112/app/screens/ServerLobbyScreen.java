@@ -60,6 +60,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
             public void changed (ChangeEvent event, Actor actor) {
                 if(game.isHost){
                     game.shutdownServer();
+                    game.isHost = false;
                 }
                 game.client.disconnect();
                 game.client = null;

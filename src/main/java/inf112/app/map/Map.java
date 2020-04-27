@@ -337,6 +337,8 @@ public class Map {
 
     public void resetDoneProgramming(){
         doneProgrammingCount = 0;
+        for(Robot r : robotList)
+            r.setDoneProgramming(false);
     }
 
     public boolean checkForTimerActivation(){

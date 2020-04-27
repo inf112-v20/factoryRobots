@@ -6,7 +6,7 @@ import inf112.app.map.Position;
 import java.util.Objects;
 
 public class Flag implements IBoardElement {
-    private int num;
+    private final int num;
 
     public Flag(int num){
         this.num = num;

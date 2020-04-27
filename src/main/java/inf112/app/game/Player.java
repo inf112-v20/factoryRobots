@@ -24,6 +24,14 @@ public class Player extends InputAdapter {
         character = new Robot(new Position(x,y),"player");
     }
 
+    public Player(){
+        //Do nothing
+    }
+
+    public void assignRobot(Robot robot){
+        character = robot;
+    }
+
     public Robot getCharacter(){
         return character;
     }

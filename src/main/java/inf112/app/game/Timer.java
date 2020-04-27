@@ -43,7 +43,7 @@ public class Timer {
 
     public void start(){
         Gdx.graphics.getDeltaTime();
-        count = 10;
+        count = 30;
         label.setColor(Color.WHITE);
         warning = false;
         done = false;

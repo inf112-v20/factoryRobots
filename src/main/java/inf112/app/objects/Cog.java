@@ -6,7 +6,7 @@ import inf112.app.map.Direction.Rotation;
  * this class makes the object cog turn robots direction on it
  */
 public class Cog implements IBoardElement {
-    private Rotation rotation;
+    private final Rotation rotation;
 
     /**
      * constructor to rotate direction of robot

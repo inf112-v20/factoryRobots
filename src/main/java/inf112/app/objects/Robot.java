@@ -162,7 +162,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @param charName Name of the character, will be used in the filepath to the spritesheet
      */
     public void loadPlayerSprites(String charName){
-        String path = "assets/Robots/" + charName + "Comb.png";
+        String path = "assets/Robots/" + charName + ".png";
         //Loading and splitting player sprites
         Texture spriteMap = new Texture(path);
         TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);

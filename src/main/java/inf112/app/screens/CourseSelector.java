@@ -69,7 +69,7 @@ public class CourseSelector implements Screen {
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         mapViewport.apply(); // Fit camera to viewport
 
-        mapRenderer = new OrthogonalTiledMapRenderer(game.manager.get("assets/Maps/testMap.tmx"), 1/9f); // Create a renderer for rendering of the
+        mapRenderer = new OrthogonalTiledMapRenderer(game.manager.get(files[0].toString()), 1/9f); // Create a renderer for rendering of the
         // TiledMap
         mapRenderer.setView(mapCamera);
     }

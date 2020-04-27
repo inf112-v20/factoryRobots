@@ -54,6 +54,7 @@ public class IDTranslator{
         FLAG,
         FIREPIT,
         FLAGPLATFORM,
-        STARTINGPLATFORM;
+        STARTINGPLATFORM,
+        SPAWNPOINTS;
     }
 }

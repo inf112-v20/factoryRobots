@@ -30,6 +30,7 @@ public class Map {
     private TiledMapTileLayer laserLayer;
     private TiledMapTileLayer laser2Layer;
     private TiledMapTileLayer utilityLayer;
+    private TiledMapTileLayer spawnpoints;
 
     private int mapSizeX;
     private int mapSizeY;
@@ -70,6 +71,7 @@ public class Map {
         this.laserSprites = laserSprites;
         this.gameButtons = gameButtons;
         initializeObjects();
+
     }
 
     /**
@@ -86,9 +88,12 @@ public class Map {
         wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall");
         conveyorLayer = (TiledMapTileLayer) map.getLayers().get("Conveyor");
         laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser");
+        spawnpoints = (TiledMapTileLayer) map.getLayers().get(("SpawnPoints"));
+
         //Extra layer so lasers can cross each other
         laser2Layer = (TiledMapTileLayer) map.getLayers().get("Laser2");
         utilityLayer = (TiledMapTileLayer) map.getLayers().get("Utility");
+
 
         MapProperties props = map.getProperties();
         mapSizeX = props.get("width",Integer.class);
@@ -119,6 +124,9 @@ public class Map {
         return objects;
     }
 
+    public getSpawnPoints () {
+        return spawnpoints;
+    }
 
     public int getMapSizeX(){
         return mapSizeX;

@@ -35,7 +35,7 @@ public class IDTranslator{
         } else if ((id >= 121 && id <= 124) || (id >= 129 && id <= 132)) {
             return ElemEnum.STARTINGPLATFORM;
         }
-        throw new IllegalArgumentException("ID range not valid. ID: " + id);
+        return ElemEnum.UNKNOWN;
     }
 
     /**
@@ -54,6 +54,7 @@ public class IDTranslator{
         FLAG,
         FIREPIT,
         FLAGPLATFORM,
-        STARTINGPLATFORM;
+        STARTINGPLATFORM,
+        UNKNOWN
     }
 }

@@ -85,6 +85,7 @@ public class RoboClient extends Listener {
         } else if(object instanceof RobotListPacket){
             processRobotList((RobotListPacket) object);
         } else if (object instanceof RobotStatePacket){
+            Map.getInstance().incrementDoneProgramming();
             if(!game.isHost){ //if client is hosting, then server has already
                 interpretRobotState((RobotStatePacket) object);
             }
@@ -110,7 +111,6 @@ public class RoboClient extends Listener {
                 ICard card = deck.getCard(packet.programmedCards[i]);
                 r.setProgrammedCard(i, card);
             }
-            Map.getInstance().incrementDoneProgramming();
         }
     }
 

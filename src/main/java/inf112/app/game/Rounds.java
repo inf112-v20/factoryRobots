@@ -80,7 +80,7 @@ public class Rounds {
                             continue;
                         } else if (elem instanceof Laser) {
                             continue;
-                        } else {
+                        } else if (elem != null) {
                             elem.doAction(r);
                         }
                     }

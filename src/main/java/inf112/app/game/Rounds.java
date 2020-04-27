@@ -5,8 +5,6 @@ import inf112.app.cards.ICard;
 import inf112.app.map.Map;
 import inf112.app.objects.*;
 
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 

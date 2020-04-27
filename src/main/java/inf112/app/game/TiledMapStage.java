@@ -107,14 +107,14 @@ public class TiledMapStage extends Stage {
     public void releaseButtons(){
          getLockInButton().releaseButton();
          getPowerdownButton().releaseButton();
-         setCardLock(true);
+         setCardPushable(true);
     }
 
     /**
      * Method for setting if the cards are clickable
      * @param clickable true if cards should be clickable, false if they should be locked
      */
-    public void setCardLock(boolean clickable){
+    public void setCardPushable(boolean clickable){
         for(Actor actor : getActors()){
             if(actor instanceof CardSlotActor){
                 CardSlotActor cardSlot = (CardSlotActor) actor;

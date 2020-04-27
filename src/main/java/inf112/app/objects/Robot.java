@@ -402,7 +402,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
    public ICard getProgrammedCard(int index){
         if (index >= 0 && index < 5){
             return programmedCards[index].getCard();
-        }else {
+        } else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }
    }

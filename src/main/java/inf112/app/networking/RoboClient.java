@@ -251,8 +251,9 @@ public class RoboClient extends Listener {
         Robot robot = game.getPlayer().getCharacter();
         for(int i = 0; i < robot.getProgrammedCards().length; i++){
             ICard card = robot.getProgrammedCard(i);
-            priorities[i] = card.getPoint();
-
+            if(card != null){
+                priorities[i] = card.getPoint();
+            }
         }
         RobotStatePacket payload = new RobotStatePacket();
         payload.programmedCards = priorities;

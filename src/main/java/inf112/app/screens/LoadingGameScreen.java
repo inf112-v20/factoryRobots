@@ -65,6 +65,9 @@ public class LoadingGameScreen implements Screen {
                         game.getPlayer().assignRobot(list[i]);
                     }
                 }
+                else {
+                    game.getPlayer().assignRobot(list[0]);
+                }
             }
             if(game.client != null){
                 game.client.notifyDoneLoading();

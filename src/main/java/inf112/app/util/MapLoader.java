@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Array;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
@@ -39,8 +40,7 @@ public class MapLoader extends AsynchronousAssetLoader<Map, MapLoader.Parameters
      */
     @Override
     public Map loadSync(AssetManager assetManager, String mapName, FileHandle fileHandle, Parameters parameters) {
-        Map.setInstance(game.manager.get("assets/" + mapName + ".tmx"),
-                game.manager.get("assets/Lasers.tmx"), game.manager.get("assets/GameButtons/Buttons.tmx"));
+        Map.setInstance((TiledMap) game.manager.get("assets/" + mapName + ".tmx"));
         return Map.getInstance();
     }
 

@@ -12,6 +12,14 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
 import inf112.app.util.TableBuilder;
+import inf112.app.networking.RoboClient;
+import inf112.app.networking.RoboServer;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class HostGameScreen implements Screen {
     private final Stage stage;
@@ -55,7 +63,18 @@ public class HostGameScreen implements Screen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new ServerLobbyScreen(game, viewport, stage));
+                game.launchServer(); //temporary username for host
+                String ip = "";
+                try{
+                    Socket socket = new Socket();
+                    socket.connect(new InetSocketAddress("1.1.1.1", 80));
+                    ip = socket.getLocalAddress().getHostAddress();
+                } catch (IOException e){
+                    System.out.println("Couldn't obtain ip");
+                }
+
+                game.isHost = true;
+                game.setScreen(new ServerLobbyScreen(game, viewport, stage, ip));
             }
         });
 

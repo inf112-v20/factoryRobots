@@ -22,7 +22,7 @@ public abstract class CardStatus implements Comparable<ICard>, ICard {
     private boolean isHidden;
     private boolean isLocked;
 
-    private Texture texture;
+    private final Texture texture;
     private TiledMapTileLayer.Cell cardTile;
 
     /**

@@ -12,9 +12,9 @@ import java.util.ArrayList;
  * Conveyor belts on the board
  */
 public class Conveyor implements IBoardElement {
-    private Direction[] entries;
-    private Direction exit;
-    private int speed;
+    private final Direction[] entries;
+    private final Direction exit;
+    private final int speed;
 
     /**
      * constructor for the conveyor belts
@@ -46,12 +46,8 @@ public class Conveyor implements IBoardElement {
         direc.turn(Rotation.LEFT);
         direc.turn(Rotation.LEFT);
 
-        if (dir.equals(direc)){
-            return false;
-        } else{
-            return true;
-        }
 
+        return !dir.equals(direc);
     }
 
     /**

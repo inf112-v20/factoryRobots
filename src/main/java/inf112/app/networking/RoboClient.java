@@ -73,7 +73,9 @@ public class RoboClient extends Listener {
 
     @Override
     public void disconnected(Connection connection) {
-        super.disconnected(connection);
+        if(game.getScreen() instanceof MultiplayerScreen){
+            ((MultiplayerScreen) game.getScreen()).alertUser("Disconnected from server");
+        }
     }
 
     @Override
@@ -83,6 +85,7 @@ public class RoboClient extends Listener {
         } else if(object instanceof RobotListPacket){
             processRobotList((RobotListPacket) object);
         } else if (object instanceof RobotStatePacket){
+            Map.getInstance().incrementDoneProgramming();
             if(!game.isHost){ //if client is hosting, then server has already
                 interpretRobotState((RobotStatePacket) object);
             }
@@ -108,7 +111,6 @@ public class RoboClient extends Listener {
                 ICard card = deck.getCard(packet.programmedCards[i]);
                 r.setProgrammedCard(i, card);
             }
-            Map.getInstance().incrementDoneProgramming();
         }
     }
 
@@ -232,7 +234,7 @@ public class RoboClient extends Listener {
                     break;
             }
         } catch (IndexOutOfBoundsException e){
-            System.out.println("Malformed payload message\n" + e.getMessage());
+            System.out.println("Malformed payload message\n" + e.getMessage() + "\nPacket: " + split[0]);
             client.close();
         } catch (NumberFormatException e){
             System.out.println("ID message contains invalid id\n" + e.getMessage());

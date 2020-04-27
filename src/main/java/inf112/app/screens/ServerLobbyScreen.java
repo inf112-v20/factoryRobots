@@ -11,7 +11,6 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 import inf112.app.util.TableBuilder;
 
-import java.net.BindException;
 import java.util.ArrayList;
 
 public class ServerLobbyScreen implements Screen, MultiplayerScreen {
@@ -37,9 +36,6 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
     }
 
     public void updatePlayerList(ArrayList<String> userList){
-        // This is called from the client whenever the server sends an updated playerlist
-        // TODO Implement check for new players
-        // TODO Update "Waiting..." labels with player names
         this.userList = userList;
         this.show();
 
@@ -60,6 +56,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
             public void changed (ChangeEvent event, Actor actor) {
                 if(game.isHost){
                     game.shutdownServer();
+                    game.isHost = false;
                 }
                 game.client.disconnect();
                 game.client = null;

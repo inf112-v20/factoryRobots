@@ -117,6 +117,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
         this.timer = new Timer(-1,alert); //set count to float > 0 to test timer
         table.add(alert);
         stage.addActor(table);
+        if(game.client == null){
+            currentRound.dealCards(tiledStage);
+        }
     }
 
     @Override
@@ -205,6 +208,8 @@ public class GameScreen implements Screen, MultiplayerScreen {
                 phaseNum = 1;
                 if(game.client != null){
                     game.client.sendDone();
+                } else {
+                    currentRound.dealCards(tiledStage);
                 }
             } else {
                 currentRound.doPhase(phaseNum);

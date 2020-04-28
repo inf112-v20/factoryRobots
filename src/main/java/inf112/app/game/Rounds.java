@@ -35,9 +35,9 @@ public class Rounds {
     /**
      * dealing right amount of cards to each robot
      */
-    public void dealCards(){
+    public void dealCards(TiledMapStage stage){
         for (Robot r : robots){
-            r.dealNewCards();
+            r.dealNewCards(stage);
         }
     }
 

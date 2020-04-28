@@ -82,7 +82,7 @@ public class LoadingGameScreen implements Screen {
 
     @Override
     public void resize(int x, int y) {
-       viewport.update(x, y, true); //TODO makes the game crash
+       viewport.update(x, y, true);
     }
 
     /**

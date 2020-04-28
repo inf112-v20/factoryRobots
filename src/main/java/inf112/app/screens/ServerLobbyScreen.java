@@ -84,8 +84,8 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         table.row();
         table.add(alert);
         stage.addActor(table);
-
-        stage.addActor(new VisLabel("Server ip: " + serverIP)); //bottom left corner
+        //bottom left corner
+        stage.addActor(new VisLabel("Server ip: " + serverIP));
     }
 
     @Override

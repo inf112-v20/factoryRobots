@@ -10,6 +10,7 @@ import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 import inf112.app.game.CardUI;
 import inf112.app.game.GameSounds;
+import inf112.app.game.TiledMapStage;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
@@ -278,7 +279,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     /**
      * method for dealing the right amount of cards compared to damageTokens
      */
-    public void dealNewCards() {
+    public void dealNewCards(TiledMapStage stage) {
         wipeSlots(availableCards);
         wipeSlots(programmedCards);
         if (powerDown){
@@ -286,7 +287,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
 
         for (int i = 0; i<9-damageTokens; i++) {
-            availableCards[i].addCard(Map.getInstance().getDeck().getCard(),null); //TODO fix hack
+            availableCards[i].addCard(Map.getInstance().getDeck().getCard(),stage);
         }
     }
 

@@ -103,10 +103,12 @@ public class Map {
         Position[] objects = new Position[8];
         for(int x = 0; x < mapSizeX; x++){
             for(int y = 0; y < mapSizeY; y++){
-                TiledMapTile tile = spawnLayer.getCell(x, y).getTile();
-                if (tile != null) {
+
+                if (spawnLayer.getCell(x, y) != null) {
+                    TiledMapTile tile = spawnLayer.getCell(x, y).getTile();
                     int num = (int) tile.getProperties().get("num");
-                    objects[num] = new Position(x, y);
+                    objects[num - 1] = new Position(x, y);
+
                 }
             }
         }

@@ -2,6 +2,7 @@ package inf112.app.map;
 
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardDeck;
@@ -60,8 +61,6 @@ public class Map {
     public Map(TiledMap tiledMap){
         this.map = tiledMap;
         initializeObjects();
-
-        getSpawnPoints();
     }
 
     /**
@@ -75,10 +74,8 @@ public class Map {
 
         laserObjects = obtainLaserObjects();
         robotList = new ArrayList<>();
+        spawnPoints = getSpawnPoints(getLayer("StartPosition"));
 
-        for(int i = 0; i<8; i++){
-            spawnPoints[i] = new Position((i+1)*2,2);
-        }
     }
 
     /**
@@ -101,13 +98,16 @@ public class Map {
         return objects;
     }
 
-    public List<MapLayers> getSpawnPoints (MapLayers layers) {
+    public Position[] getSpawnPoints (TiledMapTileLayer spawnLayer) {
 
-        ArrayList<MapLayers> objects = new ArrayList<>();
+        Position[] objects = new Position[8];
         for(int x = 0; x < mapSizeX; x++){
             for(int y = 0; y < mapSizeY; y++){
-                MapCell cell = cellList.getCell(x,y);
-                if (cellList.getCell(x, y) != null && //sjekke ID fra tiled )
+                TiledMapTile tile = spawnLayer.getCell(x, y).getTile();
+                if (tile != null) {
+                    int num = (int) tile.getProperties().get("num");
+                    objects[num] = new Position(x, y);
+                }
             }
         }
         return objects;

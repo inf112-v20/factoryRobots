@@ -26,11 +26,13 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private Vector2 vectorPos;
 
     private Flag lastVisited;
+    private ArrayList<Flag> allFlags;
 
     private Laser laser;
 
     private int damageTokens;
     private int lives;
+    private boolean isWinner;
     private boolean isDead;
     private boolean hasLostLife;
 
@@ -250,6 +252,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
         this.lastVisited = flag;
     }
 
+    public ArrayList<Flag> getAllFlags(){
+        ArrayList<Flag> allFlags = new ArrayList<>();
+        if (checkContentOfCell(pos) == lastVisited){
+            allFlags.add(lastVisited);
+        }
+        return allFlags;
+    }
+
     public int getDamageTokens() {return damageTokens; }
 
     public void addDamageTokens(int dealDamage) {
@@ -323,6 +333,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public boolean isDead(){
         return isDead;
+    }
+
+    public boolean isWinner(){
+        return isWinner;
     }
 
     /**

@@ -84,8 +84,16 @@ public class Rounds {
                     }
                 }
                 //map.fireLasers(); moved to gamescreen
-
-
+                for (Robot r : robots) {
+                    if (r.isDead()){
+                        map.deleteRobot(r);
+                    }
+                }
+                for (Robot r : robots) {
+                    if (map.allFlags() == r.getAllFlags()){
+                        r.isWinner();
+                    }
+                }
 
         if (phaseNum == 5){
             for (Robot r : robots){

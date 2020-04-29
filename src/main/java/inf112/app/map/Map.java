@@ -358,4 +358,20 @@ public class Map {
         return spawnPoints[index];
     }
 
+    public ArrayList<Flag> allFlags(){
+        ArrayList<Flag> allFlags = new ArrayList<>();
+        for(int x = 0; x < mapSizeX; x++){
+            for(int y = 0; y < mapSizeY; y++){
+                MapCell cell = cellList.getCell(x,y);
+                ArrayList<IBoardElement> inventory = cell.getInventory().getElements();
+                for(IBoardElement elem : inventory){
+                    if(elem instanceof ILaserInteractor){
+                        allFlags.add((Flag) elem);
+                    }
+                }
+            }
+        }
+        return allFlags;
+    }
+
 }

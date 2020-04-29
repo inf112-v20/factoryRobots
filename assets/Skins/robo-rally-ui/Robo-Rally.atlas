@@ -6,14 +6,14 @@ filter: Linear,Linear
 repeat: none
 PressStart2P-Regular
   rotate: false
-  xy: 1, 805
+  xy: 1, 293
   size: 506, 208
   orig: 506, 208
   offset: 0, 0
   index: -1
 Window
   rotate: false
-  xy: 1, 403
+  xy: 515, 615
   size: 400, 400
   split: 34, 26, 60, 0
   orig: 400, 400
@@ -21,7 +21,7 @@ Window
   index: -1
 Window-2
   rotate: false
-  xy: 1, 1
+  xy: 515, 213
   size: 400, 400
   split: 34, 26, 60, 0
   orig: 400, 400
@@ -29,7 +29,7 @@ Window-2
   index: -1
 arrow-left
   rotate: false
-  xy: 403, 753
+  xy: 303, 241
   size: 50, 50
   split: 24, 19, 24, 22
   pad: 25, 24, 25, 24
@@ -38,7 +38,7 @@ arrow-left
   index: -1
 arrow-right
   rotate: false
-  xy: 811, 963
+  xy: 1, 137
   size: 50, 50
   split: 23, 18, 22, 22
   pad: 25, 24, 25, 24
@@ -47,7 +47,7 @@ arrow-right
   index: -1
 button-bigger
   rotate: false
-  xy: 509, 963
+  xy: 1, 241
   size: 300, 50
   split: 0, 0, 4, 4
   pad: 4, 4, 4, 4
@@ -56,16 +56,30 @@ button-bigger
   index: -1
 button-standard-2
   rotate: false
-  xy: 509, 893
+  xy: 917, 897
   size: 32, 16
   split: 1, 1, 1, 1
   pad: 0, 0, 0, 0
   orig: 32, 16
   offset: 0, 0
   index: -1
+favicon-format-clipart-1
+  rotate: false
+  xy: 1, 503
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+icons8-settings-100
+  rotate: false
+  xy: 917, 915
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
 input-button
   rotate: false
-  xy: 509, 911
+  xy: 1, 189
   size: 300, 50
   split: 0, 0, 4, 4
   pad: 4, 4, 4, 4

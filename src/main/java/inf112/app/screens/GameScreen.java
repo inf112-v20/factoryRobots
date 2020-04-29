@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import inf112.app.cards.CardSlot;
-import inf112.app.cards.ICard;
 import inf112.app.game.*;
 import inf112.app.map.Map;
 import inf112.app.objects.Robot;

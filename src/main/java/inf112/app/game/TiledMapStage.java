@@ -56,22 +56,22 @@ public class TiledMapStage extends Stage {
     }
 
     private void instantiateButtons(TiledMapTileLayer layer){
-        boolean done = false;
         int x = layer.getWidth() - 1;
-        String type = "powerdown";
-        while(!done){
-            done = x == layer.getWidth() - 2;
-            TiledMapTileLayer.Cell cell = layer.getCell(x, 0);
-            GameButtonActor actor = new GameButtonActor(cell,layer,type,x,0,this);
-            actor.setBounds(x*cardWidth,0,cardWidth,cardHeight);
+        String[] type = {"powerdown", "lockin", "sound"};
+        for (int i = 0; i < type.length; i++){
+            int y = 0;
+            if (i == 2) {
+                y = 1;
+            }
+            TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+            GameButtonActor actor = new GameButtonActor(cell, layer, type[i], x, y,this);
+            actor.setBounds(x * cardWidth, y, cardWidth, cardHeight);
             addActor(actor);
             EventListener eventListener = new TiledMapClickListener(actor);
             actor.addListener(eventListener);
-            actorGrid[x][0] = actor;
+            actorGrid[x][y] = actor;
             x--;
-            type = "lockIn";
         }
-
     }
 
     public void resize(int width, int height){

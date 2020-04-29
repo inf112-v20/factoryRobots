@@ -99,20 +99,17 @@ public class Map {
     }
 
     public Position[] getSpawnPoints (TiledMapTileLayer spawnLayer) {
-
-        Position[] objects = new Position[8];
+        Position[] positions = new Position[8];
         for(int x = 0; x < mapSizeX; x++){
             for(int y = 0; y < mapSizeY; y++){
-
                 if (spawnLayer.getCell(x, y) != null) {
                     TiledMapTile tile = spawnLayer.getCell(x, y).getTile();
                     int num = (int) tile.getProperties().get("num");
-                    objects[num - 1] = new Position(x, y);
-
+                    positions[num - 1] = new Position(x, y);
                 }
             }
         }
-        return objects;
+        return positions;
     }
 
     public int getMapSizeX(){

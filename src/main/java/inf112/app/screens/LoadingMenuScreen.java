@@ -41,10 +41,17 @@ public class LoadingMenuScreen implements Screen {
         }
         // Load all maps into the AssetManager
         game.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        FileHandle files = Gdx.files.internal("assets/Maps");
-        assert files.exists();
-        for (FileHandle file : files.list()){
+        FileHandle mapFiles = Gdx.files.internal("assets/Maps");
+        assert mapFiles.exists();
+        for (FileHandle file : mapFiles.list()){
             if(file.name().endsWith(".tmx")){
+                game.manager.load(file.toString(), TiledMap.class);
+            }
+        }
+        FileHandle lightFiles = Gdx.files.internal("assets/HealthLight");
+        assert lightFiles.exists();
+        for (FileHandle file : lightFiles.list()){
+            if(file.name().endsWith(".png")){
                 game.manager.load(file.toString(), TiledMap.class);
             }
         }

@@ -40,6 +40,7 @@ public class MainMenuScreen implements Screen {
         joinButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new JoinGameScreen(game, viewport, stage));
             }
         });
@@ -47,8 +48,8 @@ public class MainMenuScreen implements Screen {
         hostButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new HostGameScreen(game, viewport, stage));
                 game.sounds.buttonSound();
+                game.setScreen(new HostGameScreen(game, viewport, stage));
             }
         });
         VisTextButton settingsButton = new VisTextButton("Settings");
@@ -63,6 +64,7 @@ public class MainMenuScreen implements Screen {
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 Gdx.app.exit();
             }
         });

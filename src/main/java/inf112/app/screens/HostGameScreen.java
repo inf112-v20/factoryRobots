@@ -43,6 +43,7 @@ public class HostGameScreen implements Screen {
         courseButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
@@ -50,6 +51,7 @@ public class HostGameScreen implements Screen {
         flagButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 // TODO
             }
         });
@@ -57,6 +59,7 @@ public class HostGameScreen implements Screen {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 if(!playerName.isEmpty()){
                     game.setPlayerName(playerName.getText());
                 }
@@ -67,6 +70,7 @@ public class HostGameScreen implements Screen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 if(!playerName.isEmpty()){
                     game.setPlayerName(playerName.getText());
                 }

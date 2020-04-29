@@ -48,6 +48,7 @@ public class JoinGameScreen implements Screen {
         acceptButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 // ipField.toString(); -> Ip address
                 // TODO Validate input and join game
                 // TODO Make input more intuitive with error labels and colors
@@ -81,6 +82,7 @@ public class JoinGameScreen implements Screen {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 if(!playerName.isEmpty()){
                     game.setPlayerName(playerName.getText());
                 }

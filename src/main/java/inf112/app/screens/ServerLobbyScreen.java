@@ -54,6 +54,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 if(game.isHost){
                     game.shutdownServer();
                     game.isHost = false;
@@ -66,6 +67,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         readyButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.client.sendReady();
             }
         });

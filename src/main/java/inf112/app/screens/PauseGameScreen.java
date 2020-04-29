@@ -38,6 +38,7 @@ public class PauseGameScreen implements Screen {
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.resume();
             }
         });
@@ -45,6 +46,7 @@ public class PauseGameScreen implements Screen {
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 Gdx.app.exit();
             }
         });

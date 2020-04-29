@@ -42,6 +42,7 @@ public class GameButtonActor extends ButtonActor {
     @Override
     public void clickAction() {
         if(pushable) {
+            stage.getGame().sounds.buttonSound();
             pushable = false;
             layer.setCell(x, y, buttonDown);
             if ("lockIn".equals(type)) {
@@ -58,6 +59,14 @@ public class GameButtonActor extends ButtonActor {
                 }
             } else if ("powerdown".equals(type)) {
                 stage.getGame().getPlayer().getCharacter().setPowerDownNextRound(true);
+            } else if ("sound".equals(type)){
+                RoboRally game = stage.getGame();
+                if (game.backgroundMusic.isPlaying()) {
+                    game.backgroundMusic.pause();
+                }
+                else {
+                    game.backgroundMusic.play();
+                }
             }
         }
     }

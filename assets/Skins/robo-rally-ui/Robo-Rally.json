@@ -107,6 +107,11 @@ com.kotcrab.vis.ui.widget.VisImageButton$VisImageButtonStyle: {
 		up: arrow-right
 		over: arrow-right
 	}
+	settings: {
+		up: icons8-settings-100
+		down: icons8-settings-100
+		pressedOffsetX: 1
+	}
 }
 com.kotcrab.vis.ui.widget.VisImageTextButton$VisImageTextButtonStyle: {
 	default: {
@@ -153,6 +158,15 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 		over: button-standard-2
 	}
 }
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	settings: {
+		imageUp: icons8-settings-100
+		imageDown: icons8-settings-100
+		up: icons8-settings-100
+		down: icons8-settings-100
+		pressedOffsetX: 1
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: PressStart2P-Regular
@@ -166,12 +180,6 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: button-bigger
 		down: button-standard-2
 		pressedOffsetX: 2
-	}
-	text: {
-		font: PressStart2P-Regular
-		fontColor: White
-		up: button-bigger
-		down: button-bigger
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -48,18 +49,13 @@ public class LoadingMenuScreen implements Screen {
                 game.manager.load(file.toString(), TiledMap.class);
             }
         }
-        FileHandle lightFiles = Gdx.files.internal("assets/HealthLight");
-        assert lightFiles.exists();
-        for (FileHandle file : lightFiles.list()){
-            if(file.name().endsWith(".png")){
-                game.manager.load(file.toString(), TiledMap.class);
-            }
-        }
+
         // Load the LaserSprite into the AssetManager
         // to optimize loading time in LoadingGameScreen
         game.manager.load("assets/CardUI2.tmx", TiledMap.class);
         game.manager.load("assets/Lasers.tmx", TiledMap.class);
         game.manager.load("assets/GameButtons/Buttons.tmx",TiledMap.class);
+        game.manager.load("assets/HealthLight.png", Texture.class);
 
         // Sounds
         game.manager.load("assets/Sounds/LazerSound.wav", Sound.class);

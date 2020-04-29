@@ -451,4 +451,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void setDoneProgramming(boolean done) {
        this.doneProgramming = done;
     }
+
+    public int getLives() {
+        return lives;
+    }
 }

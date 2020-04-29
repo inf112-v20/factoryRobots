@@ -72,6 +72,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         CardUI ui = CardUI.getInstance();
         ui.initializeCardSlots(game.getPlayer());
         ui.initializeDamageTokens();
+        ui.setHealthLight(player.getCharacter().getLives());
 
         //Create and shuffle deck
         cellMap.setDeck(game.manager.get("deck"));

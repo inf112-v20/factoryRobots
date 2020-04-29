@@ -11,6 +11,9 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
+import inf112.app.networking.RoboClient;
+
+import java.io.IOException;
 import inf112.app.util.TableBuilder;
 
 public class JoinGameScreen implements Screen {
@@ -18,11 +21,15 @@ public class JoinGameScreen implements Screen {
 
     private final RoboRally game;
     private final StretchViewport viewport;
+    private VisLabel message;
+    private VisValidatableTextField playerName;
 
     public JoinGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
+
+        message = new VisLabel("");
     }
 
     @Override
@@ -31,7 +38,7 @@ public class JoinGameScreen implements Screen {
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
         VisValidatableTextField ipField = new VisValidatableTextField(); // TODO implement validator
-        VisValidatableTextField playerName = new VisValidatableTextField(); // TODO implement validator
+        playerName = new VisValidatableTextField(); // TODO implement validator
         VisTextButton cancelButton = new VisTextButton("cancel");
         VisTextButton acceptButton = new VisTextButton("accept");
 
@@ -44,15 +51,45 @@ public class JoinGameScreen implements Screen {
                 // ipField.toString(); -> Ip address
                 // TODO Validate input and join game
                 // TODO Make input more intuitive with error labels and colors
+                RoboClient client = null;
+                if(!playerName.isEmpty()){
+                    game.setPlayerName(playerName.getText());
+                }
+                try{
+                    String ip = ipField.getText();
+                    client = new RoboClient(game,viewport,stage,ip,playerName.getText());
+                    message.setText("Connecting...");
+                    while(!client.serverReject && !client.serverAccept){
+                        continue;   //Wait for server reply
+                    }
+                    if(client.serverReject){
+                        message.setText(client.serverMessage);
+                        client = null;
+                    } else if (client.serverAccept){
+                        game.client = client;
+                        game.setScreen(new ServerLobbyScreen(game,viewport,stage,ip));
+                    }
+                }catch (IOException e){
+                    System.out.println("Unable to connect to " + ipField.getText());
+                    message.setText("Unable to connect to " + ipField.getText());
+                    playerName.setText(game.getPlayerName());
+                }
+
             }
         });
 
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                if(!playerName.isEmpty()){
+                    game.setPlayerName(playerName.getText());
+                }
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
+        message.setAlignment(Align.center);
+        table.add(message);
+        table.row();
         VisLabel name = new VisLabel("Player Name: ");
         name.setAlignment(Align.center); // Align text to center
         playerName.setAlignment(Align.center);

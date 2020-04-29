@@ -12,12 +12,21 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
 import inf112.app.util.TableBuilder;
+import inf112.app.networking.RoboClient;
+import inf112.app.networking.RoboServer;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class HostGameScreen implements Screen {
     private final Stage stage;
 
     private final RoboRally game;
     private final StretchViewport viewport;
+    private VisValidatableTextField playerName;
 
     public HostGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
@@ -48,6 +57,9 @@ public class HostGameScreen implements Screen {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                if(!playerName.isEmpty()){
+                    game.setPlayerName(playerName.getText());
+                }
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
@@ -55,11 +67,24 @@ public class HostGameScreen implements Screen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new ServerLobbyScreen(game, viewport, stage));
+                if(!playerName.isEmpty()){
+                    game.setPlayerName(playerName.getText());
+                }
+                game.launchServer();
+                String ip = "";
+                try{
+                    Socket socket = new Socket();
+                    socket.connect(new InetSocketAddress("1.1.1.1", 80));
+                    ip = socket.getLocalAddress().getHostAddress();
+                } catch (IOException e){
+                    System.out.println("Couldn't obtain ip");
+                }
+                game.isHost = true;
+                game.setScreen(new ServerLobbyScreen(game, viewport, stage, ip));
             }
         });
 
-        VisValidatableTextField playerName = new VisValidatableTextField(); // TODO implement validator
+        playerName = new VisValidatableTextField(); // TODO implement validator
         VisLabel name = new VisLabel("Player Name: ");
         name.setAlignment(Align.center); // Align text to center
         playerName.setAlignment(Align.center);

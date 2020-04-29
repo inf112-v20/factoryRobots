@@ -46,7 +46,11 @@ public class CourseSelector implements Screen {
         this.stage = stage;
         mapList = new LinkedList<>();
         FileHandle[] files = Gdx.files.internal("assets/Maps").list();
-        mapList.addAll(Arrays.asList(files));
+        for(FileHandle file : files){
+            if(file.name().endsWith(".tmx")){
+                mapList.add(file);
+            }
+        }
 
         this.index = 0;
         boolean screenHeightAdjustment = false;
@@ -69,7 +73,7 @@ public class CourseSelector implements Screen {
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         mapViewport.apply(); // Fit camera to viewport
 
-        mapRenderer = new OrthogonalTiledMapRenderer(game.manager.get("assets/Maps/testMap.tmx"), 1/9f); // Create a renderer for rendering of the
+        mapRenderer = new OrthogonalTiledMapRenderer(game.manager.get(files[0].toString()), 1/9f); // Create a renderer for rendering of the
         // TiledMap
         mapRenderer.setView(mapCamera);
     }
@@ -92,6 +96,7 @@ public class CourseSelector implements Screen {
         leftArrow.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 mapRenderer.setMap(game.manager.get(getPreviousMap()));
             }
         });
@@ -100,6 +105,7 @@ public class CourseSelector implements Screen {
         rightArrow.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 mapRenderer.setMap(game.manager.get(getNextMap()));
             }
         });
@@ -108,6 +114,7 @@ public class CourseSelector implements Screen {
         selectButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 selectCourse();
                 //dispose();
                 game.setScreen(game.getLastScreen());
@@ -118,6 +125,7 @@ public class CourseSelector implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(game.getLastScreen());
             }
         });

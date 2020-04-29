@@ -17,6 +17,8 @@ public class OptionScreen implements Screen {
     private final RoboRally game;
     private final StretchViewport viewport;
 
+
+
     public OptionScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
@@ -32,7 +34,12 @@ public class OptionScreen implements Screen {
         soundButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                //
+                game.sounds.buttonSound();
+                if (game.backgroundMusic.isPlaying()) {
+                    game.backgroundMusic.pause();
+                } else {
+                    game.backgroundMusic.play();
+                }
             }
         });
         VisTextButton returnButton = new VisTextButton("Return");
@@ -40,6 +47,7 @@ public class OptionScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(game.getLastScreen());
+                game.sounds.buttonSound();
             }
         });
         VisTextButton exitButton = new VisTextButton("Exit");

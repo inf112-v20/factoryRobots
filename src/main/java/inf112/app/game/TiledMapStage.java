@@ -3,6 +3,7 @@ package inf112.app.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import inf112.app.cards.CardSlot;
@@ -23,10 +24,10 @@ public class TiledMapStage extends Stage {
 
     public TiledMapStage(RoboRally game){
         cardUI = CardUI.getInstance();
-        tiledMap = cardUI.getTiles();
+        tiledMap = cardUI.getCardUITiles();
 
         cardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Cards");
-        buttonLayer = (TiledMapTileLayer) cardUI.getTiles().getLayers().get("Buttons");
+        buttonLayer = (TiledMapTileLayer) cardUI.getCardUITiles().getLayers().get("Buttons");
 
         actorGrid = new ButtonActor[cardLayer.getWidth()][cardLayer.getHeight()];
 
@@ -93,5 +94,32 @@ public class TiledMapStage extends Stage {
 
     public ButtonActor getActorFromGrid(int x, int y){
         return actorGrid[x][y];
+    }
+
+    private GameButtonActor getLockInButton(){
+        return (GameButtonActor) actorGrid[cardLayer.getWidth()-2][0];
+    }
+
+    private GameButtonActor getPowerdownButton(){
+        return (GameButtonActor) actorGrid[cardLayer.getWidth()-1][0];
+    }
+
+    public void releaseButtons(){
+         getLockInButton().releaseButton();
+         getPowerdownButton().releaseButton();
+         setCardPushable(true);
+    }
+
+    /**
+     * Method for setting if the cards are clickable
+     * @param clickable true if cards should be clickable, false if they should be locked
+     */
+    public void setCardPushable(boolean clickable){
+        for(Actor actor : getActors()){
+            if(actor instanceof CardSlotActor){
+                CardSlotActor cardSlot = (CardSlotActor) actor;
+                cardSlot.setPushable(clickable);
+            }
+        }
     }
 }

@@ -45,6 +45,7 @@ public class SinglePlayerScreen implements Screen {
                 }
                 else botsNumber++;
                 botsButton.setText("Number of Bots: " + botsNumber);
+                game.setNPlayers(botsNumber + 1);
             }
         });
 

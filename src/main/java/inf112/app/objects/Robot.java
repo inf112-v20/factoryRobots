@@ -2,12 +2,15 @@ package inf112.app.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 import inf112.app.game.CardUI;
+import inf112.app.game.GameSounds;
+import inf112.app.game.TiledMapStage;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
@@ -20,20 +23,28 @@ import java.util.ArrayList;
  * on the board
  */
 public class Robot implements ILaserInteractor, IBoardElement {
-    private Map map;
+    private int id;
     private Position pos;
     private Vector2 vectorPos;
+
     private Flag lastVisited;
+
     private Laser laser;
+
     private int damageTokens;
     private int lives;
-    private boolean powerDown;
     private boolean isDead;
+    private boolean hasLostLife;
+
+    private boolean powerDown;
+
     private Position checkPoint;
+
     private CardSlot[] availableCards;
     private CardSlot[] programmedCards;
+
     private boolean doneProgramming;
-    private boolean hasLostLife;
+
     private boolean powerDownNextRound;
 
     //Player sprites
@@ -41,15 +52,15 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private TiledMapTileLayer.Cell winningPlayer;
     private TiledMapTileLayer.Cell loosingPlayer;
 
-    public Robot(Position pos, String charName){
-        this.map = Map.getInstance();
+    private GameSounds sound;
 
+    public Robot(Position pos, String charName){
         this.pos = pos;
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
 
         loadPlayerSprites(charName);
 
-        map.registerRobot(this);
+        Map.getInstance().registerRobot(this);
 
         lastVisited = null;
         damageTokens = 0;
@@ -60,6 +71,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         doneProgramming = false;
 
         initializeCardsSlots();
+        id = -1;
     }
 
     private void initializeCardsSlots(){
@@ -92,9 +104,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void move(Direction dir){
         Position copy = pos.copyOf();
         copy.setDirection(dir);
-        boolean valid = map.validMove(copy);
+        boolean valid = Map.getInstance().validMove(copy);
         copy.moveInDirection();
-        if(valid && map.robotInTile(copy) == null) {
+        if(valid && Map.getInstance().robotInTile(copy) == null) {
             updatePosition(this,dir);
         }
     }
@@ -151,14 +163,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @param charName Name of the character, will be used in the filepath to the spritesheet
      */
     public void loadPlayerSprites(String charName){
-        String path = "assets/" + charName + ".png";
+        String path = "assets/Robots/" + charName + ".png";
         //Loading and splitting player sprites
         Texture spriteMap = new Texture(path);
         TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
         //Assigning individual sprites
         normalPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
-        loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
-        winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
+        winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
+        loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
     }
 
     /**
@@ -169,7 +181,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      public boolean moveAndPush(Robot r, Direction dir) {
          Position newPos = r.getPos().copyOf();
          newPos.setDirection(dir);
-         if(map.validMove(newPos)) {
+         if(Map.getInstance().validMove(newPos)) {
              newPos.moveInDirection();
              IBoardElement nextCell = checkContentOfCell(newPos);
              if (nextCell == null || nextCell instanceof Wall) {
@@ -200,8 +212,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
          robot.getPos().setDirection(dir);
          robot.getPos().moveInDirection();
          robot.getPos().setDirection(old);
-         map.getCellList().getCell(oldPos).getInventory().getElements().remove(robot);
-         map.getCellList().getCell(robot.getPos()).getInventory().addElement(robot);
+         Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(robot);
+         Map.getInstance().getCellList().getCell(robot.getPos()).getInventory().addElement(robot);
          vectorPos.set(robot.getPos().getXCoordinate(), robot.getPos().getYCoordinate());
      }
 
@@ -212,7 +224,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @return The element found in the cell, either a robot or a wall
      */
     public IBoardElement checkContentOfCell(Position position) {
-        ArrayList<IBoardElement> newCell = map.getCellList().getCell(position).getInventory().getElements();
+        ArrayList<IBoardElement> newCell = Map.getInstance().getCellList().getCell(position).getInventory().getElements();
         IBoardElement elem = null;
         for (IBoardElement e : newCell) {
             if(e instanceof Robot){
@@ -229,7 +241,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     @Override
     public void doAction(Robot robot) {
-        fireLaser();
+        //do nothing
     }
 
     public Flag getVisitedFlag() {
@@ -244,19 +256,30 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void addDamageTokens(int dealDamage) {
         damageTokens += dealDamage;
-        if (damageTokens >= 10) {
+        if (damageTokens >= 9) {
             lives--;
             hasLostLife = true;
             damageTokens = 0;
             isDead = lives <= 0;
+            try {
+                sound.deathSound();
+            } catch (NullPointerException ignored){ // Catch exception for test classes
+
+            }
+        } else {
+            try {
+                sound.takeDamage();
+            } catch (NullPointerException ignored){ // Catch exception for test classes
+
+            }
         }
         CardUI.getInstance().updateDamageTokens(damageTokens);
     }
 
     /**
-     * method for deaing the right amount of cards compared to damageTokens
+     * method for dealing the right amount of cards compared to damageTokens
      */
-    public void dealNewCards() {
+    public void dealNewCards(TiledMapStage stage) {
         wipeSlots(availableCards);
         wipeSlots(programmedCards);
         if (powerDown){
@@ -264,13 +287,15 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
 
         for (int i = 0; i<9-damageTokens; i++) {
-            availableCards[i].addCard(Map.getInstance().getDeck().getCard());
+            availableCards[i].addCard(Map.getInstance().getDeck().getCard(),stage);
         }
     }
 
     public void wipeSlots(CardSlot[] slotList){
         for(CardSlot slot : slotList){
-            slot.removeCard();
+            if(!slot.isLocked()){ // TODO lock the slot at some point
+                slot.removeCard();
+            }
         }
     }
 
@@ -285,7 +310,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
         CardUI.getInstance().updateDamageTokens(damageTokens);
     }
 
-    public int getLives() { return lives; }
 
     public boolean hasLostLife() {
         return hasLostLife;
@@ -309,6 +333,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void setCheckPoint(Position p){
         this.checkPoint = p;
+        try {
+            sound.checkpoint();
+        } catch (NullPointerException ignored){ // Preventing error in test classes
+
+        }
     }
 
     public void backToCheckPoint(){
@@ -341,7 +370,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void initiateRobotProgramme() {
         for(CardSlot slot : programmedCards) {
-            ICard card = null;
+            ICard card;
             if (slot.isLocked()){
                 card = slot.getCard();
             } else {
@@ -360,7 +389,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void setProgrammedCard(int index, ICard card) {
         if (index >= 0 && index < 5) {
-            programmedCards[index].addCard(card);
+            programmedCards[index].addCard(card,null);
         } else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }
@@ -375,13 +404,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
    public ICard getProgrammedCard(int index){
         if (index >= 0 && index < 5){
             return programmedCards[index].getCard();
-        }else {
+        } else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }
    }
 
     public boolean doneProgramming(){
-       map.incrementDoneProgramming();
        return doneProgramming;
     }
 
@@ -396,5 +424,19 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public CardSlot[] getProgrammedCards() {
         return programmedCards;
+    }
+
+    public void assignID(int id){
+       if(this.id == -1){
+           this.id = id;
+       }
+    }
+
+    public int getID(){
+       return id;
+    }
+
+    public void setDoneProgramming(boolean done) {
+       this.doneProgramming = done;
     }
 }

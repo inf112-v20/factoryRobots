@@ -1,17 +1,17 @@
 package inf112.app.map;
 
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardDeck;
+import inf112.app.game.GameSounds;
+import inf112.app.game.RoboRally;
+import inf112.app.game.TiledMapStage;
 import inf112.app.objects.*;
 
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -23,17 +23,6 @@ public class Map {
     //Map and layers
     private static Map cellMap;
     private TiledMap map;
-    private TiledMapTileLayer boardLayer;
-    private TiledMapTileLayer holeLayer;
-    private TiledMapTileLayer flagLayer;
-    private TiledMapTileLayer playerLayer;
-    private TiledMapTileLayer gearLayer;
-    private TiledMapTileLayer wallLayer;
-    private TiledMapTileLayer conveyorLayer;
-    private TiledMapTileLayer laserLayer;
-    private TiledMapTileLayer laser2Layer;
-    private TiledMapTileLayer utilityLayer;
-    private TiledMapTileLayer spawnpoints;
 
     private int mapSizeX;
     private int mapSizeY;
@@ -42,13 +31,13 @@ public class Map {
     private CardDeck deck;
     private int doneProgrammingCount = 0;
 
-    private TiledMap laserSprites;
     private ArrayList<ILaserInteractor> laserObjects;
     private int laserTimer = 0;
     private boolean lasersActive = false;
 
-    //her
-    private TiledMap gameButtons;
+    private Position[] spawnPoints = new Position[RoboRally.MAX_PLAYER_AMOUNT];
+
+    private GameSounds sound;
 
     /**
      * Create a init the Map object by map title
@@ -60,20 +49,16 @@ public class Map {
         //Loading map
         TmxMapLoader loader = new TmxMapLoader();
         this.map = loader.load(pathToMap);
-        laserSprites = loader.load("assets/Lasers.tmx");
         initializeObjects();
 
-        gameButtons = loader.load("assets/GameButtons/Buttons.tmx");
     }
 
     /**
      * Create a init the Map object by TiledMap. Much faster if map is already loaded.
      * @param tiledMap The TiledMap object to init objects from
      */
-    public Map(TiledMap tiledMap, TiledMap laserSprites, TiledMap gameButtons){
+    public Map(TiledMap tiledMap){
         this.map = tiledMap;
-        this.laserSprites = laserSprites;
-        this.gameButtons = gameButtons;
         initializeObjects();
 
         getSpawnPoints();
@@ -83,21 +68,6 @@ public class Map {
      * Init objects
      */
     private void initializeObjects(){
-
-        //Loading layers
-        boardLayer = (TiledMapTileLayer) map.getLayers().get("Board");
-        holeLayer = (TiledMapTileLayer) map.getLayers().get("Hole");
-        flagLayer = (TiledMapTileLayer) map.getLayers().get("Flag");
-        playerLayer = (TiledMapTileLayer) map.getLayers().get("Player");
-        gearLayer = (TiledMapTileLayer) map.getLayers().get("Gear");
-        wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall");
-        conveyorLayer = (TiledMapTileLayer) map.getLayers().get("Conveyor");
-        laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser");
-        //Extra layer so lasers can cross each other
-        laser2Layer = (TiledMapTileLayer) map.getLayers().get("Laser2");
-        utilityLayer = (TiledMapTileLayer) map.getLayers().get("Utility");
-        spawnpoints = (TiledMapTileLayer) map.getLayers().get(("SpawnPoints"));
-
         MapProperties props = map.getProperties();
         mapSizeX = props.get("width",Integer.class);
         mapSizeY = props.get("height",Integer.class);
@@ -105,6 +75,10 @@ public class Map {
 
         laserObjects = obtainLaserObjects();
         robotList = new ArrayList<>();
+
+        for(int i = 0; i<8; i++){
+            spawnPoints[i] = new Position((i+1)*2,2);
+        }
     }
 
     /**
@@ -156,30 +130,8 @@ public class Map {
     }
 
     public TiledMapTileLayer getLayer(String layerName){
-        switch(layerName) {
-            case "player":
-                return playerLayer;
-            case "hole":
-                return holeLayer;
-            case "board":
-                return boardLayer;
-            case "flag":
-                return flagLayer;
-            case "gear":
-                return gearLayer;
-            case "wall":
-                return wallLayer;
-            case "conveyor":
-                return conveyorLayer;
-            case "laser":
-                return laserLayer;
-            case "laser2":
-                return laser2Layer;
-            case "utility":
-                return utilityLayer;
-            default:
-                throw new IllegalArgumentException("Layer name is invalid");
-        }
+        String key = layerName.substring(0,1).toUpperCase() + layerName.substring(1);
+        return (TiledMapTileLayer) map.getLayers().get(key);
     }
 
     /**
@@ -255,9 +207,9 @@ public class Map {
      * @param tiledMap TiledMap to create a map instance from
      * @return true if cellMap was created and false if not.
      */
-    public static synchronized boolean setInstance(TiledMap tiledMap, TiledMap laserSprites, TiledMap gameButtons){
+    public static synchronized boolean setInstance(TiledMap tiledMap){
         if (cellMap == null) {
-            cellMap = new Map(tiledMap, laserSprites, gameButtons);
+            cellMap = new Map(tiledMap);
             return true;
         }
         return false;
@@ -271,10 +223,6 @@ public class Map {
         if (cellMap == null)
             throw new NoSuchElementException("Could not find the cellMap");
         return cellMap;
-    }
-
-    public TiledMap getLaserSprites() {
-        return laserSprites;
     }
 
     /**
@@ -297,6 +245,11 @@ public class Map {
             object.fireLaser();
         }
         lasersActive = true;
+        try {
+            sound.laserSound();
+        } catch (NullPointerException ignored){ // Catch exception for test classes
+
+        }
     }
 
     /**
@@ -325,8 +278,8 @@ public class Map {
     public void deactivateLasers(){
         lasersActive = false;
         laserTimer = 0;
-        clearLayer(laserLayer);
-        clearLayer(laser2Layer);
+        clearLayer(getLayer("laser"));
+        clearLayer(getLayer("laser2"));
     }
 
     /**
@@ -397,6 +350,8 @@ public class Map {
 
     public void resetDoneProgramming(){
         doneProgrammingCount = 0;
+        for(Robot r : robotList)
+            r.setDoneProgramming(false);
     }
 
     public boolean checkForTimerActivation(){
@@ -407,7 +362,15 @@ public class Map {
         return doneProgrammingCount == robotList.size();
     }
 
-    public TiledMap getGameButtons() {
-        return gameButtons;
+    public void setRobotList(ArrayList<Robot> robotList){
+        clearBots();
+        for(Robot r : robotList){
+            registerRobot(r);
+        }
     }
+
+    public Position getSpawnpoint(int index){
+        return spawnPoints[index];
+    }
+
 }

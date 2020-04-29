@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,28 +12,57 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import inf112.app.map.Map;
 
+import inf112.app.networking.RoboClient;
+import inf112.app.networking.RoboServer;
+import inf112.app.objects.Robot;
 import inf112.app.screens.LoadingMenuScreen;
 import inf112.app.screens.PauseGameScreen;
 
+import java.io.IOException;
+
 public class RoboRally extends Game {
     public SpriteBatch batch;
+    public static final int MAX_PLAYER_AMOUNT = 8;
 
     private Player player;
+    private String playerName = "Anonymous";
+
+    private int numberOfPlayersInSession;
+    public static final String[] robotNames =
+            new String[]{"1Comb","2Comb","3Comb","4Comb","5Comb","6Comb","7Comb","8Comb"};
+    //private Robot[] loadedRobots;
+
     protected Stage stage;
     protected StretchViewport viewport;
     protected Screen lastScreen;
     protected Screen currentScreen;
 
+    public RoboClient client;
+    private RoboServer server;
+    public boolean isHost = false;
+
     public Texture backgroundImg;
 
     public AssetManager manager;
 
-    private String mapName = "Maps/testMap.tmx"; // If the user doesn't select a map.
+    private String mapName = "Maps/DizzyDashB"; // If the user doesn't select a map.
+
+    public Music backgroundMusic;
+
+    public Sounds sounds;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         manager = new AssetManager();
+        sounds = new Sounds(manager);
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/BackGroundSong.wav"));
+        backgroundMusic.setVolume(0.1f);
+        backgroundMusic.play();
+        backgroundMusic.setLooping(true);
+
+        client = null;
 
         backgroundImg = new Texture(Gdx.files.internal("assets/game-menu.png"));
 
@@ -42,6 +72,9 @@ public class RoboRally extends Game {
         stage = new Stage(viewport, batch); // Create new stage to share with each screen
         Gdx.input.setInputProcessor(stage); // Define InputProcessor on the stage
         this.setScreen(new LoadingMenuScreen(this, viewport, stage));
+
+        numberOfPlayersInSession = 1;
+        setPlayer();
     }
 
     @Override
@@ -51,6 +84,7 @@ public class RoboRally extends Game {
         stage.dispose();
         VisUI.dispose();
         backgroundImg.dispose();
+        backgroundMusic.dispose();
         manager.dispose();
     }
 
@@ -64,6 +98,7 @@ public class RoboRally extends Game {
      */
     @Override
     public void pause() {
+        this.backgroundMusic.pause();
         this.setScreen(new PauseGameScreen(this, viewport, stage));
     }
 
@@ -75,6 +110,7 @@ public class RoboRally extends Game {
         if (currentScreen != null){
             this.setScreen(this.currentScreen);
         }
+        this.backgroundMusic.play();
     }
 
     public void setMapName(String mapName){
@@ -89,6 +125,9 @@ public class RoboRally extends Game {
     }
     public void setPlayer(int x, int y){
         player = new Player(x, y);
+    }
+    public void setPlayer(){
+        player = new Player();
     }
 
     public Player getPlayer(){
@@ -115,4 +154,40 @@ public class RoboRally extends Game {
         }
         super.setScreen(screen);
     }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void launchServer() {
+        if(server != null){
+            System.out.println("Server already launched");
+            return;
+        }
+        this.server = new RoboServer(this);
+        try{
+            this.client = new RoboClient(this,viewport,stage,"localhost", playerName);
+        } catch (IOException e){
+            System.out.println("Unable to connect to localhost");
+        }
+
+    }
+
+    public void shutdownServer() {
+        server.shutdown();
+        server = null;
+    }
+
+    public void setNPlayers(int nPlayers) {
+        numberOfPlayersInSession = nPlayers;
+    }
+
+    public int getNumberOfPlayersInSession() {
+        return numberOfPlayersInSession;
+    }
+
 }

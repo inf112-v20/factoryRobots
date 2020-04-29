@@ -12,15 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
-import inf112.app.cards.CardDeck;
+import inf112.app.cards.CardSlot;
+import inf112.app.cards.ICard;
 import inf112.app.game.*;
 import inf112.app.map.Map;
-import inf112.app.map.Position;
 import inf112.app.objects.Robot;
 
 import java.util.ArrayList;
 
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, MultiplayerScreen {
     private final RoboRally game;
     private Stage stage;
     private StretchViewport viewport;
@@ -31,13 +31,17 @@ public class GameScreen implements Screen {
     private OrthogonalTiledMapRenderer uiRenderer;
     private TiledMapStage tiledStage;
 
-    private CardDeck deck;
     private Rounds currentRound = new Rounds();
 
     private boolean timerRunning = false;
     private Timer timer;
+    private VisLabel alert = new VisLabel("");
+    //How long to wait between the phases
+    private int waitThresh = 2;
+    private float phaseTimer = 0f;
+    private boolean timeForNextPhase = false;
+    private boolean firedLasers = false;
 
-    private final int laserTime = 1;
     private float tileSize = 300f;
     private float cardWidth = 400f;
     private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
@@ -45,9 +49,9 @@ public class GameScreen implements Screen {
 
     private Map cellMap;
     private Player player;
-    private Robot testRobot;
     private int phaseNum = 6;
     private boolean ongoingRound = false;
+    private boolean ready = false;
 
     public GameScreen(final RoboRally game, Stage stage, StretchViewport viewport){
         this.game = game;
@@ -58,9 +62,6 @@ public class GameScreen implements Screen {
         game.manager.unload(game.getMapName());
         game.manager.unload("assets/Lasers.tmx");
 
-        this.testRobot = new Robot(new Position(4,4),"player");
-
-        game.setPlayer(2,2);
         this.player = game.getPlayer();
 
         //Set up cameras
@@ -73,16 +74,8 @@ public class GameScreen implements Screen {
         ui.initializeDamageTokens();
 
         //Create and shuffle deck
-        deck = game.manager.get("deck");
+        cellMap.setDeck(game.manager.get("deck"));
         game.manager.unload("deck");
-
-        cellMap.setDeck(deck);
-        //Cards for testing
-        for(int i = 0; i<9; i++){
-            ui.addCardToSlot(deck.getCard(),"side",i);
-        }
-
-
 
         camera.setToOrtho(false, viewportWidth,viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
@@ -102,10 +95,12 @@ public class GameScreen implements Screen {
             }
         });
 
+        ui.setTiledStage(tiledStage);
+
         //Initializing renderers
         mapRenderer = new OrthogonalTiledMapRenderer(cellMap.getMap(),1/tileSize);
         mapRenderer.setView(camera);
-        uiRenderer = new OrthogonalTiledMapRenderer(ui.getTiles(), (1/cardWidth));
+        uiRenderer = new OrthogonalTiledMapRenderer(ui.getCardUITiles(), (1/cardWidth));
         uiRenderer.setView(uiCam);
 
         //Setting the clicklistener to have the same frame as the renderers
@@ -119,16 +114,19 @@ public class GameScreen implements Screen {
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true);
-        VisLabel label = new VisLabel("");
-        this.timer = new Timer(-1,label); //set count to float > 0 to test timer
-        table.add(label);
+        this.timer = new Timer(-1,alert); //set count to float > 0 to test timer
+        table.add(alert);
         stage.addActor(table);
+        if(game.client == null){
+            currentRound.dealCards(tiledStage);
+        }
     }
 
     @Override
     public void render(float v) {
         Gdx.gl.glClearColor(0, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        phaseTimer += Gdx.graphics.getDeltaTime();
 
         // tell the camera to update its matrices.
         camera.update();
@@ -156,40 +154,76 @@ public class GameScreen implements Screen {
         //Remove previous robot positions
         cellMap.clearLayer(cellMap.getLayer("player"));
 
-        if(cellMap.getLaserTimer() == laserTime) {
+        if(phaseTimer > waitThresh){
+            timeForNextPhase = true;
             cellMap.deactivateLasers();
         }
-        if(cellMap.lasersActive()){
-            cellMap.incrementLaserTimer();
+
+        if(phaseTimer > waitThresh/2 && !firedLasers && ongoingRound){
+            firedLasers = true;
+            cellMap.fireLasers();
         }
 
-        if(cellMap.checkForTimerActivation() && !timerRunning){
+        if(cellMap.checkForTimerActivation() && !timerRunning && !ongoingRound){
             timerRunning = true;
             timer.start();
         }
-        if(cellMap.checkIfAllRobotsReady() || timer.done){
+
+        if(timer.done && !game.getPlayer().getCharacter().doneProgramming()){
+            for(CardSlot slot : game.getPlayer().getCharacter().getProgrammedCards()){
+                if(!slot.hasCard()){
+                    for(CardSlot available : game.getPlayer().getCharacter().getAvailableCards()){
+                        if(available.hasCard()){
+                            slot.addCard(available.removeCard(), tiledStage);
+                            break;
+                        }
+                    }
+                }
+            }
+            cellMap.incrementDoneProgramming();
+            if(game.client!=null){
+                game.client.sendProgramming();
+            }
+        }
+
+
+        if(cellMap.checkIfAllRobotsReady()){
+            tiledStage.setCardPushable(false);
+
             ongoingRound = true;
             phaseNum = 1;
+            phaseTimer = 0;
+            Gdx.graphics.getDeltaTime();
+
             currentRound.putBackPlayers();
             cellMap.resetDoneProgramming();
             timerRunning = false;
             timer.done = false;
+            alert.setText("");
         }
-        if(ongoingRound){
+        if(ongoingRound && timeForNextPhase){
             if(phaseNum > 5){
                 ongoingRound = false;
-                currentRound.dealCards();
+                tiledStage.releaseButtons();
+                phaseNum = 1;
+                if(game.client != null){
+                    game.client.sendDone();
+                } else {
+                    currentRound.dealCards(tiledStage);
+                }
             } else {
                 currentRound.doPhase(phaseNum);
                 phaseNum++;
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    System.out.println(e.getMessage());
+                long waitTime = System.currentTimeMillis();
+                long thresh = waitTime + waitThresh;
+                while(waitTime <= thresh){
+                    waitTime = System.currentTimeMillis();
                 }
             }
+            timeForNextPhase = false;
+            firedLasers = false;
+            phaseTimer = 0;
         }
-
     }
 
     private void updateRobot(Robot robot){
@@ -242,6 +276,12 @@ public class GameScreen implements Screen {
         game.batch.dispose();
         uiRenderer.dispose();
         mapRenderer.dispose();
+        if(game.client != null){
+            game.client.disconnect();
+        }
+        if(game.isHost){
+            game.shutdownServer();
+        }
     }
 
     public void updateRobots(){
@@ -250,4 +290,9 @@ public class GameScreen implements Screen {
             updateRobot(r);
         }
     }
+
+    public void alertUser(String info){
+        alert.setText(info);
+    }
+
 }

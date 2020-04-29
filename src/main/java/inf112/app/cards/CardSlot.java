@@ -1,23 +1,26 @@
 package inf112.app.cards;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import inf112.app.game.CardSlotActor;
 import inf112.app.game.CardUI;
+import inf112.app.game.TiledMapStage;
+import inf112.app.map.Map;
 
 public class CardSlot {
     private ICard card;
-    private String position;
+    private final String position;
     private int xCoord;
     private int yCoord;
     private TiledMapTileLayer cardLayer;
     private boolean isLocked;
-    private boolean noUI;
+    private final boolean noUI;
 
     public CardSlot(int x, int y, String position){
         card = null;
         xCoord = x;
         yCoord = y;
         CardUI cardUI = CardUI.getInstance();
-        cardLayer = (TiledMapTileLayer) cardUI.getTiles().getLayers().get("Cards");
+        cardLayer = (TiledMapTileLayer) cardUI.getCardUITiles().getLayers().get("Cards");
         this.position = position;
         this.isLocked = false;
         noUI = false;
@@ -30,11 +33,12 @@ public class CardSlot {
         noUI = true;
     }
 
-    public boolean addCard(ICard newCard){
+    public boolean addCard(ICard newCard, TiledMapStage stage){
         if(card == null){
             this.card = newCard;
             if(!noUI) {
                 cardLayer.setCell(xCoord, yCoord, card.getCardTile());
+                stage.getActorFromGrid(xCoord, yCoord).setCell(cardLayer.getCell(xCoord, yCoord));
             }
             return true;
         }
@@ -43,12 +47,14 @@ public class CardSlot {
 
     public ICard removeCard(){
         if(card == null){
-            System.out.println("No card to remove in the slot");
+            //System.out.println("No card to remove in the slot");
             return null;
         } else {
             ICard value = card.copyOf();
             card = null;
-            cardLayer.setCell(xCoord,yCoord,null);
+            if(!noUI){
+                cardLayer.setCell(xCoord,yCoord,null);
+            }
             return value;
         }
     }

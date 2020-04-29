@@ -5,8 +5,6 @@ import inf112.app.cards.ICard;
 import inf112.app.map.Map;
 import inf112.app.objects.*;
 
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -37,9 +35,9 @@ public class Rounds {
     /**
      * dealing right amount of cards to each robot
      */
-    public void dealCards(){
+    public void dealCards(TiledMapStage stage){
         for (Robot r : robots){
-            r.dealNewCards();
+            r.dealNewCards(stage);
         }
     }
 
@@ -80,12 +78,12 @@ public class Rounds {
                             continue;
                         } else if (elem instanceof Laser) {
                             continue;
-                        } else {
+                        } else if (elem != null) {
                             elem.doAction(r);
                         }
                     }
                 }
-                map.fireLasers();
+                //map.fireLasers(); moved to gamescreen
 
 
 

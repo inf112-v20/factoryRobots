@@ -11,7 +11,7 @@ public class IDTranslator{
             return ElemEnum.HOLE;
         } else if (id == 7 || id == 15) {
             return ElemEnum.REPAIRSTATION;
-        }  else if ((id >= 9 && id <= 12)) {
+        }  else if ((id >= 1 && id <= 4) || (id >= 9 && id <= 12)) {
             return ElemEnum.PUSHPANEL;
         }  else if (id == 8 || id == 16 || id == 23 || id == 24 || (id >= 29 && id <= 32) ||
                 id == 37 || id == 38 || id == 45 || id == 46 || id == 87 || (id >= 93 && id <= 95)) {
@@ -32,10 +32,10 @@ public class IDTranslator{
             return ElemEnum.FIREPIT;
         } else if ((id >= 97 && id <= 100)) {
             return ElemEnum.FLAGPLATFORM;
-        } else if ((id >= 121 && id <= 124) || (id >= 126 && id <= 130)) {
+        } else if ((id >= 121 && id <= 124) || (id >= 129 && id <= 132)) {
             return ElemEnum.STARTINGPLATFORM;
         }
-        throw new IllegalArgumentException("ID range not valid");
+        throw new IllegalArgumentException("ID range not valid. ID: " + id);
     }
 
     /**
@@ -55,6 +55,5 @@ public class IDTranslator{
         FIREPIT,
         FLAGPLATFORM,
         STARTINGPLATFORM,
-        SPAWNPOINTS;
     }
 }

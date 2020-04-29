@@ -72,6 +72,9 @@ public class Main {
              */
             @Override
             public boolean closeRequested() {
+                if(game.isHost){
+                    game.shutdownServer();
+                }
                 return true;
             }
 

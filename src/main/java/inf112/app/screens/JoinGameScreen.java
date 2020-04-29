@@ -22,6 +22,7 @@ public class JoinGameScreen implements Screen {
     private final RoboRally game;
     private final StretchViewport viewport;
     private VisLabel message;
+    private VisValidatableTextField playerName;
 
     public JoinGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
@@ -37,7 +38,7 @@ public class JoinGameScreen implements Screen {
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
         VisValidatableTextField ipField = new VisValidatableTextField(); // TODO implement validator
-        VisValidatableTextField playerName = new VisValidatableTextField(); // TODO implement validator
+        playerName = new VisValidatableTextField(); // TODO implement validator
         VisTextButton cancelButton = new VisTextButton("cancel");
         VisTextButton acceptButton = new VisTextButton("accept");
 
@@ -47,10 +48,14 @@ public class JoinGameScreen implements Screen {
         acceptButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 // ipField.toString(); -> Ip address
                 // TODO Validate input and join game
                 // TODO Make input more intuitive with error labels and colors
                 RoboClient client = null;
+                if(!playerName.isEmpty()){
+                    game.setPlayerName(playerName.getText());
+                }
                 try{
                     String ip = ipField.getText();
                     client = new RoboClient(game,viewport,stage,ip,playerName.getText());
@@ -68,6 +73,7 @@ public class JoinGameScreen implements Screen {
                 }catch (IOException e){
                     System.out.println("Unable to connect to " + ipField.getText());
                     message.setText("Unable to connect to " + ipField.getText());
+                    playerName.setText(game.getPlayerName());
                 }
 
             }
@@ -76,6 +82,10 @@ public class JoinGameScreen implements Screen {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                if(!playerName.isEmpty()){
+                    game.setPlayerName(playerName.getText());
+                }
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });

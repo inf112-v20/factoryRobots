@@ -46,14 +46,15 @@ public class OptionScreen implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(game.getLastScreen());
                 game.sounds.buttonSound();
+                game.setScreen(game.getLastScreen());
             }
         });
         VisTextButton exitButton = new VisTextButton("Exit");
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 Gdx.app.exit();
             }
         });

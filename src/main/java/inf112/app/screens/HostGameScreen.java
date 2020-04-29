@@ -26,6 +26,7 @@ public class HostGameScreen implements Screen {
 
     private final RoboRally game;
     private final StretchViewport viewport;
+    private VisValidatableTextField playerName;
 
     public HostGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
@@ -42,6 +43,7 @@ public class HostGameScreen implements Screen {
         courseButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
@@ -49,6 +51,7 @@ public class HostGameScreen implements Screen {
         flagButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 // TODO
             }
         });
@@ -56,6 +59,10 @@ public class HostGameScreen implements Screen {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                if(!playerName.isEmpty()){
+                    game.setPlayerName(playerName.getText());
+                }
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
@@ -63,7 +70,11 @@ public class HostGameScreen implements Screen {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.launchServer(); //temporary username for host
+                game.sounds.buttonSound();
+                if(!playerName.isEmpty()){
+                    game.setPlayerName(playerName.getText());
+                }
+                game.launchServer();
                 String ip = "";
                 try{
                     Socket socket = new Socket();
@@ -72,13 +83,12 @@ public class HostGameScreen implements Screen {
                 } catch (IOException e){
                     System.out.println("Couldn't obtain ip");
                 }
-
                 game.isHost = true;
                 game.setScreen(new ServerLobbyScreen(game, viewport, stage, ip));
             }
         });
 
-        VisValidatableTextField playerName = new VisValidatableTextField(); // TODO implement validator
+        playerName = new VisValidatableTextField(); // TODO implement validator
         VisLabel name = new VisLabel("Player Name: ");
         name.setAlignment(Align.center); // Align text to center
         playerName.setAlignment(Align.center);

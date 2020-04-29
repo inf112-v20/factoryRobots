@@ -32,6 +32,7 @@ public class SinglePlayerScreen implements Screen {
         selectCourseButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
@@ -40,11 +41,13 @@ public class SinglePlayerScreen implements Screen {
         botsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 if ( botsNumber >= 7 ){
                     botsNumber = 1;
                 }
                 else botsNumber++;
                 botsButton.setText("Number of Bots: " + botsNumber);
+                game.setNPlayers(botsNumber + 1);
             }
         });
 
@@ -55,12 +58,14 @@ public class SinglePlayerScreen implements Screen {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
                 game.setScreen(new LoadingGameScreen(game, viewport, stage));
             }
         });

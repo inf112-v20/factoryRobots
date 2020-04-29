@@ -537,4 +537,44 @@
    <property name="laser" type="bool" value="true"/>
   </properties>
  </tile>
+ <tile id="120">
+  <properties>
+   <property name="num" type="int" value="1"/>
+  </properties>
+ </tile>
+ <tile id="121">
+  <properties>
+   <property name="num" type="int" value="2"/>
+  </properties>
+ </tile>
+ <tile id="122">
+  <properties>
+   <property name="num" type="int" value="3"/>
+  </properties>
+ </tile>
+ <tile id="123">
+  <properties>
+   <property name="num" type="int" value="4"/>
+  </properties>
+ </tile>
+ <tile id="128">
+  <properties>
+   <property name="num" type="int" value="5"/>
+  </properties>
+ </tile>
+ <tile id="129">
+  <properties>
+   <property name="num" type="int" value="6"/>
+  </properties>
+ </tile>
+ <tile id="130">
+  <properties>
+   <property name="num" type="int" value="7"/>
+  </properties>
+ </tile>
+ <tile id="131">
+  <properties>
+   <property name="num" type="int" value="8"/>
+  </properties>
+ </tile>
 </tileset>

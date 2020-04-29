@@ -2,6 +2,7 @@ package inf112.app.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
@@ -9,6 +10,7 @@ import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 import inf112.app.game.CardUI;
 import inf112.app.game.GameSounds;
+import inf112.app.game.TiledMapStage;
 import inf112.app.map.Direction;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
@@ -163,14 +165,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
      * @param charName Name of the character, will be used in the filepath to the spritesheet
      */
     public void loadPlayerSprites(String charName){
-        String path = "assets/" + charName + ".png";
+        String path = "assets/Robots/" + charName + ".png";
         //Loading and splitting player sprites
         Texture spriteMap = new Texture(path);
         TextureRegion[][] sprites = TextureRegion.split(spriteMap,300,300);
         //Assigning individual sprites
         normalPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][0]));
-        loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
-        winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
+        winningPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][1]));
+        loosingPlayer = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][2]));
     }
 
     /**
@@ -287,7 +289,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     /**
      * method for dealing the right amount of cards compared to damageTokens
      */
-    public void dealNewCards() {
+    public void dealNewCards(TiledMapStage stage) {
         wipeSlots(availableCards);
         wipeSlots(programmedCards);
         if (powerDown){
@@ -295,7 +297,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
 
         for (int i = 0; i<9-damageTokens; i++) {
-            availableCards[i].addCard(Map.getInstance().getDeck().getCard(),null); //TODO fix hack
+            availableCards[i].addCard(Map.getInstance().getDeck().getCard(),stage);
         }
     }
 
@@ -416,7 +418,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
    public ICard getProgrammedCard(int index){
         if (index >= 0 && index < 5){
             return programmedCards[index].getCard();
-        }else {
+        } else {
             throw new IllegalArgumentException("Index must be between 0 and 4");
         }
    }

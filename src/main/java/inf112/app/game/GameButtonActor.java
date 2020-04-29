@@ -45,11 +45,16 @@ public class GameButtonActor extends ButtonActor {
             pushable = false;
             layer.setCell(x, y, buttonDown);
             if ("lockIn".equals(type)) {
-                stage.getGame().getPlayer().getCharacter().setDoneProgramming(true);
-                Map.getInstance().incrementDoneProgramming();
-                stage.setCardLock(false);
-                if(stage.getGame().client != null){
-                    stage.getGame().client.sendProgramming();
+                if(stage.getGame().getPlayer().getCharacter().getProgrammedCard(4) != null) {
+                    stage.getGame().getPlayer().getCharacter().setDoneProgramming(true);
+                    Map.getInstance().incrementDoneProgramming();
+                    stage.setCardPushable(false);
+                    if (stage.getGame().client != null) {
+                        stage.getGame().client.sendProgramming();
+                    }
+                } else {
+                    pushable = true;
+                    layer.setCell(x, y, buttonUp);
                 }
             } else if ("powerdown".equals(type)) {
                 stage.getGame().getPlayer().getCharacter().setPowerDownNextRound(true);

@@ -29,7 +29,7 @@ public class RoboRally extends Game {
 
     private int numberOfPlayersInSession;
     public static final String[] robotNames =
-            new String[]{"player","player","player","player","player","player","player","player"};
+            new String[]{"1Comb","2Comb","3Comb","4Comb","5Comb","6Comb","7Comb","8Comb"};
     //private Robot[] loadedRobots;
 
     protected Stage stage;

@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
+import inf112.app.cards.CardSlot;
+import inf112.app.cards.ICard;
 import inf112.app.game.*;
 import inf112.app.map.Map;
 import inf112.app.objects.Robot;
@@ -40,7 +42,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
     private boolean timeForNextPhase = false;
     private boolean firedLasers = false;
 
-    private final int laserTime = 25;
     private float tileSize = 300f;
     private float cardWidth = 400f;
     private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
@@ -48,9 +49,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
     private Map cellMap;
     private Player player;
-    private Robot testRobot;
     private int phaseNum = 6;
     private boolean ongoingRound = false;
+    private boolean ready = false;
 
     public GameScreen(final RoboRally game, Stage stage, StretchViewport viewport){
         this.game = game;
@@ -60,8 +61,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
         this.cellMap = Map.getInstance();
         game.manager.unload(game.getMapName());
         game.manager.unload("assets/Lasers.tmx");
-
-        //this.testRobot = new Robot(new Position(4,4),"player"); //TODO remove this
 
         this.player = game.getPlayer();
 
@@ -77,14 +76,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
         //Create and shuffle deck
         cellMap.setDeck(game.manager.get("deck"));
         game.manager.unload("deck");
-
-
-        //Cards for testing
-        /*for(int i = 0; i<9; i++){
-            ui.addCardToSlot(Map.getInstance().getDeck().getCard(),"side",i);
-        } */
-
-
 
         camera.setToOrtho(false, viewportWidth,viewPortHeight);
         uiCam.setToOrtho(false, 8, 9);
@@ -126,6 +117,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
         this.timer = new Timer(-1,alert); //set count to float > 0 to test timer
         table.add(alert);
         stage.addActor(table);
+        if(game.client == null){
+            currentRound.dealCards(tiledStage);
+        }
     }
 
     @Override
@@ -174,8 +168,27 @@ public class GameScreen implements Screen, MultiplayerScreen {
             timerRunning = true;
             timer.start();
         }
-        if(cellMap.checkIfAllRobotsReady() || timer.done){
-            tiledStage.setCardLock(false);
+
+        if(timer.done && !game.getPlayer().getCharacter().doneProgramming()){
+            for(CardSlot slot : game.getPlayer().getCharacter().getProgrammedCards()){
+                if(!slot.hasCard()){
+                    for(CardSlot available : game.getPlayer().getCharacter().getAvailableCards()){
+                        if(available.hasCard()){
+                            slot.addCard(available.removeCard(), tiledStage);
+                            break;
+                        }
+                    }
+                }
+            }
+            cellMap.incrementDoneProgramming();
+            if(game.client!=null){
+                game.client.sendProgramming();
+            }
+        }
+
+
+        if(cellMap.checkIfAllRobotsReady()){
+            tiledStage.setCardPushable(false);
 
             ongoingRound = true;
             phaseNum = 1;
@@ -195,6 +208,8 @@ public class GameScreen implements Screen, MultiplayerScreen {
                 phaseNum = 1;
                 if(game.client != null){
                     game.client.sendDone();
+                } else {
+                    currentRound.dealCards(tiledStage);
                 }
             } else {
                 currentRound.doPhase(phaseNum);

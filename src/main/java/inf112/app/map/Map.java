@@ -1,5 +1,7 @@
 package inf112.app.map;
 
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -9,6 +11,7 @@ import inf112.app.objects.*;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -44,6 +47,7 @@ public class Map {
     private int laserTimer = 0;
     private boolean lasersActive = false;
 
+    //her
     private TiledMap gameButtons;
 
     /**
@@ -72,6 +76,7 @@ public class Map {
         this.gameButtons = gameButtons;
         initializeObjects();
 
+        getSpawnPoints();
     }
 
     /**
@@ -88,12 +93,10 @@ public class Map {
         wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall");
         conveyorLayer = (TiledMapTileLayer) map.getLayers().get("Conveyor");
         laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser");
-        spawnpoints = (TiledMapTileLayer) map.getLayers().get(("SpawnPoints"));
-
         //Extra layer so lasers can cross each other
         laser2Layer = (TiledMapTileLayer) map.getLayers().get("Laser2");
         utilityLayer = (TiledMapTileLayer) map.getLayers().get("Utility");
-
+        spawnpoints = (TiledMapTileLayer) map.getLayers().get(("SpawnPoints"));
 
         MapProperties props = map.getProperties();
         mapSizeX = props.get("width",Integer.class);
@@ -124,8 +127,16 @@ public class Map {
         return objects;
     }
 
-    public getSpawnPoints () {
-        return spawnpoints;
+    public List<MapLayers> getSpawnPoints (MapLayers layers) {
+
+        ArrayList<MapLayers> objects = new ArrayList<>();
+        for(int x = 0; x < mapSizeX; x++){
+            for(int y = 0; y < mapSizeY; y++){
+                MapCell cell = cellList.getCell(x,y);
+                if (cellList.getCell(x, y) != null && //sjekke ID fra tiled )
+            }
+        }
+        return objects;
     }
 
     public int getMapSizeX(){

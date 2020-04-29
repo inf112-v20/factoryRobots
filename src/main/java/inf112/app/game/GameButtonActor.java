@@ -22,7 +22,7 @@ public class GameButtonActor extends ButtonActor {
         this.type = type;
         int index = "powerdown".equals(type) ? 1 : 3;
         TiledMapTileLayer buttons = CardUI.getInstance().getUiButtons();
-        buttonDown = buttons.getCell(index,0);
+        buttonDown = "sound".equals(type) ? buttonUp : buttons.getCell(index,0);
         this.x = x;
         this.y = y;
         this.stage = stage;
@@ -42,6 +42,7 @@ public class GameButtonActor extends ButtonActor {
     @Override
     public void clickAction() {
         if(pushable) {
+            stage.getGame().sounds.buttonSound();
             pushable = false;
             layer.setCell(x, y, buttonDown);
             if ("lockIn".equals(type)) {
@@ -58,6 +59,15 @@ public class GameButtonActor extends ButtonActor {
                 }
             } else if ("powerdown".equals(type)) {
                 stage.getGame().getPlayer().getCharacter().setPowerDownNextRound(true);
+            } else if ("sound".equals(type)){
+                pushable = true;
+                RoboRally game = stage.getGame();
+                if (game.backgroundMusic.isPlaying()) {
+                    game.backgroundMusic.pause();
+                }
+                else {
+                    game.backgroundMusic.play();
+                }
             }
         }
     }

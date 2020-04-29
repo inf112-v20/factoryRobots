@@ -164,7 +164,15 @@ public class RoboServer extends Listener {
                         }
                         handOutCards();
                     }
-
+                    break;
+                case "getwinner":
+                    Payload reply = new Payload();
+                    for(Robot r : robotMap.values()){
+                        if(r.isWinner()){
+                            reply.message = "winner " + playerMap.get(r.getID());
+                            server.sendToAllTCP(reply);
+                        }
+                    }
                     break;
                 default:
                     System.out.println("Payload from client " + connection.getID() + ": " + payload.message);

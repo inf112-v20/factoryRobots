@@ -83,15 +83,10 @@ public class Rounds {
                         }
                     }
                 }
-                //map.fireLasers(); moved to gamescreen
                 for (Robot r : robots) {
                     if (r.isDead()){
                         map.deleteRobot(r);
-                    }
-                }
-                for (Robot r : robots) {
-                    if (map.allFlags() == r.getAllFlags()){
-                        r.isWinner();
+                        System.out.println("Robot has died");
                     }
                 }
 

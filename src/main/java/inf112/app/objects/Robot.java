@@ -70,10 +70,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
         powerDown = false;
         laser = new Laser(this,false);
         isDead = false;
+        isWinner = false;
         doneProgramming = false;
 
         initializeCardsSlots();
         id = -1;
+        allFlags = new ArrayList<>();
     }
 
     private void initializeCardsSlots(){
@@ -252,14 +254,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void setVisitedFlag(Flag flag) {
         this.lastVisited = flag;
-    }
-
-    public ArrayList<Flag> getAllFlags(){
-        ArrayList<Flag> allFlags = new ArrayList<>();
-        if (checkContentOfCell(pos) == lastVisited){
-            allFlags.add(lastVisited);
+        allFlags.add(flag);
+        if(flag.getNum() == Map.getInstance().getFinalFlagNum()){
+            isWinner = true;
         }
-        return allFlags;
     }
 
     public int getDamageTokens() {return damageTokens; }

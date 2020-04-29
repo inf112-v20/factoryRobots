@@ -16,6 +16,7 @@ import inf112.app.networking.packets.Payload;
 import inf112.app.networking.packets.RobotListPacket;
 import inf112.app.networking.packets.RobotStatePacket;
 import inf112.app.objects.Robot;
+import inf112.app.screens.GameScreen;
 import inf112.app.screens.LoadingGameScreen;
 import inf112.app.screens.MultiplayerScreen;
 import inf112.app.screens.ServerLobbyScreen;
@@ -230,6 +231,9 @@ public class RoboClient extends Listener {
                         idList.add(Integer.parseInt(split[i]));
                     }
                     break;
+                case "winner":
+                    ((GameScreen) game.getScreen()).alertUser(split[1] + " has won the game!");
+                    break;
                 default:
                     System.out.println("Server reply: " + payload.message);
                     break;
@@ -326,5 +330,11 @@ public class RoboClient extends Listener {
 
     public ArrayList<String> getUserList() {
         return userList;
+    }
+
+    public void getWinner() {
+        Payload winRequest = new Payload();
+        winRequest.message = "getwinner";
+        client.sendTCP(winRequest);
     }
 }

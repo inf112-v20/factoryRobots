@@ -15,6 +15,7 @@ public class Timer {
     private VisLabel label;
     private boolean warning;
     public boolean done;
+    private boolean disabled;
     private String str;
 
     public Timer(float count, VisLabel label){
@@ -24,9 +25,11 @@ public class Timer {
         font.setColor(Color.GREEN);
         font.getData().setScale(3f);
         warning = false;
+        disabled = false;
     }
 
     public void drawTime() {
+        if(disabled){return;}
         count -= Gdx.graphics.getDeltaTime();
         str = "Programming locks in: " + df.format(count) + "\t sec";
         if(count<0f){
@@ -47,5 +50,9 @@ public class Timer {
         label.setColor(Color.WHITE);
         warning = false;
         done = false;
+    }
+
+    public void disable() {
+        disabled = true;
     }
 }

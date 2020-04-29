@@ -223,6 +223,20 @@ public class GameScreen implements Screen, MultiplayerScreen {
             timeForNextPhase = false;
             firedLasers = false;
             phaseTimer = 0;
+            for(Robot r : cellMap.getRobotList()){
+                if(r.isWinner()){
+                    if(game.client != null){
+                        game.client.getWinner();
+                    } else {
+                        if(r.equals(game.getPlayer().getCharacter())){
+                            alertUser("You won the game!");
+                        } else {
+                            alertUser("Computer won the game..");
+                        }
+                    }
+                    timer.disable();
+                }
+            }
         }
     }
 

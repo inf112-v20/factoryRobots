@@ -37,6 +37,7 @@ public class Map {
     private boolean lasersActive = false;
 
     private Position[] spawnPoints = new Position[RoboRally.MAX_PLAYER_AMOUNT];
+    private int finalFlagNum;
 
     private GameSounds sound;
 
@@ -75,7 +76,7 @@ public class Map {
         laserObjects = obtainLaserObjects();
         robotList = new ArrayList<>();
         spawnPoints = getSpawnPoints(getLayer("StartPosition"));
-
+        createAllFlags();
     }
 
     /**
@@ -372,20 +373,25 @@ public class Map {
         return spawnPoints[index];
     }
 
-    public ArrayList<Flag> allFlags(){
-        ArrayList<Flag> allFlags = new ArrayList<>();
+    public void createAllFlags(){
+        finalFlagNum = -1;
         for(int x = 0; x < mapSizeX; x++){
             for(int y = 0; y < mapSizeY; y++){
                 MapCell cell = cellList.getCell(x,y);
                 ArrayList<IBoardElement> inventory = cell.getInventory().getElements();
                 for(IBoardElement elem : inventory){
-                    if(elem instanceof ILaserInteractor){
-                        allFlags.add((Flag) elem);
+                    if(elem instanceof Flag){
+                        if(((Flag) elem).getNum() > finalFlagNum){
+                            finalFlagNum = ((Flag) elem).getNum();
+                        }
                     }
                 }
             }
         }
-        return allFlags;
+    }
+
+    public int getFinalFlagNum(){
+        return finalFlagNum;
     }
 
 }

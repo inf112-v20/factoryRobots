@@ -54,7 +54,7 @@ public class Player extends InputAdapter {
                 character.move(1);
                 break;
             case Input.Keys.SPACE:
-                character.initiateRobotProgramme();
+                Map.getInstance().getCellList().getCell(character.getPos()).doAction(character);
                 break;
             case Input.Keys.L:
                 Map.getInstance().fireLasers();

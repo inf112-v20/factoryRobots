@@ -53,7 +53,7 @@ public class Wall implements IBoardElement, ILaserInteractor {
 
     @Override
     public void doAction(Robot robot) {
-        fireLaser();
+        //do nothing
     }
 
     public Position getPos(){

@@ -95,7 +95,7 @@ public class Rounds {
                 if (r.getPowerDownNextRound()){
                     r.setPowerDown(true);
                     r.setPowerDownNextRound(false);
-                }else{
+                }else if(r.getPowerDown()){
                     r.setPowerDown(false);
                 }
                 CardSlot[] slots = r.getProgrammedCards();

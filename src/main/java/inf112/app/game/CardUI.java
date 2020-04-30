@@ -44,6 +44,7 @@ public class CardUI {
 
         TiledMap lasers = loader.load("assets/Lasers.tmx");
         laserSprites = (TiledMapTileLayer) lasers.getLayers().get("Laser");
+        user = new Player();
     }
 
     private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites, Texture healthSprites){
@@ -175,5 +176,9 @@ public class CardUI {
 
     public void setTiledStage(TiledMapStage stage){
         this.stage = stage;
+    }
+
+    public Player getUser() {
+        return user;
     }
 }

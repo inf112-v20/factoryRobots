@@ -45,7 +45,7 @@ public class GameButtonActor extends ButtonActor {
             stage.getGame().sounds.buttonSound();
             pushable = false;
             layer.setCell(x, y, buttonDown);
-            if ("lockIn".equals(type)) {
+            if ("lockin".equals(type)) {
                 if(stage.getGame().getPlayer().getCharacter().getProgrammedCard(4) != null) {
                     stage.getGame().getPlayer().getCharacter().setDoneProgramming(true);
                     Map.getInstance().incrementDoneProgramming();

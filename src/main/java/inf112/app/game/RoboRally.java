@@ -73,7 +73,7 @@ public class RoboRally extends Game {
         Gdx.input.setInputProcessor(stage); // Define InputProcessor on the stage
         this.setScreen(new LoadingMenuScreen(this, viewport, stage));
 
-        numberOfPlayersInSession = 1;
+        numberOfPlayersInSession = 2;
         setPlayer();
     }
 

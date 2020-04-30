@@ -176,4 +176,8 @@ public class CardUI {
     public void setTiledStage(TiledMapStage stage){
         this.stage = stage;
     }
+
+    public Player getUser() {
+        return user;
+    }
 }

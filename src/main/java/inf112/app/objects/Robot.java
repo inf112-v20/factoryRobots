@@ -281,7 +281,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
             }
         }
-        CardUI.getInstance().updateDamageTokens(damageTokens);
+        if(this.equals(CardUI.getInstance().getUser().getCharacter())){
+            CardUI.getInstance().updateDamageTokens(damageTokens);
+        }
+
     }
 
     /**
@@ -363,7 +366,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void setPowerDown(boolean powerDown) {
         this.powerDown = powerDown;
-        damageTokens = 0;
+        if(powerDown == true){
+            damageTokens = 0;
+        }
+
     }
 
     public void setPowerDownNextRound(boolean powerDownNextRound){

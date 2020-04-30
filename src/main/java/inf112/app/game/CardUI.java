@@ -19,6 +19,7 @@ public class CardUI {
 
     private TiledMapTileLayer.Cell[] healthLights;
     private TiledMapTileLayer.Cell robotThumbnail;
+    private TiledMapTileLayer.Cell cardLock;
 
     private static CardUI instance;
 
@@ -47,7 +48,8 @@ public class CardUI {
         user = new Player();
     }
 
-    private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites, Texture healthSprites){
+    private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites,
+                   Texture healthSprites, Texture lock){
         this.cardUI = cardUI;
         damageTokens = (TiledMapTileLayer) buttons.getLayers().get("Tokens");
         uiButtons = (TiledMapTileLayer) buttons.getLayers().get("Buttons");
@@ -61,14 +63,18 @@ public class CardUI {
         for(int i = 0; i<healthLights.length; i++){
             healthLights[i] = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][3-i]));
         }
+
+        TextureRegion[][] temp = TextureRegion.split(lock,400,600);
+        cardLock = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(temp[0][0]));
     }
 
     public void setHealthLight(int amount){
         buttonApplicationLayer.setCell(buttonApplicationLayer.getWidth()-3,0,healthLights[amount]);
     }
 
-    public static CardUI setInstance(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites, Texture healthLight){
-        instance = new CardUI(cardUI,buttons,laserSprites,healthLight);
+    public static CardUI setInstance(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites, Texture healthLight,
+                                     Texture lock){
+        instance = new CardUI(cardUI,buttons,laserSprites,healthLight, lock);
         return instance;
     }
 
@@ -180,5 +186,13 @@ public class CardUI {
 
     public Player getUser() {
         return user;
+    }
+
+    public void lockProgramSlot(int xCoord) {
+        buttonApplicationLayer.setCell(xCoord,0,cardLock);
+    }
+
+    public void unlockProgramSlot(int xCoord){
+        buttonApplicationLayer.setCell(xCoord,0,null);
     }
 }

@@ -64,6 +64,8 @@ public class LoadingMenuScreen implements Screen {
         game.manager.load("assets/Sounds/TakesDamage.wav", Sound.class);
         game.manager.load("assets/Sounds/DeathNoise.wav", Sound.class);
 
+        game.manager.load("assets/Card/Lock.png",Texture.class);
+
         FileHandle thumbnailFiles = Gdx.files.internal("assets/Robots/thumbnails");
         assert thumbnailFiles.exists();
         for (FileHandle file : thumbnailFiles.list()){

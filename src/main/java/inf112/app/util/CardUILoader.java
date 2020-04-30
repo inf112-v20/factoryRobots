@@ -25,7 +25,8 @@ public class CardUILoader extends AsynchronousAssetLoader<CardUI, CardUILoader.P
     @Override
     public CardUI loadSync(AssetManager assetManager, String s, FileHandle fileHandle, CardUILoader.Parameters parameters) {
         CardUI.setInstance(game.manager.get("assets/CardUI2.tmx"), game.manager.get("assets/GameButtons/Buttons.tmx"),
-                game.manager.get("assets/Lasers.tmx"), game.manager.get("assets/HealthLight.png"));
+                game.manager.get("assets/Lasers.tmx"), game.manager.get("assets/HealthLight.png"),
+                game.manager.get("assets/Card/Lock.png"));
         return CardUI.getInstance();
     }
 

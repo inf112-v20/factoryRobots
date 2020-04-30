@@ -226,6 +226,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
                     timer.disable();
                 }
             }
+            if(player.getCharacter().isDead()){
+                alertUser("You died");
+            }
         }
     }
 

@@ -18,6 +18,7 @@ public class CardUI {
     private final TiledMapTileLayer buttonApplicationLayer;
 
     private TiledMapTileLayer.Cell[] healthLights;
+    private TiledMapTileLayer.Cell robotThumbnail;
 
     private static CardUI instance;
 
@@ -75,6 +76,12 @@ public class CardUI {
             instance = new CardUI();
         }
         return instance;
+    }
+
+    public void setPlayerRobotGraphic(Texture robot){
+        TextureRegion[][] temp = TextureRegion.split(robot,400,600);
+        robotThumbnail = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(temp[0][0]));
+        buttonApplicationLayer.setCell(buttonApplicationLayer.getWidth()-2,1,robotThumbnail);
     }
 
     public TiledMap getCardUITiles() {

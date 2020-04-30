@@ -63,10 +63,11 @@ public class LoadingGameScreen implements Screen {
                     list[i].assignID(game.client.getIdList().get(i));
                     if(game.client.getIdList().get(i) == game.client.getId()){ //If id matches assign robot to player
                         game.getPlayer().assignRobot(list[i]);
+                        CardUI.getInstance().setPlayerRobotGraphic(game.manager.get("assets/Robots/thumbnails/" + (i+1) + "0.png"));
                     }
-                }
-                else {
+                } else {
                     game.getPlayer().assignRobot(list[0]);
+                    CardUI.getInstance().setPlayerRobotGraphic(game.manager.get("assets/Robots/thumbnails/10.png"));
                 }
             }
             if(game.client != null){

@@ -1,8 +1,11 @@
 package inf112.app.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 
@@ -13,6 +16,8 @@ public class CardUI {
     private final TiledMapTileLayer uiButtons;
     private final TiledMapTileLayer laserSprites;
     private final TiledMapTileLayer buttonApplicationLayer;
+
+    private TiledMapTileLayer.Cell[] healthLights;
 
     private static CardUI instance;
 
@@ -40,17 +45,28 @@ public class CardUI {
         laserSprites = (TiledMapTileLayer) lasers.getLayers().get("Laser");
     }
 
-    private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites){
+    private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites, Texture healthSprites){
         this.cardUI = cardUI;
         damageTokens = (TiledMapTileLayer) buttons.getLayers().get("Tokens");
         uiButtons = (TiledMapTileLayer) buttons.getLayers().get("Buttons");
         buttonApplicationLayer = (TiledMapTileLayer) cardUI.getLayers().get("Buttons");
         this.laserSprites = (TiledMapTileLayer) laserSprites.getLayers().get("Laser");
         stage = null;
+
+        healthLights = new TiledMapTileLayer.Cell[4];
+        TextureRegion[][] sprites = TextureRegion.split(healthSprites,400,600);
+
+        for(int i = 0; i<healthLights.length; i++){
+            healthLights[i] = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][3-i]));
+        }
     }
 
-    public static CardUI setInstance(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites){
-        instance = new CardUI(cardUI,buttons,laserSprites);
+    public void setHealthLight(int amount){
+        buttonApplicationLayer.setCell(buttonApplicationLayer.getWidth()-3,0,healthLights[amount]);
+    }
+
+    public static CardUI setInstance(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites, Texture healthLight){
+        instance = new CardUI(cardUI,buttons,laserSprites,healthLight);
         return instance;
     }
 

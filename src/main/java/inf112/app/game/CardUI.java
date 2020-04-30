@@ -109,7 +109,7 @@ public class CardUI {
     }
 
     public void initializeDamageTokens(){
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < 4; i++){
             buttonApplicationLayer.setCell(i, 1, damageTokens.getCell(0,0));
         }
     }

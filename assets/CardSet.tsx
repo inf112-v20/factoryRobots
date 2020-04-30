@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.2" name="CardSet" tilewidth="400" tileheight="600" tilecount="17" columns="0">
+<tileset version="1.2" tiledversion="1.3.2" name="CardSet" tilewidth="400" tileheight="600" tilecount="18" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="1">
   <image width="400" height="600" source="Card/background.png"/>
@@ -51,5 +51,8 @@
  </tile>
  <tile id="21">
   <image width="400" height="600" source="sound.png"/>
+ </tile>
+ <tile id="22">
+  <image width="400" height="600" source="Card/Cardholder2.png"/>
  </tile>
 </tileset>

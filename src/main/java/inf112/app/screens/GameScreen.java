@@ -110,6 +110,17 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
     @Override
     public void show() {
+        if(game.backgroundMusic.isPlaying()){
+            game.backgroundMusic.stop();
+            game.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
+            game.backgroundMusic.setVolume(0.2f);
+            game.backgroundMusic.play();
+        } else {
+            game.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
+            game.backgroundMusic.setVolume(0.2f);
+        }
+
+
         stage.clear();
         VisTable table = new VisTable();
         table.setFillParent(true);

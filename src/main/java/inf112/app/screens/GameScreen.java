@@ -118,6 +118,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         stage.addActor(table);
         if(game.client == null){
             currentRound.dealCards(tiledStage);
+            initiateAI();
         }
     }
 
@@ -153,29 +154,31 @@ public class GameScreen implements Screen, MultiplayerScreen {
         //Remove previous robot positions
         cellMap.clearLayer(cellMap.getLayer("player"));
 
+        //Stop laser and start next phase
         if(phaseTimer > waitThresh){
             timeForNextPhase = true;
             cellMap.deactivateLasers();
         }
-
+        //Fire laser halfway into waiting for the next phase
         if(phaseTimer > waitThresh/2 && !firedLasers && ongoingRound){
             firedLasers = true;
             cellMap.fireLasers();
         }
-
+        //If all robots -1 is ready, then start the timer
         if(cellMap.checkForTimerActivation() && !timerRunning && !ongoingRound){
             timerRunning = true;
             timer.start();
         }
-
-        if(timer.done && !game.getPlayer().getCharacter().doneProgramming()){
-            assignRandomProgram(game.getPlayer().getCharacter());
-            if(game.client!=null){ //TODO for all robots
+        //Assign random program and lock in if user is not done programming when timer runs out
+        if(timer.done && !player.getCharacter().doneProgramming()){
+            assignRandomProgram(player.getCharacter());
+            tiledStage.getLockInButton().lockButton();
+            if(game.client!=null){
                 game.client.sendProgramming();
             }
         }
 
-
+        //initate new round when all robots are ready
         if(cellMap.checkIfAllRobotsReady()){
             tiledStage.setCardPushable(false);
 
@@ -195,10 +198,21 @@ public class GameScreen implements Screen, MultiplayerScreen {
                 ongoingRound = false;
                 tiledStage.releaseButtons();
                 phaseNum = 1;
+                for(Robot r : cellMap.getRobotList()){
+                    if(r.getPowerDown()){
+                        r.setDoneProgramming(true);
+                        cellMap.incrementDoneProgramming();
+                        if(r.equals(player.getCharacter())){
+                            tiledStage.setCardPushable(false);
+                            tiledStage.getLockInButton().lockButton();
+                        }
+                    }
+                }
                 if(game.client != null){
                     game.client.sendDone();
                 } else {
                     currentRound.dealCards(tiledStage);
+                    initiateAI();
                 }
             } else {
                 currentRound.doPhase(phaseNum);
@@ -311,7 +325,16 @@ public class GameScreen implements Screen, MultiplayerScreen {
                     }
                 }
             }
-            cellMap.incrementDoneProgramming();
+        }
+        cellMap.incrementDoneProgramming();
+        r.setDoneProgramming(true);
+    }
+
+    private void initiateAI(){
+        for(Robot r : cellMap.getRobotList()){
+            if(!r.equals(player.getCharacter())){
+                assignRandomProgram(r);
+            }
         }
     }
 }

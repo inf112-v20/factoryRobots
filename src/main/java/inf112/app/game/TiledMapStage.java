@@ -96,7 +96,7 @@ public class TiledMapStage extends Stage {
         return actorGrid[x][y];
     }
 
-    private GameButtonActor getLockInButton(){
+    public GameButtonActor getLockInButton(){
         return (GameButtonActor) actorGrid[cardLayer.getWidth()-2][0];
     }
 

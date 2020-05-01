@@ -307,21 +307,6 @@ public class RoboServer extends Listener {
 
     }
 
-   /* public void buildAndSendRobotList(){
-        //Create and process robots, assign spawn points
-        ArrayList<Robot> robotList = new ArrayList<>(nPlayers);
-        int i = 0;
-        for(Connection c : server.getConnections()){
-            Robot robot = new Robot(spawnPoints[i],robotNames[i]);
-            robotMap.put(c.getID(),robot);
-            robot.assignID(c.getID());
-            robotList.add(robot);
-        }
-        //send list of robots
-        RobotListPacket robots = new RobotListPacket();
-        robots.list = robotList;
-        server.sendToAllTCP(robots);
-    } */
 
     /**
      * DO NOT USE THIS

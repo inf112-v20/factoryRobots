@@ -77,5 +77,10 @@ public class GameButtonActor extends ButtonActor {
         layer.setCell(x,y,buttonUp);
     }
 
+    public void lockButton(){
+        pushable = false;
+        layer.setCell(x,y,buttonDown);
+    }
+
 
 }

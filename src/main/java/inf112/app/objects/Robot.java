@@ -281,8 +281,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
             } catch (NullPointerException ignored){ // Catch exception for test classes
 
             }
+            if(this.equals(CardUI.getInstance().getUser().getCharacter())){
+                CardUI.getInstance().updateDamageTokens(damageTokens);
+            }
         }
-        CardUI.getInstance().updateDamageTokens(damageTokens);
         switch (damageTokens) {
             case 5:
                 programmedCards[4].lockSlot();
@@ -295,11 +297,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
             case 9:
                 programmedCards[0].lockSlot();
         }
-    }
-        if(this.equals(CardUI.getInstance().getUser().getCharacter())){
-            CardUI.getInstance().updateDamageTokens(damageTokens);
-        }
-
     }
 
     /**
@@ -371,7 +368,14 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     public void backToCheckPoint(){
+        Direction old = this.pos.getDirection().copyOf();
+        Position oldPos = this.pos.copyOf();
         this.pos = checkPoint;
+        this.pos.setDirection(old);
+        Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(this);
+        Map.getInstance().getCellList().getCell(this.pos).getInventory().addElement(this);
+        vectorPos.set(this.pos.getXCoordinate(), this.pos.getYCoordinate());
+
     }
 
 

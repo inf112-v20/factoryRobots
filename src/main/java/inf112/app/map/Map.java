@@ -39,8 +39,6 @@ public class Map {
     private Position[] spawnPoints = new Position[RoboRally.MAX_PLAYER_AMOUNT];
     private int finalFlagNum;
 
-    private GameSounds sound;
-
     /**
      * Create a init the Map object by map title
      * @param mapName Name of the map. Must be without extension and full path
@@ -245,31 +243,8 @@ public class Map {
             object.fireLaser();
         }
         lasersActive = true;
-        try {
-            sound.laserSound();
-        } catch (NullPointerException ignored){ // Catch exception for test classes
-
-        }
     }
 
-    /**
-     * @return The amount of ticks since the lasers were activated
-     */
-    public int getLaserTimer() {
-        return laserTimer;
-    }
-
-    /**
-     *
-     * @return true if lasers are active, otherwise false
-     */
-    public boolean lasersActive() {
-        return lasersActive;
-    }
-
-    public void incrementLaserTimer(){
-        laserTimer++;
-    }
 
     /**
      * Method for turning off the lasers. <br>

@@ -89,6 +89,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
+    public void assignGameSounds(GameSounds sounds){
+        this.sound = sounds;
+    }
+
     /**
      * Method to move the robot forward in the direction it is facing
      * @param steps Number of steps the robot should take
@@ -315,7 +319,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void wipeSlots(CardSlot[] slotList){
         for(CardSlot slot : slotList){
-            if(!slot.isLocked()){ // TODO lock the slot at some point
+            if(!slot.isLocked()){
                 slot.removeCard();
             }
         }
@@ -376,6 +380,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
         Map.getInstance().getCellList().getCell(this.pos).getInventory().addElement(this);
         vectorPos.set(this.pos.getXCoordinate(), this.pos.getYCoordinate());
 
+        lives--;
+        damageTokens = 0;
     }
 
 

@@ -58,7 +58,6 @@ public class LoadingMenuScreen implements Screen {
         game.manager.load("assets/HealthLight.png", Texture.class);
 
         // Sounds
-        game.manager.load("assets/Sounds/LazerSound.wav", Sound.class);
         game.manager.load("assets/Sounds/ButtonClick.wav", Sound.class);
         game.manager.load("assets/Sounds/NewCheckPoint.wav", Sound.class);
         game.manager.load("assets/Sounds/TakesDamage.wav", Sound.class);

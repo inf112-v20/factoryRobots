@@ -8,6 +8,7 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import inf112.app.cards.CardDeck;
 import inf112.app.game.CardUI;
+import inf112.app.game.GameSounds;
 import inf112.app.game.RoboRally;
 import inf112.app.map.Map;
 import inf112.app.objects.Robot;
@@ -56,9 +57,11 @@ public class LoadingGameScreen implements Screen {
         game.manager.update();
         if (game.manager.isFinished()) { // Load some, will return true if done loading
             //Loading robots when map is loaded
+            GameSounds gameSounds = new GameSounds(game);
             Robot[] list = new Robot[game.getNumberOfPlayersInSession()];
             for(int i = 0; i<list.length; i++){
                 list[i] = new Robot(Map.getInstance().getSpawnpoint(i), RoboRally.robotNames[i]);
+                list[i].assignGameSounds(gameSounds);
                 if(game.client != null){    //Id is only used in multiplayer session
                     list[i].assignID(game.client.getIdList().get(i));
                     if(game.client.getIdList().get(i) == game.client.getId()){ //If id matches assign robot to player

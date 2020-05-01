@@ -72,6 +72,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         isDead = false;
         isWinner = false;
         doneProgramming = false;
+        this.checkPoint = pos;
 
         initializeCardsSlots();
         id = -1;
@@ -282,6 +283,18 @@ public class Robot implements ILaserInteractor, IBoardElement {
             }
         }
         CardUI.getInstance().updateDamageTokens(damageTokens);
+        switch (damageTokens) {
+            case 5:
+                programmedCards[4].lockSlot();
+            case 6:
+                programmedCards[3].lockSlot();
+            case 7:
+                programmedCards[2].lockSlot();
+            case 8:
+                programmedCards[1].lockSlot();
+            case 9:
+                programmedCards[0].lockSlot();
+        }
     }
 
     /**
@@ -354,6 +367,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void backToCheckPoint(){
         this.pos = checkPoint;
+
+
     }
 
 

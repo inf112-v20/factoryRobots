@@ -250,6 +250,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         //Checking if player is touching hole or flag
         if(cellMap.getLayer("hole").getCell(robotX, robotY) != null){
             robotLayer.setCell(robotX, robotY, robot.getLooser());
+            robot.backToCheckPoint();
         } else if(cellMap.getLayer("flag").getCell(robotX, robotY) != null) {
             robotLayer.setCell(robotX, robotY, robot.getWinner());
         }

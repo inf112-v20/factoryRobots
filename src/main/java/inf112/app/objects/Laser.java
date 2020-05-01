@@ -90,6 +90,7 @@ public class Laser {
        Robot potential = map.robotInTile(path.get(path.size()-1).getPosition());
        if(potential != null && !potential.equals(owner)){
            potential.addDamageTokens(isDouble ? 2 : 1);
+           potential.isHit = true;
        }
    }
 }

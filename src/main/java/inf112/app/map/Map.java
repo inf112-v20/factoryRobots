@@ -255,6 +255,9 @@ public class Map {
         laserTimer = 0;
         clearLayer(getLayer("laser"));
         clearLayer(getLayer("laser2"));
+        for(Robot r : robotList){
+            r.isHit = false;
+        }
     }
 
     /**

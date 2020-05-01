@@ -35,6 +35,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private int lives;
     private boolean isWinner;
     private boolean isDead;
+    public boolean isHit = false;
 
     private boolean powerDown;
 
@@ -287,6 +288,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
                 CardUI.getInstance().updateDamageTokens(damageTokens);
             }
         }
+
     }
 
     private void checkSlotsToLock(){
@@ -494,5 +496,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
        lives--;
        damageTokens = 0;
        checkSlotsToLock();
+    }
+
+    public boolean isHit() {
+        return isHit;
     }
 }

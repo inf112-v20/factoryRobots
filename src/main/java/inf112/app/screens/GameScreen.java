@@ -168,7 +168,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         cellMap.clearLayer(cellMap.getLayer("player"));
 
         //Stop laser and start next phase
-        if(phaseTimer > waitThresh){
+        if(phaseTimer > waitThresh && ongoingRound){
             timeForNextPhase = true;
             cellMap.deactivateLasers();
         }
@@ -272,7 +272,11 @@ public class GameScreen implements Screen, MultiplayerScreen {
             robotLayer.setCell(robotX, robotY, robot.getLooser());
             robot.backToCheckPoint();
             robot.takeLife();
+        } else if (robot.isHit()){
+            robotLayer.setCell(robotX, robotY, robot.getLooser());
         } else if(cellMap.getLayer("flag").getCell(robotX, robotY) != null) {
+            robotLayer.setCell(robotX, robotY, robot.getWinner());
+        } else if(robot.isWinner()){
             robotLayer.setCell(robotX, robotY, robot.getWinner());
         }
     }

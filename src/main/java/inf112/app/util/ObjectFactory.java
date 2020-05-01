@@ -43,8 +43,6 @@ public class ObjectFactory {
                 return createRepairStation(properties);
             case FLAG:
                 return createFlag(properties);
-            case HOLE:
-                return new Hole();
             default: return null;//throw new IllegalArgumentException("Enum obtained from translator could not be placed");
         }
     }

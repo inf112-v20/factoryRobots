@@ -13,6 +13,6 @@ public class RepairStation implements IBoardElement {
     public void doAction(Robot robot) {
         robot.removeDamageTokens(repairSpeed);
         Position position = robot.getPos();
-        robot.setCheckPoint(position);
+        robot.setCheckPoint(position.copyOf());
     }
 }

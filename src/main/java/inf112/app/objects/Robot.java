@@ -296,6 +296,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
                 programmedCards[0].lockSlot();
         }
     }
+        if(this.equals(CardUI.getInstance().getUser().getCharacter())){
+            CardUI.getInstance().updateDamageTokens(damageTokens);
+        }
+
+    }
 
     /**
      * method for dealing the right amount of cards compared to damageTokens
@@ -367,8 +372,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void backToCheckPoint(){
         this.pos = checkPoint;
-
-
     }
 
 
@@ -378,7 +381,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
     public void setPowerDown(boolean powerDown) {
         this.powerDown = powerDown;
-        damageTokens = 0;
+        if(powerDown == true){
+            damageTokens = 0;
+        }
+
     }
 
     public void setPowerDownNextRound(boolean powerDownNextRound){
@@ -465,5 +471,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void setDoneProgramming(boolean done) {
        this.doneProgramming = done;
+    }
+
+    public int getLives() {
+        return lives;
     }
 }

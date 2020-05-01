@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import inf112.app.cards.CardSlot;
-import inf112.app.cards.ICard;
 import inf112.app.game.*;
 import inf112.app.map.Map;
 import inf112.app.objects.Robot;
@@ -44,14 +43,13 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
     private float tileSize = 300f;
     private float cardWidth = 400f;
-    private float viewportWidth = 20, viewPortHeight = 20; //cellmap + 5
+    private float viewportWidth = 20, viewPortHeight = 20;
     private float initialCameraY;
 
     private Map cellMap;
     private Player player;
     private int phaseNum = 6;
     private boolean ongoingRound = false;
-    private boolean ready = false;
 
     public GameScreen(final RoboRally game, Stage stage, StretchViewport viewport){
         this.game = game;
@@ -72,6 +70,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         CardUI ui = CardUI.getInstance();
         ui.initializeCardSlots(game.getPlayer());
         ui.initializeDamageTokens();
+        ui.setHealthLight(player.getCharacter().getLives());
 
         //Create and shuffle deck
         cellMap.setDeck(game.manager.get("deck"));
@@ -170,18 +169,8 @@ public class GameScreen implements Screen, MultiplayerScreen {
         }
 
         if(timer.done && !game.getPlayer().getCharacter().doneProgramming()){
-            for(CardSlot slot : game.getPlayer().getCharacter().getProgrammedCards()){
-                if(!slot.hasCard()){
-                    for(CardSlot available : game.getPlayer().getCharacter().getAvailableCards()){
-                        if(available.hasCard()){
-                            slot.addCard(available.removeCard(), tiledStage);
-                            break;
-                        }
-                    }
-                }
-            }
-            cellMap.incrementDoneProgramming();
-            if(game.client!=null){
+            assignRandomProgram(game.getPlayer().getCharacter());
+            if(game.client!=null){ //TODO for all robots
                 game.client.sendProgramming();
             }
         }
@@ -236,6 +225,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
                     }
                     timer.disable();
                 }
+            }
+            if(player.getCharacter().isDead()){
+                alertUser("You died");
             }
         }
     }
@@ -310,4 +302,17 @@ public class GameScreen implements Screen, MultiplayerScreen {
         alert.setText(info);
     }
 
+    private void assignRandomProgram(Robot r){
+        for(CardSlot slot : r.getProgrammedCards()) {
+            if (!slot.hasCard()) {
+                for (CardSlot available : r.getAvailableCards()) {
+                    if (available.hasCard()) {
+                        slot.addCard(available.removeCard(), tiledStage);
+                        break;
+                    }
+                }
+            }
+            cellMap.incrementDoneProgramming();
+        }
+    }
 }

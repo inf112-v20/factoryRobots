@@ -61,6 +61,9 @@ public class CardSlot {
 
     public void lockSlot(){
         this.isLocked = true;
+        if(!noUI){
+            CardUI.getInstance().lockProgramSlot(xCoord);
+        }
     }
 
     public boolean isLocked() {
@@ -69,6 +72,9 @@ public class CardSlot {
 
     public void unlockSlot(){
         this.isLocked = false;
+        if(!noUI){
+            CardUI.getInstance().unlockProgramSlot(xCoord);
+        }
     }
 
     public String getPosition() {

@@ -1,8 +1,11 @@
 package inf112.app.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 
@@ -13,6 +16,10 @@ public class CardUI {
     private final TiledMapTileLayer uiButtons;
     private final TiledMapTileLayer laserSprites;
     private final TiledMapTileLayer buttonApplicationLayer;
+
+    private TiledMapTileLayer.Cell[] healthLights;
+    private TiledMapTileLayer.Cell robotThumbnail;
+    private TiledMapTileLayer.Cell cardLock;
 
     private static CardUI instance;
 
@@ -38,19 +45,36 @@ public class CardUI {
 
         TiledMap lasers = loader.load("assets/Lasers.tmx");
         laserSprites = (TiledMapTileLayer) lasers.getLayers().get("Laser");
+        user = new Player();
     }
 
-    private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites){
+    private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites,
+                   Texture healthSprites, Texture lock){
         this.cardUI = cardUI;
         damageTokens = (TiledMapTileLayer) buttons.getLayers().get("Tokens");
         uiButtons = (TiledMapTileLayer) buttons.getLayers().get("Buttons");
         buttonApplicationLayer = (TiledMapTileLayer) cardUI.getLayers().get("Buttons");
         this.laserSprites = (TiledMapTileLayer) laserSprites.getLayers().get("Laser");
         stage = null;
+
+        healthLights = new TiledMapTileLayer.Cell[4];
+        TextureRegion[][] sprites = TextureRegion.split(healthSprites,400,600);
+
+        for(int i = 0; i<healthLights.length; i++){
+            healthLights[i] = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][3-i]));
+        }
+
+        TextureRegion[][] temp = TextureRegion.split(lock,400,600);
+        cardLock = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(temp[0][0]));
     }
 
-    public static CardUI setInstance(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites){
-        instance = new CardUI(cardUI,buttons,laserSprites);
+    public void setHealthLight(int amount){
+        buttonApplicationLayer.setCell(buttonApplicationLayer.getWidth()-3,0,healthLights[amount]);
+    }
+
+    public static CardUI setInstance(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites, Texture healthLight,
+                                     Texture lock){
+        instance = new CardUI(cardUI,buttons,laserSprites,healthLight, lock);
         return instance;
     }
 
@@ -59,6 +83,12 @@ public class CardUI {
             instance = new CardUI();
         }
         return instance;
+    }
+
+    public void setPlayerRobotGraphic(Texture robot){
+        TextureRegion[][] temp = TextureRegion.split(robot,400,600);
+        robotThumbnail = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(temp[0][0]));
+        buttonApplicationLayer.setCell(buttonApplicationLayer.getWidth()-2,1,robotThumbnail);
     }
 
     public TiledMap getCardUITiles() {
@@ -86,7 +116,7 @@ public class CardUI {
     }
 
     public void initializeDamageTokens(){
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < 4; i++){
             buttonApplicationLayer.setCell(i, 1, damageTokens.getCell(0,0));
         }
     }
@@ -152,5 +182,17 @@ public class CardUI {
 
     public void setTiledStage(TiledMapStage stage){
         this.stage = stage;
+    }
+
+    public Player getUser() {
+        return user;
+    }
+
+    public void lockProgramSlot(int xCoord) {
+        buttonApplicationLayer.setCell(xCoord,0,cardLock);
+    }
+
+    public void unlockProgramSlot(int xCoord){
+        buttonApplicationLayer.setCell(xCoord,0,null);
     }
 }

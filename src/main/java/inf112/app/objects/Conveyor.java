@@ -77,6 +77,7 @@ public class Conveyor implements IBoardElement {
     public void doAction(Robot robot) {
 
         robot.move(getExit());
+        boolean hasRotated = false;
 
         Conveyor next = extractConveyorFromCell(robot.getPos());
         if (next == null) {
@@ -84,6 +85,7 @@ public class Conveyor implements IBoardElement {
         }
         if (next.willRotate(exit)) {
             robot.turn(next.rotationDirection(exit));
+            hasRotated = true;
         }
         if (speed == 2) {
             robot.move(next.getExit());
@@ -91,7 +93,7 @@ public class Conveyor implements IBoardElement {
             if(afterNext == null){
                 return;
             }
-            if(afterNext.willRotate(exit)){
+            if(afterNext.willRotate(exit) && !hasRotated){
                 robot.turn(afterNext.rotationDirection(exit));
             }
         }

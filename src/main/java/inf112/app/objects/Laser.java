@@ -38,15 +38,20 @@ public class Laser {
        Map map = Map.getInstance();
 
        //Laser should start on the same cell as the owner
-       path.add(map.getCellList().getCell(laserBeam));
+       MapCell current = map.getCellList().getCell(laserBeam);
+       path.add(current);
 
        while (map.validMove(laserBeam)) {
-           laserBeam.moveInDirection();
-           MapCell current = map.getCellList().getCell(laserBeam);
-           path.add(current);
-           if(map.robotInTile(current.getPosition()) != null){
-               break;
+           Robot potential = map.robotInTile(current.getPosition());
+           if(potential != null){
+               if(!potential.equals(owner)){
+                   break;
+               }
            }
+           laserBeam.moveInDirection();
+           current = map.getCellList().getCell(laserBeam);
+           path.add(current);
+
        }
        return path;
    }
@@ -62,18 +67,21 @@ public class Laser {
        Direction dir = owner.getPos().getDirection().copyOf();
        boolean horizontal = (dir.getDirEnum() == Direction.DirEnum.EAST || dir.getDirEnum() == Direction.DirEnum.WEST);
 
+       //Choosing laser beam graphic
        int index = -1;
        if(horizontal){
            index = (!isDouble) ? 0 : 2;
        } else {
            index = (!isDouble) ? 1 : 3;
        }
+       //Display laser beam
        TiledMapTileLayer sourceLayer = CardUI.getInstance().getLaserSprites();
        for(MapCell cell : path){
            Position pos = cell.getPosition();
            TiledMapTileLayer.Cell laser = sourceLayer.getCell(index,0);
            if(map.getLayer("laser").getCell(pos.getXCoordinate(),pos.getYCoordinate()) == null){
                map.getLayer("laser").setCell(pos.getXCoordinate(),pos.getYCoordinate(),laser);
+               //Use a second layer if crossing another laser
            } else {
                map.getLayer("laser2").setCell(pos.getXCoordinate(),pos.getYCoordinate(),laser);
            }

@@ -20,19 +20,6 @@ public class Rounds {
 
 
     /**
-     * method for putting the players who have lost a life
-     * back to their checkpoint
-     */
-    public void putBackPlayers(){
-        for (Robot r : robots){
-            if (!r.isDead() && r.hasLostLife()){
-                r.backToCheckPoint();
-                r.setLostLife(false);
-            }
-        }
-    }
-
-    /**
      * dealing right amount of cards to each robot
      */
     public void dealCards(TiledMapStage stage){
@@ -83,12 +70,7 @@ public class Rounds {
                         }
                     }
                 }
-                for (Robot r : robots) {
-                    if (r.isDead()){
-                        map.deleteRobot(r);
-                        System.out.println("Robot has died");
-                    }
-                }
+
 
         if (phaseNum == 5){
             for (Robot r : robots){
@@ -98,10 +80,10 @@ public class Rounds {
                 }else if(r.getPowerDown()){
                     r.setPowerDown(false);
                 }
-                CardSlot[] slots = r.getProgrammedCards();
+                /*CardSlot[] slots = r.getProgrammedCards();
                 CardSlot[] availableCards = r.getAvailableCards();
                 r.wipeSlots(slots);
-                r.wipeSlots(availableCards);
+                r.wipeSlots(availableCards);*/
             }
         }
 

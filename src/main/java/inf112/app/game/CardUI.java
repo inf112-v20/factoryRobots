@@ -190,9 +190,13 @@ public class CardUI {
 
     public void lockProgramSlot(int xCoord) {
         buttonApplicationLayer.setCell(xCoord,0,cardLock);
+        CardSlot slot = bottomCardSlots[xCoord];
+        ((CardSlotActor)stage.getActorFromGrid(slot.getxCoord(),slot.getyCoord())).setPushable(false);
     }
 
     public void unlockProgramSlot(int xCoord){
         buttonApplicationLayer.setCell(xCoord,0,null);
+        CardSlot slot = bottomCardSlots[xCoord];
+        ((CardSlotActor)stage.getActorFromGrid(slot.getxCoord(),slot.getyCoord())).setPushable(true);
     }
 }

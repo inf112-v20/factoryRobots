@@ -114,10 +114,12 @@ public class GameScreen implements Screen, MultiplayerScreen {
             game.backgroundMusic.stop();
             game.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
             game.backgroundMusic.setVolume(0.2f);
+            game.backgroundMusic.setLooping(true);
             game.backgroundMusic.play();
         } else {
             game.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
             game.backgroundMusic.setVolume(0.2f);
+            game.backgroundMusic.setLooping(true);
         }
 
 
@@ -198,7 +200,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
             phaseTimer = 0;
             Gdx.graphics.getDeltaTime();
 
-            currentRound.putBackPlayers();
             cellMap.resetDoneProgramming();
             timerRunning = false;
             timer.done = false;
@@ -249,10 +250,12 @@ public class GameScreen implements Screen, MultiplayerScreen {
                         }
                     }
                     timer.disable();
+                } else if(r.isDead()){
+                    if(r.equals(player.getCharacter())){
+                        alertUser("You died");
+                    }
+                    cellMap.deleteRobot(r);
                 }
-            }
-            if(player.getCharacter().isDead()){
-                alertUser("You died");
             }
         }
     }
@@ -268,6 +271,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         if(cellMap.getLayer("hole").getCell(robotX, robotY) != null){
             robotLayer.setCell(robotX, robotY, robot.getLooser());
             robot.backToCheckPoint();
+            robot.takeLife();
         } else if(cellMap.getLayer("flag").getCell(robotX, robotY) != null) {
             robotLayer.setCell(robotX, robotY, robot.getWinner());
         }

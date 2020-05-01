@@ -118,7 +118,13 @@ public class TiledMapStage extends Stage {
         for(Actor actor : getActors()){
             if(actor instanceof CardSlotActor){
                 CardSlotActor cardSlot = (CardSlotActor) actor;
-                cardSlot.setPushable(clickable);
+                if(cardSlot.getSlot()!=null){
+                    if(!cardSlot.getSlot().isLocked()){
+                        cardSlot.setPushable(clickable);
+                    }
+                }
+
+
             }
         }
     }

@@ -35,7 +35,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private int lives;
     private boolean isWinner;
     private boolean isDead;
-    private boolean hasLostLife;
 
     private boolean powerDown;
 
@@ -268,11 +267,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void addDamageTokens(int dealDamage) {
         damageTokens += dealDamage;
+        checkSlotsToLock();
         if (damageTokens >= 9) {
-            lives--;
-            hasLostLife = true;
-            damageTokens = 0;
+            takeLife();
             isDead = lives <= 0;
+            backToCheckPoint();
             try {
                 sound.deathSound();
             } catch (NullPointerException ignored){ // Catch exception for test classes
@@ -288,17 +287,27 @@ public class Robot implements ILaserInteractor, IBoardElement {
                 CardUI.getInstance().updateDamageTokens(damageTokens);
             }
         }
-        switch (damageTokens) {
-            case 5:
-                programmedCards[4].lockSlot();
-            case 6:
-                programmedCards[3].lockSlot();
-            case 7:
-                programmedCards[2].lockSlot();
-            case 8:
-                programmedCards[1].lockSlot();
-            case 9:
-                programmedCards[0].lockSlot();
+    }
+
+    private void checkSlotsToLock(){
+        int i = 5;
+        if(damageTokens>=8){
+            i = 1;
+        }else if(damageTokens>=7){
+            i = 2;
+        }else if(damageTokens>=6){
+            i = 3;
+        }else if(damageTokens>=5){
+            i = 4;
+        }
+        int j = 0;
+        while(j<i){
+            programmedCards[j].unlockSlot();
+            j++;
+        }
+        while(i<5){
+            programmedCards[i].lockSlot();
+            i++;
         }
     }
 
@@ -333,17 +342,13 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void removeDamageTokens(int amount) {
         damageTokens -= amount;
         if (damageTokens < 0) damageTokens = 0;
-        CardUI.getInstance().updateDamageTokens(damageTokens);
+        if(CardUI.getInstance().getUser().getCharacter().equals(this)){
+            CardUI.getInstance().updateDamageTokens(damageTokens);
+        }
+        checkSlotsToLock();
+
     }
 
-
-    public boolean hasLostLife() {
-        return hasLostLife;
-    }
-
-    public void setLostLife(boolean lostLife){
-        hasLostLife = lostLife;
-    }
 
     /**
      * method used to find out if robot is dead or alive
@@ -379,9 +384,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
         Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(this);
         Map.getInstance().getCellList().getCell(this.pos).getInventory().addElement(this);
         vectorPos.set(this.pos.getXCoordinate(), this.pos.getYCoordinate());
-
-        lives--;
-        damageTokens = 0;
     }
 
 
@@ -393,6 +395,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         this.powerDown = powerDown;
         if(powerDown == true){
             damageTokens = 0;
+            checkSlotsToLock();
         }
 
     }
@@ -485,5 +488,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public int getLives() {
         return lives;
+    }
+
+    public void takeLife() {
+       lives--;
+       damageTokens = 0;
+       checkSlotsToLock();
     }
 }

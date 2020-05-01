@@ -55,4 +55,8 @@ public class CardSlotActor extends ButtonActor {
     public void setPushable(boolean pushable){
         this.pushable = pushable;
     }
+
+    public CardSlot getSlot() {
+        return slot;
+    }
 }

@@ -6,9 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardDeck;
-import inf112.app.game.GameSounds;
 import inf112.app.game.RoboRally;
-import inf112.app.game.TiledMapStage;
 import inf112.app.objects.*;
 
 
@@ -33,8 +31,6 @@ public class Map {
     private int doneProgrammingCount = 0;
 
     private ArrayList<ILaserInteractor> laserObjects;
-    private int laserTimer = 0;
-    private boolean lasersActive = false;
 
     private Position[] spawnPoints = new Position[RoboRally.MAX_PLAYER_AMOUNT];
     private int finalFlagNum;
@@ -242,7 +238,6 @@ public class Map {
         for(ILaserInteractor object : laserObjects){
             object.fireLaser();
         }
-        lasersActive = true;
     }
 
 
@@ -251,8 +246,6 @@ public class Map {
      * Resets the timer and clears all the laser graphics from the map
      */
     public void deactivateLasers(){
-        lasersActive = false;
-        laserTimer = 0;
         clearLayer(getLayer("laser"));
         clearLayer(getLayer("laser2"));
         for(Robot r : robotList){

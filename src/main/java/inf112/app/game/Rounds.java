@@ -1,6 +1,5 @@
 package inf112.app.game;
 
-import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 import inf112.app.map.Map;
 import inf112.app.objects.*;
@@ -15,7 +14,6 @@ public class Rounds {
     public Rounds() {
         this.robots = Map.getInstance().getRobotList();
         this.map = Map.getInstance();
-
     }
 
 
@@ -80,10 +78,6 @@ public class Rounds {
                 }else if(r.getPowerDown()){
                     r.setPowerDown(false);
                 }
-                /*CardSlot[] slots = r.getProgrammedCards();
-                CardSlot[] availableCards = r.getAvailableCards();
-                r.wipeSlots(slots);
-                r.wipeSlots(availableCards);*/
             }
         }
 

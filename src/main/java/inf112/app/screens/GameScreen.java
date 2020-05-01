@@ -30,7 +30,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
     private OrthogonalTiledMapRenderer uiRenderer;
     private TiledMapStage tiledStage;
 
-    private Rounds currentRound = new Rounds();
+    private Rounds currentRound;
 
     private boolean timerRunning = false;
     private Timer timer;
@@ -48,6 +48,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
     private Map cellMap;
     private Player player;
+    private ArrayList<Robot> toBeRemoved = new ArrayList<>(8);
     private int phaseNum = 6;
     private boolean ongoingRound = false;
 
@@ -61,6 +62,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         game.manager.unload("assets/Lasers.tmx");
 
         this.player = game.getPlayer();
+        currentRound = new Rounds();
 
         //Set up cameras
         camera = new OrthographicCamera();
@@ -131,7 +133,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
         stage.addActor(table);
         if(game.client == null){
             currentRound.dealCards(tiledStage);
-            initiateAI();
         }
     }
 
@@ -144,6 +145,13 @@ public class GameScreen implements Screen, MultiplayerScreen {
         // tell the camera to update its matrices.
         camera.update();
         uiCam.update();
+
+        if(!toBeRemoved.isEmpty()){
+            for(Robot r : toBeRemoved){
+                cellMap.deleteRobot(r);
+            }
+            toBeRemoved.clear();
+        }
 
         updateRobots();
 
@@ -198,6 +206,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
             ongoingRound = true;
             phaseNum = 1;
             phaseTimer = 0;
+            firedLasers = true;
             Gdx.graphics.getDeltaTime();
 
             cellMap.resetDoneProgramming();
@@ -214,6 +223,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
                     if(r.getPowerDown()){
                         r.setDoneProgramming(true);
                         cellMap.incrementDoneProgramming();
+                        if(game.client == null){
+                            initiateAI();
+                        }
                         if(r.equals(player.getCharacter())){
                             tiledStage.setCardPushable(false);
                             tiledStage.getLockInButton().lockButton();
@@ -224,7 +236,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
                     game.client.sendDone();
                 } else {
                     currentRound.dealCards(tiledStage);
-                    initiateAI();
                 }
             } else {
                 currentRound.doPhase(phaseNum);
@@ -253,9 +264,12 @@ public class GameScreen implements Screen, MultiplayerScreen {
                 } else if(r.isDead()){
                     if(r.equals(player.getCharacter())){
                         alertUser("You died");
+                        if(!game.isHost){
+                            timer.disable();
+                        }
                     }
-                    cellMap.deleteRobot(r);
-                }
+                    toBeRemoved.add(r); //TODO finn ut hvorfor roboter ikke fjernes etter hver phase
+                }               //TODO reset robot til checkpoint når den er på kanten av mappet
             }
         }
     }
@@ -350,7 +364,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         r.setDoneProgramming(true);
     }
 
-    private void initiateAI(){
+    public void initiateAI(){
         for(Robot r : cellMap.getRobotList()){
             if(!r.equals(player.getCharacter())){
                 assignRandomProgram(r);

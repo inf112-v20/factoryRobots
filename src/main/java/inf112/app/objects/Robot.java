@@ -271,7 +271,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
         checkSlotsToLock();
         if (damageTokens >= 9) {
             takeLife();
-            isDead = lives <= 0;
             backToCheckPoint();
             try {
                 sound.deathSound();
@@ -380,7 +379,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void backToCheckPoint(){
         Position oldPos = this.pos.copyOf();
         Direction old = oldPos.getDirection().copyOf();
-        this.pos = checkPoint;
+        this.pos = checkPoint.copyOf();
         this.pos.setDirection(old);
 
         Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(this);
@@ -499,6 +498,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
        }
        removeDamageTokens(9);
        checkSlotsToLock();
+       isDead = lives <= 0;
     }
 
     public boolean isHit() {

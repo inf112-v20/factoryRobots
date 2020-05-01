@@ -2,6 +2,7 @@ package inf112.app.game;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.app.map.Map;
+import inf112.app.screens.GameScreen;
 
 public class GameButtonActor extends ButtonActor {
 
@@ -52,6 +53,8 @@ public class GameButtonActor extends ButtonActor {
                     stage.setCardPushable(false);
                     if (stage.getGame().client != null) {
                         stage.getGame().client.sendProgramming();
+                    } else {
+                        ((GameScreen) stage.getGame().getScreen()).initiateAI();
                     }
                 } else {
                     pushable = true;

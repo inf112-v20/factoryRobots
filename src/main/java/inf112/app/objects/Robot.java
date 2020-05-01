@@ -494,7 +494,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void takeLife() {
        lives--;
-       damageTokens = 0;
+       if(CardUI.getInstance().getUser().getCharacter().equals(this)){
+           CardUI.getInstance().setHealthLight(lives);
+       }
+       removeDamageTokens(9);
        checkSlotsToLock();
     }
 

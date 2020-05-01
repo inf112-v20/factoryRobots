@@ -4,6 +4,7 @@ import inf112.app.GdxTestRunner;
 import inf112.app.map.Map;
 import inf112.app.map.Position;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -11,10 +12,11 @@ import static org.junit.Assert.*;
 @RunWith(GdxTestRunner.class)
 public class LaserTest {
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         Map.setInstance("testMap");
         Map.getInstance().clearBots();
     }
+
 
     @Test
     public void laserGivesDamageTest(){

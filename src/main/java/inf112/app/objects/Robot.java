@@ -2,7 +2,6 @@ package inf112.app.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
@@ -72,6 +71,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
         isDead = false;
         isWinner = false;
         doneProgramming = false;
+        this.checkPoint = pos.copyOf();
 
         initializeCardsSlots();
         id = -1;
@@ -280,11 +280,22 @@ public class Robot implements ILaserInteractor, IBoardElement {
             } catch (NullPointerException ignored){ // Catch exception for test classes
 
             }
+            if(this.equals(CardUI.getInstance().getUser().getCharacter())){
+                CardUI.getInstance().updateDamageTokens(damageTokens);
+            }
         }
-        if(this.equals(CardUI.getInstance().getUser().getCharacter())){
-            CardUI.getInstance().updateDamageTokens(damageTokens);
+        switch (damageTokens) {
+            case 5:
+                programmedCards[4].lockSlot();
+            case 6:
+                programmedCards[3].lockSlot();
+            case 7:
+                programmedCards[2].lockSlot();
+            case 8:
+                programmedCards[1].lockSlot();
+            case 9:
+                programmedCards[0].lockSlot();
         }
-
     }
 
     /**
@@ -356,7 +367,15 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     public void backToCheckPoint(){
+        Position oldPos = this.pos.copyOf();
+        Direction old = oldPos.getDirection().copyOf();
         this.pos = checkPoint;
+        this.pos.setDirection(old);
+
+        Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(this);
+        Map.getInstance().getCellList().getCell(this.pos).getInventory().addElement(this);
+        vectorPos.set(this.pos.getXCoordinate(), this.pos.getYCoordinate());
+
     }
 
 

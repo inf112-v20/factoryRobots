@@ -24,7 +24,7 @@ public class MapCellList {
 
     public MapCellList(int sizeX, int sizeY, MapLayers layers){
         cellList = new MapCell[sizeX][sizeY];
-        exclusionList = new ArrayList<>(Arrays.asList("Board","Hole"));
+        exclusionList = new ArrayList<>(Arrays.asList("Board","Hole","Player"));
         factory = new ObjectFactory();
 
         for (int x = 0; x < sizeX; x++) {

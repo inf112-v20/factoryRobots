@@ -272,11 +272,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
         if (damageTokens >= 9) {
             takeLife();
             backToCheckPoint();
-            try {
-                sound.deathSound();
-            } catch (NullPointerException ignored){ // Catch exception for test classes
-
-            }
         } else {
             try {
                 sound.takeDamage();
@@ -462,7 +457,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     @Override
     public void fireLaser() {
-        laser.fire();
+       if(!isDead){
+           laser.fire();
+       }
     }
 
     public CardSlot[] getAvailableCards() {
@@ -499,6 +496,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
        removeDamageTokens(9);
        checkSlotsToLock();
        isDead = lives <= 0;
+        try {
+            sound.deathSound();
+        } catch (NullPointerException ignored){ // Catch exception for test classes
+
+        }
     }
 
     public boolean isHit() {

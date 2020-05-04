@@ -117,6 +117,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         copy.moveInDirection();
         if(valid && Map.getInstance().robotInTile(copy) == null) {
             updatePosition(this,dir);
+        } else if(!valid){
+            if(Map.getInstance().isOutSideMap(copy)){
+                fellIntoHole = true;
+            }
         }
     }
 
@@ -189,7 +193,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
      public boolean moveAndPush(Robot r, Direction dir) {
          Position newPos = r.getPos().copyOf();
-         newPos.setDirection(dir);
+         newPos.setDirection(dir.copyOf());
          if(Map.getInstance().validMove(newPos)) {
              newPos.moveInDirection();
              IBoardElement nextCell = checkContentOfCell(newPos);
@@ -205,6 +209,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
                  return canMove;
              }
              return false;
+         } else {
+             newPos.moveInDirection();
+             if(Map.getInstance().isOutSideMap(newPos)){
+                 r.fellIntoHole = true;
+             }
          }
          return false;
      }

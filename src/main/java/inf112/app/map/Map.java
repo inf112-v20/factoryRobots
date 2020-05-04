@@ -138,8 +138,7 @@ public class Map {
         Position newPos = currentPos.copyOf();
         newPos.moveInDirection();
         //Move is out of bounds
-        if(newPos.getXCoordinate() >= mapSizeX || newPos.getYCoordinate() >= mapSizeY ||
-                newPos.getXCoordinate() < 0 || newPos.getYCoordinate() < 0){
+        if(isOutSideMap(newPos)){
             return false;
         }
 
@@ -366,4 +365,8 @@ public class Map {
         return finalFlagNum;
     }
 
+    public boolean isOutSideMap(Position pos) {
+        return pos.getXCoordinate() >= mapSizeX || pos.getYCoordinate() >= mapSizeY ||
+                pos.getXCoordinate() < 0 || pos.getYCoordinate() < 0;
+    }
 }

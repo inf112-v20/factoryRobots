@@ -6,16 +6,20 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.cards.CardSlot;
 import inf112.app.game.*;
 import inf112.app.map.Map;
 import inf112.app.objects.Robot;
+import inf112.app.util.TableBuilder;
 
 import java.util.ArrayList;
 
@@ -90,7 +94,19 @@ public class GameScreen implements Screen, MultiplayerScreen {
         tiledStage.addListener(new ClickListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
+                game.sounds.buttonSound();
                 return player.keyUp(keycode);
+            }
+        });
+        tiledStage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == 131){ // Escape
+                    game.sounds.buttonSound();
+                    showEscapeDialog();
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -105,20 +121,21 @@ public class GameScreen implements Screen, MultiplayerScreen {
         //Setting the clicklistener to have the same frame as the renderers
         tiledStage.getViewport().setCamera(uiCam);
 
-        Gdx.input.setInputProcessor(tiledStage);
+        if(game.client == null){
+            currentRound.dealCards(tiledStage);
+        }
+        this.timer = new Timer(-1, alert); //set count to float > 0 to test timer
+
     }
 
     @Override
     public void show() {
         stage.clear();
+        Gdx.input.setInputProcessor(tiledStage);
         VisTable table = new VisTable();
         table.setFillParent(true);
-        this.timer = new Timer(-1,alert); //set count to float > 0 to test timer
         table.add(alert);
         stage.addActor(table);
-        if(game.client == null){
-            currentRound.dealCards(tiledStage);
-        }
     }
 
     @Override
@@ -314,5 +331,51 @@ public class GameScreen implements Screen, MultiplayerScreen {
             }
             cellMap.incrementDoneProgramming();
         }
+    }
+    private void showEscapeDialog() {
+        Gdx.input.setInputProcessor(stage);
+        stage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == 131){ // Escape
+                    game.sounds.buttonSound();
+                    show();
+                    return true;
+                }
+                return false;
+            }
+        });
+        VisTable table = new VisTable();
+        table.setFillParent(true); // Centers the table relative to the stage
+        VisTextButton soundButton = new VisTextButton("Sound");
+        soundButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                if (game.backgroundMusic.isPlaying()) {
+                    game.backgroundMusic.pause();
+                } else {
+                    game.backgroundMusic.play();
+                }
+            }
+        });
+        VisTextButton returnButton = new VisTextButton("Return");
+        returnButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                show();
+            }
+        });
+        VisTextButton exitButton = new VisTextButton("Exit");
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                Gdx.app.exit();
+            }
+        });
+        TableBuilder.column(table, soundButton, returnButton, exitButton);
+        stage.addActor(table);
     }
 }

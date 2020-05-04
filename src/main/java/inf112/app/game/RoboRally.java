@@ -15,6 +15,7 @@ import inf112.app.map.Map;
 import inf112.app.networking.RoboClient;
 import inf112.app.networking.RoboServer;
 import inf112.app.objects.Robot;
+import inf112.app.screens.GameScreen;
 import inf112.app.screens.LoadingMenuScreen;
 import inf112.app.screens.PauseGameScreen;
 
@@ -104,6 +105,7 @@ public class RoboRally extends Game {
     @Override
     public void pause() {
         this.backgroundMusic.pause();
+        this.gameMusic.pause();
         this.setScreen(new PauseGameScreen(this, viewport, stage));
     }
 
@@ -115,7 +117,13 @@ public class RoboRally extends Game {
         if (currentScreen != null){
             this.setScreen(this.currentScreen);
         }
-        this.backgroundMusic.play();
+        if (currentScreen.getClass() == GameScreen.class) {
+            gameMusic.play();
+        }
+        else {
+            backgroundMusic.play();
+        }
+
     }
 
     public void setMapName(String mapName){

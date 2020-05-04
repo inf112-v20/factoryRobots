@@ -6,16 +6,20 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.cards.CardSlot;
 import inf112.app.game.*;
 import inf112.app.map.Map;
 import inf112.app.objects.Robot;
+import inf112.app.util.TableBuilder;
 
 import java.util.ArrayList;
 
@@ -91,6 +95,18 @@ public class GameScreen implements Screen, MultiplayerScreen {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 return player.keyUp(keycode);
+            }
+        });
+        tiledStage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == 131){ // Escape
+                    showEscapeDialog();
+
+
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -313,5 +329,41 @@ public class GameScreen implements Screen, MultiplayerScreen {
             }
             cellMap.incrementDoneProgramming();
         }
+    }
+    private void showEscapeDialog() {
+        stage.clear();
+        VisTable table = new VisTable();
+        table.setFillParent(true); // Centers the table relative to the stage
+        VisTextButton soundButton = new VisTextButton("Sound");
+        soundButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                if (game.backgroundMusic.isPlaying()) {
+                    game.backgroundMusic.pause();
+                } else {
+                    game.backgroundMusic.play();
+                }
+            }
+        });
+        VisTextButton returnButton = new VisTextButton("Return");
+        returnButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                stage.clear();
+                show();
+            }
+        });
+        VisTextButton exitButton = new VisTextButton("Exit");
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                Gdx.app.exit();
+            }
+        });
+        TableBuilder.column(table, soundButton, returnButton, exitButton);
+        stage.addActor(table);
     }
 }

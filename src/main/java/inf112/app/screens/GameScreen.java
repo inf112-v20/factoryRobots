@@ -128,10 +128,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
         }
         this.timer = new Timer(-1, alert); //set count to float > 0 to test timer
 
-    }
-
-    @Override
-    public void show() {
         if(game.backgroundMusic.isPlaying()){
             game.backgroundMusic.stop();
             game.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
@@ -144,7 +140,10 @@ public class GameScreen implements Screen, MultiplayerScreen {
             game.backgroundMusic.setLooping(true);
         }
 
+    }
 
+    @Override
+    public void show() {
         stage.clear();
         Gdx.input.setInputProcessor(tiledStage);
         VisTable table = new VisTable();
@@ -299,7 +298,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
                         }
                     }
                     toBeRemoved.add(r);
-                }               //TODO reset robot til checkpoint når den er på kanten av mappet
+                }
             }
             //Delete dead robots
             if(!toBeRemoved.isEmpty()){
@@ -368,7 +367,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
     @Override
     public void dispose() {
         tiledStage.dispose();
-        game.batch.dispose();
         uiRenderer.dispose();
         mapRenderer.dispose();
         if(game.client != null){

@@ -34,7 +34,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
     private OrthogonalTiledMapRenderer uiRenderer;
     private TiledMapStage tiledStage;
 
-    private Rounds currentRound = new Rounds();
+    private Rounds currentRound;
 
     private boolean timerRunning = false;
     private Timer timer;
@@ -52,6 +52,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
     private Map cellMap;
     private Player player;
+    private ArrayList<Robot> toBeRemoved = new ArrayList<>(8);
     private int phaseNum = 6;
     private boolean ongoingRound = false;
 
@@ -65,6 +66,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         game.manager.unload("assets/Lasers.tmx");
 
         this.player = game.getPlayer();
+        currentRound = new Rounds();
 
         //Set up cameras
         camera = new OrthographicCamera();
@@ -126,6 +128,18 @@ public class GameScreen implements Screen, MultiplayerScreen {
         }
         this.timer = new Timer(-1, alert); //set count to float > 0 to test timer
 
+        if(game.backgroundMusic.isPlaying()){
+            game.backgroundMusic.stop();
+            game.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
+            game.backgroundMusic.setVolume(0.2f);
+            game.backgroundMusic.setLooping(true);
+            game.backgroundMusic.play();
+        } else {
+            game.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
+            game.backgroundMusic.setVolume(0.2f);
+            game.backgroundMusic.setLooping(true);
+        }
+
     }
 
     @Override
@@ -170,50 +184,82 @@ public class GameScreen implements Screen, MultiplayerScreen {
         //Remove previous robot positions
         cellMap.clearLayer(cellMap.getLayer("player"));
 
-        if(phaseTimer > waitThresh){
+        //Stop laser and start next phase
+        if(phaseTimer > waitThresh && ongoingRound){
             timeForNextPhase = true;
             cellMap.deactivateLasers();
         }
-
+        //Fire laser halfway into waiting for the next phase
         if(phaseTimer > waitThresh/2 && !firedLasers && ongoingRound){
             firedLasers = true;
             cellMap.fireLasers();
+            if(phaseNum > 5) {
+                for (Robot r : cellMap.getRobotList()) {
+                    if (r.getPowerDownNextRound()) {
+                        r.setPowerDown(true);
+                        r.setPowerDownNextRound(false);
+                    } else if (r.getPowerDown()) {
+                        r.setPowerDown(false);
+                    }
+                }
+            }
         }
-
+        //If all robots -1 is ready, then start the timer
         if(cellMap.checkForTimerActivation() && !timerRunning && !ongoingRound){
             timerRunning = true;
             timer.start();
         }
-
-        if(timer.done && !game.getPlayer().getCharacter().doneProgramming()){
-            assignRandomProgram(game.getPlayer().getCharacter());
-            if(game.client!=null){ //TODO for all robots
+        //Assign random program and lock in if user is not done programming when timer runs out
+        if(timer.done && !player.getCharacter().doneProgramming()){
+            assignRandomProgram(player.getCharacter());
+            tiledStage.getLockInButton().lockButton();
+            if(game.client!=null){
                 game.client.sendProgramming();
             }
         }
 
-
+        //initate new round when all robots are ready
         if(cellMap.checkIfAllRobotsReady()){
             tiledStage.setCardPushable(false);
 
             ongoingRound = true;
             phaseNum = 1;
             phaseTimer = 0;
+            firedLasers = true;
             Gdx.graphics.getDeltaTime();
 
-            currentRound.putBackPlayers();
             cellMap.resetDoneProgramming();
             timerRunning = false;
             timer.done = false;
             alert.setText("");
         }
+        //Do phases when round is ongoing
         if(ongoingRound && timeForNextPhase){
+            //After 5 phases stop the round and reset
             if(phaseNum > 5){
                 ongoingRound = false;
                 tiledStage.releaseButtons();
                 phaseNum = 1;
+                //If anyone pressed the powerdown, set them to powerdown
+                for(Robot r : cellMap.getRobotList()){
+                    if(r.getPowerDown()){
+                        r.setDoneProgramming(true);
+                        cellMap.incrementDoneProgramming();
+                        if(game.client == null){
+                            initiateAI();
+                        }
+                        //Make buttons and cards unclickable
+                        if(r.equals(player.getCharacter())){
+                            tiledStage.setCardPushable(false);
+                            tiledStage.getLockInButton().lockButton();
+                        }
+                    }
+                }
+                //Notify server that client is done simulating the round
+                //If singleplayer, just deal new cards
                 if(game.client != null){
                     game.client.sendDone();
+                    cellMap.getDeck().reset();
                 } else {
                     currentRound.dealCards(tiledStage);
                 }
@@ -226,9 +272,12 @@ public class GameScreen implements Screen, MultiplayerScreen {
                     waitTime = System.currentTimeMillis();
                 }
             }
+            //Reset phase variables
             timeForNextPhase = false;
             firedLasers = false;
             phaseTimer = 0;
+
+            //Check if anyone died or won
             for(Robot r : cellMap.getRobotList()){
                 if(r.isWinner()){
                     if(game.client != null){
@@ -239,12 +288,24 @@ public class GameScreen implements Screen, MultiplayerScreen {
                         } else {
                             alertUser("Computer won the game..");
                         }
-                    }
+                    } //TODO stop after 1 winner
                     timer.disable();
+                } else if(r.isDead()){
+                    if(r.equals(player.getCharacter())){
+                        alertUser("You died");
+                        if(!game.isHost){
+                            timer.disable();
+                        }
+                    }
+                    toBeRemoved.add(r);
                 }
             }
-            if(player.getCharacter().isDead()){
-                alertUser("You died");
+            //Delete dead robots
+            if(!toBeRemoved.isEmpty()){
+                for(Robot r : toBeRemoved){
+                    cellMap.deleteRobot(r);
+                }
+                toBeRemoved.clear();
             }
         }
     }
@@ -255,12 +316,21 @@ public class GameScreen implements Screen, MultiplayerScreen {
         TiledMapTileLayer robotLayer = cellMap.getLayer("player");
 
         //Setting player sprite to current position
+        if(robot.isDead()){
+            return;
+        }
         robotLayer.setCell(robotX, robotY, robot.getNormal());
         //Checking if player is touching hole or flag
-        if(cellMap.getLayer("hole").getCell(robotX, robotY) != null){
+        if(robot.fellIntoHole){
             robotLayer.setCell(robotX, robotY, robot.getLooser());
             robot.backToCheckPoint();
+            robot.takeLife();
+            robot.fellIntoHole = false;
+        } else if (robot.isHit()){
+            robotLayer.setCell(robotX, robotY, robot.getLooser());
         } else if(cellMap.getLayer("flag").getCell(robotX, robotY) != null) {
+            robotLayer.setCell(robotX, robotY, robot.getWinner());
+        } else if(robot.isWinner()){
             robotLayer.setCell(robotX, robotY, robot.getWinner());
         }
     }
@@ -297,7 +367,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
     @Override
     public void dispose() {
         tiledStage.dispose();
-        game.batch.dispose();
         uiRenderer.dispose();
         mapRenderer.dispose();
         if(game.client != null){
@@ -329,7 +398,16 @@ public class GameScreen implements Screen, MultiplayerScreen {
                     }
                 }
             }
-            cellMap.incrementDoneProgramming();
+        }
+        cellMap.incrementDoneProgramming();
+        r.setDoneProgramming(true);
+    }
+
+    public void initiateAI(){
+        for(Robot r : cellMap.getRobotList()){
+            if(!r.equals(player.getCharacter())){
+                assignRandomProgram(r);
+            }
         }
     }
     private void showEscapeDialog() {

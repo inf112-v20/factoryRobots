@@ -176,11 +176,21 @@ public class RoboClient extends Listener {
                             deck.reset();
                         }
                         CardUI ui = CardUI.getInstance();
-                        game.getPlayer().getCharacter().wipeSlots(ui.getSideCardSlots());
-                        for(int i = 1; i<split.length; i++){
+                        Robot character = game.getPlayer().getCharacter();
+                        character.wipeSlots(ui.getSideCardSlots());
+                        character.wipeSlots(ui.getBottomCardSlots());
+                        int threshold = split.length - character.getDamageTokens();
+
+                        for(int i = 1; i<threshold; i++){
                             ICard card = deck.getCard(Integer.parseInt(split[i]));
-                            assert card != null;
                             ui.addCardToSlot(card,"side",(i-1));
+                        }
+                        //assign cards to slots that have been locked during powerdown
+                        for(CardSlot slot : character.getProgrammedCards()){
+                            if(slot.isLocked() && !slot.hasCard()){
+                                ICard card = deck.getCard(Integer.parseInt(split[threshold]));
+                                ui.addCardToSlot(card,slot.getPosition(),slot.getxCoord());
+                            }
                         }
                     });
 

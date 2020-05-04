@@ -96,7 +96,7 @@ public class TiledMapStage extends Stage {
         return actorGrid[x][y];
     }
 
-    private GameButtonActor getLockInButton(){
+    public GameButtonActor getLockInButton(){
         return (GameButtonActor) actorGrid[cardLayer.getWidth()-2][0];
     }
 
@@ -118,7 +118,13 @@ public class TiledMapStage extends Stage {
         for(Actor actor : getActors()){
             if(actor instanceof CardSlotActor){
                 CardSlotActor cardSlot = (CardSlotActor) actor;
-                cardSlot.setPushable(clickable);
+                if(cardSlot.getSlot()!=null){
+                    if(!cardSlot.getSlot().isLocked()){
+                        cardSlot.setPushable(clickable);
+                    }
+                }
+
+
             }
         }
     }

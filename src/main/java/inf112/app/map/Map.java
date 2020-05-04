@@ -6,13 +6,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.app.cards.CardDeck;
-import inf112.app.game.GameSounds;
 import inf112.app.game.RoboRally;
-import inf112.app.game.TiledMapStage;
 import inf112.app.objects.*;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -33,13 +32,9 @@ public class Map {
     private int doneProgrammingCount = 0;
 
     private ArrayList<ILaserInteractor> laserObjects;
-    private int laserTimer = 0;
-    private boolean lasersActive = false;
 
     private Position[] spawnPoints = new Position[RoboRally.MAX_PLAYER_AMOUNT];
     private int finalFlagNum;
-
-    private GameSounds sound;
 
     /**
      * Create a init the Map object by map title
@@ -143,8 +138,7 @@ public class Map {
         Position newPos = currentPos.copyOf();
         newPos.moveInDirection();
         //Move is out of bounds
-        if(newPos.getXCoordinate() >= mapSizeX || newPos.getYCoordinate() >= mapSizeY ||
-                newPos.getXCoordinate() < 0 || newPos.getYCoordinate() < 0){
+        if(isOutSideMap(newPos)){
             return false;
         }
 
@@ -241,45 +235,22 @@ public class Map {
      * Method for triggering all the lasers on the map to fire
      */
     public void fireLasers(){
-        for(ILaserInteractor object : laserObjects){
-            object.fireLaser();
-        }
-        lasersActive = true;
-        try {
-            sound.laserSound();
-        } catch (NullPointerException ignored){ // Catch exception for test classes
-
+        for(int i = 0; i<laserObjects.size(); i++){
+            laserObjects.get(i).fireLaser();
         }
     }
 
-    /**
-     * @return The amount of ticks since the lasers were activated
-     */
-    public int getLaserTimer() {
-        return laserTimer;
-    }
-
-    /**
-     *
-     * @return true if lasers are active, otherwise false
-     */
-    public boolean lasersActive() {
-        return lasersActive;
-    }
-
-    public void incrementLaserTimer(){
-        laserTimer++;
-    }
 
     /**
      * Method for turning off the lasers. <br>
      * Resets the timer and clears all the laser graphics from the map
      */
     public void deactivateLasers(){
-        lasersActive = false;
-        laserTimer = 0;
         clearLayer(getLayer("laser"));
         clearLayer(getLayer("laser2"));
+        for(Robot r : robotList){
+            r.isHit = false;
+        }
     }
 
     /**
@@ -394,4 +365,8 @@ public class Map {
         return finalFlagNum;
     }
 
+    public boolean isOutSideMap(Position pos) {
+        return pos.getXCoordinate() >= mapSizeX || pos.getYCoordinate() >= mapSizeY ||
+                pos.getXCoordinate() < 0 || pos.getYCoordinate() < 0;
+    }
 }

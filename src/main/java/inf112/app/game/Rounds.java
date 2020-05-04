@@ -1,6 +1,5 @@
 package inf112.app.game;
 
-import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 import inf112.app.map.Map;
 import inf112.app.objects.*;
@@ -15,22 +14,8 @@ public class Rounds {
     public Rounds() {
         this.robots = Map.getInstance().getRobotList();
         this.map = Map.getInstance();
-
     }
 
-
-    /**
-     * method for putting the players who have lost a life
-     * back to their checkpoint
-     */
-    public void putBackPlayers(){
-        for (Robot r : robots){
-            if (!r.isDead() && r.hasLostLife()){
-                r.backToCheckPoint();
-                r.setLostLife(false);
-            }
-        }
-    }
 
     /**
      * dealing right amount of cards to each robot
@@ -83,27 +68,6 @@ public class Rounds {
                         }
                     }
                 }
-                for (Robot r : robots) {
-                    if (r.isDead()){
-                        map.deleteRobot(r);
-                        System.out.println("Robot has died");
-                    }
-                }
-
-        if (phaseNum == 5){
-            for (Robot r : robots){
-                if (r.getPowerDownNextRound()){
-                    r.setPowerDown(true);
-                    r.setPowerDownNextRound(false);
-                }else if(r.getPowerDown()){
-                    r.setPowerDown(false);
-                }
-                CardSlot[] slots = r.getProgrammedCards();
-                CardSlot[] availableCards = r.getAvailableCards();
-                r.wipeSlots(slots);
-                r.wipeSlots(availableCards);
-            }
-        }
 
     }
 }

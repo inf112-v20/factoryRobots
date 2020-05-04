@@ -4,26 +4,22 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 
 public class GameSounds {
-    private AssetManager manager;
+    private final RoboRally game;
 
-    public GameSounds(AssetManager manager) {
-        this.manager = manager;
-    }
-
-    public void laserSound() {
-        manager.get("assets/Sounds/LaserSound.wav", Sound.class).play(4.0f);
+    public GameSounds(RoboRally game) {
+        this.game = game;
     }
 
     public void takeDamage() {
-        manager.get("assets/Sounds/TakesDamage.wav", Sound.class).play(4.0f);
+        game.manager.get("assets/Sounds/TakesDamage.wav", Sound.class).play(2.0f);
     }
 
     public void deathSound() {
-        manager.get("assets/Sounds/DeathNoise.wav", Sound.class).play(4.0f);
+        game.manager.get("assets/Sounds/DeathNoise.wav", Sound.class).play(2.0f);
     }
 
     public void checkpoint() {
-        manager.get("assets/Sounds/NewCheckPoint.wav", Sound.class).play(4.0f);
+        game.manager.get("assets/Sounds/NewCheckPoint.wav", Sound.class).play(2.0f);
     }
 
 }

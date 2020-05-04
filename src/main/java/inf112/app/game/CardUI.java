@@ -8,6 +8,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
+import inf112.app.map.Position;
+import inf112.app.objects.Robot;
 
 
 public class CardUI {
@@ -46,6 +48,7 @@ public class CardUI {
         TiledMap lasers = loader.load("assets/Lasers.tmx");
         laserSprites = (TiledMapTileLayer) lasers.getLayers().get("Laser");
         user = new Player();
+        user.assignRobot(new Robot(new Position(0,0),"player"));
     }
 
     private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites,
@@ -190,9 +193,13 @@ public class CardUI {
 
     public void lockProgramSlot(int xCoord) {
         buttonApplicationLayer.setCell(xCoord,0,cardLock);
+        CardSlot slot = bottomCardSlots[xCoord];
+        ((CardSlotActor)stage.getActorFromGrid(slot.getxCoord(),slot.getyCoord())).setPushable(false);
     }
 
     public void unlockProgramSlot(int xCoord){
         buttonApplicationLayer.setCell(xCoord,0,null);
+        CardSlot slot = bottomCardSlots[xCoord];
+        ((CardSlotActor)stage.getActorFromGrid(slot.getxCoord(),slot.getyCoord())).setPushable(true);
     }
 }

@@ -35,7 +35,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private int lives;
     private boolean isWinner;
     private boolean isDead;
-    private boolean hasLostLife;
+    public boolean isHit = false;
+    public boolean fellIntoHole = false;
 
     private boolean powerDown;
 
@@ -89,6 +90,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
+    public void assignGameSounds(GameSounds sounds){
+        this.sound = sounds;
+    }
+
     /**
      * Method to move the robot forward in the direction it is facing
      * @param steps Number of steps the robot should take
@@ -112,6 +117,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         copy.moveInDirection();
         if(valid && Map.getInstance().robotInTile(copy) == null) {
             updatePosition(this,dir);
+        } else if(!valid){
+            if(Map.getInstance().isOutSideMap(copy)){
+                fellIntoHole = true;
+            }
         }
     }
 
@@ -184,7 +193,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
      */
      public boolean moveAndPush(Robot r, Direction dir) {
          Position newPos = r.getPos().copyOf();
-         newPos.setDirection(dir);
+         newPos.setDirection(dir.copyOf());
          if(Map.getInstance().validMove(newPos)) {
              newPos.moveInDirection();
              IBoardElement nextCell = checkContentOfCell(newPos);
@@ -200,6 +209,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
                  return canMove;
              }
              return false;
+         } else {
+             newPos.moveInDirection();
+             if(Map.getInstance().isOutSideMap(newPos)){
+                 r.fellIntoHole = true;
+             }
          }
          return false;
      }
@@ -219,6 +233,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
          Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(robot);
          Map.getInstance().getCellList().getCell(robot.getPos()).getInventory().addElement(robot);
          vectorPos.set(robot.getPos().getXCoordinate(), robot.getPos().getYCoordinate());
+         if(Map.getInstance().getLayer("Hole").getCell(robot.getPos().getXCoordinate(),robot.getPos().getYCoordinate()) != null){
+             robot.fellIntoHole = true;
+         }
      }
 
     /**
@@ -264,16 +281,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public void addDamageTokens(int dealDamage) {
         damageTokens += dealDamage;
+        checkSlotsToLock();
         if (damageTokens >= 9) {
-            lives--;
-            hasLostLife = true;
-            damageTokens = 0;
-            isDead = lives <= 0;
-            try {
-                sound.deathSound();
-            } catch (NullPointerException ignored){ // Catch exception for test classes
-
-            }
+            takeLife();
+            backToCheckPoint();
         } else {
             try {
                 sound.takeDamage();
@@ -284,17 +295,28 @@ public class Robot implements ILaserInteractor, IBoardElement {
                 CardUI.getInstance().updateDamageTokens(damageTokens);
             }
         }
-        switch (damageTokens) {
-            case 5:
-                programmedCards[4].lockSlot();
-            case 6:
-                programmedCards[3].lockSlot();
-            case 7:
-                programmedCards[2].lockSlot();
-            case 8:
-                programmedCards[1].lockSlot();
-            case 9:
-                programmedCards[0].lockSlot();
+
+    }
+
+    private void checkSlotsToLock(){
+        int i = 5;
+        if(damageTokens>=8){
+            i = 1;
+        }else if(damageTokens>=7){
+            i = 2;
+        }else if(damageTokens>=6){
+            i = 3;
+        }else if(damageTokens>=5){
+            i = 4;
+        }
+        int j = 0;
+        while(j<i){
+            programmedCards[j].unlockSlot();
+            j++;
+        }
+        while(i<5){
+            programmedCards[i].lockSlot();
+            i++;
         }
     }
 
@@ -311,11 +333,17 @@ public class Robot implements ILaserInteractor, IBoardElement {
         for (int i = 0; i<9-damageTokens; i++) {
             availableCards[i].addCard(Map.getInstance().getDeck().getCard(),stage);
         }
+        //Assign cards to slots that have been locked during powerdown
+        for(CardSlot slot : programmedCards){
+            if(slot.isLocked() && !slot.hasCard()){
+                slot.addCard(Map.getInstance().getDeck().getCard(),stage);
+            }
+        }
     }
 
     public void wipeSlots(CardSlot[] slotList){
         for(CardSlot slot : slotList){
-            if(!slot.isLocked()){ // TODO lock the slot at some point
+            if(!slot.isLocked()){
                 slot.removeCard();
             }
         }
@@ -329,17 +357,13 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void removeDamageTokens(int amount) {
         damageTokens -= amount;
         if (damageTokens < 0) damageTokens = 0;
-        CardUI.getInstance().updateDamageTokens(damageTokens);
+        if(CardUI.getInstance().getUser().getCharacter().equals(this)){
+            CardUI.getInstance().updateDamageTokens(damageTokens);
+        }
+        checkSlotsToLock();
+
     }
 
-
-    public boolean hasLostLife() {
-        return hasLostLife;
-    }
-
-    public void setLostLife(boolean lostLife){
-        hasLostLife = lostLife;
-    }
 
     /**
      * method used to find out if robot is dead or alive
@@ -369,13 +393,17 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public void backToCheckPoint(){
         Position oldPos = this.pos.copyOf();
         Direction old = oldPos.getDirection().copyOf();
-        this.pos = checkPoint;
+        this.pos = checkPoint.copyOf();
         this.pos.setDirection(old);
-
+        if(Map.getInstance().robotInTile(checkPoint) != null){
+            while(!Map.getInstance().validMove(pos)){
+                pos.getDirection().turn(Rotation.LEFT);
+            }
+            pos.moveInDirection();
+        }
         Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(this);
         Map.getInstance().getCellList().getCell(this.pos).getInventory().addElement(this);
         vectorPos.set(this.pos.getXCoordinate(), this.pos.getYCoordinate());
-
     }
 
 
@@ -387,6 +415,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         this.powerDown = powerDown;
         if(powerDown == true){
             damageTokens = 0;
+            checkSlotsToLock();
+            if(CardUI.getInstance().getUser().getCharacter().equals(this)){
+                CardUI.getInstance().updateDamageTokens(0);
+            }
         }
 
     }
@@ -452,7 +484,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     @Override
     public void fireLaser() {
-        laser.fire();
+       if(!isDead){
+           laser.fire();
+       }
     }
 
     public CardSlot[] getAvailableCards() {
@@ -479,5 +513,24 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public int getLives() {
         return lives;
+    }
+
+    public void takeLife() {
+       lives--;
+       if(CardUI.getInstance().getUser().getCharacter().equals(this)){
+           CardUI.getInstance().setHealthLight(lives);
+       }
+       removeDamageTokens(9);
+       checkSlotsToLock();
+       isDead = lives <= 0;
+        try {
+            sound.deathSound();
+        } catch (NullPointerException ignored){ // Catch exception for test classes
+
+        }
+    }
+
+    public boolean isHit() {
+        return isHit;
     }
 }

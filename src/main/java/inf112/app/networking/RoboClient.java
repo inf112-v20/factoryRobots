@@ -110,6 +110,7 @@ public class RoboClient extends Listener {
             }
             r.setPowerDownNextRound(packet.powerdownNextRound);
             if(packet.powerdownNextRound){
+                ((GameScreen) game.getScreen()).getTimer().disable();
                 ((GameScreen) game.getScreen()).alertUser("Robot " + packet.id + "announces powerdown!");
             }
             for (int i = 0; i < packet.programmedCards.length; i++) {

@@ -395,9 +395,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         Direction old = oldPos.getDirection().copyOf();
         this.pos = checkPoint.copyOf();
         this.pos.setDirection(old);
-        if(Map.getInstance().robotInTile(checkPoint) != null){
+        if(Map.getInstance().robotInTile(checkPoint) != null && !Map.getInstance().robotInTile(checkPoint).equals(this)){
             while(!Map.getInstance().validMove(pos)){
                 pos.getDirection().turn(Rotation.LEFT);
+                rotateSprites(Rotation.LEFT);
             }
             pos.moveInDirection();
         }

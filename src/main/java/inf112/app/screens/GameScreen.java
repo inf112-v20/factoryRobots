@@ -40,6 +40,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
     private boolean timerRunning = false;
     private Timer timer;
     private VisLabel alert = new VisLabel("");
+    private VisLabel timerLabel = new VisLabel("");
     //How long to wait between the phases
     private int waitThresh = 2;
     private float phaseTimer = 0f;
@@ -126,7 +127,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         if(game.client == null){
             currentRound.dealCards(tiledStage);
         }
-        this.timer = new Timer(-1, alert); //set count to float > 0 to test timer
+        this.timer = new Timer(-1, timerLabel); //set count to float > 0 to test timer
 
         if(game.backgroundMusic.isPlaying()){
             game.backgroundMusic.stop();
@@ -142,6 +143,8 @@ public class GameScreen implements Screen, MultiplayerScreen {
         VisTable table = new VisTable();
         table.setFillParent(true);
         table.add(alert);
+        table.row();
+        table.add(timerLabel);
         stage.addActor(table);
     }
 
@@ -186,6 +189,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         if(phaseTimer > waitThresh/2 && !firedLasers && ongoingRound){
             firedLasers = true;
             cellMap.fireLasers();
+            //Remove damage after the last lasers have fired
             if(phaseNum > 5) {
                 for (Robot r : cellMap.getRobotList()) {
                     if (r.getPowerDownNextRound()) {
@@ -210,6 +214,11 @@ public class GameScreen implements Screen, MultiplayerScreen {
                 game.client.sendProgramming();
             }
         }
+        //If only remaining robot, then you win
+        if(cellMap.getRobotList().size() == 1 && !player.getCharacter().isDead()){
+            timer.disable();
+            alertUser("You win!");
+        }
 
         //initate new round when all robots are ready
         if(cellMap.checkIfAllRobotsReady()){
@@ -225,6 +234,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
             timerRunning = false;
             timer.done = false;
             alert.setText("");
+            timerLabel.setText("");
         }
         //Do phases when round is ongoing
         if(ongoingRound && timeForNextPhase){
@@ -252,6 +262,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
                 //If singleplayer, just deal new cards
                 if(game.client != null){
                     game.client.sendDone();
+                    for(Robot r : cellMap.getRobotList()){
+                        r.wipeSlots(r.getProgrammedCards());
+                    }
                     cellMap.getDeck().reset();
                 } else {
                     currentRound.dealCards(tiledStage);
@@ -385,19 +398,16 @@ public class GameScreen implements Screen, MultiplayerScreen {
     }
 
     private void assignRandomProgram(Robot r){
-        String debug = "program:\n";
         for(CardSlot slot : r.getProgrammedCards()) {
             if (!slot.hasCard()) {
                 for (CardSlot available : r.getAvailableCards()) {
                     if (available.hasCard()) {
-                        debug += available.getCard().toString() + "\n";
                         slot.addCard(available.removeCard(), tiledStage);
                         break;
                     }
                 }
             }
         }
-        System.out.println(debug);
         cellMap.incrementDoneProgramming();
         r.setDoneProgramming(true);
     }
@@ -465,5 +475,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
         });
         TableBuilder.column(table, soundButton, returnButton, exitButton);
         stage.addActor(table);
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 }

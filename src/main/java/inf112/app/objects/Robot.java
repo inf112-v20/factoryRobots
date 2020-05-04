@@ -36,6 +36,7 @@ public class Robot implements ILaserInteractor, IBoardElement {
     private boolean isWinner;
     private boolean isDead;
     public boolean isHit = false;
+    public boolean fellIntoHole = false;
 
     private boolean powerDown;
 
@@ -223,6 +224,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
          Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(robot);
          Map.getInstance().getCellList().getCell(robot.getPos()).getInventory().addElement(robot);
          vectorPos.set(robot.getPos().getXCoordinate(), robot.getPos().getYCoordinate());
+         if(Map.getInstance().getLayer("Hole").getCell(robot.getPos().getXCoordinate(),robot.getPos().getYCoordinate()) != null){
+             robot.fellIntoHole = true;
+         }
      }
 
     /**

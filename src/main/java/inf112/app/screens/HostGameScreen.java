@@ -47,14 +47,6 @@ public class HostGameScreen implements Screen {
                 game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
-        VisTextButton flagButton = new VisTextButton("Number of Flags: 3");
-        flagButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                game.sounds.buttonSound();
-                // TODO
-            }
-        });
         VisTextButton cancelButton = new VisTextButton("Return");
         cancelButton.addListener(new ChangeListener() {
             @Override
@@ -92,7 +84,7 @@ public class HostGameScreen implements Screen {
         VisLabel name = new VisLabel("Player Name: ");
         name.setAlignment(Align.center); // Align text to center
         playerName.setAlignment(Align.center);
-        TableBuilder.column(table, name, playerName, flagButton);
+        TableBuilder.column(table, name, playerName);
         VisTable buttonTable = new VisTable();
         TableBuilder.row(buttonTable, cancelButton, startButton);
         TableBuilder.column(table, courseButton, buttonTable);

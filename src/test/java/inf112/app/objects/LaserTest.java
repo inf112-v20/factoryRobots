@@ -19,7 +19,7 @@ public class LaserTest {
 
 
     @Test
-    public void laserGivesDamageTest(){ //TODO Fix
+    public void laserGivesDamageTest(){
         Robot robot = new Robot(new Position(2,8),"player");
         int expectedTokens = robot.getDamageTokens();
         expectedTokens += 1;

@@ -11,6 +11,7 @@ import inf112.app.objects.*;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -235,8 +236,8 @@ public class Map {
      * Method for triggering all the lasers on the map to fire
      */
     public void fireLasers(){
-        for(ILaserInteractor object : laserObjects){
-            object.fireLaser();
+        for(int i = 0; i<laserObjects.size(); i++){
+            laserObjects.get(i).fireLaser();
         }
     }
 

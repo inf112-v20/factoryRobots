@@ -1,9 +1,12 @@
 package inf112.app.screens;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
@@ -54,14 +57,7 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.sounds.buttonSound();
-                if(game.isHost){
-                    game.shutdownServer();
-                    game.isHost = false;
-                }
-                game.client.disconnect();
-                game.client = null;
-                game.setScreen(new MainMenuScreen(game, viewport, stage));
+                cancelLobby();
             }
         });
         readyButton.addListener(new ChangeListener() {
@@ -88,6 +84,22 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         stage.addActor(table);
         //bottom left corner
         stage.addActor(new VisLabel("Server ip: " + serverIP));
+
+        stage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp (InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ESCAPE){
+                    cancelLobby();
+                    return true;
+                }
+                else if (keycode == Input.Keys.ENTER){
+                    game.sounds.buttonSound();
+                    game.client.sendReady();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -141,5 +153,16 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
     @Override
     public void alertUser(String info) {
         alert.setText(info);
+    }
+
+    private void cancelLobby(){
+        game.sounds.buttonSound();
+        if(game.isHost){
+            game.shutdownServer();
+            game.isHost = false;
+        }
+        game.client.disconnect();
+        game.client = null;
+        game.setScreen(new MainMenuScreen(game, viewport, stage));
     }
 }

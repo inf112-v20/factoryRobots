@@ -1,9 +1,12 @@
 package inf112.app.screens;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
@@ -49,33 +52,7 @@ public class JoinGameScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
-                // ipField.toString(); -> Ip address
-                // TODO Validate input and join game
-                // TODO Make input more intuitive with error labels and colors
-                RoboClient client = null;
-                if(!playerName.isEmpty()){
-                    game.setPlayerName(playerName.getText());
-                }
-                try{
-                    String ip = ipField.getText();
-                    client = new RoboClient(game,viewport,stage,ip,playerName.getText());
-                    message.setText("Connecting...");
-                    while(!client.serverReject && !client.serverAccept){
-                        continue;   //Wait for server reply
-                    }
-                    if(client.serverReject){
-                        message.setText(client.serverMessage);
-                        client = null;
-                    } else if (client.serverAccept){
-                        game.client = client;
-                        game.setScreen(new ServerLobbyScreen(game,viewport,stage,ip));
-                    }
-                }catch (IOException e){
-                    System.out.println("Unable to connect to " + ipField.getText());
-                    message.setText("Unable to connect to " + ipField.getText());
-                    playerName.setText(game.getPlayerName());
-                }
-
+                readyUp(ipField);
             }
         });
 
@@ -83,9 +60,7 @@ public class JoinGameScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
-                if(!playerName.isEmpty()){
-                    game.setPlayerName(playerName.getText());
-                }
+                setPlayerName();
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
@@ -102,6 +77,24 @@ public class JoinGameScreen implements Screen {
         ipField.setAlignment(Align.center);
         TableBuilder.column(table, info, ipField, buttonTable);
         stage.addActor(table);
+
+        stage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp (InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ESCAPE){
+                    game.sounds.buttonSound();
+                    setPlayerName();
+                    game.setScreen(new MainMenuScreen(game, viewport, stage));
+                    return true;
+                }
+                else if (keycode == Input.Keys.ENTER){
+                    game.sounds.buttonSound();
+                    readyUp(ipField);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -150,5 +143,35 @@ public class JoinGameScreen implements Screen {
     @Override
     public void dispose() {
         // Not used
+    }
+
+    private void setPlayerName(){
+        if(!playerName.isEmpty()){
+            game.setPlayerName(playerName.getText());
+        }
+    }
+
+    private void readyUp(VisValidatableTextField ipField){
+        RoboClient client = null;
+        setPlayerName();
+        try{
+            String ip = ipField.getText();
+            client = new RoboClient(game,viewport,stage,ip,playerName.getText());
+            message.setText("Connecting...");
+            while(!client.serverReject && !client.serverAccept){
+                continue;   //Wait for server reply
+            }
+            if(client.serverReject){
+                message.setText(client.serverMessage);
+                client = null;
+            } else if (client.serverAccept){
+                game.client = client;
+                game.setScreen(new ServerLobbyScreen(game,viewport,stage,ip));
+            }
+        }catch (IOException e){
+            System.out.println("Unable to connect to " + ipField.getText());
+            message.setText("Unable to connect to " + ipField.getText());
+            playerName.setText(game.getPlayerName());
+        }
     }
 }

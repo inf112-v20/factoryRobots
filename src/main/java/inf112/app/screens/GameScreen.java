@@ -1,6 +1,7 @@
 package inf112.app.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -102,7 +103,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         tiledStage.addListener(new ClickListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                if (keycode == 131){ // Escape
+                if (keycode == Input.Keys.ESCAPE){ // Escape
                     game.sounds.buttonSound();
                     showEscapeDialog();
                     return true;
@@ -410,9 +411,17 @@ public class GameScreen implements Screen, MultiplayerScreen {
         stage.addListener(new ClickListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                if (keycode == 131){ // Escape
+                if (keycode == Input.Keys.ESCAPE){ // Escape
                     game.sounds.buttonSound();
                     show();
+                    return true;
+                }
+                else if (keycode == Input.Keys.ENTER) {
+                    game.sounds.buttonSound();
+                    game.setScreen(new MainMenuScreen(game, viewport, stage));
+                    game.gameMusic.stop();
+                    game.backgroundMusic.play();
+                    dispose();
                     return true;
                 }
                 return false;

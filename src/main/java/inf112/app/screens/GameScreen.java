@@ -121,7 +121,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
         //Setting the clicklistener to have the same frame as the renderers
         tiledStage.getViewport().setCamera(uiCam);
 
-        Gdx.input.setInputProcessor(tiledStage);
+        if(game.client == null){
+            currentRound.dealCards(tiledStage);
+        }
     }
 
     @Override
@@ -132,9 +134,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         this.timer = new Timer(-1,alert); //set count to float > 0 to test timer
         table.add(alert);
         stage.addActor(table);
-        if(game.client == null){
-            currentRound.dealCards(tiledStage);
-        }
+        Gdx.input.setInputProcessor(tiledStage);
     }
 
     @Override
@@ -332,6 +332,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
     }
     private void showEscapeDialog() {
         stage.clear();
+        Gdx.input.setInputProcessor(stage);
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
         VisTextButton soundButton = new VisTextButton("Sound");

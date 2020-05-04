@@ -151,18 +151,21 @@ public class CourseSelector implements Screen {
         stage.addListener(new ClickListener() {
             @Override
             public boolean keyUp (InputEvent event, int keycode) {
-                game.sounds.buttonSound();
                 switch(keycode){
                     case(Input.Keys.LEFT):
+                        game.sounds.buttonSound();
                         mapRenderer.setMap(game.manager.get(getPreviousMap()));
                         break;
                     case(Input.Keys.RIGHT):
+                        game.sounds.buttonSound();
                         mapRenderer.setMap(game.manager.get(getNextMap()));
                         break;
                     case(Input.Keys.ESCAPE):
+                        game.sounds.buttonSound();
                         game.setScreen(game.getLastScreen());
                         break;
                     case(Input.Keys.ENTER):
+                        game.sounds.buttonSound();
                         selectCourse();
                         game.setScreen(game.getLastScreen());
                         break;

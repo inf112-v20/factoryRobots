@@ -1,10 +1,13 @@
 package inf112.app.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
@@ -60,6 +63,18 @@ public class OptionScreen implements Screen {
         });
         TableBuilder.column(table, soundButton, returnButton, exitButton);
         stage.addActor(table);
+
+        stage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp (InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ESCAPE){
+                    game.sounds.buttonSound();
+                    game.setScreen(game.getLastScreen());
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 

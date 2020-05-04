@@ -1,9 +1,12 @@
 package inf112.app.screens;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.widget.VisLabel;
@@ -40,9 +43,7 @@ public class HostGameScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
-                if(!playerName.isEmpty()) {
-                    game.setPlayerName(playerName.getText());
-                }
+                setPlayerName();
                 game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
@@ -51,9 +52,7 @@ public class HostGameScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
-                if(!playerName.isEmpty()){
-                    game.setPlayerName(playerName.getText());
-                }
+                setPlayerName();
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
             }
         });
@@ -62,20 +61,7 @@ public class HostGameScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
-                if(!playerName.isEmpty()){
-                    game.setPlayerName(playerName.getText());
-                }
-                game.launchServer();
-                String ip = "";
-                try{
-                    Socket socket = new Socket();
-                    socket.connect(new InetSocketAddress("1.1.1.1", 80));
-                    ip = socket.getLocalAddress().getHostAddress();
-                } catch (IOException e){
-                    System.out.println("Couldn't obtain ip");
-                }
-                game.isHost = true;
-                game.setScreen(new ServerLobbyScreen(game, viewport, stage, ip));
+                startUp();
             }
         });
         if (!game.getPlayerName().equals("Anonymous")) {
@@ -92,6 +78,24 @@ public class HostGameScreen implements Screen {
         TableBuilder.row(buttonTable, cancelButton, startButton);
         TableBuilder.column(table, courseButton, buttonTable);
         stage.addActor(table);
+
+        stage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp (InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ESCAPE){
+                    game.sounds.buttonSound();
+                    setPlayerName();
+                    game.setScreen(new MainMenuScreen(game, viewport, stage));
+                    return true;
+                }
+                else if (keycode == Input.Keys.ENTER){
+                    game.sounds.buttonSound();
+                    startUp();
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -141,5 +145,26 @@ public class HostGameScreen implements Screen {
     @Override
     public void dispose() {
         // Not used
+    }
+
+    private void setPlayerName(){
+        if(!playerName.isEmpty()){
+            game.setPlayerName(playerName.getText());
+        }
+    }
+
+    private void startUp(){
+        setPlayerName();
+        game.launchServer();
+        String ip = "";
+        try{
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress("1.1.1.1", 80));
+            ip = socket.getLocalAddress().getHostAddress();
+        } catch (IOException e){
+            System.out.println("Couldn't obtain ip");
+        }
+        game.isHost = true;
+        game.setScreen(new ServerLobbyScreen(game, viewport, stage, ip));
     }
 }

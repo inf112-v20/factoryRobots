@@ -91,6 +91,7 @@ public class RoboClient extends Listener {
             if(!game.isHost){
                 interpretRobotState((RobotStatePacket) object);
             }
+            ((GameScreen) game.getScreen()).alertUser("Announces powerdown");
         }
     }
 
@@ -109,6 +110,9 @@ public class RoboClient extends Listener {
                 }
             }
             r.setPowerDownNextRound(packet.powerdownNextRound);
+            if(packet.powerdownNextRound){
+                ((GameScreen) game.getScreen()).alertUser("Robot " + packet.id + "announces powerdown!");
+            }
             for (int i = 0; i < packet.programmedCards.length; i++) {
                 ICard card = deck.getCard(packet.programmedCards[i]);
                 r.setProgrammedCard(i, card);
@@ -316,12 +320,6 @@ public class RoboClient extends Listener {
         Payload ready = new Payload();
         ready.message = "ready";
         client.sendTCP(ready);
-    }
-
-    public void sendUnready(){
-        Payload unready = new Payload();
-        unready.message = "unready";
-        client.sendTCP(unready);
     }
 
     public void notifyDoneLoading(){

@@ -94,6 +94,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
         tiledStage.addListener(new ClickListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
+                game.sounds.buttonSound();
                 return player.keyUp(keycode);
             }
         });
@@ -101,9 +102,8 @@ public class GameScreen implements Screen, MultiplayerScreen {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == 131){ // Escape
+                    game.sounds.buttonSound();
                     showEscapeDialog();
-
-
                     return true;
                 }
                 return false;
@@ -124,17 +124,18 @@ public class GameScreen implements Screen, MultiplayerScreen {
         if(game.client == null){
             currentRound.dealCards(tiledStage);
         }
+        this.timer = new Timer(-1, alert); //set count to float > 0 to test timer
+
     }
 
     @Override
     public void show() {
         stage.clear();
+        Gdx.input.setInputProcessor(tiledStage);
         VisTable table = new VisTable();
         table.setFillParent(true);
-        this.timer = new Timer(-1,alert); //set count to float > 0 to test timer
         table.add(alert);
         stage.addActor(table);
-        Gdx.input.setInputProcessor(tiledStage);
     }
 
     @Override
@@ -331,8 +332,18 @@ public class GameScreen implements Screen, MultiplayerScreen {
         }
     }
     private void showEscapeDialog() {
-        stage.clear();
         Gdx.input.setInputProcessor(stage);
+        stage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == 131){ // Escape
+                    game.sounds.buttonSound();
+                    show();
+                    return true;
+                }
+                return false;
+            }
+        });
         VisTable table = new VisTable();
         table.setFillParent(true); // Centers the table relative to the stage
         VisTextButton soundButton = new VisTextButton("Sound");
@@ -352,7 +363,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
-                stage.clear();
                 show();
             }
         });

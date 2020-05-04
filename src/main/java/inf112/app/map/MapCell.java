@@ -30,8 +30,10 @@ public class MapCell {
         for(IBoardElement elem : contents){
             if(elem instanceof Robot){
                 continue;
+            } else if(elem != null){
+                elem.doAction(robot);
             }
-            elem.doAction(robot);
+
         }
     }
 

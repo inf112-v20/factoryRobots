@@ -270,7 +270,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
                             timer.disable();
                         }
                     }
-                    toBeRemoved.add(r); //TODO finn ut hvorfor roboter ikke fjernes etter hver phase
+                    toBeRemoved.add(r);
                 }               //TODO reset robot til checkpoint når den er på kanten av mappet
             }
             //Delete dead robots

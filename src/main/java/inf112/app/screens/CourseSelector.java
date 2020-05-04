@@ -1,14 +1,17 @@
 package inf112.app.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -100,7 +103,6 @@ public class CourseSelector implements Screen {
                 mapRenderer.setMap(game.manager.get(getPreviousMap()));
             }
         });
-
         VisImageButton rightArrow = new VisImageButton("arrow-right");
         rightArrow.addListener(new ChangeListener() {
             @Override
@@ -143,7 +145,35 @@ public class CourseSelector implements Screen {
 
         Table table = builder.build(); // Create table from the TableBuilder
         window.add(table).expand().fill();
+
         stage.addActor(window); // Add window to the stage for rendering
+
+        stage.addListener(new ClickListener() {
+            @Override
+            public boolean keyUp (InputEvent event, int keycode) {
+                game.sounds.buttonSound();
+                switch(keycode){
+                    case(Input.Keys.LEFT):
+                        mapRenderer.setMap(game.manager.get(getPreviousMap()));
+                        break;
+                    case(Input.Keys.RIGHT):
+                        mapRenderer.setMap(game.manager.get(getNextMap()));
+                        break;
+                    case(Input.Keys.ESCAPE):
+                        game.setScreen(game.getLastScreen());
+                        break;
+                    case(Input.Keys.ENTER):
+                        selectCourse();
+                        game.setScreen(game.getLastScreen());
+                        break;
+                    default:
+                        System.out.println("Unassigned input");
+                        return false;
+                }
+                return true;
+            }
+        });
+
 
     }
 

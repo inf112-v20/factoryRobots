@@ -177,6 +177,16 @@ public class GameScreen implements Screen, MultiplayerScreen {
         if(phaseTimer > waitThresh/2 && !firedLasers && ongoingRound){
             firedLasers = true;
             cellMap.fireLasers();
+            if(phaseNum > 5) {
+                for (Robot r : cellMap.getRobotList()) {
+                    if (r.getPowerDownNextRound()) {
+                        r.setPowerDown(true);
+                        r.setPowerDownNextRound(false);
+                    } else if (r.getPowerDown()) {
+                        r.setPowerDown(false);
+                    }
+                }
+            }
         }
         //If all robots -1 is ready, then start the timer
         if(cellMap.checkForTimerActivation() && !timerRunning && !ongoingRound){
@@ -233,6 +243,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
                 //If singleplayer, just deal new cards
                 if(game.client != null){
                     game.client.sendDone();
+                    cellMap.getDeck().reset();
                 } else {
                     currentRound.dealCards(tiledStage);
                 }

@@ -69,18 +69,6 @@ public class Rounds {
                     }
                 }
 
-
-        if (phaseNum == 5){
-            for (Robot r : robots){
-                if (r.getPowerDownNextRound()){
-                    r.setPowerDown(true);
-                    r.setPowerDownNextRound(false);
-                }else if(r.getPowerDown()){
-                    r.setPowerDown(false);
-                }
-            }
-        }
-
     }
 }
 

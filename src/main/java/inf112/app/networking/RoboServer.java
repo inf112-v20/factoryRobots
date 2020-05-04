@@ -255,7 +255,7 @@ public class RoboServer extends Listener {
         usedCards.clear();
         deck.shuffle();
         for(Connection c : server.getConnections()){
-            ArrayList<ICard> cards = deck.getCards(9-robotMap.get(c.getID()).getDamageTokens());
+            ArrayList<ICard> cards = deck.getCards(9);
             String message = "cards ";
             for(ICard card : cards){
                 usedCards.put(card.getPoint(),card);

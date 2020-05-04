@@ -333,6 +333,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
         for (int i = 0; i<9-damageTokens; i++) {
             availableCards[i].addCard(Map.getInstance().getDeck().getCard(),stage);
         }
+        //Assign cards to slots that have been locked during powerdown
+        for(CardSlot slot : programmedCards){
+            if(slot.isLocked() && !slot.hasCard()){
+                slot.addCard(Map.getInstance().getDeck().getCard(),stage);
+            }
+        }
     }
 
     public void wipeSlots(CardSlot[] slotList){
@@ -389,7 +395,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
         Direction old = oldPos.getDirection().copyOf();
         this.pos = checkPoint.copyOf();
         this.pos.setDirection(old);
-
+        if(Map.getInstance().robotInTile(checkPoint) != null){
+            while(!Map.getInstance().validMove(pos)){
+                pos.getDirection().turn(Rotation.LEFT);
+            }
+            pos.moveInDirection();
+        }
         Map.getInstance().getCellList().getCell(oldPos).getInventory().getElements().remove(this);
         Map.getInstance().getCellList().getCell(this.pos).getInventory().addElement(this);
         vectorPos.set(this.pos.getXCoordinate(), this.pos.getYCoordinate());
@@ -405,6 +416,9 @@ public class Robot implements ILaserInteractor, IBoardElement {
         if(powerDown == true){
             damageTokens = 0;
             checkSlotsToLock();
+            if(CardUI.getInstance().getUser().getCharacter().equals(this)){
+                CardUI.getInstance().updateDamageTokens(0);
+            }
         }
 
     }

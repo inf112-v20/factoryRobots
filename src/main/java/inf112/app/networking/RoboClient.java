@@ -91,7 +91,6 @@ public class RoboClient extends Listener {
             if(!game.isHost){
                 interpretRobotState((RobotStatePacket) object);
             }
-            ((GameScreen) game.getScreen()).alertUser("Announces powerdown");
         }
     }
 

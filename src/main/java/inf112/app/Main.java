@@ -46,24 +46,24 @@ public class Main {
             @Override
             public void focusLost() {
 
-                System.out.println("Lost Focus -> Pause game");
+            /*    System.out.println("Lost Focus -> Pause game");
                 // Cancel pause debugger is attached
                 if (!(java.lang.management.ManagementFactory.getRuntimeMXBean()
                         .getInputArguments().toString().contains("jdwp"))){
                     game.pause();
-                }
+                } */
             }
             /**
              * The window gained focus, resume the game
              */
             @Override
             public void focusGained() {
-                System.out.println("Gained Focus -> Start Game");
+               /* System.out.println("Gained Focus -> Start Game");
                 // Cancel resume debugger is attached
                 if (!(java.lang.management.ManagementFactory.getRuntimeMXBean()
                         .getInputArguments().toString().contains("jdwp"))){
                     game.resume();
-                }
+                } */
             }
 
             /**

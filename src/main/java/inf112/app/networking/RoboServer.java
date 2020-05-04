@@ -249,11 +249,8 @@ public class RoboServer extends Listener {
      * Used at the start of the round when distributing cards to the clients
      */
     private void handOutCards(){
-        for(ICard card : usedCards.values()){
-            deck.addCard(card);
-        }
+        deck.reset();
         usedCards.clear();
-        deck.shuffle();
         for(Connection c : server.getConnections()){
             ArrayList<ICard> cards = deck.getCards(9);
             String message = "cards ";

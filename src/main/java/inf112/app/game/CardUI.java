@@ -81,12 +81,17 @@ public class CardUI {
         return instance;
     }
 
-    public static CardUI getInstance(){
+    synchronized public static CardUI getInstance(){
         if(instance == null){
             instance = new CardUI();
         }
         return instance;
     }
+
+    synchronized public static void clearInstance(){
+        instance = null;
+    }
+
 
     public void setPlayerRobotGraphic(Texture robot){
         TextureRegion[][] temp = TextureRegion.split(robot,400,600);

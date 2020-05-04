@@ -63,7 +63,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
         this.cellMap = Map.getInstance();
         game.manager.unload(game.getMapName());
-        game.manager.unload("assets/Lasers.tmx");
 
         this.player = game.getPlayer();
         currentRound = new Rounds();
@@ -375,6 +374,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
         if(game.isHost){
             game.shutdownServer();
         }
+        Map.clearInstance();
+        CardUI.clearInstance();
+        game.manager.unload("cardUI");
     }
 
     public void updateRobots(){
@@ -450,7 +452,8 @@ public class GameScreen implements Screen, MultiplayerScreen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
-                Gdx.app.exit();
+                game.setScreen(new MainMenuScreen(game, viewport, stage));
+                dispose();
             }
         });
         TableBuilder.column(table, soundButton, returnButton, exitButton);

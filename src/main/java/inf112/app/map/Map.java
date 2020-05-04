@@ -213,10 +213,18 @@ public class Map {
      *
      * @return returns the static created cellMap. Throws exception if it doesn't exist
      */
-    public static synchronized Map getInstance(){
+    synchronized public static Map getInstance(){
         if (cellMap == null)
             throw new NoSuchElementException("Could not find the cellMap");
         return cellMap;
+    }
+
+    /**
+     * Method for removing the cellMap
+     *
+     */
+    synchronized public static void clearInstance(){
+        cellMap = null;
     }
 
     /**

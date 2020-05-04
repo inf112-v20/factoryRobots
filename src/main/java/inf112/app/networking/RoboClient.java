@@ -200,9 +200,10 @@ public class RoboClient extends Listener {
                     break;
                 case "disc": //Some client disconnected
                     int id = Integer.parseInt(split[1]);
-                    for(Robot r : Map.getInstance().getRobotList()){
-                        if(r.getID() == id){
-                            Map.getInstance().deleteRobot(r);
+                    ArrayList<Robot> list = Map.getInstance().getRobotList();
+                    for(int i = 0; i<list.size(); i++){
+                        if(list.get(i).getID() == id){
+                            Map.getInstance().deleteRobot(list.get(i));
                         }
                     }
                     break;
@@ -278,7 +279,7 @@ public class RoboClient extends Listener {
         RobotStatePacket payload = new RobotStatePacket();
         payload.programmedCards = priorities;
         payload.id = this.id;
-        payload.powerdownNextRound = game.getPlayer().getCharacter().getPowerDownNextRound();
+        payload.powerdownNextRound = robot.getPowerDownNextRound();
         client.sendTCP(payload);
         sendRemainingCards();
     }

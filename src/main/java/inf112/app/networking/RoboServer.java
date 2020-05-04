@@ -219,10 +219,13 @@ public class RoboServer extends Listener {
      * @param priorities
      */
     private void registerProgramming(Robot robot, int[] priorities){
+        System.out.print("Client sent: programming ");
         for(int i = 0; i < priorities.length; i++){
+            System.out.print(priorities[i] + " ");
             ICard card = usedCards.get(priorities[i]);
             robot.setProgrammedCard(i, card);
         }
+        System.out.println("");
     }
 
     /**

@@ -13,7 +13,9 @@ This project uses:
     *   mvn clean install
     *   mvn clean package (without tests)   
     
-*   Run Jar: ```java -cp target/factory-robots-1.0-SNAPSHOT.jar inf112.app.Main```
+*   Run Jar
+    * Go to the root of the project
+    * Run: ```java -cp target/factory-robots-1.0-SNAPSHOT.jar inf112.app.Main```
 
 
 ## Known bugs

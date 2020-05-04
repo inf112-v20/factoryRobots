@@ -7,8 +7,6 @@ public interface ICard {
 
     void doAction(Robot robot);
 
-    ICard copyOf();
-
     TiledMapTileLayer.Cell getCardTile();
 
     int getPoint();

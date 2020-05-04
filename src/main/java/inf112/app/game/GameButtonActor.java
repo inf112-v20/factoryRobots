@@ -65,11 +65,11 @@ public class GameButtonActor extends ButtonActor {
             } else if ("sound".equals(type)){
                 pushable = true;
                 RoboRally game = stage.getGame();
-                if (game.backgroundMusic.isPlaying()) {
-                    game.backgroundMusic.pause();
+                if (game.gameMusic.isPlaying()) {
+                    game.gameMusic.pause();
                 }
                 else {
-                    game.backgroundMusic.play();
+                    game.gameMusic.play();
                 }
             }
         }

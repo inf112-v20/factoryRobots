@@ -36,7 +36,6 @@ public class RoboServer extends Listener {
     private HashMap<Integer, String> playerMap;
 
     private CardDeck deck;
-    private HashMap<Integer,ICard> usedCards;
 
     public RoboServer(final RoboRally game) {
         this.game = game;
@@ -69,7 +68,6 @@ public class RoboServer extends Listener {
 
         state = ServerState.LOBBY;
         deck = new CardDeck();
-        usedCards = new HashMap<>(deck.getSize());
 
     }
 
@@ -131,9 +129,6 @@ public class RoboServer extends Listener {
         System.out.println("Client sent: " + payload.message); //For debugging TODO remove
         try {
             switch (split[0].toLowerCase()) {
-                case "rem":
-                    registerUnusedCards(connection, Arrays.copyOfRange(split,1,split.length));
-                    break;
                 case "done":
                     nDoneSimulating++;
                     if(nDoneSimulating == nPlayers){
@@ -208,6 +203,7 @@ public class RoboServer extends Listener {
             c.close();
             return;
         }
+        System.out.println("Connection id: " + c.getID() + " Robot id: " + packet.id);
         Robot r = robotMap.get(packet.id);
         r.setPowerDownNextRound(packet.powerdownNextRound);
         registerProgramming(r,packet.programmedCards);
@@ -222,49 +218,32 @@ public class RoboServer extends Listener {
         System.out.print("Client sent: programming ");
         for(int i = 0; i < priorities.length; i++){
             System.out.print(priorities[i] + " ");
-            ICard card = usedCards.get(priorities[i]);
+            ICard card = deck.getCard(priorities[i]);
             robot.setProgrammedCard(i, card);
         }
         System.out.println("");
     }
 
-    /**
-     * Used when robots have passed their programming and want to return
-     * the cards remaining in their possession
-     * @param connection
-     * @param priorities
-     */
-    private void registerUnusedCards(Connection connection, String[] priorities){
-        for(String s : priorities){
-            int priority = Integer.parseInt(s);
-            ICard card = usedCards.get(priority);
-            if(card == null){
-                System.out.println("Priority doesn't match, possible cheater");
-                connection.close();
-                return;
-            }
-            deck.addCard(card);
-            usedCards.remove(priority);
-        }
-    }
 
     /**
      * Used at the start of the round when distributing cards to the clients
      */
     private void handOutCards(){
+        for(Robot r : robotMap.values()){
+            r.wipeSlots(r.getProgrammedCards());
+        }
         deck.reset();
-        usedCards.clear();
         for(Connection c : server.getConnections()){
             ArrayList<ICard> cards = deck.getCards(9);
             String message = "cards ";
             for(ICard card : cards){
-                usedCards.put(card.getPoint(),card);
                 message += card.getPoint() + " ";
             }
             Payload payload = new Payload();
             payload.message = message;
             c.sendTCP(payload);
         }
+        deck.reset();
     }
 
 

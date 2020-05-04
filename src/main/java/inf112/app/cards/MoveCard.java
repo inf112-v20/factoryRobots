@@ -52,15 +52,6 @@ public class MoveCard extends CardStatus  {
         }
     }
 
-    @Override
-    public ICard copyOf() {
-        if(!this.backUp) {
-            return new MoveCard(this.getPoint(), this.steps, this.getTexture());
-        } else {
-            return new MoveCard(this.getPoint(), this.backUp, this.getTexture());
-        }
-    }
-
     public int getSteps() {
         return steps;
     }
@@ -69,4 +60,9 @@ public class MoveCard extends CardStatus  {
         return backUp;
     }
 
+    @Override
+    public String toString() {
+        return "MoveCard " + steps +
+                " backup: " + backUp;
+    }
 }

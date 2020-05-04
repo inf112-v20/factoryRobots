@@ -173,6 +173,9 @@ public class RoboClient extends Listener {
                     break;
                 case "cards": //Server hands out cards
                     Gdx.app.postRunnable(() -> {
+                        for(Robot r : Map.getInstance().getRobotList()){
+                            r.wipeSlots(r.getProgrammedCards());
+                        }
                         if(deck == null){
                             deck = Map.getInstance().getDeck();
                         } else {
@@ -281,25 +284,8 @@ public class RoboClient extends Listener {
         payload.id = this.id;
         payload.powerdownNextRound = robot.getPowerDownNextRound();
         client.sendTCP(payload);
-        sendRemainingCards();
     }
 
-    /**
-     * After the programming is sent
-     * the server also needs to know which
-     * cards the client hasn't used
-     */
-    private void sendRemainingCards(){
-        String message = "rem ";
-        for(CardSlot slot : CardUI.getInstance().getSideCardSlots()){
-            if(slot.hasCard()){
-                message += slot.getCard().getPoint() + " ";
-            }
-        }
-        Payload payload = new Payload();
-        payload.message = message;
-        client.sendTCP(payload);
-    }
 
     /**
      * When the {@link inf112.app.screens.GameScreen} is done simulating the round

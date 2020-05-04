@@ -1,10 +1,8 @@
 package inf112.app.cards;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import inf112.app.game.CardSlotActor;
 import inf112.app.game.CardUI;
 import inf112.app.game.TiledMapStage;
-import inf112.app.map.Map;
 
 public class CardSlot {
     private ICard card;
@@ -50,7 +48,7 @@ public class CardSlot {
             //System.out.println("No card to remove in the slot");
             return null;
         } else {
-            ICard value = card.copyOf();
+            ICard value = card;
             card = null;
             if(!noUI){
                 cardLayer.setCell(xCoord,yCoord,null);

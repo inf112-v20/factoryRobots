@@ -385,16 +385,19 @@ public class GameScreen implements Screen, MultiplayerScreen {
     }
 
     private void assignRandomProgram(Robot r){
+        String debug = "program:\n";
         for(CardSlot slot : r.getProgrammedCards()) {
             if (!slot.hasCard()) {
                 for (CardSlot available : r.getAvailableCards()) {
                     if (available.hasCard()) {
+                        debug += available.getCard().toString() + "\n";
                         slot.addCard(available.removeCard(), tiledStage);
                         break;
                     }
                 }
             }
         }
+        System.out.println(debug);
         cellMap.incrementDoneProgramming();
         r.setDoneProgramming(true);
     }

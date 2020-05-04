@@ -12,14 +12,10 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import inf112.app.game.RoboRally;
 import inf112.app.util.TableBuilder;
-import inf112.app.networking.RoboClient;
-import inf112.app.networking.RoboServer;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class HostGameScreen implements Screen {
     private final Stage stage;
@@ -44,6 +40,9 @@ public class HostGameScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
+                if(!playerName.isEmpty()) {
+                    game.setPlayerName(playerName.getText());
+                }
                 game.setScreen(new CourseSelector(game, viewport, stage));
             }
         });
@@ -79,8 +78,12 @@ public class HostGameScreen implements Screen {
                 game.setScreen(new ServerLobbyScreen(game, viewport, stage, ip));
             }
         });
-
-        playerName = new VisValidatableTextField(); // TODO implement validator
+        if (!game.getPlayerName().equals("Anonymous")) {
+            playerName = new VisValidatableTextField(game.getPlayerName());
+        }
+        else{
+            playerName = new VisValidatableTextField();
+        }
         VisLabel name = new VisLabel("Player Name: ");
         name.setAlignment(Align.center); // Align text to center
         playerName.setAlignment(Align.center);

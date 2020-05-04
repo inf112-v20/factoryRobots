@@ -129,14 +129,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
         if(game.backgroundMusic.isPlaying()){
             game.backgroundMusic.stop();
-            game.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
-            game.backgroundMusic.setVolume(0.2f);
-            game.backgroundMusic.setLooping(true);
-            game.backgroundMusic.play();
-        } else {
-            game.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
-            game.backgroundMusic.setVolume(0.2f);
-            game.backgroundMusic.setLooping(true);
+            game.gameMusic.play();
         }
 
     }
@@ -453,6 +446,8 @@ public class GameScreen implements Screen, MultiplayerScreen {
             public void changed (ChangeEvent event, Actor actor) {
                 game.sounds.buttonSound();
                 game.setScreen(new MainMenuScreen(game, viewport, stage));
+                game.gameMusic.stop();
+                game.backgroundMusic.play();
                 dispose();
             }
         });

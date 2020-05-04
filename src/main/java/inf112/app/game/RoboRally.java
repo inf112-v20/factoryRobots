@@ -48,7 +48,7 @@ public class RoboRally extends Game {
     private String mapName = "Maps/DizzyDashB"; // If the user doesn't select a map.
 
     public Music backgroundMusic;
-
+    public Music gameMusic;
     public Sounds sounds;
 
     @Override
@@ -61,6 +61,10 @@ public class RoboRally extends Game {
         backgroundMusic.setVolume(0.1f);
         backgroundMusic.play();
         backgroundMusic.setLooping(true);
+
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/CombatMusic.wav"));
+        gameMusic.setVolume(0.1f);
+        gameMusic.setLooping(true);
 
         client = null;
 
@@ -85,6 +89,7 @@ public class RoboRally extends Game {
         VisUI.dispose();
         backgroundImg.dispose();
         backgroundMusic.dispose();
+        gameMusic.dispose();
         manager.dispose();
     }
 

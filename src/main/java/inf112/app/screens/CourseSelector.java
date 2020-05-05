@@ -54,27 +54,29 @@ public class CourseSelector implements Screen {
         }
 
         this.index = 0;
-        boolean screenHeightAdjustment = false;
-        float heightCenterScale = 2f;
+        double screenSizeX = Gdx.graphics.getWidth();
+        double screenSizeY = Gdx.graphics.getHeight();
 
-        if(Gdx.graphics.getHeight() != 1000){
-            screenHeightAdjustment = true;
-            heightCenterScale = Gdx.graphics.getHeight()/500f;
-        }
+        double screenSize = Math.min(screenSizeX, screenSizeY);
+
+        double screenSizeDelta = 1000 / screenSize;
+
+        double paddingFactor = 200 / screenSizeDelta;
+
+        double factor = 5.6 * (screenSizeDelta);
+        float unitScale = 1 / ((float) factor);
+
+        int finalSize = (int) (screenSize - paddingFactor);
 
         mapCamera = new OrthographicCamera(); // Create a new camera for the TiledMap
-        mapCamera.setToOrtho(false, Gdx.graphics.getWidth()/2f
-                ,Gdx.graphics.getHeight()/heightCenterScale); // Center the camera
-
-        if(screenHeightAdjustment) {
-            mapCamera.zoom = 1 + ((Gdx.graphics.getHeight()/2.2f)/1000);
-        }
+        mapCamera.setToOrtho(false, finalSize, finalSize); // Center the camera
 
         mapViewport = new ScreenViewport(mapCamera);
-        mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        mapViewport.update((int) screenSizeX, (int) screenSizeY);
         mapViewport.apply(); // Fit camera to viewport
 
-        mapRenderer = new OrthogonalTiledMapRenderer(game.manager.get(files[0].toString()), 1/9f); // Create a renderer for rendering of the
+        mapRenderer = new OrthogonalTiledMapRenderer(game.manager.get(files[0].toString()), unitScale); // Create a renderer for rendering of the
         // TiledMap
         mapRenderer.setView(mapCamera);
     }
@@ -86,8 +88,8 @@ public class CourseSelector implements Screen {
         window = new VisWindow("Select Course");
         window.setMovable(false); // Make in unmovable
         window.setModal(true);
-        window.setHeight(Gdx.graphics.getHeight()*0.65f); // Set initial size of window
-        window.setWidth(Gdx.graphics.getWidth()*0.8f);
+        window.setHeight(Gdx.graphics.getHeight()); // Set initial size of window
+        window.setWidth(Gdx.graphics.getWidth());
         window.centerWindow();
         //window.setPosition((menuViewport.getWorldWidth() / 2.0F), (menuViewport.getWorldHeight() / 2.0F));
 

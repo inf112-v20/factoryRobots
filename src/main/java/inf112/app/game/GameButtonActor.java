@@ -53,6 +53,8 @@ public class GameButtonActor extends ButtonActor {
                     stage.setCardPushable(false);
                     if (stage.getGame().client != null) {
                         stage.getGame().client.sendProgramming();
+                        //Keep users from sending powerdown announcement after they locked in
+                        stage.getPowerdownButton().lockButton();
                     } else {
                         ((GameScreen) stage.getGame().getScreen()).initiateAI();
                     }

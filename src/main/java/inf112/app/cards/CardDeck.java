@@ -154,6 +154,7 @@ public class CardDeck {
     }
 
     public ICard getCard(int priority){
+        ICard c = null;
         for(ICard card : deck){
             if(card.getPoint() == priority){
                 deck.remove(card);
@@ -161,7 +162,11 @@ public class CardDeck {
                 return card;
             }
         }
-        return null;
+        if(c == null){
+            reset();
+            c = getCard(priority);
+        }
+        return c;
     }
 
     public int getSize(){

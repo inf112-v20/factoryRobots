@@ -175,9 +175,9 @@ public class RoboClient extends Listener {
                         }
                         if(deck == null){
                             deck = Map.getInstance().getDeck();
-                        } else {
-                            deck.reset();
                         }
+                        deck.reset();
+
                         CardUI ui = CardUI.getInstance();
                         Robot character = game.getPlayer().getCharacter();
                         character.wipeSlots(ui.getSideCardSlots());

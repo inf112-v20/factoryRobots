@@ -205,6 +205,18 @@ public class GameScreen implements Screen, MultiplayerScreen {
                             r.removeDamageTokens(1);
                         }
                     }
+                    if(r.getPowerDown()){
+                        r.setDoneProgramming(true);
+                        cellMap.incrementDoneProgramming();
+                        if(game.client == null){
+                            initiateAI();
+                        }
+                        //Make buttons and cards unclickable
+                        if(r.equals(player.getCharacter())){
+                            tiledStage.setCardPushable(false);
+                            tiledStage.getLockInButton().lockButton();
+                        }
+                    }
                 }
             }
         }
@@ -252,18 +264,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
                 phaseNum = 1;
                 //If anyone pressed the powerdown, set them to powerdown
                 for(Robot r : cellMap.getRobotList()){
-                    if(r.getPowerDown()){
-                        r.setDoneProgramming(true);
-                        cellMap.incrementDoneProgramming();
-                        if(game.client == null){
-                            initiateAI();
-                        }
-                        //Make buttons and cards unclickable
-                        if(r.equals(player.getCharacter())){
-                            tiledStage.setCardPushable(false);
-                            tiledStage.getLockInButton().lockButton();
-                        }
-                    }
+
                 }
                 //Notify server that client is done simulating the round
                 //If singleplayer, just deal new cards

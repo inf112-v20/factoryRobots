@@ -2,7 +2,6 @@ package inf112.app.util;
 
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import inf112.app.map.Position;
 import inf112.app.objects.*;
 import inf112.app.util.IDTranslator.ElemEnum;
 import inf112.app.map.Direction.Rotation;

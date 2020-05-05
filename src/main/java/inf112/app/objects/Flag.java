@@ -46,5 +46,6 @@ public class Flag implements IBoardElement {
                 robot.setCheckPoint(pos.copyOf());
             }
         }
+        robot.setCheckPoint(robot.getPos().copyOf());
     }
 }

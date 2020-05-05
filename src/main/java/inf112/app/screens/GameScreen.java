@@ -19,6 +19,8 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.cards.CardSlot;
 import inf112.app.game.*;
 import inf112.app.map.Map;
+import inf112.app.objects.Flag;
+import inf112.app.objects.IBoardElement;
 import inf112.app.objects.Robot;
 import inf112.app.util.TableBuilder;
 
@@ -197,6 +199,11 @@ public class GameScreen implements Screen, MultiplayerScreen {
                         r.setPowerDownNextRound(false);
                     } else if (r.getPowerDown()) {
                         r.setPowerDown(false);
+                    } //Remove 1 damagetoken if robot is standing on flag
+                    for(IBoardElement elem : cellMap.getCellList().getCell(r.getPos()).getInventory().getElements()){
+                        if(elem instanceof Flag){
+                            r.removeDamageTokens(1);
+                        }
                     }
                 }
             }

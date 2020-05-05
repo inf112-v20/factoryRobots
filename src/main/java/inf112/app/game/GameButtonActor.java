@@ -62,6 +62,7 @@ public class GameButtonActor extends ButtonActor {
                 }
             } else if ("powerdown".equals(type)) {
                 stage.getGame().getPlayer().getCharacter().setPowerDownNextRound(true);
+                stage.getGame().client.sendPowerdownNotification();
             } else if ("sound".equals(type)){
                 pushable = true;
                 RoboRally game = stage.getGame();

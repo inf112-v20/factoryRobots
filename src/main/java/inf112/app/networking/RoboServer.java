@@ -14,7 +14,6 @@ import inf112.app.objects.Robot;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class RoboServer extends Listener {
@@ -168,6 +167,11 @@ public class RoboServer extends Listener {
                             server.sendToAllTCP(reply);
                         }
                     }
+                    break;
+                case "powerdown":
+                    Payload notification = new Payload();
+                    notification.message = "powerdown " + playerMap.get(connection.getID());
+                    server.sendToAllExceptTCP(connection.getID(),notification);
                     break;
                 default:
                     System.out.println("Payload from client " + connection.getID() + ": " + payload.message);

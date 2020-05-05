@@ -14,7 +14,6 @@ import inf112.app.map.Map;
 
 import inf112.app.networking.RoboClient;
 import inf112.app.networking.RoboServer;
-import inf112.app.objects.Robot;
 import inf112.app.screens.GameScreen;
 import inf112.app.screens.LoadingMenuScreen;
 import inf112.app.screens.PauseGameScreen;

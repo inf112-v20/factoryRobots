@@ -27,7 +27,12 @@ public class CreditsScreen implements Screen {
         VisTable table = new VisTable();
         table.setFillParent(true);
         VisLabel text = new VisLabel("");
-        text.setText("");
+        text.setText("Made by:\n" +
+                "Håvard, Halvor,\nRagnhild, Stian and Steffen\n\n" +
+                "Robots by @halsalladam\n\n" +
+                "Music:" +
+                "\n   * Menu: Bit Rush - LOL\n" +
+                "   * In-game: Route 3 - Mikel");
         VisTextButton returnButton = new VisTextButton("Return");
         returnButton.addListener(new ChangeListener() {
             @Override

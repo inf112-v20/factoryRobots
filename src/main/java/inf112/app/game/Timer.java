@@ -29,8 +29,8 @@ public class Timer {
     }
 
     public void drawTime() {
-        if(disabled){return;}
         count -= Gdx.graphics.getDeltaTime();
+        if(disabled){return;}
         str = "Programming locks in: " + df.format(count) + "\t sec";
         if(count<0f){
             done = true;
@@ -54,5 +54,8 @@ public class Timer {
 
     public void disable() {
         disabled = true;
+    }
+    public void enable(){
+        disabled = false;
     }
 }

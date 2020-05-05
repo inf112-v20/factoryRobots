@@ -1,6 +1,5 @@
 package inf112.app.game;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 
 public class GameSounds {

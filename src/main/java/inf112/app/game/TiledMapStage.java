@@ -100,7 +100,7 @@ public class TiledMapStage extends Stage {
         return (GameButtonActor) actorGrid[cardLayer.getWidth()-2][0];
     }
 
-    private GameButtonActor getPowerdownButton(){
+    public GameButtonActor getPowerdownButton(){
         return (GameButtonActor) actorGrid[cardLayer.getWidth()-1][0];
     }
 

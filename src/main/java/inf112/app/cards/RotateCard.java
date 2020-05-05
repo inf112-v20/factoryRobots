@@ -48,20 +48,17 @@ public class RotateCard extends CardStatus {
         }
     }
 
-    @Override
-    public ICard copyOf() {
-        if(!uTurn){
-            return new RotateCard(this.getPoint(), this.rotation, this.getTexture());
-        } else {
-            return new RotateCard(this.getPoint(), this.uTurn, this.getTexture());
-        }
-    }
-
     public Rotation getRotation() {
         return rotation;
     }
 
     public boolean isUTurn() {
         return uTurn;
+    }
+
+    @Override
+    public String toString() {
+        return "RotateCard " + rotation +
+                "uTurn: " + uTurn;
     }
 }

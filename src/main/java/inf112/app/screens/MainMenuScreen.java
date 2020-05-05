@@ -63,6 +63,22 @@ public class MainMenuScreen implements Screen {
                 game.setScreen(new OptionScreen(game,viewport, stage));
             }
         });
+        VisTextButton howToButton = new VisTextButton("How to play");
+        howToButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                game.setScreen(new HowToPlayScreen(game,viewport, stage));
+            }
+        });
+        VisTextButton creditsButton = new VisTextButton("Credits");
+        creditsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.sounds.buttonSound();
+                game.setScreen(new CreditsScreen(game,viewport, stage));
+            }
+        });
         VisTextButton exitButton = new VisTextButton("Exit");
         exitButton.addListener(new ChangeListener() {
             @Override
@@ -71,7 +87,8 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        TableBuilder.column(table, singleplayerButton, joinButton, hostButton, settingsButton, exitButton);
+        TableBuilder.column(table, singleplayerButton, joinButton, hostButton, settingsButton,
+                howToButton, creditsButton, exitButton);
         stage.addActor(table);
 
         stage.addListener(new ClickListener() {

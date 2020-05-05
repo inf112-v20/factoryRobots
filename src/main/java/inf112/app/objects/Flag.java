@@ -35,16 +35,13 @@ public class Flag implements IBoardElement {
         if(lastVisitedFlag == null){
             if(num == 1){
                 robot.setVisitedFlag(this);
-                Position pos = robot.getPos();
-                robot.setCheckPoint(pos.copyOf());
             }
         } else {
             int lastVisitedFlagNum = robot.getVisitedFlag().getNum();
             if(lastVisitedFlagNum == num-1){
                 robot.setVisitedFlag(this);
-                Position pos = robot.getPos();
-                robot.setCheckPoint(pos.copyOf());
             }
         }
+        robot.setCheckPoint(robot.getPos().copyOf());
     }
 }

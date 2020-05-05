@@ -109,9 +109,6 @@ public class RoboClient extends Listener {
                 }
             }
             r.setPowerDownNextRound(packet.powerdownNextRound);
-            if(packet.powerdownNextRound){
-                ((GameScreen) game.getScreen()).alertUser("Robot " + packet.id + "announces powerdown!");
-            }
             for (int i = 0; i < packet.programmedCards.length; i++) {
                 ICard card = deck.getCard(packet.programmedCards[i]);
                 r.setProgrammedCard(i, card);
@@ -173,6 +170,9 @@ public class RoboClient extends Listener {
                     break;
                 case "cards": //Server hands out cards
                     Gdx.app.postRunnable(() -> {
+                        for(Robot r : Map.getInstance().getRobotList()){
+                            r.wipeSlots(r.getProgrammedCards());
+                        }
                         if(deck == null){
                             deck = Map.getInstance().getDeck();
                         } else {
@@ -200,9 +200,10 @@ public class RoboClient extends Listener {
                     break;
                 case "disc": //Some client disconnected
                     int id = Integer.parseInt(split[1]);
-                    for(Robot r : Map.getInstance().getRobotList()){
-                        if(r.getID() == id){
-                            Map.getInstance().deleteRobot(r);
+                    ArrayList<Robot> list = Map.getInstance().getRobotList();
+                    for(int i = 0; i<list.size(); i++){
+                        if(list.get(i).getID() == id){
+                            Map.getInstance().deleteRobot(list.get(i));
                         }
                     }
                     break;
@@ -247,6 +248,9 @@ public class RoboClient extends Listener {
                 case "winner":
                     ((GameScreen) game.getScreen()).alertUser(split[1] + " has won the game!");
                     break;
+                case "powerdown":
+                    ((GameScreen) game.getScreen()).alertUser(split[1] + " announces powerdown!");
+                    break;
                 default:
                     System.out.println("Server reply: " + payload.message);
                     break;
@@ -278,27 +282,10 @@ public class RoboClient extends Listener {
         RobotStatePacket payload = new RobotStatePacket();
         payload.programmedCards = priorities;
         payload.id = this.id;
-        payload.powerdownNextRound = game.getPlayer().getCharacter().getPowerDownNextRound();
+        payload.powerdownNextRound = robot.getPowerDownNextRound();
         client.sendTCP(payload);
-        sendRemainingCards();
     }
 
-    /**
-     * After the programming is sent
-     * the server also needs to know which
-     * cards the client hasn't used
-     */
-    private void sendRemainingCards(){
-        String message = "rem ";
-        for(CardSlot slot : CardUI.getInstance().getSideCardSlots()){
-            if(slot.hasCard()){
-                message += slot.getCard().getPoint() + " ";
-            }
-        }
-        Payload payload = new Payload();
-        payload.message = message;
-        client.sendTCP(payload);
-    }
 
     /**
      * When the {@link inf112.app.screens.GameScreen} is done simulating the round
@@ -309,6 +296,7 @@ public class RoboClient extends Listener {
         Payload message = new Payload();
         message.message = "done";
         client.sendTCP(message);
+        deck.reset();
     }
 
     public void disconnect(){
@@ -343,5 +331,11 @@ public class RoboClient extends Listener {
         Payload winRequest = new Payload();
         winRequest.message = "getwinner";
         client.sendTCP(winRequest);
+    }
+
+    public void sendPowerdownNotification() {
+        Payload powerdown = new Payload();
+        powerdown.message = "powerdown";
+        client.sendTCP(powerdown);
     }
 }

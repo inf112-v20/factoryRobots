@@ -1,4 +1,8 @@
-# Manual tests for cards, menu and in game buttons
+# Manual tests for 
+ - cards 
+ - menu 
+ - in game buttons
+ - rounds
 
 ## Card test
 

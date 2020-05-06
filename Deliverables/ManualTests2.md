@@ -1,4 +1,4 @@
-# Manual tests for cards and menu
+# Manual tests for cards, menu and in game buttons
 
 ## Card test
 
@@ -34,9 +34,9 @@ How: Run the application running Main class. A menu page has popped up and you c
  - Expect: At all places a return button is found, it will return the user to the previous menu location if clicked.
  - Actual: The user was returned to previous menu location.
 
-3. Singleplayer and multiplayer
- - Expect: When singleplayer or multiplayer is clicked, it will bring the user to the map selection menu.
- - Actual: The user was brought to the map selection menu.
+3. Singleplayer
+ - Expect: When "Singleplayer" is clicked, it will bring the user to the game options menu.
+ - Actual: The user was brought to the game options menu.
 
 4. Sound
  - Expect: Has no functionality yet, therefore nothing should happen.
@@ -45,5 +45,17 @@ How: Run the application running Main class. A menu page has popped up and you c
 5. Switch map arrows
  - Expect: Has no functionality yet, therefore nothing should happen.
  - Actual: Nothing happened.
+ 
+6. How to play
+ - Expect: When "How to play" is clicked, it will bring the user to the guide screen.
+ - Actual: The user was brought to the guide screen.
+ 
+7. Credits
+ - Expect: When "Credits" is clicked, it will bring the user to the credits screen.
+ - Actual: The user was brought to the guide screen.
+ 
+8. Join game
+ - Expect: When "join game" is clicked, it will show the user a player name and ip address bar.
+ - Actual: The user was shown a player name and ip address bar.
 
 All tests passed

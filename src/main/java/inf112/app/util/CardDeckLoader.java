@@ -27,6 +27,14 @@ public class CardDeckLoader extends AsynchronousAssetLoader<CardDeck, CardDeckLo
         // Not used
     }
 
+    /**
+     * Loads the CardDeck in the background
+     * @param assetManager The current AssetManager
+     * @param s ..
+     * @param fileHandle ..
+     * @param parameters ..
+     * @return a new CardDeck object
+     */
     @Override
     public CardDeck loadSync(AssetManager assetManager, String s, FileHandle fileHandle, Parameters parameters) {
         return new CardDeck();

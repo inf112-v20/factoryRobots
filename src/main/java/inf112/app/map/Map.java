@@ -93,6 +93,11 @@ public class Map {
         return objects;
     }
 
+    /**
+     * Get all the spawn points on the map
+     * @param spawnLayer A TiledMapLayer that must include spawn points
+     * @return Positions of spawn points
+     */
     public Position[] getSpawnPoints (TiledMapTileLayer spawnLayer) {
         Position[] positions = new Position[8];
         for(int x = 0; x < mapSizeX; x++){
@@ -107,22 +112,43 @@ public class Map {
         return positions;
     }
 
+    /**
+     * Get width size
+     * @return Map width
+     */
     public int getMapSizeX(){
         return mapSizeX;
     }
 
+    /**
+     * Get height size
+     * @return Map height
+     */
     public int getMapSizeY(){
         return mapSizeY;
     }
 
+    /**
+     * Get map
+     * @return The map
+     */
     public TiledMap getMap() {
         return map;
     }
 
+    /**
+     * Retrieve the cell list. The cell list holds all objects in the map
+     * @return The map cell list
+     */
     public MapCellList getCellList() {
         return cellList;
     }
 
+    /**
+     * Get a layer from the the map by name
+     * @param layerName Layer name to search by
+     * @return The corresponding layer
+     */
     public TiledMapTileLayer getLayer(String layerName){
         String key = layerName.substring(0,1).toUpperCase() + layerName.substring(1);
         return (TiledMapTileLayer) map.getLayers().get(key);
@@ -247,7 +273,6 @@ public class Map {
         }
     }
 
-
     /**
      * Method for turning off the lasers. <br>
      * Resets the timer and clears all the laser graphics from the map
@@ -286,6 +311,10 @@ public class Map {
         return null;
     }
 
+    /**
+     * Retrieve the robot list
+     * @return A list of robots
+     */
     public ArrayList<Robot> getRobotList() {
         return robotList;
     }
@@ -314,32 +343,58 @@ public class Map {
         robotList.clear();
     }
 
+    /**
+     * Set the deck
+     * @param deck The deck to set
+     */
     public void setDeck(CardDeck deck){
         this.deck = deck;
     }
 
+    /**
+     * Get the deck
+     * @return The deck
+     */
     public CardDeck getDeck(){
         return this.deck;
     }
 
+    /**
+     * All robots must call this function when they are done with their programming.
+     */
     public void incrementDoneProgramming(){
         doneProgrammingCount++;
     }
 
+    /**
+     * Reset the programming counter
+     */
     public void resetDoneProgramming(){
         doneProgrammingCount = 0;
         for(Robot r : robotList)
             r.setDoneProgramming(false);
     }
 
+    /**
+     * Check whether we are only waiting for one robot
+     * @return True if one robot is not done, false if not
+     */
     public boolean checkForTimerActivation(){
         return doneProgrammingCount == robotList.size()-1;
     }
 
+    /**
+     * Check if all robots are done with their programming
+     * @return True if all robots are done, false if not
+     */
     public boolean checkIfAllRobotsReady(){
         return doneProgrammingCount == robotList.size();
     }
 
+    /**
+     * Sets the robot list. Also clears the list beforehand
+     * @param robotList The ArrayList of robots to set the robot list to
+     */
     public void setRobotList(ArrayList<Robot> robotList){
         clearBots();
         for(Robot r : robotList){
@@ -347,6 +402,11 @@ public class Map {
         }
     }
 
+    /**
+     * Retrieve a spawn point by index
+     * @param index The index to find spawn point by
+     * @return The corresponding spawn point
+     */
     public Position getSpawnpoint(int index){
         return spawnPoints[index];
     }
@@ -371,6 +431,10 @@ public class Map {
         }
     }
 
+    /**
+     * Retrieve the last flag number
+     * @return The last flag number
+     */
     public int getFinalFlagNum(){
         return finalFlagNum;
     }

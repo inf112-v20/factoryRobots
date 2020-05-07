@@ -17,7 +17,7 @@ public class Laser {
     private final boolean isDouble;
 
     /**
-     * Constructor for creating a laser
+     * Constructor for creating a laser instance
      * @param owner The object that holds the laser
      * @param isDouble true if the laser is a double beam
      */

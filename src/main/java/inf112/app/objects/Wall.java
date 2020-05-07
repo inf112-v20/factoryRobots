@@ -12,6 +12,16 @@ public class Wall implements IBoardElement, ILaserInteractor {
     private Position position;
     private Laser laser;
 
+    /**
+     * Creates a Wall object instance
+     * @param face1 The direction in the tile the wall is facing
+     * @param face2 The second direction in the tile the wall is facing, since walls can be L-shaped
+     *              If it is just a straight wall then face2 should be the same as face1
+     * @param hasLaser boolean designating if the wall has a laser mounted to the wall
+     * @param doubleLaser boolean designating if the laser mounted to the wall is a double laser
+     * @param x x-coordinate of the wall
+     * @param y y-coordinate of the wall
+     */
     public Wall(int face1, int face2, boolean hasLaser, boolean doubleLaser, int x, int y){
         facing = new Direction[2];
         facing[0] = new Direction(face1);
@@ -30,6 +40,9 @@ public class Wall implements IBoardElement, ILaserInteractor {
         }
     }
 
+    /**
+     * @return true if the wall has a laser mounted to it, false if not
+     */
     public boolean isLaser() {
         return hasLaser;
     }
@@ -60,6 +73,9 @@ public class Wall implements IBoardElement, ILaserInteractor {
         return position;
     }
 
+    /**
+     * If the wall has a laser mounted to it, then the method will trigger the laser to fire
+     */
     @Override
     public void fireLaser() {
         if(hasLaser){

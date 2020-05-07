@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * This class is a representation of the
- * Conveyor belts on the board
+ * conveyor belts on the board
  */
 public class Conveyor implements IBoardElement {
     private final Direction[] entries;
@@ -17,11 +17,11 @@ public class Conveyor implements IBoardElement {
     private final int speed;
 
     /**
-     * constructor for the conveyor belts
+     * Constructor for the conveyor belts
      * @param entry1 first entry point
      * @param entry2 second entry point
-     * @param exit
-     * @param speed
+     * @param exit Direction of the exit
+     * @param speed Integer designating the speed of the belt
      */
     public Conveyor(int entry1, int entry2, int exit, int speed){
         entries = new Direction[2];
@@ -34,9 +34,9 @@ public class Conveyor implements IBoardElement {
     }
 
     /**
-     * method to find out if the robot will rotate on the conveyor
-     * @param dir
-     * @return boolean; true if it will rotate, false if not
+     * Method to find out if the robot will rotate on the conveyor
+     * @param dir The direction the robot is coming from
+     * @return true if it will rotate, false if not
      */
     public boolean willRotate(Direction dir){
         if (dir.equals(exit)){
@@ -51,9 +51,9 @@ public class Conveyor implements IBoardElement {
     }
 
     /**
-     * method to find out witch direction the rotation will be
-     * @param dir
-     * @return the rotation that is to be executed
+     * Method to find out witch direction the belt will rotate a robot
+     * @param dir The direction the robot is facing
+     * @return The direction of the rotation
      */
     public Rotation rotationDirection(Direction dir){
         int leftRotationAngle = dir.getAngleDeg() - 90;
@@ -70,8 +70,9 @@ public class Conveyor implements IBoardElement {
     }
 
     /**
-     * implementation of action to be done when robot is on a conveyor belt
-     * @param robot
+     * Method applying the conveyor belts action to a given robot,
+     * moves and rotates the robot based on the parameters of the belt
+     * @param robot Robot to be manipulated
      */
     @Override
     public void doAction(Robot robot) {
@@ -100,9 +101,9 @@ public class Conveyor implements IBoardElement {
     }
 
     /**
-     * Methode to find out if robot is positioned on a conveyor belt
-     * @param pos
-     * @return
+     * Method to find out if there is a conveyor at a given {@link Position} on the map
+     * @param pos Position to check the contents of
+     * @return The potential conveyor, null if there isn't one
      */
     public static Conveyor extractConveyorFromCell(Position pos){
         Map map = Map.getInstance();
@@ -116,6 +117,9 @@ public class Conveyor implements IBoardElement {
         return next;
     }
 
+    /**
+     * @return The direction the exit of the conveyor is facing 
+     */
     public Direction getExit() {
         return new Direction(exit.getDirEnum());
     }

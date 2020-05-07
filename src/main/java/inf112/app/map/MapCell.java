@@ -14,6 +14,11 @@ public class MapCell {
     private Position position;
     private CellInventory inventory;
 
+    /**
+     * Constructor for a MapCell object
+     * @param position Position of the cell
+     * @param inventory Inventory of the cell
+     */
     public MapCell(Position position, CellInventory inventory) {
         this.position = position;
         this.inventory = inventory;
@@ -37,26 +42,52 @@ public class MapCell {
         }
     }
 
+    /**
+     * Get the position of the cell
+     * @return Position of the cell
+     */
     public Position getPosition() {
         return position;
     }
 
+    /**
+     * Set the position of a cell
+     * @param position Position to cet the cell to
+     */
     public void setPosition(Position position) {
         this.position = position;
     }
 
+    /**
+     * Get the inventory of the cell
+     * @return Inventory of the cell
+     */
     public CellInventory getInventory() {
         return inventory;
     }
 
+    /**
+     * Set the inventory of the cell
+     * @param inventory Of the cell
+     */
     public void setInventory(CellInventory inventory) {
         this.inventory = inventory;
     }
 
+    /**
+     * Append an IBoardElement to the inventory
+     * @param element Element to append to the inventory
+     */
     public void appendToInventory(IBoardElement element){
         this.inventory.addElement(element);
     }
 
+    /**
+     * Check whether one cell is the same as another.
+     * Test for both position and inventory
+     * @param o The object to compare
+     * @return True if the same, false if not
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,6 +97,10 @@ public class MapCell {
                 getInventory().equals(mapCell.getInventory());
     }
 
+    /**
+     * Find the hashcode of the cell
+     * @return Hashcode of the cell
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getPosition(), getInventory());

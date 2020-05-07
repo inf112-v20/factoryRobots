@@ -76,7 +76,7 @@ How: Run the application running Main class. Proceed by clicking on either Singl
 
 1. Lock in program
  - Expect: If the user have filled inn all their available card slots and then click "Lock in program", then the user's robot will initiate the commands once all users are ready.
- - Actual: The user's commands was anitiated by it's robot.
+ - Actual: The user's commands was initiated by it's robot.
  
 2. Power down
  - Expect: If the user has filled in all their available card slots and then click "Power down" and then "Lock in program", the robot will play out its commands, then remove all damage tokens and stop moving in the next round.

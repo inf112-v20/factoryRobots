@@ -26,6 +26,11 @@ import inf112.app.util.TableBuilder;
 
 import java.util.ArrayList;
 
+/**
+ * GameScreen is the main screen that renders the CardUI and the TiledMap.
+ * It also keeps control over general game functionality, but game variables are
+ * mostly stored in {@link RoboRally} for easy screen changing.
+ */
 public class GameScreen implements Screen, MultiplayerScreen {
     private final RoboRally game;
     private Stage stage;
@@ -60,6 +65,12 @@ public class GameScreen implements Screen, MultiplayerScreen {
     private int phaseNum = 6;
     private boolean ongoingRound = false;
 
+    /**
+     * Constructor for GameScreen screen
+     * @param game The RoboRally game
+     * @param viewport The viewport for the RoboRally game
+     * @param stage The stage for the RoboRally game
+     */
     public GameScreen(final RoboRally game, Stage stage, StretchViewport viewport){
         this.game = game;
         this.stage = stage;
@@ -138,6 +149,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
 
     }
 
+    /**
+     * Method that runs after {@link RoboRally#setScreen(Screen)} is called
+     */
     @Override
     public void show() {
         stage.clear();
@@ -150,6 +164,10 @@ public class GameScreen implements Screen, MultiplayerScreen {
         stage.addActor(table);
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         Gdx.gl.glClearColor(0, 0.2f, 0.2f, 1);
@@ -263,10 +281,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
                 ongoingRound = false;
                 tiledStage.releaseButtons();
                 phaseNum = 1;
-                //If anyone pressed the powerdown, set them to powerdown
-                for(Robot r : cellMap.getRobotList()){
-
-                }
                 //Notify server that client is done simulating the round
                 //If singleplayer, just deal new cards
                 if(game.client != null){
@@ -355,9 +369,16 @@ public class GameScreen implements Screen, MultiplayerScreen {
         }
     }
 
+    /**
+     * Called when the Application is resized.
+     * This can happen at any point during a non-paused state but will never happen before a call to create().
+     * @param width The new width in pixels
+     * @param height The new height in pixels
+     */
     @Override
     public void resize(int width, int height) {
        tiledStage.resize(width,height);
+       // TODO check if resizing is correct.
     }
 
     /**
@@ -384,6 +405,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
         // Not used
     }
 
+    /**
+     * Dispose of most objects created in this screen
+     */
     @Override
     public void dispose() {
         tiledStage.dispose();
@@ -447,6 +471,10 @@ public class GameScreen implements Screen, MultiplayerScreen {
             }
         }
     }
+
+    /**
+     * Shows the in game menu when pressing escape
+     */
     private void showEscapeDialog() {
         Gdx.input.setInputProcessor(stage);
         stage.addListener(new ClickListener() {

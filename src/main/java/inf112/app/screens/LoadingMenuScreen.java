@@ -19,6 +19,10 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import inf112.app.game.RoboRally;
 
+/**
+ * This screen is shown when a application is launched. It loads all necessary assets (for the menu)
+ * into the asset manager and waits until they are loaded.
+ */
 public class LoadingMenuScreen implements Screen {
 
     private final Stage stage;
@@ -26,6 +30,12 @@ public class LoadingMenuScreen implements Screen {
     private final RoboRally game;
     private final StretchViewport viewport;
 
+    /**
+     * Constructor for LoadingMenuScreen screen
+     * @param game The RoboRally game
+     * @param viewport The viewport for the RoboRally game
+     * @param stage The stage for the RoboRally game
+     */
     public LoadingMenuScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
@@ -75,6 +85,9 @@ public class LoadingMenuScreen implements Screen {
 
     }
 
+    /**
+     * Method that runs after {@link RoboRally#setScreen(Screen)} is called
+     */
     @Override
     public void show() {
         stage.clear();
@@ -84,6 +97,10 @@ public class LoadingMenuScreen implements Screen {
         stage.addActor(table);
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         game.batch.begin();
@@ -99,6 +116,12 @@ public class LoadingMenuScreen implements Screen {
 
     }
 
+    /**
+     * Called when the Application is resized.
+     * This can happen at any point during a non-paused state but will never happen before a call to create().
+     * @param x The new width in pixels
+     * @param y The new height in pixels
+     */
     @Override
     public void resize(int x, int y) {
         viewport.update(x, y, true);

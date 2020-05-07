@@ -26,6 +26,10 @@ import inf112.app.game.RoboRally;
 
 import java.util.LinkedList;
 
+/**
+ * CourseSelector gives the player the possibility to select map from the menu.
+ * It renders all the maps in assets/Maps to the GUI
+ */
 public class CourseSelector implements Screen {
     private final RoboRally game;
     private final Stage stage;
@@ -41,6 +45,12 @@ public class CourseSelector implements Screen {
 
     private VisWindow window;
 
+    /**
+     * Constructor for CourseSelector screen
+     * @param game The RoboRally game
+     * @param viewport The viewport for the RoboRally game
+     * @param stage The stage for the RoboRally game
+     */
     public CourseSelector(final RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.menuViewport = viewport;
@@ -53,10 +63,12 @@ public class CourseSelector implements Screen {
             }
         }
 
+        // Center the renderer
         this.index = 0;
         double screenSizeX = Gdx.graphics.getWidth();
         double screenSizeY = Gdx.graphics.getHeight();
 
+        // Select the smallest size and create a square from that
         double screenSize = Math.min(screenSizeX, screenSizeY);
 
         double screenSizeDelta = 1000 / screenSize;
@@ -81,6 +93,9 @@ public class CourseSelector implements Screen {
         mapRenderer.setView(mapCamera);
     }
 
+    /**
+     * Method that runs after {@link RoboRally#setScreen(Screen)} is called
+     */
     @Override
     public void show() {
 
@@ -148,6 +163,7 @@ public class CourseSelector implements Screen {
 
         stage.addActor(window); // Add window to the stage for rendering
 
+        // Add input listeners for faster menu traversal
         stage.addListener(new ClickListener() {
             @Override
             public boolean keyUp (InputEvent event, int keycode) {
@@ -180,6 +196,10 @@ public class CourseSelector implements Screen {
 
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         mapCamera.update();
@@ -193,6 +213,12 @@ public class CourseSelector implements Screen {
         mapRenderer.render();
     }
 
+    /**
+     * Called when the Application is resized.
+     * This can happen at any point during a non-paused state but will never happen before a call to create().
+     * @param x The new width in pixels
+     * @param y The new height in pixels
+     */
     @Override
     public void resize(int x, int y) {
         menuViewport.update(x, y, true);

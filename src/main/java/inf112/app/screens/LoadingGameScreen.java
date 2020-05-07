@@ -16,6 +16,10 @@ import inf112.app.util.CardDeckLoader;
 import inf112.app.util.CardUILoader;
 import inf112.app.util.MapLoader;
 
+/**
+ * This screen is shown when a game is launched. It loads all necessary assets into the
+ * asset manager and waits until they are loaded.
+ */
 public class LoadingGameScreen implements Screen {
 
     private final Stage stage;
@@ -23,6 +27,13 @@ public class LoadingGameScreen implements Screen {
     private final RoboRally game;
     private final StretchViewport viewport;
 
+
+    /**
+     * Constructor for LoadingGameScreen screen
+     * @param game The RoboRally game
+     * @param viewport The viewport for the RoboRally game
+     * @param stage The stage for the RoboRally game
+     */
     public LoadingGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
@@ -40,6 +51,9 @@ public class LoadingGameScreen implements Screen {
 
     }
 
+    /**
+     * Method that runs after {@link RoboRally#setScreen(Screen)} is called
+     */
     @Override
     public void show() {
         stage.clear();
@@ -49,6 +63,10 @@ public class LoadingGameScreen implements Screen {
         stage.addActor(table);
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         game.batch.begin();
@@ -84,6 +102,12 @@ public class LoadingGameScreen implements Screen {
 
     }
 
+    /**
+     * Called when the Application is resized.
+     * This can happen at any point during a non-paused state but will never happen before a call to create().
+     * @param x The new width in pixels
+     * @param y The new height in pixels
+     */
     @Override
     public void resize(int x, int y) {
        viewport.update(x, y, true);
@@ -115,15 +139,9 @@ public class LoadingGameScreen implements Screen {
 
     /**
      * RoboRally disposes of objects at termination. Gamescreen clears the AssetManager
-     * Remove unused maps from the asset manager
      */
     @Override
     public void dispose() {
-         /* Array<String> assetNames = game.manager.getAssetNames();
-        assetNames.forEach(asset -> {
-            if (asset.contains("Maps") && !asset.equals(mapList.get(index).toString())){
-                game.manager.unload(asset);
-            }
-        });*/
+        // Not Used
     }
 }

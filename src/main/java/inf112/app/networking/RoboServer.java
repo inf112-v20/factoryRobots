@@ -29,7 +29,6 @@ public class RoboServer extends Listener {
     private static int tcpPort = 10801;
 
     private ServerState state;
-    private boolean terminated = false;
 
     private HashMap<Integer, Robot> robotMap;
     private HashMap<Integer, String> playerMap;
@@ -128,28 +127,25 @@ public class RoboServer extends Listener {
         System.out.println("Client sent: " + payload.message); //For debugging TODO remove
         try {
             switch (split[0].toLowerCase()) {
-                case "done":
+                case "done": //Client is done simulating
                     nDoneSimulating++;
                     if(nDoneSimulating == nPlayers){
                         handOutCards();
                         nDoneSimulating = 0;
                     }
                     break;
-                case "username":
+                case "username": //Client registers its username with the server
                     playerMap.put(connection.getID(),split[1]);
                     Payload users = assembleUserListPacket();
                     server.sendToAllTCP(users);
                     break;
-                case "ready":
+                case "ready": //Client is ready for the game to be launched
                     nReady++;
                     if(nReady == nPlayers){
                         launchGame();
                     }
                     break;
-                case "unready":
-                    nReady--;
-                    break;
-                case "doneloading":
+                case "doneloading": //Client is done loading the gamescreen
                     nDoneLoading++;
                     if(nDoneLoading >= nPlayers){ //assign id's
                         ArrayList<Robot> robots = Map.getInstance().getRobotList();
@@ -159,7 +155,7 @@ public class RoboServer extends Listener {
                         handOutCards();
                     }
                     break;
-                case "getwinner":
+                case "getwinner": //Client is requesting the username of the winner
                     Payload reply = new Payload();
                     for(Robot r : robotMap.values()){
                         if(r.isWinner()){
@@ -168,7 +164,7 @@ public class RoboServer extends Listener {
                         }
                     }
                     break;
-                case "powerdown":
+                case "powerdown": //Client announces that it's powerdown button has been pressed
                     Payload notification = new Payload();
                     notification.message = "powerdown " + playerMap.get(connection.getID());
                     server.sendToAllExceptTCP(connection.getID(),notification);
@@ -183,12 +179,18 @@ public class RoboServer extends Listener {
         }
     }
 
+    /**
+     * Collects all the usernames of the clients connected to the server
+     * and creates a payload
+     * @return payload containing keyword and all the users
+     */
     private Payload assembleUserListPacket(){
         Payload users = new Payload();
         StringBuilder userList = new StringBuilder();
         userList.append("users ");
         for(String user : playerMap.values()){
-            userList.append(user + " ");
+            userList.append(user);
+            userList.append(" ");
         }
         users.message = userList.toString();
         return users;

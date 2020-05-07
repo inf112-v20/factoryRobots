@@ -40,10 +40,8 @@ public class RotateCard extends CardStatus {
      * @param robot
      */
     public void doAction(Robot robot){
-        if (uTurn){
-            robot.turn(rotation);
-            robot.turn(rotation);
-        } else {
+        robot.turn(rotation);
+        if (uTurn) {
             robot.turn(rotation);
         }
     }

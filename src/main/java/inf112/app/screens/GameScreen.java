@@ -205,6 +205,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
                             r.removeDamageTokens(1);
                         }
                     }
+                    //If powerdown has been announced, set robot to powerdown
                     if(r.getPowerDown()){
                         r.setDoneProgramming(true);
                         cellMap.incrementDoneProgramming();
@@ -302,7 +303,7 @@ public class GameScreen implements Screen, MultiplayerScreen {
                         } else {
                             alertUser("Computer won the game..");
                         }
-                    } //TODO stop after 1 winner
+                    }
                     timer.disable();
                 } else if(r.isDead()){
                     if(r.equals(player.getCharacter())){
@@ -324,6 +325,11 @@ public class GameScreen implements Screen, MultiplayerScreen {
         }
     }
 
+    /**
+     * Update which sprite of the robot that should be shown as well as rendering that sprite in
+     * the correct position and orientation. Called every render after all the robot sprites have been wiped
+     * @param robot Robot to be updated
+     */
     private void updateRobot(Robot robot){
         int robotX = robot.getPos().getXCoordinate();
         int robotY = robot.getPos().getYCoordinate();
@@ -394,6 +400,10 @@ public class GameScreen implements Screen, MultiplayerScreen {
         game.manager.unload("cardUI");
     }
 
+    /**
+     * Goes through the list of robots and calls the
+     * {@link #updateRobot(Robot)} method for everyone to update the robot's sprite
+     */
     public void updateRobots(){
         ArrayList<Robot> list = cellMap.getRobotList();
         for(Robot r : list){
@@ -401,10 +411,20 @@ public class GameScreen implements Screen, MultiplayerScreen {
         }
     }
 
+    /**
+     * Method for displaying a message for the user in the middle of the screen
+     * @param info The message to be displayed
+     */
     public void alertUser(String info){
         alert.setText(info);
     }
 
+    /**
+     * Used on the user when the timer runs out, or by the "AI"
+     * Gets a random selection of cards and adds them to the programmed slots,
+     * then locks in the programming
+     * @param r Robot to which the program should be assigned
+     */
     private void assignRandomProgram(Robot r){
         for(CardSlot slot : r.getProgrammedCards()) {
             if (!slot.hasCard()) {

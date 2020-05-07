@@ -80,11 +80,19 @@ public class GameButtonActor extends ButtonActor {
         }
     }
 
+    /**
+     * Makes the button clickable again and sets the visible button
+     * to the {@link #buttonUp} sprite
+     */
     public void releaseButton(){
         pushable = true;
         layer.setCell(x,y,buttonUp);
     }
 
+    /**
+     * Locks the button, keeping the user from clicking it
+     * Sets the visible button to the {@link #buttonDown} sprite
+     */
     public void lockButton(){
         pushable = false;
         layer.setCell(x,y,buttonDown);

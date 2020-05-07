@@ -4,6 +4,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 
+/**
+ * Actor handling the click actions and listener for the {@link CardSlot} in the {@link CardUI}
+ */
 public class CardSlotActor extends ButtonActor {
 
     private TiledMapTileLayer.Cell cell;

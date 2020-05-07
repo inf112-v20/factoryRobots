@@ -60,21 +60,34 @@ public class CardUI {
         this.laserSprites = (TiledMapTileLayer) laserSprites.getLayers().get("Laser");
         stage = null;
 
+        //Get the health lights
         healthLights = new TiledMapTileLayer.Cell[4];
         TextureRegion[][] sprites = TextureRegion.split(healthSprites,400,600);
 
         for(int i = 0; i<healthLights.length; i++){
             healthLights[i] = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(sprites[0][3-i]));
         }
-
+        //Get the cardlocks
         TextureRegion[][] temp = TextureRegion.split(lock,400,600);
         cardLock = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(temp[0][0]));
     }
 
+    /**
+     * @param amount Sets how many of the health lights that should be green
+     */
     public void setHealthLight(int amount){
         buttonApplicationLayer.setCell(buttonApplicationLayer.getWidth()-3,0,healthLights[amount]);
     }
 
+    /**
+     * Since {@link CardUI} is a singleton, we store it as a static instance so that all classes can get it
+     * @param cardUI The loaded cardUI
+     * @param buttons The loaded button textures
+     * @param laserSprites The loaded laser sprites texture
+     * @param healthLight The loaded health lights texture
+     * @param lock The loaded lock texture
+     * @return Returns the created instance
+     */
     public static CardUI setInstance(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites, Texture healthLight,
                                      Texture lock){
         instance = new CardUI(cardUI,buttons,laserSprites,healthLight, lock);
@@ -92,7 +105,10 @@ public class CardUI {
         instance = null;
     }
 
-
+    /**
+     * Sets which thumbnail that is displayed in the UI, showing the user which robot he is controlling
+     * @param robot The thumbnail of the robot
+     */
     public void setPlayerRobotGraphic(Texture robot){
         TextureRegion[][] temp = TextureRegion.split(robot,400,600);
         robotThumbnail = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(temp[0][0]));
@@ -103,6 +119,11 @@ public class CardUI {
         return cardUI;
     }
 
+    /**
+     * Instantiates the users {@link CardSlot}'s, places them in the
+     * UI and assigns them coordinates
+     * @param player The user
+     */
     public void initializeCardSlots(Player player){
         user = player;
         bottomCardSlots = player.getCharacter().getProgrammedCards();
@@ -123,12 +144,19 @@ public class CardUI {
         }
     }
 
+    /**
+     * Assigns the damage token graphics to the appropriate tiles in the UI
+     */
     public void initializeDamageTokens(){
         for (int i = 0; i < 4; i++){
             buttonApplicationLayer.setCell(i, 1, damageTokens.getCell(0,0));
         }
     }
 
+    /**
+     * Changes how many of the damage tokens that are lit up
+     * @param tokens The amount of tokens that should be lit up
+     */
     public void updateDamageTokens(int tokens) {
         initializeDamageTokens();
         int amountDouble = tokens / 2;
@@ -145,6 +173,14 @@ public class CardUI {
         return lookupSlots[x][y];
     }
 
+    /**
+     * Looks up a slot with the help of the parameters and adds a card to that slot
+     * @param card The card to be added
+     * @param where A string denoting if the slot can be found on bottom line (programmed cards slots)
+     *              or on the side (available cards slots)
+     * @param num The index of the slot in the set of slots denoted by
+     * @return true if the card could be added, false if not
+     */
     public boolean addCardToSlot(ICard card, String where, int num){
         if("bottom".equals(where)){
             return bottomCardSlots[num].addCard(card,stage);
@@ -163,6 +199,12 @@ public class CardUI {
         return sideCardSlots;
     }
 
+    /**
+     * Finds the first free slot (i.e. that doesn't contain a card) in the set of slots denoted by where
+     * @param where A string denoting if the method should look for a slot among the programmed cards slots
+     *              or on the side among the available cards slots
+     * @return The first available slot, or null if no one is available
+     */
     public CardSlot findAvailableSlot(String where) {
         if("bottom".equals(where)){
             for(int i = 0; i<bottomCardSlots.length; i++){
@@ -196,12 +238,20 @@ public class CardUI {
         return user;
     }
 
+    /**
+     * Makes the user unable to interact with the programmed cards {@link CardSlot}
+     * @param xCoord index of the slot to be locked among the programmed cards slots
+     */
     public void lockProgramSlot(int xCoord) {
         buttonApplicationLayer.setCell(xCoord,0,cardLock);
         CardSlot slot = bottomCardSlots[xCoord];
         ((CardSlotActor)stage.getActorFromGrid(slot.getxCoord(),slot.getyCoord())).setPushable(false);
     }
 
+    /**
+     * Makes the user able to interact with the programmed cards {@link CardSlot}
+     * @param xCoord index of the slot to be unlocked among the programmed cards slots
+     */
     public void unlockProgramSlot(int xCoord){
         buttonApplicationLayer.setCell(xCoord,0,null);
         CardSlot slot = bottomCardSlots[xCoord];

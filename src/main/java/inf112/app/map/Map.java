@@ -70,7 +70,7 @@ public class Map {
         laserObjects = obtainLaserObjects();
         robotList = new ArrayList<>();
         spawnPoints = getSpawnPoints(getLayer("StartPosition"));
-        createAllFlags();
+        findFinalFlagNum();
     }
 
     /**
@@ -351,7 +351,10 @@ public class Map {
         return spawnPoints[index];
     }
 
-    public void createAllFlags(){
+    /**
+     * Goes through the map to find all the flags, located the one with the highest value and stores it
+     */
+    public void findFinalFlagNum(){
         finalFlagNum = -1;
         for(int x = 0; x < mapSizeX; x++){
             for(int y = 0; y < mapSizeY; y++){
@@ -372,6 +375,11 @@ public class Map {
         return finalFlagNum;
     }
 
+    /**
+     * Check if a position is inside the map bounds
+     * @param pos Position to be checked
+     * @return True if the position is outside of the map, false if not
+     */
     public boolean isOutSideMap(Position pos) {
         return pos.getXCoordinate() >= mapSizeX || pos.getYCoordinate() >= mapSizeY ||
                 pos.getXCoordinate() < 0 || pos.getYCoordinate() < 0;

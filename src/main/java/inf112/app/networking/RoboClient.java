@@ -69,7 +69,7 @@ public class RoboClient extends Listener {
 
     @Override
     public void connected(Connection connection) {
-        //System.out.println("Connected to " + connection.getRemoteAddressTCP().toString());
+        //do nothing
     }
 
     @Override
@@ -230,25 +230,25 @@ public class RoboClient extends Listener {
                     serverReject = true;
                     serverMessage = "Server is full";
                     break;
-                case "shutdown":
+                case "shutdown": //Server shuts down
                     if(game.getScreen() instanceof MultiplayerScreen){
                          ((MultiplayerScreen) game.getScreen()).alertUser("Host disconnected");
                     }
                     break;
-                case "allready":
+                case "allready": //All clients have clicked ready
                     if(game.getScreen() instanceof ServerLobbyScreen){
                         ((ServerLobbyScreen) game.getScreen()).alertUser("Server launching..");
                     }
                     break;
-                case "ids":
+                case "ids": //Server passes the list of the robot ids
                     for(int i = 1; i<split.length; i++){
                         idList.add(Integer.parseInt(split[i]));
                     }
                     break;
-                case "winner":
+                case "winner": //Server sends username of the winner of the game
                     ((GameScreen) game.getScreen()).alertUser(split[1] + " has won the game!");
                     break;
-                case "powerdown":
+                case "powerdown": //Server sends username of user announcing powerdown
                     ((GameScreen) game.getScreen()).alertUser(split[1] + " announces powerdown!");
                     break;
                 default:
@@ -303,12 +303,20 @@ public class RoboClient extends Listener {
         client.stop();
     }
 
+    /**
+     * Notifies the server that the user is
+     * ready for the game to launch
+     */
     public void sendReady(){
         Payload ready = new Payload();
         ready.message = "ready";
         client.sendTCP(ready);
     }
 
+    /**
+     * Notifies the server that the client is done
+     * loading the gamescreen
+     */
     public void notifyDoneLoading(){
         Payload loading = new Payload();
         loading.message = "doneloading";
@@ -327,12 +335,18 @@ public class RoboClient extends Listener {
         return userList;
     }
 
+    /**
+     * Requests the username of the winner of the game from the server
+     */
     public void getWinner() {
         Payload winRequest = new Payload();
         winRequest.message = "getwinner";
         client.sendTCP(winRequest);
     }
 
+    /**
+     * Notifies the server that the user has clicked the powerdown button
+     */
     public void sendPowerdownNotification() {
         Payload powerdown = new Payload();
         powerdown.message = "powerdown";

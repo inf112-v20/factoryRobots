@@ -8,6 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import inf112.app.cards.CardSlot;
 
+/**
+ * Class extending the {@link Stage} class, that also maintains
+ * the in-game buttons and holds and additional Tiledmap grid for clicklisteners
+ * corresponding to the {@link CardUI} grid.
+ */
 public class TiledMapStage extends Stage {
     private final RoboRally game;
     private TiledMap tiledMap;
@@ -40,6 +45,10 @@ public class TiledMapStage extends Stage {
         this.game = game;
     }
 
+    /**
+     * Creates clicklisteners for the cards in the {@link CardUI} tiledmap grid
+     * @param layer the clicklisteners should be based on
+     */
     private void createActor(TiledMapTileLayer layer){
         for(int x = 0; x < layer.getWidth(); x++) {
             for(int y = 0; y < layer.getHeight(); y++){
@@ -47,14 +56,18 @@ public class TiledMapStage extends Stage {
                 CardSlot slot = cardUI.getSlotFromCoordinates(x,y);
                 CardSlotActor actor = new CardSlotActor(cell, slot,this);
                 actorGrid[x][y] = actor;
-                actor.setBounds(x*(cardWidth), y*(cardHeight), cardWidth, cardHeight);  //height 1.5 since that is the cards ratio (400x600)
-                addActor(actor);                                            //*1.5f to compensate the stretch downward
+                actor.setBounds(x*(cardWidth), y*(cardHeight), cardWidth, cardHeight);
+                addActor(actor);
                 EventListener eventListener = new TiledMapClickListener(actor);
                 actor.addListener(eventListener);
             }
         }
     }
 
+    /**
+     * Creates clicklisteners for the buttons in the {@link CardUI} grid
+     * @param layer the clicklisteners should be based on the, i.e. the button layer
+     */
     private void instantiateButtons(TiledMapTileLayer layer){
         int x = layer.getWidth() - 1;
         String[] type = {"powerdown", "lockin", "sound"};
@@ -74,12 +87,23 @@ public class TiledMapStage extends Stage {
         }
     }
 
+    /**
+     * When the screen is resized, the click-listener tiles need to be resized as well
+     * This method adjusts the {@link #cardHeight} and {@link #cardWidth} based on the new scale and set ratios
+     * and calls the {@link #refreshBoundaries()} method
+     * @param width New width of the window
+     * @param height New height of the window
+     */
     public void resize(int width, int height){
         cardWidth = width*widthRatio;
         cardHeight = height*heightRatio;
         refreshBoundaries();
     }
 
+    /**
+     * Sets the size of the click-listener tiles according to the newly adjusted {@link #cardWidth}
+     * and {@link #cardHeight}
+     */
     private void refreshBoundaries(){
         for(int x = 0; x < actorGrid.length; x++) {
             for (int y = 0; y < actorGrid[x].length; y++) {
@@ -104,6 +128,9 @@ public class TiledMapStage extends Stage {
         return (GameButtonActor) actorGrid[cardLayer.getWidth()-1][0];
     }
 
+    /**
+     * Makes all the cards and buttons clickable clickable
+     */
     public void releaseButtons(){
          getLockInButton().releaseButton();
          getPowerdownButton().releaseButton();

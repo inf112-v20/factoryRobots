@@ -19,7 +19,7 @@ public class FlagTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load("assets/testMap.tmx");
         Map.setInstance("testMap");
@@ -39,7 +39,7 @@ public class FlagTest {
         player = new Player(2, 2);
 
         flag2.doAction(player.getCharacter());
-        assertEquals("Checking for no flag", player.getCharacter().getVisitedFlag(), null);
+        assertNull("Checking for no flag", player.getCharacter().getVisitedFlag());
         flag1.doAction(player.getCharacter());
         assertEquals("Checking if player registers new visited flag 1", player.getCharacter().getVisitedFlag(), flag1);
         flag2.doAction(player.getCharacter());

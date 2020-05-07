@@ -1,8 +1,5 @@
 package inf112.app.objects;
 
-
-import inf112.app.map.Position;
-
 import java.util.Objects;
 
 public class Flag implements IBoardElement {

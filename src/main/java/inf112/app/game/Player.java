@@ -43,6 +43,9 @@ public class Player extends InputAdapter {
      */
     @Override
     public boolean keyUp(int keycode) {
+        if(!RoboRally.DEBUG){
+            return false;
+        }
         switch (keycode) {
             case Input.Keys.LEFT:
                 character.turn(Rotation.LEFT);

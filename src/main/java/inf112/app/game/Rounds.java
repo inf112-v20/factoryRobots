@@ -30,45 +30,44 @@ public class Rounds {
      * method for doing the actions in rights order for each of the cards
      * and triggering all the elements
      */
-    public void doPhase(int phaseNum){
-            ArrayList<Integer> cardsFromSlot = new ArrayList<>();
+    public void doPhase(int phaseNum) {
+        ArrayList<Integer> cardsFromSlot = new ArrayList<>();
+        for (Robot r : robots) {
+            ICard card = r.getProgrammedCard(phaseNum - 1);
+            if (card != null) {
+                cardsFromSlot.add(card.getPoint());
+            }
+        }
+        cardsFromSlot.sort(Collections.reverseOrder());
+        for (int i = 0; i < cardsFromSlot.size(); i++) {
             for (Robot r : robots) {
                 ICard card = r.getProgrammedCard(phaseNum - 1);
-                if (card != null) {
-                    cardsFromSlot.add(card.getPoint());
+                if (card == null) {
+                    continue;
+                }
+                if (cardsFromSlot.get(i) == card.getPoint()) {
+                    card.doAction(r);
                 }
             }
-            cardsFromSlot.sort(Collections.reverseOrder());
-            for (int i = 0; i < cardsFromSlot.size(); i++) {
-                for (Robot r : robots) {
-                    ICard card = r.getProgrammedCard(phaseNum - 1);
-                    if (card == null) {
-                        continue;
-                    }
-                    if (cardsFromSlot.get(i) == card.getPoint()) {
-                        card.doAction(r);
-                    }
+        }
+        for (Robot r : robots) {
+            Conveyor conveyor = Conveyor.extractConveyorFromCell(r.getPos());
+            if (conveyor != null) {
+                conveyor.doAction(r);
+            }
+        }
+        for (Robot r : robots) {
+            ArrayList<IBoardElement> contents = map.getCellList().getCell(r.getPos()).getInventory().getElements();
+            for (IBoardElement elem : contents) {
+                if (elem instanceof Conveyor) {
+                    continue;
+                } else if (elem instanceof Laser) {
+                    continue;
+                } else if (elem != null) {
+                    elem.doAction(r);
                 }
             }
-                for (Robot r : robots) {
-                    Conveyor conveyor = Conveyor.extractConveyorFromCell(r.getPos());
-                    if (conveyor != null) {
-                        conveyor.doAction(r);
-                    }
-                }
-                for (Robot r : robots) {
-                    ArrayList<IBoardElement> contents = map.getCellList().getCell(r.getPos()).getInventory().getElements();
-                    for (IBoardElement elem : contents) {
-                        if (elem instanceof Conveyor) {
-                            continue;
-                        } else if (elem instanceof Laser) {
-                            continue;
-                        } else if (elem != null) {
-                            elem.doAction(r);
-                        }
-                    }
-                }
-
+        }
     }
 }
 

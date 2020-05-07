@@ -24,13 +24,14 @@ public class RoboRally extends Game {
     public SpriteBatch batch;
     public static final int MAX_PLAYER_AMOUNT = 8;
 
+    public static final boolean DEBUG = true;
+
     private Player player;
     private String playerName = "Anonymous";
 
     private int numberOfPlayersInSession;
     public static final String[] robotNames =
             new String[]{"1Comb","2Comb","3Comb","4Comb","5Comb","6Comb","7Comb","8Comb"};
-    //private Robot[] loadedRobots;
 
     protected Stage stage;
     protected StretchViewport viewport;
@@ -134,9 +135,6 @@ public class RoboRally extends Game {
     }
     public void setMap(String name){
         Map.setInstance(name);
-    }
-    public void setPlayer(int x, int y){
-        player = new Player(x, y);
     }
     public void setPlayer(){
         player = new Player();

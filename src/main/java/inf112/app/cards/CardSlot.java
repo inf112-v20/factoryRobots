@@ -13,6 +13,13 @@ public class CardSlot {
     private boolean isLocked;
     private final boolean noUI;
 
+    /**
+     * Constructor used when the slot will be represented graphically, i.e. the slot belongs to the user
+     * @param x x-coordinate of the slot in the UI grid
+     * @param y y-coordinate of the slot in the UI grid
+     * @param position String denoting if the slot belongs among the bottom slots, i.e. the slots
+     *                 holding the cards will be programmed into the robot, or the slots on the side
+     */
     public CardSlot(int x, int y, String position){
         card = null;
         xCoord = x;
@@ -24,6 +31,12 @@ public class CardSlot {
         noUI = false;
     }
 
+    /**
+     * Constructor used to create slots that won't be represented graphically,
+     * i.e. it the slot doesn't belong to a user
+     * @param position String denoting if the slot belongs among the bottom slots, i.e. the slots
+     *                 holding the cards will be programmed into the robot, or the slots on the side
+     */
     public CardSlot(String position){
         card = null;
         this.position = position;
@@ -31,6 +44,14 @@ public class CardSlot {
         noUI = true;
     }
 
+    /**
+     * Adds a card to the slot if there isn't another card occupying it
+     * @param newCard The card to be added
+     * @param stage The stage which holds the {@link inf112.app.game.CardSlotActor}'s
+     *              in case the slot belongs to the user. If certain it doesn't then null may be passed,
+     *              but avoid if possible
+     * @return True if the card could be added false if not
+     */
     public boolean addCard(ICard newCard, TiledMapStage stage){
         if(card == null){
             this.card = newCard;
@@ -43,9 +64,12 @@ public class CardSlot {
         return false;
     }
 
+    /**
+     * Removes the card from the slot if there is one
+     * @return The card that has been removed
+     */
     public ICard removeCard(){
         if(card == null){
-            //System.out.println("No card to remove in the slot");
             return null;
         } else {
             ICard value = card;
@@ -57,6 +81,9 @@ public class CardSlot {
         }
     }
 
+    /**
+     * Locks the slot, makes it unclickable for the user if it belongs to the user
+     */
     public void lockSlot(){
         this.isLocked = true;
         if(!noUI){
@@ -68,6 +95,9 @@ public class CardSlot {
         return isLocked;
     }
 
+    /**
+     * Unlocks the slot, makes it clickable for the user if it belongs to the user
+     */
     public void unlockSlot(){
         this.isLocked = false;
         if(!noUI){

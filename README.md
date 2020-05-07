@@ -24,3 +24,5 @@ when the java version used is >8. This has no effect on function or performance,
 
 - Exception when using Mac OS: Please run the JVM with -XstartOnFirstThread. For example:<br>
 ```java -XstartOnFirstThread -cp target/factory-robots-1.0-SNAPSHOT.jar inf112.app.Main```
+
+- In game click listners does not work correctly when stretching the game beyond it original size. Work around: Resize the window below 1000 pixels in width for it to work correly again.

@@ -10,7 +10,7 @@ import inf112.app.cards.CardSlot;
 
 /**
  * Class extending the {@link Stage} class, that also maintains
- * the in-game buttons and holds and additional Tiledmap grid for clicklisteners
+ * the in-game buttons and holds and additional tiledmap grid for click-listeners
  * corresponding to the {@link CardUI} grid.
  */
 public class TiledMapStage extends Stage {
@@ -27,6 +27,11 @@ public class TiledMapStage extends Stage {
 
     private ButtonActor[][] actorGrid;
 
+    /**
+     * Basic constructor, creates {@link CardSlotActor}s for the whole grid
+     * and {@link GameButtonActor}s for the cells containing the buttons
+     * @param game The game instance
+     */
     public TiledMapStage(RoboRally game){
         cardUI = CardUI.getInstance();
         tiledMap = cardUI.getCardUITiles();

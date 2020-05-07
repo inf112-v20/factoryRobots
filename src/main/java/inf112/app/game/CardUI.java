@@ -51,6 +51,19 @@ public class CardUI {
         user.assignRobot(new Robot(new Position(0,0),"player"));
     }
 
+    /**
+     * Standard constructor for the cardUI, takes TiledMaps and Textures loaded by the assetmanager as arguments,
+     * initializes all the elements onto the UI.
+     * @param cardUI Tiledmap holding the grid holding the card slots, where buttons damagetokens and other
+     *               graphical elements of the UI will be applied in the constructor
+     * @param buttons The tiledmap holding the graphics of the different buttons and button states which
+     *                will be dynamically applied to the cardUI as the user interacts with the buttons
+     * @param laserSprites The tiledmap holding all the different laser-beam graphics, which will be applied to the
+     *                     laser paths in the tiledmap game-map when lasers are fired
+     * @param healthSprites Sprite sheet texture holding all the different sprites for the lights displaying how many
+     *                      lives the users robot has remaining
+     * @param lock The texture of the lock that are displayed above the locked card-slots
+     */
     private CardUI(TiledMap cardUI, TiledMap buttons, TiledMap laserSprites,
                    Texture healthSprites, Texture lock){
         this.cardUI = cardUI;
@@ -80,7 +93,8 @@ public class CardUI {
     }
 
     /**
-     * Since {@link CardUI} is a singleton, we store it as a static instance so that all classes can get it
+     * Since {@link CardUI} is a singleton, we store it as a static instance so that all classes can get it.
+     * Accepts the arguments and passes it to the constructor
      * @param cardUI The loaded cardUI
      * @param buttons The loaded button textures
      * @param laserSprites The loaded laser sprites texture
@@ -94,6 +108,10 @@ public class CardUI {
         return instance;
     }
 
+    /**
+     * Since {@link CardUI} is a singleton, we store it as a static instance so that all classes can get it
+     * @return The instance of the cardUI
+     */
     synchronized public static CardUI getInstance(){
         if(instance == null){
             instance = new CardUI();
@@ -101,6 +119,9 @@ public class CardUI {
         return instance;
     }
 
+    /**
+     * Deletes cardUI instance so that it can be reset and reloaded
+     */
     synchronized public static void clearInstance(){
         instance = null;
     }
@@ -115,6 +136,10 @@ public class CardUI {
         buttonApplicationLayer.setCell(buttonApplicationLayer.getWidth()-2,1,robotThumbnail);
     }
 
+    /**
+     * @return The actual tiledmap grid of the cardUI holding all the cards,
+     * buttons and other UI elements
+     */
     public TiledMap getCardUITiles() {
         return cardUI;
     }
@@ -169,6 +194,11 @@ public class CardUI {
         }
     }
 
+    /**
+     * @param x x-coordinate of the slot
+     * @param y y-coordinate of the slot
+     * @return The card slot contained in the cell at the given coordinates, if there is one
+     */
     public CardSlot getSlotFromCoordinates(int x, int y){
         return lookupSlots[x][y];
     }

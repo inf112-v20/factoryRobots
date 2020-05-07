@@ -13,14 +13,14 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
 /**
- *
- * Class for all the cards in the game
+ * Abstract class for representing all the different types of cards in the game
+ * Partially implements the {@link ICard} interface as well as the {@link Comparable} interface so
+ * cards can be compared based on priority points. Responsible for applying the
+ * graphical representation of the priority points to the textures
  */
 public abstract class CardStatus implements Comparable<ICard>, ICard {
 
     private final int point;
-    private boolean isHidden;
-    private boolean isLocked;
 
     private final Texture texture;
     private TiledMapTileLayer.Cell cardTile;
@@ -31,8 +31,6 @@ public abstract class CardStatus implements Comparable<ICard>, ICard {
      */
     public CardStatus(int point, Texture texture) {
         this.point = point;
-        this.isHidden = false;
-        this.isLocked = false;
         this.texture = texture;
 
         //Automated tests will pass texture as null
@@ -80,51 +78,7 @@ public abstract class CardStatus implements Comparable<ICard>, ICard {
         spriteBatch.dispose();
     }
 
-
-    /**
-     *
-     * @return priority point
-     */
     public int getPoint() { return point; }
-
-
-    /**
-     * returns true if card is in locked register
-     * @return True if card is in a locked register, false if not
-     */
-    public boolean isLocked() {
-        return isLocked;
-    }
-
-    /**
-     * returns true if card is hidden
-     * cards are hidden and are one by one shown
-     * @return True if card is hidden, false if not
-     */
-    public boolean isHidden() {
-        return isHidden;
-    }
-
-    public Texture getTexture() {
-        return texture;
-    }
-
-
-    /**
-     * sets card in locked state
-     * @param b True to set the card as locked, false to unlock it
-     */
-    public void setLocked(boolean b) {
-        isLocked = b;
-    }
-
-    /**
-     * sets card in hidden state
-     * @param b True to set card as hidden, false to show it
-     */
-    public void setHidden(boolean b) {
-        isHidden = b;
-    }
 
     @Override
     public int compareTo(ICard o) {

@@ -37,7 +37,8 @@ public class Player extends InputAdapter {
     }
 
     /**
-     * Changes the players coordinates based on keypress
+     * Handles keyboard in-game keyboard input, used for testing and debugging
+     * If {@link RoboRally#DEBUG} is false then nothing will happen
      * @param keycode Code for key that is being released
      * @return true if key is being released, false if not
      */

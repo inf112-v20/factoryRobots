@@ -20,6 +20,11 @@ import inf112.app.screens.PauseGameScreen;
 
 import java.io.IOException;
 
+/**
+ * Class for managing a game-session of Robo Rally.
+ * Holds global variables as well as standard values and various instances
+ * required for a session
+ */
 public class RoboRally extends Game {
     public SpriteBatch batch;
     public static final int MAX_PLAYER_AMOUNT = 8;
@@ -173,6 +178,11 @@ public class RoboRally extends Game {
         return playerName;
     }
 
+    /**
+     * Method used by the {@link inf112.app.screens.HostGameScreen} to launch a server
+     * Method creates a server instance as well as a client for the host which automatically
+     * connects to the server. The server will then run in the background on the hosts client.
+     */
     public void launchServer() {
         if(server != null){
             System.out.println("Server already launched");
@@ -187,6 +197,10 @@ public class RoboRally extends Game {
 
     }
 
+    /**
+     * Method for closing down a server properly. Closes all the server connection,
+     * stops the thread and deletes the {@link RoboServer} instance
+     */
     public void shutdownServer() {
         server.shutdown();
         server = null;

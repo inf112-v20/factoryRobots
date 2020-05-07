@@ -9,13 +9,16 @@ import java.util.Stack;
 
 /**
  *
- * This class creates and holds an entire deck of cards.
+ * Class for holding a deck of cards as well as the used a stack for the cards that have been used.
  */
 public class CardDeck {
     private Stack<ICard> deck;
     private ArrayList<ICard> usedStack;
     private Texture[] textures;
 
+    /**
+     * Normal constructor, loads the card textures, assigns appropriate priority points and shuffles the deck.
+     */
     public CardDeck(){
         loadCardTextures();
         initialize();
@@ -24,7 +27,7 @@ public class CardDeck {
 
     /**
      * Constructor used by automated tests
-     * should never be used by actual game
+     * should never be used by actual game as it doesn't load the textures
      * @param testing extra parameter for distinguishing the constructors
      *                can be true or false
      */
@@ -38,8 +41,8 @@ public class CardDeck {
     }
 
     /**
-     * Loads the card textures and adds the
-     * cards to the deck
+     * Loads the card textures, assigns priority points
+     * and adds the cards to the deck
      */
     public void initialize() {
         deck = new Stack<>();
@@ -101,7 +104,7 @@ public class CardDeck {
     }
 
     /**
-     * Moves all the used cards back to the deck
+     * Readds all the used cards to the deck and shuffles
      */
     public void reset(){
         for(ICard card : usedStack){
@@ -111,8 +114,7 @@ public class CardDeck {
     }
 
     /**
-     *
-     * Shuffles the deck, use this before getting cards
+     * Shuffles the card deck
      */
 
     public void shuffle() {
@@ -120,19 +122,9 @@ public class CardDeck {
     }
 
     /**
-     * Adds card back to the deck
-     * @param card A single card that is to be added back to the deck
-     */
-    public void addCard(ICard card){
-        deck.push(card);
-    }
-
-
-    /**
      * Return the desired amount of cards
-     * Prevents retrieving doubles
      * @param amount The desired amount of cards
-     * @return The amount of cards
+     * @return A list containing the correct amount of cards
      */
     public ArrayList<ICard> getCards(int amount) {
         ArrayList<ICard> playerDeck = new ArrayList<>();
@@ -181,8 +173,7 @@ public class CardDeck {
     }
 
     /**
-     * Retrieve the deck size
-     * @return Deck size
+     * @return The amount of cards in the deck, not including the used cards
      */
     public int getSize(){
         return deck.size();
@@ -197,7 +188,7 @@ public class CardDeck {
     }
 
     /**
-     * Load the card textures into the texture variable.
+     * Used to load the raw card textures from filesystem
      */
     private void loadCardTextures(){
         textures = new Texture[7];

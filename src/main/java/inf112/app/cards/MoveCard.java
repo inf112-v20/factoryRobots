@@ -5,17 +5,17 @@ import inf112.app.map.Direction;
 import inf112.app.objects.Robot;
 
 /**
- * this class represents the gameaction to change the players position
- * on the board.
+ * Class for representing the move- and back-up action cards
  */
 public class MoveCard extends CardStatus  {
     private int steps;
     private boolean backUp;
 
     /**
-     * constructor for move cards
-     * @param points
-     * @param steps
+     * Constructor for ordinary move cards
+     * @param points Priority number of the card
+     * @param steps How many movement steps the card holds
+     * @param texture The cards blank graphical texture
      */
     public MoveCard(int points, int steps, Texture texture){
         super(points,texture);
@@ -25,9 +25,10 @@ public class MoveCard extends CardStatus  {
     }
 
     /**
-     * constructor for backup card
-     * @param points
-     * @param backUp
+     * Constructor for the backup card
+     * @param points Priority number of the card
+     * @param backUp Boolean specifying if the card is a backup card
+     * @param texture The cards blank graphical texture
      */
     public MoveCard(int points, boolean backUp, Texture texture) {
         super(points, texture);
@@ -37,8 +38,8 @@ public class MoveCard extends CardStatus  {
 
     /**
      * Method to change a players position on the board
-     *checks if the card is backup, and takes in steps for how many moves
-     * @param robot
+     * based on the cards different properties
+     * @param robot The robot which the cards action should be applied to
      */
     public void doAction(Robot robot){
         if (backUp){
@@ -52,10 +53,16 @@ public class MoveCard extends CardStatus  {
         }
     }
 
+    /**
+     * @return How many steps the card will take a robot
+     */
     public int getSteps() {
         return steps;
     }
 
+    /**
+     * @return True if the card is a backup card, false if normal move card
+     */
     public boolean isBackUp() {
         return backUp;
     }

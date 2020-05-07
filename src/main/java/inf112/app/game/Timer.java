@@ -7,6 +7,10 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 
 import java.text.DecimalFormat;
 
+/**
+ * Class for a timer that counts down from a set time based on the {@link Gdx#graphics} delta time,
+ * i.e. the time since the last render call in the current instance of {@link com.badlogic.gdx.Screen}
+ */
 public class Timer {
 
     private float count;
@@ -18,6 +22,11 @@ public class Timer {
     private boolean disabled;
     private String str;
 
+    /**
+     * Basic constructor, initialises the necessary field
+     * @param count The initial time it should count down from
+     * @param label The label which the current time should be printed to
+     */
     public Timer(float count, VisLabel label){
         this.count = count;
         this.label = label;
@@ -28,6 +37,11 @@ public class Timer {
         disabled = false;
     }
 
+    /**
+     * Method which subracts the time since the last call and unless the timer
+     * is disabled (dictated by {@link #disabled} boolean) or the timer is {@link #done} the method will draw
+     * the updated time to the label
+     */
     public void drawTime() {
         count -= Gdx.graphics.getDeltaTime();
         if(disabled){return;}
@@ -44,6 +58,9 @@ public class Timer {
 
     }
 
+    /**
+     * Initiates the timer to count down from 30 seconds, resets all the necessary fields
+     */
     public void start(){
         Gdx.graphics.getDeltaTime();
         count = 30;
@@ -52,6 +69,9 @@ public class Timer {
         done = false;
     }
 
+    /**
+     * Sets the {@link #disabled} boolean to true
+     */
     public void disable() {
         disabled = true;
     }

@@ -5,16 +5,17 @@ import inf112.app.map.Direction.Rotation;
 import inf112.app.objects.Robot;
 
 /**
- * this class represents the gameaction to rotate the robot
+ * Class for representing the rotation action cards
  */
 public class RotateCard extends CardStatus {
     private Rotation rotation;
     private boolean uTurn;
 
     /**
-     * constructor for rotateLeft, rotateRight cards
-     * @param points
-     * @param r
+     * Constructor for rotateLeft, rotateRight cards
+     * @param points Priority number of the card
+     * @param r Rotation direction of the card
+     * @param texture The cards blank graphical texture
      */
     public RotateCard(int points, Rotation r, Texture texture){
         super(points, texture);
@@ -23,9 +24,10 @@ public class RotateCard extends CardStatus {
     }
 
     /**
-     * constructor for U Turn card
-     * @param points
-     * @param uTurn
+     * Constructor for U Turn card
+     * @param points Priority number of the card
+     * @param uTurn Boolean designating if this is a uTurn card, true for u-turn
+     *              false for normal rotate card
      */
     public RotateCard(int points, boolean uTurn, Texture texture){
         super(points, texture);
@@ -35,9 +37,10 @@ public class RotateCard extends CardStatus {
 
 
     /**
-     * method to rotate or turn the robot around
-     * checks if the card is uturn, and checks the direction of the rotation
-     * @param robot
+     * Method which rotates or turns the robot around
+     * Checks if the card is a u-turn card,
+     * and moves the robot in the appropriate direction
+     * @param robot The robot which the action should be applied to
      */
     public void doAction(Robot robot){
         robot.turn(rotation);
@@ -46,10 +49,16 @@ public class RotateCard extends CardStatus {
         }
     }
 
+    /**
+     * @return Rotation direction of the card
+     */
     public Rotation getRotation() {
         return rotation;
     }
 
+    /**
+     * @return True if the card is a u-turn card, false if not
+     */
     public boolean isUTurn() {
         return uTurn;
     }

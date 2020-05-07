@@ -137,8 +137,9 @@ public class CardDeck {
     }
 
     /**
-     * Method for drawing the top card from the deck
-     * @return The top card of the deck
+     * Returns the next card in the deck. It will reset the deck
+     * if the the deck is empty
+     * @return the next card in the stack
      */
     public ICard getCard(){
         if(deck.isEmpty()){
@@ -150,10 +151,10 @@ public class CardDeck {
     }
 
     /**
-     * Method for drawing a specific card from the deck,
-     * using the priority number of the card as a key
-     * @param priority Priority number of the card to be extracted from the deck
-     * @return The card with the correct priority number or null if the card doesn't exist
+     * Retrieve a card from the deck by the priority of the card.
+     * Also resets the deck if the deck is empty
+     * @param priority The priority to match card against
+     * @return The corresponding card
      */
     public ICard getCard(int priority){
         ICard c = null;
@@ -179,7 +180,8 @@ public class CardDeck {
     }
 
     /**
-     * @return true if the deck is out of cards, false if not
+     * Check if the deck is empty
+     * @return True if empty, false if not
      */
     public boolean isEmpty(){
         return deck.isEmpty();

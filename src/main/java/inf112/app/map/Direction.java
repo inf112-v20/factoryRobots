@@ -5,7 +5,7 @@ public class Direction {
     private DirEnum direction;
 
     /**
-     * Creates a new direction object
+     * Creates a new direction by a dir enum
      * @param dir Enum corresponding to the direction,
      *            NORTH being up and so forth
      */
@@ -14,8 +14,10 @@ public class Direction {
         angleDeg = translateEnumToAngle(dir);
     }
 
-
-
+    /**
+     * Creates a new direction object by an angle
+     * @param angle The angle of direction. Either 0, 90, 180, or 270
+     */
     public Direction(int angle){
         angleDeg = angle;
         direction = translateAngleToEnum(angle);
@@ -76,11 +78,20 @@ public class Direction {
         }
     }
 
+    /**
+     * Retrieve the angle of the direction
+     * @return The angle of the direction
+     */
     public int getAngleDeg() {
         return angleDeg;
     }
 
 
+    /**
+     * Checks if the direction is the same
+     * @param o The direction to compare with
+     * @return True if the same, false if not
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,10 +101,18 @@ public class Direction {
                 direction == direction1.direction;
     }
 
+    /**
+     * Makes a copy of the direction
+     * @return A copy of the provided direction
+     */
     public Direction copyOf(){
         return new Direction(direction);
     }
 
+    /**
+     * Format the direction
+     * @return Formatted string of the direction
+     */
     @Override
     public String toString() {
         return "Direction{" +
@@ -101,14 +120,24 @@ public class Direction {
                 '}';
     }
 
+    /**
+     * Retrieve the direction Enum. Either North, East, South, or West
+     * @return The direction Enum
+     */
     public DirEnum getDirEnum() {
         return direction;
     }
 
+    /**
+     * Enum for rotation
+     */
     public enum Rotation {
         LEFT, RIGHT
     }
 
+    /**
+     * Enum for cardinal directions
+     */
     public enum DirEnum {
         NORTH, EAST, SOUTH, WEST
     }

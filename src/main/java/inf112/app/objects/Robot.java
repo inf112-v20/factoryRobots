@@ -301,6 +301,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
+    public void declareWinner(){
+        isWinner = true;
+    }
+
     public int getDamageTokens() {return damageTokens; }
 
     /**

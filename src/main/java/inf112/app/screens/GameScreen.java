@@ -253,9 +253,13 @@ public class GameScreen implements Screen, MultiplayerScreen {
             }
         }
         //If only remaining robot, then you win
-        if(cellMap.getRobotList().size() == 1 && !player.getCharacter().isDead()){
+        if(cellMap.getRobotList().size() == 1){
             timer.disable();
-            alertUser("You win!");
+            cellMap.getRobotList().get(0).declareWinner();
+            if(!player.getCharacter().isDead()){
+                alertUser("You win!");
+            }
+
         }
 
         //initate new round when all robots are ready

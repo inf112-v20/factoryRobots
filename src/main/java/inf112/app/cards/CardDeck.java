@@ -144,6 +144,11 @@ public class CardDeck {
         return playerDeck;
     }
 
+    /**
+     * Returns the next card in the deck. It will reset the deck
+     * if the the deck is empty
+     * @return the next card in the stack
+     */
     public ICard getCard(){
         if(deck.isEmpty()){
             reset();
@@ -153,6 +158,12 @@ public class CardDeck {
         return card;
     }
 
+    /**
+     * Retrieve a card from the deck by the priority of the card.
+     * Also resets the deck if the deck is empty
+     * @param priority The priority to match card against
+     * @return The corresponding card
+     */
     public ICard getCard(int priority){
         ICard c = null;
         for(ICard card : deck){
@@ -169,14 +180,25 @@ public class CardDeck {
         return c;
     }
 
+    /**
+     * Retrieve the deck size
+     * @return Deck size
+     */
     public int getSize(){
         return deck.size();
     }
 
+    /**
+     * Check if the deck is empty
+     * @return True if empty, false if not
+     */
     public boolean isEmpty(){
         return deck.isEmpty();
     }
 
+    /**
+     * Load the card textures into the texture variable.
+     */
     private void loadCardTextures(){
         textures = new Texture[7];
         String[] cardNames = new String[]{"move_1","move_2","move_3","rotate_left","rotate_right","u-turn","back_up"};

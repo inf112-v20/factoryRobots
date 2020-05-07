@@ -256,10 +256,6 @@ public class GameScreen implements Screen, MultiplayerScreen {
         if(cellMap.getRobotList().size() == 1){
             timer.disable();
             cellMap.getRobotList().get(0).declareWinner();
-            if(!player.getCharacter().isDead()){
-                alertUser("You win!");
-            }
-
         }
 
         //initate new round when all robots are ready
@@ -323,6 +319,9 @@ public class GameScreen implements Screen, MultiplayerScreen {
                         }
                     }
                     timer.disable();
+                    tiledStage.setCardPushable(false);
+                    tiledStage.getLockInButton().lockButton();
+                    tiledStage.getPowerdownButton().lockButton();
                 } else if(r.isDead()){
                     if(r.equals(player.getCharacter())){
                         alertUser("You died");

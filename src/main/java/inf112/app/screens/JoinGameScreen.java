@@ -19,6 +19,9 @@ import inf112.app.networking.RoboClient;
 import java.io.IOException;
 import inf112.app.util.TableBuilder;
 
+/**
+ * This screen gives the player the functionality to join a multiplayer game
+ */
 public class JoinGameScreen implements Screen {
     private final Stage stage;
 
@@ -27,6 +30,12 @@ public class JoinGameScreen implements Screen {
     private VisLabel message;
     private VisValidatableTextField playerName;
 
+    /**
+     * Constructor for JoinGameScreen screen
+     * @param game The RoboRally game
+     * @param viewport The viewport for the RoboRally game
+     * @param stage The stage for the RoboRally game
+     */
     public JoinGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
@@ -35,6 +44,9 @@ public class JoinGameScreen implements Screen {
         message = new VisLabel("");
     }
 
+    /**
+     * Method that runs after {@link RoboRally#setScreen(Screen)} is called
+     */
     @Override
     public void show() {
         stage.clear();
@@ -97,6 +109,10 @@ public class JoinGameScreen implements Screen {
         });
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         game.batch.begin();
@@ -108,6 +124,12 @@ public class JoinGameScreen implements Screen {
 
     }
 
+    /**
+     * Called when the Application is resized.
+     * This can happen at any point during a non-paused state but will never happen before a call to create().
+     * @param x The new width in pixels
+     * @param y The new height in pixels
+     */
     @Override
     public void resize(int x, int y) {
         viewport.update(x, y, true);
@@ -151,6 +173,10 @@ public class JoinGameScreen implements Screen {
         }
     }
 
+    /**
+     * Method to inform the server that the player is ready
+     * @param ipField The text field with the correct ip
+     */
     private void readyUp(VisValidatableTextField ipField){
         RoboClient client = null;
         setPlayerName();

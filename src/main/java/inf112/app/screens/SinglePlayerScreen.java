@@ -12,6 +12,9 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 
+/**
+ * Host a single player game from this screen
+ */
 public class SinglePlayerScreen implements Screen {
     private final Stage stage;
 
@@ -19,12 +22,21 @@ public class SinglePlayerScreen implements Screen {
     private final StretchViewport viewport;
     private int botsNumber = 1;
 
+    /**
+     * Constructor for SinglePlayerScreen screen
+     * @param game The RoboRally game
+     * @param viewport The viewport for the RoboRally game
+     * @param stage The stage for the RoboRally game
+     */
     public SinglePlayerScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
     }
 
+    /**
+     * Method that runs after {@link RoboRally#setScreen(Screen)} is called
+     */
     @Override
     public void show() {
         stage.clear();
@@ -102,6 +114,10 @@ public class SinglePlayerScreen implements Screen {
         });
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         game.batch.begin();
@@ -113,6 +129,12 @@ public class SinglePlayerScreen implements Screen {
 
     }
 
+    /**
+     * Called when the Application is resized.
+     * This can happen at any point during a non-paused state but will never happen before a call to create().
+     * @param x The new width in pixels
+     * @param y The new height in pixels
+     */
     @Override
     public void resize(int x, int y) {
         viewport.update(x, y, true);

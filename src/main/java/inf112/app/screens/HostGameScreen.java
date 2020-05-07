@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+/**
+ * HostGameScreen shows the player a menu to host a RoboRally game
+ */
 public class HostGameScreen implements Screen {
     private final Stage stage;
 
@@ -27,12 +30,21 @@ public class HostGameScreen implements Screen {
     private final StretchViewport viewport;
     private VisValidatableTextField playerName;
 
+    /**
+     * Constructor for HostGameScreen screen
+     * @param game The RoboRally game
+     * @param viewport The viewport for the RoboRally game
+     * @param stage The stage for the RoboRally game
+     */
     public HostGameScreen(RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
     }
 
+    /**
+     * Method that runs after {@link RoboRally#setScreen(Screen)} is called
+     */
     @Override
     public void show() {
         stage.clear();
@@ -99,6 +111,10 @@ public class HostGameScreen implements Screen {
 
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         game.batch.begin();
@@ -110,6 +126,12 @@ public class HostGameScreen implements Screen {
 
     }
 
+    /**
+     * Called when the Application is resized.
+     * This can happen at any point during a non-paused state but will never happen before a call to create().
+     * @param x The new width in pixels
+     * @param y The new height in pixels
+     */
     @Override
     public void resize(int x, int y) {
         viewport.update(x, y, true);
@@ -153,6 +175,9 @@ public class HostGameScreen implements Screen {
         }
     }
 
+    /**
+     * Start up a multiplayer server
+     */
     private void startUp(){
         setPlayerName();
         game.launchServer();

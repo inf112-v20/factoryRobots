@@ -10,17 +10,29 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import inf112.app.game.RoboRally;
 
+/**
+ * CreditsScreen shows the game creation credits
+ */
 public class CreditsScreen implements Screen {
     private final RoboRally game;
     private final Stage stage;
     private final StretchViewport viewport;
 
+    /**
+     * Constructor for CreditsScreen screen
+     * @param game The RoboRally game
+     * @param viewport The viewport for the RoboRally game
+     * @param stage The stage for the RoboRally game
+     */
     public CreditsScreen(final RoboRally game, StretchViewport viewport, Stage stage) {
         this.game = game;
         this.viewport = viewport;
         this.stage = stage;
     }
 
+    /**
+     * Method that runs after {@link RoboRally#setScreen(Screen)} is called
+     */
     @Override
     public void show() {
         stage.clear();
@@ -47,6 +59,10 @@ public class CreditsScreen implements Screen {
         stage.addActor(table);
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         game.batch.begin();
@@ -57,9 +73,15 @@ public class CreditsScreen implements Screen {
         stage.draw();
     }
 
+    /**
+     * Called when the Application is resized.
+     * This can happen at any point during a non-paused state but will never happen before a call to create().
+     * @param x The new width in pixels
+     * @param y The new height in pixels
+     */
     @Override
-    public void resize(int i, int i1) {
-
+    public void resize(int x, int y) {
+        viewport.update(x, y, true);
     }
 
     @Override

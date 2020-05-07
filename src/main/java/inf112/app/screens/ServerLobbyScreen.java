@@ -16,6 +16,9 @@ import inf112.app.util.TableBuilder;
 
 import java.util.ArrayList;
 
+/**
+ * Lobby screen to show which player has joined the lobby. Also gives the host the ability to launch the game
+ */
 public class ServerLobbyScreen implements Screen, MultiplayerScreen {
     private final Stage stage;
 
@@ -26,6 +29,12 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
     private VisLabel alert = new VisLabel("");
     ArrayList<String> userList = new ArrayList<>(8);
 
+    /**
+     * Constructor for ServerLobbyScreen screen
+     * @param game The RoboRally game
+     * @param viewport The viewport for the RoboRally game
+     * @param stage The stage for the RoboRally game
+     */
     public ServerLobbyScreen(RoboRally game, StretchViewport viewport, Stage stage, String ip) {
         this.game = game;
         this.viewport = viewport;
@@ -44,6 +53,9 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
 
     }
 
+    /**
+     * Method that runs after {@link RoboRally#setScreen(Screen)} is called
+     */
     @Override
     public void show() {
         stage.clear();
@@ -102,6 +114,10 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         });
     }
 
+    /**
+     * Called when the screen should render itself.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         game.batch.begin();
@@ -113,6 +129,12 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
 
     }
 
+    /**
+     * Called when the Application is resized.
+     * This can happen at any point during a non-paused state but will never happen before a call to create().
+     * @param x The new width in pixels
+     * @param y The new height in pixels
+     */
     @Override
     public void resize(int x, int y) {
         viewport.update(x, y, true);
@@ -155,6 +177,9 @@ public class ServerLobbyScreen implements Screen, MultiplayerScreen {
         alert.setText(info);
     }
 
+    /**
+     * cancels the lobby and shuts down the server
+     */
     private void cancelLobby(){
         game.sounds.buttonSound();
         if(game.isHost){

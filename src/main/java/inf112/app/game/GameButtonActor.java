@@ -4,6 +4,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.app.map.Map;
 import inf112.app.screens.GameScreen;
 
+/**
+ * Actor handling the click actions and listeners for the buttons in the {@link CardUI}
+ */
 public class GameButtonActor extends ButtonActor {
 
     private final TiledMapTileLayer.Cell buttonUp;
@@ -16,6 +19,17 @@ public class GameButtonActor extends ButtonActor {
     private boolean pushable;
 
 
+    /**
+     *
+     * @param cell The cell in the tiledmap grid holding the button,
+     *             button-up texture should already be applied to the cell
+     * @param layer The layer which the textures should be applied to
+     * @param type String designating what type of button this is,
+     *             can either be "powerdown", "sound" or "lockin"
+     * @param x x-coordinate of the button in the tiledmap grid
+     * @param y y-coordinate of the button in the tiledmap grid
+     * @param stage The stage holding the actors and tiledmap grid
+     */
     public GameButtonActor(TiledMapTileLayer.Cell cell, TiledMapTileLayer layer, String type, int x, int y, TiledMapStage stage){
         buttonUp = cell;
         active = cell;

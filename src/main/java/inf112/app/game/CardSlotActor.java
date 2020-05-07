@@ -5,7 +5,7 @@ import inf112.app.cards.CardSlot;
 import inf112.app.cards.ICard;
 
 /**
- * Actor handling the click actions and listener for the {@link CardSlot} in the {@link CardUI}
+ * Actor handling the click actions and listeners for the {@link CardSlot}s in the {@link CardUI}
  */
 public class CardSlotActor extends ButtonActor {
 
@@ -17,6 +17,11 @@ public class CardSlotActor extends ButtonActor {
 
     private boolean pushable;
 
+    /**
+     * @param cell The cell in the tiledmap grid holding the card slot
+     * @param slot The slot contained within the cell of the specified cell in the tiledmap grid
+     * @param stage The stage holding the tiledmap grid and actors
+     */
     public CardSlotActor(TiledMapTileLayer.Cell cell, CardSlot slot, TiledMapStage stage) {
         this.cell = cell;
         this.slot = slot;

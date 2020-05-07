@@ -7,10 +7,16 @@ import inf112.app.objects.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Class for handling the ordering of the rounds and phases in a game-session
+ */
 public class Rounds {
     private final ArrayList<Robot> robots;
     private Map map;
 
+    /**
+     * Basic constructor, creates a Rounds instance and assigns the robotList and map to private fields
+     */
     public Rounds() {
         this.robots = Map.getInstance().getRobotList();
         this.map = Map.getInstance();
@@ -18,7 +24,7 @@ public class Rounds {
 
 
     /**
-     * dealing right amount of cards to each robot
+     * Deals cards to all the robots in the robotList
      */
     public void dealCards(TiledMapStage stage){
         for (Robot r : robots){
@@ -27,8 +33,8 @@ public class Rounds {
     }
 
     /**
-     * method for doing the actions in rights order for each of the cards
-     * and triggering all the elements
+     * Method for doing the actions in rights order for each of the cards
+     * and triggering all the board elements
      */
     public void doPhase(int phaseNum) {
         ArrayList<Integer> cardsFromSlot = new ArrayList<>();

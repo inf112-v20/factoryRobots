@@ -4,6 +4,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import inf112.app.game.CardUI;
 import inf112.app.game.TiledMapStage;
 
+/**
+ * Class for representing a slot that may or may not hold a card,
+ * when cards are extracted from the carddeck they must be held in a slot
+ */
 public class CardSlot {
     private ICard card;
     private final String position;

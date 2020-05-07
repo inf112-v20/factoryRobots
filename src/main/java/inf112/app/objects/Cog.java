@@ -3,19 +3,22 @@ import inf112.app.map.Direction.Rotation;
 
 
 /**
- * this class makes the object cog turn robots direction on it
+ * Class representing a cog element on the map
  */
 public class Cog implements IBoardElement {
     private final Rotation rotation;
 
     /**
-     * constructor to rotate direction of robot
-     * @param r
+     * @param r The rotation direction of the cog
      */
     public Cog(Rotation r){
         this.rotation = r;
     }
 
+    /**
+     * Rotates the robot in the direction dictated by the {@link #rotation} field
+     * @param robot Robot to be rotated
+     */
     @Override
     public void doAction(Robot robot) {
         robot.turn(rotation);

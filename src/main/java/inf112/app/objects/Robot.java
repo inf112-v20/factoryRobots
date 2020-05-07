@@ -18,8 +18,9 @@ import inf112.app.map.Direction.Rotation;
 import java.util.ArrayList;
 
 /**
- * This class is a representation of the robots
- * on the board
+ * This class is a representation of a robot
+ * on the board. Since the robot possesses a laser it also
+ * implements the {@link ILaserInteractor} interface
  */
 public class Robot implements ILaserInteractor, IBoardElement {
     private int id;
@@ -56,6 +57,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     private GameSounds sound;
 
+    /**
+     * Creates a {@link Robot} instance. Loads the player sprites
+     * registers the robot with the {@link Map} instance and initializes fields to default values
+     * @param pos Initial position of the robot
+     * @param charName Character name of the robot, used to locate the appropriate sprites in the file-system
+     */
     public Robot(Position pos, String charName){
         this.pos = pos;
         vectorPos = new Vector2(pos.getXCoordinate(),pos.getYCoordinate());
@@ -79,6 +86,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
         allFlags = new ArrayList<>();
     }
 
+    /**
+     * Creates instances for the indexes in the {@link CardSlot} arrays.
+     * If the robot belongs to the user these will be overwritten by
+     * graphical slots at a later point
+     */
     private void initializeCardsSlots(){
         programmedCards = new CardSlot[5];
         availableCards = new CardSlot[9];
@@ -90,6 +102,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
+    /**
+     * Method used for passing the sound-effects from the {@link inf112.app.screens.GameScreen}
+     * to this class
+     * @param sounds
+     */
     public void assignGameSounds(GameSounds sounds){
         this.sound = sounds;
     }
@@ -265,10 +282,17 @@ public class Robot implements ILaserInteractor, IBoardElement {
         //do nothing
     }
 
+    /**
+     * @return The last flag the robot visited that was in the valid order
+     */
     public Flag getVisitedFlag() {
         return lastVisited;
     }
 
+    /**
+     * Sets the field for which flag robot previously visited that was in valid order
+     * @param flag The flag to be assigned
+     */
     public void setVisitedFlag(Flag flag) {
         this.lastVisited = flag;
         allFlags.add(flag);
@@ -279,6 +303,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     public int getDamageTokens() {return damageTokens; }
 
+    /**
+     * Adds damagetokens to the damagetoken field, check if the robot has sustained
+     * enough damage to die, if so kills the robot and returns it to its last checkpoint,
+     * as well as triggering the sound-effect for taking damage
+     * @param dealDamage The amount of damage to be dealt
+     */
     public void addDamageTokens(int dealDamage) {
         damageTokens += dealDamage;
         checkSlotsToLock();
@@ -298,6 +328,11 @@ public class Robot implements ILaserInteractor, IBoardElement {
 
     }
 
+    /**
+     * Method for checking which programming card slots that should be locked
+     * based on the amount of damage the robot has received. Method both check and locks
+     * the appropriate slots
+     */
     private void checkSlotsToLock(){
         int i = 5;
         if(damageTokens>=8){
@@ -321,7 +356,8 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     /**
-     * method for dealing the right amount of cards compared to damageTokens
+     * Method for dealing the right amount of cards compared based on {@link #damageTokens}
+     * and {@link #powerDown} status
      */
     public void dealNewCards(TiledMapStage stage) {
         wipeSlots(availableCards);
@@ -341,6 +377,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
+    /**
+     * Method for removing all the cards from an array of {@link CardSlot}s
+     * @param slotList the array of slots that should be cleared of cards
+     */
     public void wipeSlots(CardSlot[] slotList){
         for(CardSlot slot : slotList){
             if(!slot.isLocked()){
@@ -390,6 +430,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
+    /**
+     * Updates the robots position to its last checkpoint. Checks if the position is occupied,
+     * and if so, spawns the robot at a neighboring position instead
+     */
     public void backToCheckPoint(){
         Position oldPos = this.pos.copyOf();
         Direction old = oldPos.getDirection().copyOf();
@@ -435,24 +479,6 @@ public class Robot implements ILaserInteractor, IBoardElement {
     public boolean getPowerDown() { return powerDown; }
 
     /**
-     * Method for initialising the moves depicted on the cards
-     * in the programming slots
-     */
-    public void initiateRobotProgramme() {
-        for(CardSlot slot : programmedCards) {
-            ICard card;
-            if (slot.isLocked()){
-                card = slot.getCard();
-            } else {
-                card = slot.removeCard();
-            }
-            if (card != null) {
-                card.doAction(this);
-            }
-        }
-    }
-
-    /**
      * Sets a players programmed card into its register.
      * @param index The register index to set the card for.
      * @param card The card to set.
@@ -466,10 +492,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
     }
 
     /**
-     * returns a programmed card form a spesific position in
+     * returns a programmed card form a specific position in
      * the register array
-     * @param index
-     * @return
+     * @param index position of the card in the register array
+     * @return The card in the position if there is one, null if not present
      */
    public ICard getProgrammedCard(int index){
         if (index >= 0 && index < 5){
@@ -483,6 +509,10 @@ public class Robot implements ILaserInteractor, IBoardElement {
        return doneProgramming;
     }
 
+    /**
+     * Method for triggering the laser possessed by the robot to fire.
+     * Laser won't fire if the robot is dead.
+     */
     @Override
     public void fireLaser() {
        if(!isDead){
@@ -498,6 +528,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
         return programmedCards;
     }
 
+    /**
+     * Used by the {@link inf112.app.networking.RoboClient} to assign id's
+     * to the robots that are decided by the server. This in order to distinguish which robots
+     * belong to which clients
+     * @param id ID to be assigned the robot
+     */
     public void assignID(int id){
        if(this.id == -1){
            this.id = id;
@@ -516,6 +552,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
         return lives;
     }
 
+    /**
+     * Subtracts a life from the {@link #lives} field. Updates the health light graphics
+     * appropriately using the {@link CardUI#setHealthLight(int)} method if the robot
+     * belongs to the user. Removes all {@link #damageTokens} unlocks, slots and triggers the
+     * dying sound-effect
+     */
     public void takeLife() {
        lives--;
        if(CardUI.getInstance().getUser().getCharacter().equals(this)){
@@ -531,6 +573,12 @@ public class Robot implements ILaserInteractor, IBoardElement {
         }
     }
 
+    /**
+     * Used by the {@link inf112.app.screens.GameScreen}
+     * to know if it should display the {@link #loosingPlayer} sprite
+     * instead of the normal one.
+     * @return true if the robot has been hit by a laser, false if not
+     */
     public boolean isHit() {
         return isHit;
     }

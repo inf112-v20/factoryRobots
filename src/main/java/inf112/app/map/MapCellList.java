@@ -22,6 +22,12 @@ public class MapCellList {
     private ArrayList<String> exclusionList;
     private ObjectFactory factory;
 
+    /**
+     * Constructor for MapCellList
+     * @param sizeX Width size
+     * @param sizeY Height size
+     * @param layers MapLayers to create objects from
+     */
     public MapCellList(int sizeX, int sizeY, MapLayers layers){
         cellList = new MapCell[sizeX][sizeY];
         exclusionList = new ArrayList<>(Arrays.asList("Board","Hole","Player"));
@@ -70,6 +76,7 @@ public class MapCellList {
     private void setCell(Position p, CellInventory inventory){
         cellList[p.getXCoordinate()][p.getYCoordinate()] = new MapCell(p, inventory);
     }
+
     private void setCell(int x, int y, CellInventory inventory){
         Position p = new Position(x,y);
         setCell(p, inventory);

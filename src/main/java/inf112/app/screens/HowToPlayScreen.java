@@ -58,11 +58,11 @@ public class HowToPlayScreen implements Screen {
         VisLabel text = new VisLabel("");
         text.setText("- Reach all the flags in ascending\n  order to win.\n\n" +
                 "- Program the robot using the\n  programming cards to move around.\n\n" +
-                "- You have three lives.\n\n" +
-                "- You loose a life by:\n   * Receiving 9 damage tokens\n   * Moving into a hole\n" +
-                "   * Moving of the board.\n\n" +
-                "- You receive a damage token\n  if you are hit by a laser.\n\n" +
-                "- The more damage tokens you have,\n  the less cards you are dealt.\n\n" +
+                "- You have three lifes.\n\n" +
+                "- You lose a life by:\n   * Receiving 9 damage tokens\n   * Moving into a hole\n" +
+                "   * Moving off the board.\n\n" +
+                "- You receive a damage token\n  when you are hit by a laser.\n\n" +
+                "- The more damage tokens you have,\n  the less cards you get.\n\n" +
                 "- After 5 damage tokens,\n  card slots start locking up");
 
         VisTextButton returnButton = new VisTextButton("Return");
